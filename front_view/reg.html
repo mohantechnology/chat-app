@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+
+        background-color: rgb(233, 233, 231);
+        /* background-color: hsl(40, 10, 218); */
+        font-family: 'Roboto', sans-serif;
+        /* background: white; */
+        /* background-color: blue; */
+        background:linear-gradient(62deg,#4158D0 5%,#556de7 40%, #E0C3FC 100%);
+        /* height:9vh; */
+        /* overflow:none; */
+     
+    }
+
+#bottom{
+
+    height:20vh;
+ 
+}
+
+    input {
+        background-color: rgb(255, 255, 255);
+        /* background-color: hsl(160, 0, 240); */
+        /* background-color: blue; */
+        width: 250px;
+
+        /* height: 30px; */
+        border: none;
+        /* margin:auto; */
+        margin: 10px;
+        /* border-radius:10px; */
+
+
+    }
+
+    input:focus {
+        outline-style: none;
+        ;
+    }
+
+    .login-box {
+        background-color: white;
+        /* background-color: hsl(40, 22, 230); */
+        width: 60%;
+        /* height: 400px; */
+        /* border: 1px solid rgb(0, 0, 0); */
+        margin: auto;
+        padding:25px 0px;
+        /* background-color: blue; */
+    }
+
+    .input-field {
+        display: inline-block;
+        width: 50%;
+        text-align: center;
+        /* margin:auto;  */
+        border-radius: 40px;
+        margin: 10px;
+
+        /* border:2px solid green; */
+        background-color: rgb(255, 255, 255);
+        /* background-color: hsl(160, 0, 240); */
+        box-shadow: 2px 2px 4px -3px black;
+
+        padding-left: 5px;
+        padding-right: 10px;
+    }
+
+    .input-field:focus {
+        border: 1px solid black;
+    }
+
+    .login-body {
+        text-align: center;
+    }
+
+    .svg-icon {
+        font-size: 15px;
+        position: relative;
+        top: 3px;
+        left: 3px;
+
+    }
+
+    #fb-icon {
+        color: blue;
+        font-size: 100px;
+    }
+
+
+    .button {
+        background-color: blue;
+        color: white;
+        border: none;
+        padding: 8px 10px;
+        width: 50%;
+        margin: 0px;
+        position: relative;
+        left: -5px;
+        border-radius: 20px;
+        margin: 5px;
+
+    }
+
+    .button:hover {
+        cursor: pointer;
+        border-radius: 10px;
+        transition: 500ms;
+
+    }
+
+    .button:focus {
+        outline: none;
+    }
+
+    #fb-button {
+        color: blue;
+        font-size: 10px;
+        height: 10px;
+        /* background-color: hsl(146, 108, 99); */
+        background-color: rgb(58, 91, 153);
+
+
+    }
+
+
+    #gm-butt {
+        /* background-color: hsl(6, 224, 141); */
+        background-color: rgb(248, 81, 51);
+    }
+
+    #reg-butt {
+        /* background-color: hsl(131, 240, 45); */
+        background-color: rgb(0, 70, 96);
+    }
+
+    #fb-icon {
+        position: relative;
+        top: 2px;
+
+    }
+
+    #gm-icon {
+        position: relative;
+        top: 2px;
+        left: -2px;
+        color: white;
+    }
+
+    .hr-line {
+        width: 18%;
+        display: inline-block;
+
+
+        position: relative;
+        top: 4px;
+
+    }
+
+    #remem-me {
+        display: inline;
+        width: 20px;
+    }
+
+    #head-message {
+        font-size: 30px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .rember-me {
+        display: inline-block;
+        width: 50%;
+        text-align: left;
+    }
+
+    #bottom-rule {
+        width: 23%;
+        height: 3px;
+        border-radius: 10px;
+        /* background-color: hsl(131, 240, 45); */
+        background-color: rgb(0, 70, 96);
+        margin: 16px auto;
+        display: none;
+
+    }
+
+
+
+
+    #person_img {
+    display: inline-block;
+    /* position: relative; */
+    
+    width: 45px;
+}
+   #or{
+      
+    text-align: center;
+    position: relative;
+    top: 17px;
+    display: none;
+   }       
+
+  
+
+    @media screen and (min-width:951px) {
+
+        #box {
+            /* border: 1px solid black; */
+            position: relative;
+            width: 900px;
+            margin: auto;
+            margin-top: 30px;
+
+            background-color: rgb(247, 247, 247);
+            /* background-color: hsl(160, 0, 232); */
+           
+            padding: 30px;
+            /* margin-bottom:500px; */
+        }
+
+        #chat_img {
+            width: 450px;
+            display: inline-block;
+
+            z-index: 1;
+            /* padding:100px; */
+            position: absolute;
+            right:0px;
+            top: 60px;
+        }
+
+        .login-box {
+            width: 50%;
+            margin: 0px;
+            border: none;
+            /* background-color: rgb(247, 247, 247); */
+            /* background-color: hsl(160, 0, 232); */
+        }
+
+        #head-message {
+
+            margin-bottom: 2px;
+        }
+
+        .input-field {
+            width: 70%;
+
+        }
+
+        .rember-me {
+            width: 71%;
+        }
+
+        .button {
+            width: 70%;
+        }
+
+    }
+
+
+
+    @media screen and (min-width:401px) and (max-width:950px) {
+
+        .input-field {
+
+            width: 76%;
+        }
+
+        input {
+            width: 71%;
+        }
+
+        .rember-me {
+
+            width: 78%;
+            text-align: left;
+        }
+
+        .button {
+            width: 76%;
+        }
+
+        #chat_img {
+            display: none;
+        }
+
+        #bottom-rule {
+
+            display: block;
+            margin-bottom:10px;
+        }
+   #login-box{
+       background-color:white;
+   }
+
+    }
+
+    @media screen and (max-width:400px) {
+        .login-box {
+            width: 95%;
+        }
+
+        .input-field {
+
+            width: 76%;
+        }
+
+        input {
+            width: 71%;
+        }
+
+        .rember-me {
+
+            width: 78%;
+            text-align: left;
+        }
+
+        .button {
+            width: 76%;
+        }
+
+        #chat_img {
+            display: none;
+        }
+
+        #bottom-rule {
+
+            display: block;
+        }
+
+   
+      
+        }
+    
+
+        @media screen and (max-width:250px) {
+
+            .button {
+                width: 95%;
+                left: 0px;
+
+            }
+
+            .svg-icon {
+                display: none;
+            }
+
+            .rember-me {
+
+                width: 95%;
+                font-size: 15px;
+
+            }
+
+            #remem-me {
+                margin: 5px;
+            }
+
+            .button {
+                padding-left: 0px;
+                padding-right: 0px;
+            }
+            #login-box{
+            background-color: white
+           }
+        }
+      @media screen and (max-width:950px) {
+        .login-box{
+            background-color: white;
+            border:none;
+           }
+           #or{
+      
+
+      display: block;
+     }       
+
+
+      }
+  
+</style>
+
+<body>
+
+    <div id="box">
+
+        <div class="login-box">
+            <div id="or">
+                <hr class="hr-line"> <img id="person_img" src="person.png" alt="">    <hr class="hr-line">
+   
+            </div>
+            
+           
+            <p id="head-message"> Create Account </p>
+
+            <hr style="width: 80%;">
+            <div class="login-body">
+                      
+
+                <span class="input-field"> <svg class="svg-icon" width="1em" height="1em" viewBox="0 0 16 16"
+                        class="bi bi-envelope" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                        data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;">
+                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+                    </svg><input type="text" id="name" placeholder="Your Full Name"> </span>
+
+
+
+                <span class="input-field"> <svg class="svg-icon" width="1em" height="1em" viewBox="0 0 16 16"
+                        class="bi bi-envelope" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                        data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;">
+                        <path fill-rule="evenodd"
+                            d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z">
+                        </path>
+                    </svg><input type="text" id="email" placeholder="Your Email"> </span>
+
+
+
+
+                <span class="input-field"> <svg class="svg-icon" width="1em" height="1em" viewBox="0 0 16 16"
+                        class="bi bi-key-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                        data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;">
+                        <path fill-rule="evenodd"
+                            d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z">
+                        </path>
+                    </svg> <input type="text" id="user-pass" placeholder="Create Password"> </span>
+
+
+                <span class="input-field"> <svg class="svg-icon" width="1em" height="1em" viewBox="0 0 16 16"
+                        class="bi bi-key-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                        data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;">
+                        <path fill-rule="evenodd"
+                            d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z">
+                        </path>
+                    </svg> <input type="text" id="conform-pass" placeholder="Conform Password"> </span>
+
+
+
+                <button id="reg-butt" class="button"> Register Account </button>
+
+
+
+
+
+            </div>
+
+
+
+            <hr id="bottom-rule">
+
+        </div>
+
+        <img id="chat_img" src="chat_image.png" alt="">
+    </div>
+
+    <div id="bottom" ></div>
+
+    <script>
+        var email = document.getElementById("email"); 
+        var user_pass = document.getElementById("user_pass");
+        var login_butt = document.getElementById("login-butt");
+        var reg_butt = document.getElementById("reg-butt");
+        var remem_me = document.getElementById("remem-me");
+        // var user_pass = document.getElementById("user_pass");
+        // var user_pass = document.getElementById("user_pass");
+        // var user_pass = document.getElementById("user_pass");
+        // var user_pass = document.getElementById("user_pass");
+        // var user_pass = document.getElementById("user_pass");
+        
+        function send_xhr(param,url){
+          let xhttp = new XMLHttpRequest(); 
+          xhttp.open("POST", "demo_post2.asp", true);
+         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          xhttp.onreadystatechange = function(){
+              if(this.readyState == 4 && this.status>=200 && this.status<300){
+                  return JSON.parse(this.response); 
+              }
+          }
+          xhttp.send(url + "?" +  param);
+        }
+
+        login_butt.addEventListener("click",()=>{
+            console.log(this);
+        })
+
+    </script>
+</body>
+
+</html>
