@@ -113,15 +113,34 @@ app.post('/reg', (req, res) => {
 
   axios({
     method: 'post',
-    url: process.env.API_URL  ,
+    url: process.env.API_URL + "/register" ,
     data: req.body
   }).then(function (response) {
     console.log(response.data);
+    res.send(response.data); 
+  }).catch(error=>{
+    res.json({status: "error",message: "something went wrong "}); 
   });
 
 });
 
+app.get('/activate/:email/:t_name/:t_value', (req, res) => {
+  console.log("incoming data at actiavte app ",req.params); 
+  let data = {email: req.params.email}; 
+  data[req.params.t_name]= req.params.t_value; 
+  console.log("ingoing  data at actiavte app ",data); 
+  axios({
+    method: 'post',
+    url: process.env.API_URL + "/activate" ,
+    data
+  }).then(function (response) {
+    console.log(response.data);
+    res.send(response.data); 
+  }).catch(error=>{
+    res.json({status: "error",message: "something went wrong "}); 
+  });
 
+});
 
 app.get('/forgot', (req, res) => {
 
@@ -162,7 +181,9 @@ app.get('/test', (req, res) => {
 
 
 
-
+app.get("/*",(req,res)=>{
+  res.status(404).send({"status":"error",message:"page not found from 1"})
+})
 
 
 

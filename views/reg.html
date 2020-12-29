@@ -406,6 +406,8 @@
             <hr style="width: 80%;">
             <div class="login-body">
                       
+                 
+            
 
                 <span class="input-field"> <svg class="svg-icon" width="1em" height="1em" viewBox="0 0 16 16"
                         class="bi bi-envelope" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
@@ -413,7 +415,7 @@
                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
                             d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
-                    </svg><input type="text" id="name" placeholder="Your Full Name"> </span>
+                    </svg><input type="text" id="user-name" placeholder="Your Full Name"> </span>
 
 
 
@@ -467,31 +469,71 @@
     <div id="bottom" ></div>
 
     <script>
+        var u_name = document.getElementById("user-name");
         var email = document.getElementById("email"); 
-        var user_pass = document.getElementById("user_pass");
-        var login_butt = document.getElementById("login-butt");
+        var user_pass = document.getElementById("user-pass");
+        var conform_pass = document.getElementById("conform-pass");
         var reg_butt = document.getElementById("reg-butt");
-        var remem_me = document.getElementById("remem-me");
+
         // var user_pass = document.getElementById("user_pass");
         // var user_pass = document.getElementById("user_pass");
         // var user_pass = document.getElementById("user_pass");
-        // var user_pass = document.getElementById("user_pass");
-        // var user_pass = document.getElementById("user_pass");
-        
-        function send_xhr(param,url){
+         
+      async   function send_xhr(param,url){
           let xhttp = new XMLHttpRequest(); 
-          xhttp.open("POST", "demo_post2.asp", true);
+          xhttp.open("POST", url, true);
          xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
           xhttp.onreadystatechange = function(){
               if(this.readyState == 4 && this.status>=200 && this.status<300){
-                  return JSON.parse(this.response); 
+                   let data = JSON.parse(this.response); 
+                   console.log(data); 
+                  if (data.status=="ok"){
+
+                      console.log("redirect"); 
+                      location="./login"; 
+                  }else{
+                      console.log("error occured"); 
+                      console.log(data); 
+                  }
+                  ; 
               }
           }
-          xhttp.send(url + "?" +  param);
+
+          xhttp.send( param );
+        }
+        function display_error(error){
+            console.log(error); 
         }
 
-        login_butt.addEventListener("click",()=>{
-            console.log(this);
+        reg_butt.addEventListener("click", ()=>{
+            let param ; 
+            console.log(u_name.value,email.value,user_pass.value,conform_pass.value); 
+            let user_email ,user_password,user_conform_pass,user_name; 
+            try {
+                user_name = encodeURIComponent(u_name.value.trim()); 
+                user_email = encodeURIComponent(email.value.trim()); 
+                user_password = encodeURIComponent( user_pass.value.trim());
+              user_conform_pass = encodeURIComponent(conform_pass.value.trim()); 
+            } catch (error) {
+                console.log(error); 
+                display_error("All Fields are Required"); 
+                return; 
+            }
+
+            if(user_password.length<6){
+               display_error("Password length must be at greater than or equal to 6 characters"); 
+               return ; 
+           }
+           else if(user_password !=user_conform_pass ){
+               display_error("Password Not Matched"); 
+               return; 
+           }
+             
+            param ="name="+user_name+ "&email="+user_email+ "&password=" + user_password +"&conform_password="+user_conform_pass ; 
+            console.log("param = "); 
+            console.log(param); 
+            send_xhr(param,"./reg"); 
+           
         })
 
     </script>

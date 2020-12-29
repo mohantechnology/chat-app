@@ -6,3 +6,4 @@ mailjet/
 temp.js
 temp.html
 temp.*
+.env
