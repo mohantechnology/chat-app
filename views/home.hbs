@@ -553,6 +553,9 @@ cursor:pointer;
         background-color: yellowgreen;
         color: black;
     }
+    .not-visible{
+        visibility: hidden;
+    }
 </style>
 
 <body>
@@ -567,9 +570,15 @@ cursor:pointer;
 
 
 
+<h1 style="color: white;">
+   data is: ''
+{{data}} 
+
     <div id="box">
 
 
+
+</h1>
 
         <div id="col-1">
 
@@ -627,204 +636,32 @@ cursor:pointer;
 
 
 
+     
+    
+                
 
+  {{#each data}}
                 <div class="friend-profile">
                     <div class="friend-image">
-                        <img src="phone_img.jpg" alt="profile-image">
-                        <div class="message-count"> <span class="count-num">1</span></div>
+                        <img src=" {{ img }}" alt="profile-image">
+
+                        {{#if count }}
+                        <div class="message-count"> <span class="count-num">{{ count }} </span></div>
+                        {{else}}
+                         <div class="message-count not-visible"> <span class="count-num">{{ count }} </span></div>
+                         {{/if}}
+                         
                     </div>
 
 
                     <span class="profile">
-                        <p class="user-name"> Manpreeet saluja </p>
+                        <p class="user-name"> {{ name}}  </p>
                         <p class="user-time">Last seen 8:30 pm </p>
 
                     </span>
 
                 </div>
-
-                <div class="friend-profile">
-                    <div class="friend-image">
-                        <img src="hulk.jpg" alt="profile-image">
-                        <div class="message-count"> <span class="count-num">1</span></div>
-                    </div>
-
-
-                    <span class="profile">
-                        <p class="user-name"> Bruce Banner </p>
-                        <p class="user-time">Last seen today at 8:30 pm </p>
-
-                    </span>
-                </div>
-
-                <div class="friend-profile">
-                    <div class="friend-image">
-                        <img src="tony.jpg" alt="profile-image">
-                        <div class="message-count"> <span class="count-num">3</span></div>
-                    </div>
-
-
-                    <span class="profile">
-                        <p class="user-name">Tony Stark </p>
-                        <p class="user-time">Last seen today at 8:30 pm </p>
-
-                    </span>
-                </div>
-
-
-                <div class="friend-profile">
-                    <div class="friend-image">
-                        <img src="captain-marvel.jpg" alt="profile-image">
-                        <div class="message-count"> <span class="count-num">3</span></div>
-                    </div>
-
-
-                    <span class="profile">
-                        <p class="user-name">Captain Marvel </p>
-                        <p class="user-time">Last seen today at 8:30 pm </p>
-
-                    </span>
-                </div>
-
-                <div class="friend-profile">
-                    <div class="friend-image">
-                        <img src="racoon.jpg" alt="profile-image">
-                        <div class="message-count"> <span class="count-num">3</span></div>
-                    </div>
-
-
-                    <span class="profile">
-                        <p class="user-name"> Red Racoon </p>
-                        <p class="user-time">Last seen today at 8:30 pm </p>
-
-                    </span>
-                </div>
-
-                <div class="friend-profile">
-                    <div class="friend-image">
-                        <img src="spider.jpg" alt="profile-image">
-                        <div class="message-count"> <span class="count-num">3</span></div>
-                    </div>
-
-
-                    <span class="profile">
-                        <p class="user-name">Peter Parker </p>
-                        <p class="user-time">Last seen today at 8:30 pm </p>
-
-                    </span>
-                </div>
-                <div class="friend-profile">
-                    <div class="friend-image">
-                        <img src="thor.jpg" alt="profile-image">
-                        <div class="message-count"> <span class="count-num">3</span></div>
-                    </div>
-
-
-                    <span class="profile">
-                        <p class="user-name">Thor Odison </p>
-                        <p class="user-time">Last seen today at 8:30 pm </p>
-
-                    </span>
-                </div>
-                <div class="friend-profile">
-                    <div class="friend-image">
-                        <img src="wonder.jpg" alt="profile-image">
-                        <div class="message-count"> <span class="count-num">3 </span></div>
-                    </div>
-
-
-                    <span class="profile">
-                        <p class="user-name">Wonder Woman </p>
-                        <p class="user-time">Last seen today at 8:30 pm </p>
-
-                    </span>
-                </div>
-                <div class="friend-profile">
-                    <div class="friend-image">
-                        <img src="groo.jpg" alt="profile-image">
-                        <div class="message-count"> <span class="count-num">3</span></div>
-                    </div>
-
-
-                    <span class="profile">
-                        <p class="user-name"> Groo </p>
-                        <p class="user-time">Last seen today at 8:30 pm </p>
-
-                    </span>
-                </div>
-                <div class="friend-profile">
-                    <div class="friend-image">
-                        <img src="phone_img.jpg" alt="profile-image">
-                        <div class="message-count"> <span class="count-num">3</span></div>
-                    </div>
-
-
-                    <span class="profile">
-                        <p class="user-name"> Manpreeet saluja </p>
-                        <p class="user-time">Last seen today at 8:30 pm </p>
-
-                    </span>
-                </div>
-
-
-
-                <div class="friend-profile">
-                    <div class="friend-image">
-                        <img src="phone_img.jpg" alt="profile-image">
-                        <div class="message-count"> <span class="count-num">1</span></div>
-                    </div>
-
-
-                    <span class="profile">
-                        <p class="user-name"> Manpreeet saluja </p>
-                        <p class="user-time">Last seen 8:30 pm </p>
-
-                    </span>
-
-                </div>
-
-                <div class="friend-profile">
-                    <div class="friend-image">
-                        <img src="hulk.jpg" alt="profile-image">
-                        <div class="message-count"> <span class="count-num">1</span></div>
-                    </div>
-
-
-                    <span class="profile">
-                        <p class="user-name"> Bruce Banner </p>
-                        <p class="user-time">Last seen today at 8:30 pm </p>
-
-                    </span>
-                </div>
-
-                <div class="friend-profile">
-                    <div class="friend-image">
-                        <img src="tony.jpg" alt="profile-image">
-                        <div class="message-count"> <span class="count-num">3</span></div>
-                    </div>
-
-
-                    <span class="profile">
-                        <p class="user-name">Tony Stark </p>
-                        <p class="user-time">Last seen today at 8:30 pm </p>
-
-                    </span>
-                </div>
-
-
-                <div class="friend-profile">
-                    <div class="friend-image">
-                        <img src="captain-marvel.jpg" alt="profile-image">
-                        <div class="message-count"> <span class="count-num">3</span></div>
-                    </div>
-
-
-                    <span class="profile">
-                        <p class="user-name">Captain Marvel </p>
-                        <p class="user-time">Last seen today at 8:30 pm </p>
-
-                    </span>
-                </div>
+ {{/each}}
 
 
             </div>
@@ -1400,7 +1237,8 @@ cursor:pointer;
 
 
 
-
+console.log("data is: ); "); 
+console.log({{status}}); 
 
     </script>
 </body>

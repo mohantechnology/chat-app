@@ -466,6 +466,35 @@
 
     <div id="bottom" ></div>
 
+    <script>
+        var email = document.getElementById("email"); 
+        var user_pass = document.getElementById("user_pass");
+        var login_butt = document.getElementById("login-butt");
+        var reg_butt = document.getElementById("reg-butt");
+        var remem_me = document.getElementById("remem-me");
+        // var user_pass = document.getElementById("user_pass");
+        // var user_pass = document.getElementById("user_pass");
+        // var user_pass = document.getElementById("user_pass");
+        // var user_pass = document.getElementById("user_pass");
+        // var user_pass = document.getElementById("user_pass");
+        
+        function send_xhr(param,url){
+          let xhttp = new XMLHttpRequest(); 
+          xhttp.open("POST", "demo_post2.asp", true);
+         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          xhttp.onreadystatechange = function(){
+              if(this.readyState == 4 && this.status>=200 && this.status<300){
+                  return JSON.parse(this.response); 
+              }
+          }
+          xhttp.send(url + "?" +  param);
+        }
+
+        login_butt.addEventListener("click",()=>{
+            console.log(this);
+        })
+
+    </script>
 </body>
 
 </html>
