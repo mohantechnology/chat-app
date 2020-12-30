@@ -46,12 +46,15 @@ app.post('/login', (req, res) => {
     method: 'post',
     url:  process.env.API_URL+"/login"   ,
     data: req.body
+   
   }).then(function (response) {
     console.log(response.data);
     if(response.data.status=="ok"){
-       let token = jwt.sign({email:response.data.email,name:response.data.name} ,process.env.JWT_SECRET_KEY); 
+  
+       let token = jwt.sign({email:response.data.email,name:response.data.name,u_id:response.data.u_id,token:response.data.token } ,process.env.JWT_SECRET_KEY); 
        res.cookie("li",token,{expires:new Date(Date.now()+6000000)}); 
-   
+      console.log("cookie encodded",token); 
+       console.log("succesfull set cookie ",jwt.decode(token)); 
        res.send({"status":"ok"}); 
 
     }
@@ -77,7 +80,7 @@ app.get('/profile', (req, res) => {
 
   
   let cookie_data = jwt.decode( req.cookies.li); 
-
+ console.log("incoming cookie data",cookie_data); 
   axios({
     method: 'post',
     url:  process.env.API_URL+"/profile"   ,
@@ -87,12 +90,13 @@ app.get('/profile', (req, res) => {
     if(response.data.status =="ok"){
       let r_data =  (response.data); 
       
-        res.render("home",{ data: r_data.data }); 
+        res.render("home",{ data: r_data.data ,name:r_data.name}); 
        
 
     }
     else{
-      res.send(response.data); 
+      res.send(response.data);
+     
     }
   }).catch(err=>{
     console.log("error is: "); 

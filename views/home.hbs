@@ -9,554 +9,7 @@
 
 <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> -->
 
-<style>
-    body {
-        margin: 0px;
-        padding: 0px;
-        /* background-color: rgb(156, 156, 138); */
-        background-color: rgb(228, 223, 228);
-
-
-        font-size: 20px;
-        font-family: 'Roboto', sans-serif;
-        background-color: white;
-        background-color: #4158D0;
-        background-color: #8EC5FC;
-        background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
-        background-color: #4f7e8e;
-        background-image: linear-gradient(0deg, #8EC5FC 40%, #c3ebfc 70%);
-        /* background-color: #FF9A8B;
-background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
- */
-        background-color: #FF3CAC;
-        background-image: linear-gradient(225deg, #FF3CAC 10%, #784BA0 50%, #b6360e 10%);
-
-        /* overflow: hidden; */
-
-    }
-
-
-    * {
-        scrollbar-width: thin;
-        scrollbar-color: blue rgb(255, 255, 255);
-    }
-
-    *::-webkit-scrollbar {
-        width: 12px;
-    }
-
-    *::-webkit-scrollbar-track {
-        background: rgb(255, 255, 255);
-    }
-
-    *::-webkit-scrollbar-thumb {
-        background-color: rgb(207, 207, 211);
-
-
-    }
-
-
-    #message-body {
-        height: 77vh;
-        overflow: scroll;
-        position: relative;
-    }
-
-
-    img {
-        width: 40px;
-        border-radius: 50%;
-
-    }
-
-    #box {
-        position: relative;
-    }
-
-    #col-2 {
-
-        display: inline-block;
-        height: 100vh;
-    }
-
-    #col-1 {
-        /* background-color: rgb(149, 30, 30); */
-        /* background-color: rgb(240, 29, 241); */
-
-        /* background-color: #FF3CAC; */
-
-        background-image: linear-gradient(225deg, #FF3CAC 10%, #784BA0 50%);
-
-
-
-
-        width: 25%;
-        display: inline-block;
-        height: 100vh;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        z-index: 1;
-
-    }
-
-    #col-2 {
-        /* background-color: rgb(70, 99, 103); */
-
-        /* #29323c → #485563; */
-        /* background: rgb(63,94,251); */
-        background: radial-gradient(circle, rgb(213, 216, 228) 10%, rgb(240, 231, 233) 100%);
-
-
-
-
-
-        width: 75%;
-        display: inline-block;
-        height: 100vh;
-        position: absolute;
-        top: 0px;
-        right: 0px;
-
-        /* background-image: linear-gradient(225deg, #FF3CAC 10%, #1b1223 50%); */
-
-
-    }
-
-
-    .left {
-
-
-        /* display:block;  */
-        /* background-color: blue; */
-        padding: 20px;
-        width: 100%;
-
-
-    }
-
-    .right {
-
-        width: 100%;
-        /* background-color: green; */
-        padding: 20px;
-
-        text-align: right;
-
-
-
-
-    }
-
-
-    .middle {
-        display: inline-block;
-        width: 100%;
-        /* background-color: green; */
-        padding: 20px;
-        text-align: center;
-
-    }
-
-    .message {
-
-        display: inline-block;
-        /* position: relative; */
-    }
-
-    .message-left {
-
-        border-radius: 20px;
-        border-bottom-left-radius: 0px;
-        background-color: rgb(246, 246, 246);
-        background-color: hsl(160, 0, 232);
-
-
-        /* background-color: rgb(162, 43, 43); */
-        /* background-color: white; */
-        margin-left: 20px;
-        padding: 10px;
-        padding-bottom: 20px;
-        display: inline-block;
-        max-width: 50%;
-        font-size: 15px;
-        min-width: 100px;
-        /* color:hsl(160, 0, 185);   */
-        /* color:rgb(197,197,197); */
-        /* box-shadow: 1px 1px 5px 0.1px black; */
-        border: 1px solid rgb(193, 205, 223);
-
-
-
-
-    }
-
-    .message-right {
-
-        border-radius: 20px;
-        border-bottom-right-radius: 0px;
-        /* background-color:rgb(34, 34, 34);  */
-        /* background-color:rgb(51,51,51); */
-        background-color: rgb(44, 43, 43);
-        background-color: hsa(160, 0, 48);
-        color: rgb(240, 236, 236);
-        margin-right: 0px;
-        padding: 10px;
-        padding-bottom: 25px;
-        display: inline-block;
-        max-width: 50%;
-        font-size: 15px;
-        text-align: left;
-        min-width: 100px;
-        min-height: 2px;
-
-
-
-
-    }
-
-    .message-middle {
-
-        border-radius: 20px;
-        margin: auto;
-        padding: 15px;
-
-    }
-
-    .profile {
-        display: inline-block;
-        font-weight: 550;
-        /* background-color: rgb(101, 75, 75); */
-    }
-
-    .profile p {
-
-        margin: 0px;
-        padding-left: 5px;
-    }
-
-    header img {
-        width: 45px;
-        position: relative;
-        top: 5px;
-        margin-left: 20px
-            /* margin-top:40px ; */
-    }
-
-    .user-name {
-        font-size: 15px;
-    }
-
-    .user-time {
-        font-size: 10px;
-        /* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
-        color: rgb(100, 110, 113);
-        padding-bottom: 5px;
-
-    }
-
-    .user-seen {
-        font-size: 10px;
-        /* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; */
-        color: rgba(255, 255, 255, 0.8);
-        padding-bottom: 3px;
-    }
-
-    .message-time-left {
-        position: relative;
-        bottom: -15px;
-        right: 80px;
-        font-size: 10px;
-        color: rgb(148, 143, 188)
-    }
-
-    .message-time-right {
-        position: relative;
-        bottom: -20px;
-        right: 80px;
-        font-size: 10px;
-
-        color: rgb(143, 162, 188)
-    }
-
-    .friend-profile {
-        display: inline-block;
-        width: 100%;
-
-        margin: 0px;
-        /* margin-left:4px;  */
-        /* padding-left:8px;  */
-        padding: 5px 0px;
-        /* padding-left:5px; */
-        /* background-color: rgb(81, 43, 43); */
-        /* margin-left:5px;  */
-        /* background-color: rgb(255, 254, 253); */
-        background-color: rgb(255, 255, 255);
-        /* background-color: rgb(44, 38, 38); */
-
-
-    }
-
-    .friend-profile:hover {
-        background-color: #FF3CAC;
-        background-image: linear-gradient(225deg, #f89acf 10%, #784BA0 50%);
-
-        cursor: pointer;
-    }
-
-    .friend-profile:hover * {
-        color: white;
-    }
-
-    .profile {
-        width: 70%;
-        display: inline-block;
-        border-bottom: 0.1px solid rgba(32, 1, 1, 0.4);
-
-        /* border-bottom:  0.1px solid rgb(130, 122, 122) ; */
-
-
-    }
-
-
-    .friend-image {
-        display: inline-block;
-        position: relative;
-        left: 17px;
-        top: 6px;
-
-
-    }
-
-    .message-count {
-        background-color: rgb(44, 43, 43);
-        background-color: hsa(160, 0, 48);
-        color: rgb(255, 255, 255);
-        font-size: 10px;
-
-        border-radius: 50%;
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        ;
-        position: relative;
-        left: -17px;
-        bottom: 27px;
-        padding: 2px;
-
-    }
-
-    .count-num {
-        position: relative;
-        left: 3px;
-
-    }
-
-    .search-friend {
-
-        /* background-color: rgb(255, 255, 255); */
-        border: 1px solid black;
-        border-radius: 50px;
-        ;
-        position: relative;
-        margin: 3px;
-        background-color: rgb(253, 253, 253);
-    }
-
-    .input_box {
-        text-align: center;
-        /* width: 85%; */
-        padding: 5px;
-
-        background-color: transparent;
-        border: none;
-        ;
-
-
-    }
-    #first-col-input-box  {
-        text-align: center;
-        /* width: 85%; */
-        padding: 5px;
-
-        background-color: transparent;
-        border: none;
-        ;
-
-
-    }
-
-    .input_box::placeholder {
-        color: #fff;
-    }
-
-    .input_box:focus {
-        outline: none;
-        border-bottom: violet;
-
-    }
-
-    #first-col-search-icon{
-      position:absolute;
-      right:10px; 
-      top:10%; 
-      cursor:pointer;
-      color: rgb(147, 136, 186);
-    
-    }
-    #first-col-close-icon{
-      position:absolute;
-      right:10px; 
-      top:8%;
-cursor:pointer;
-      color: rgb(147, 136, 186);
-      display:none;
-    }
-
-
-    #first-col-search-icon:hover,#first-col-close-icon:hover {
-
-        color: rgb(103, 100, 138);
-
-
-    }
-
-    .side-list {
-        overflow: auto;
-        height: 77vh;
-
-    }
-
-    .header {
-        background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(233, 49, 86, 0.705) 100%);
-
-
-
-    }
-
-    .header .profile {
-        width: 35%;
-    }
-
-    .side-list-search-icon:hover {
-        color: rgb(230, 211, 211);
-        cursor: pointer;
-
-    }
-
-    .search-keyword {
-        display: inline-block;
-        width: 50%;
-
-
-        border: 1px solid rgb(255, 255, 255);
-        border-radius: 50px;
-
-        background-color: transparent;
-        position: relative;
-        bottom: 11px;
-        /* right: -70px; */
-
-
-    }
-      
-      *
-      
-     #side-list-search-count, 
-    #side-list-search-icon,
-    #side-list-close-icon,
-    #side-list-up-icon,
-    #side-list-down-icon {
-        position: absolute;
-        color: rgb(214, 204, 250);
-    
-       
-    }
-    #side-list-search-icon{
-        right:15px;
-        top:13%;
-             }
-    #side-list-close-icon{
-        right:15px;
-        top:6%;
-        display:none; 
-    }
-    #side-list-down-icon{
-        right: 44px;
-    top: 20%;
-        display:none; 
-    }
-    #side-list-up-icon{
-        right: 70px;
-    top: 17%;
-        display:none; 
-    }
-    #side-list-search-count{
-       
-    right: 94px;
-    top: 20%;
-    font-size:15px;
-    display:none; 
-        /* display:none;  */
-    }
-
-    #side-list-search-icon:hover,
-    #side-list-close-icon:hover,
-    #side-list-up-icon:hover,
-    #side-list-down-icon:hover {
-        
-        color: rgb(208, 177, 177);
-        cursor: pointer;
-
-
-    }
-
-    #side-list-search-count {
-        color: rgb(214, 204, 250);
-    }
-
-
-
-
-    .search-keyword input {
-        color: rgba(255, 255, 255, 0.837);
-    }
-
-    .col-3 {
-        z-index: 2;
-        height: 50px;
-        background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(227, 47, 84, 0.7049194677871149) 100%);
-
-    }
-
-    form {
-        background-color: #fff;
-        text-align: center;
-        padding: 5px 2px;
-    }
-
-    form input {
-        display: inline-block;
-        width: 90%;
-
-        /* background-color: blue; */
-        padding: 5px;
-        /* margin:5px; */
-
-    }
-
-    form button {
-        padding: 5px;
-    }
-
-    .search-item-bg {
-        background-color: yellowgreen;
-        color: black;
-    }
-    .not-visible{
-        visibility: hidden;
-    }
-</style>
+<link rel="stylesheet" href="css/home.css">
 
 <body>
 
@@ -576,21 +29,19 @@ cursor:pointer;
 
     <div id="box">
 
-
-
 </h1>
 
         <div id="col-1">
 
-            <div class="friend-profile">
+            <div class="friend-profile not-hover">
                 <div class="friend-image">
                     <img src="tony.jpg" alt="profile-image">
-                    <div class="message-count"> <span class="count-num">3</span></div>
+                    <div class="message-count  not-visible"> <span class="count-num"></span></div>
                 </div>
 
 
                 <span class="profile">
-                    <p class="user-name">Tony Stark </p>
+                    <p class="user-name">{{name}}tony startk </p>
                     <p class="user-time">Last seen today at 8:30 pm </p>
 
                 </span>
@@ -599,7 +50,7 @@ cursor:pointer;
             <hr>
             <div  class="search-friend" id="first-col-search-friend-box">
 
-
+        
                 <svg  id="first-col-close-icon" width="25px" height="25px" viewBox="0 0 16 16" class="bi bi-x"
                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -616,7 +67,7 @@ cursor:pointer;
 
  <input id="first-col-input-box" class="input_box"  type="text" placeholder="search friends list">
                
-            </div>
+            </div >
             <hr>
 
             <div class="side-list" id="first-col-friend-list">
@@ -681,7 +132,7 @@ cursor:pointer;
 
 
                 <div class="search-keyword">
-
+                    
                     <input class="input_box" id="input-search-keyword" type="text" placeholder="search friends list">
                     <span id="side-list-search-count"> 0/10</span>
 
@@ -719,8 +170,30 @@ cursor:pointer;
                             d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
                     </svg>
 
+             
+  </div>  
+   {{!-- <svg id="notification" xmlns="http://www.w3.org/2000/svg"  fill="#500000"   xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px"version="1.1" x="0px" y="0px" viewBox="0 0 100 125" style="enable-background:new 0 0 100 100;" xml:space="preserve"><g><g><path d="M51.9,94.3c4.9,0,8.9-4,8.9-8.9H43C43,90.3,47,94.3,51.9,94.3z M80.6,67.7V43.4c0-13.6-9.4-25-22.1-28v-3    c0-3.7-3-6.6-6.6-6.6s-6.6,3-6.6,6.6v3c-12.7,3-22.1,14.4-22.1,28v24.3l-8.9,8.9V81h75.2v-4.4L80.6,67.7z"/></g></g></svg>
+            --}}
 
-                </div>
+            <div id="side-list-menu-box">
+
+          
+           <svg id="menu"   xmlns="http://www.w3.org/2000/svg" fill="#000000"xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 48 60" style="enable-background:new 0 0 48 48;" xml:space="preserve"  width="36px"height="36px"   ><g><path  d="M41.79,5H20.14c-2.21,0-4,1.79-4,4s1.79,4,4,4h21.64c2.21,0,4-1.79,4-4S44,5,41.79,5z M41.79,12H20.14c-1.65,0-3-1.35-3-3   c0-1.65,1.35-3,3-3h21.64c1.65,0,3,1.35,3,3C44.79,10.66,43.44,12,41.79,12z"/><path d="M41.79,19.57H20.14c-2.21,0-4,1.79-4,4s1.79,4,4,4h21.64c2.21,0,4-1.79,4-4S44,19.57,41.79,19.57z M41.79,26.57H20.14   c-1.65,0-3-1.35-3-3c0-1.65,1.35-3,3-3h21.64c1.65,0,3,1.35,3,3C44.79,25.23,43.44,26.57,41.79,26.57z"/><path d="M41.79,34.14H20.14c-2.21,0-4,1.79-4,4s1.79,4,4,4h21.64c2.21,0,4-1.79,4-4S44,34.14,41.79,34.14z M41.79,41.14H20.14   c-1.65,0-3-1.35-3-3c0-1.65,1.35-3,3-3h21.64c1.65,0,3,1.35,3,3C44.79,39.8,43.44,41.14,41.79,41.14z"/><path d="M11.24,4.32H4.37c-1.65,0-2.69,1.79-1.86,3.22l3.44,5.96c0.41,0.72,1.14,1.08,1.86,1.08c0.72,0,1.45-0.36,1.86-1.08   l3.43-5.96C13.92,6.11,12.89,4.32,11.24,4.32z M12.23,7.04L8.8,13c-0.3,0.52-0.8,0.58-1,0.58c-0.2,0-0.7-0.06-1-0.58L3.37,7.04   c-0.3-0.52-0.1-0.98,0-1.15c0.1-0.17,0.4-0.57,1-0.57h6.87c0.6,0,0.9,0.4,1,0.57S12.53,6.52,12.23,7.04z"/><path d="M11.23,18.87H4.37c-1.65,0-2.69,1.79-1.86,3.22l3.44,5.96c0.41,0.72,1.14,1.08,1.86,1.08c0.72,0,1.45-0.36,1.86-1.08   l3.43-5.96C13.92,20.66,12.89,18.87,11.23,18.87z M12.23,21.59L8.8,27.55c-0.3,0.52-0.8,0.58-1,0.58c-0.2,0-0.7-0.06-1-0.58   l-3.44-5.96c-0.3-0.52-0.1-0.98,0-1.15c0.1-0.17,0.4-0.57,1-0.57h6.87c0.6,0,0.9,0.4,1,0.57C12.33,20.62,12.53,21.07,12.23,21.59z"/><path d="M5.94,42.61c0.41,0.72,1.14,1.08,1.86,1.08c0.72,0,1.45-0.36,1.86-1.08l3.43-5.96c0.83-1.43-0.21-3.22-1.86-3.22H4.37   c-1.65,0-2.69,1.79-1.86,3.22L5.94,42.61z M3.37,35c0.1-0.17,0.4-0.57,1-0.57h6.87c0.6,0,0.9,0.4,1,0.57c0.1,0.17,0.3,0.63,0,1.15   L8.8,42.11c-0.3,0.52-0.8,0.58-1,0.58c-0.2,0-0.7-0.06-1-0.58l-3.44-5.96C3.07,35.63,3.27,35.17,3.37,35z"/></g></svg>
+
+            <div id="menu-box">
+                <div id="menu_close">X </div>
+                <div class="menu-box-child" id="find_new_friend">Find New Friends</div>
+                <div class="menu-box-child">Search New Friends</div>
+                <div class="menu-box-child">Search New Friends</div>
+                <div class="menu-box-child">Search New Friends</div>
+                <div class="menu-box-child">Search New Friends</div>
+
+                <div class="menu-box-child">Search New Friends</div>
+                <div class="menu-box-child">Settings </div>
+            </div>
+           
+            </div>
+               
             </header>
             <hr>
             <div id="message-body">
@@ -778,6 +251,56 @@ cursor:pointer;
                     <span class="message-time-right">10:34 PM </span>
                 </div>
 
+
+                <div class="message right">
+                    <span class="message-right">
+                        hello i right
+                        glroemdfgfg fg d
+                        Lorem ipsum dolor si adipisicing elit.
+                        Cupiditate, iusto?
+                        gjfl jgfl jg dfk
+                        gf
+                        Lorem ipsum <span class="search-item-bg">hello1234 </span> sit amet consectetur adipisicing
+                        elit. Commodi eveniet debitis porro dicta nesciunt consectetur molestiae eaque pariatur quod
+                        vel?
+                    </span>
+                    <span class="message-time-right">10:34 PM </span>
+                </div>
+
+
+                <div class="message right">
+                    <span class="message-right">
+                        hello i right
+                        glroemdfgfg fg d
+                        Lorem ipsum dolor si adipisicing elit.
+                        Cupiditate, iusto?
+                        gjfl jgfl jg dfk
+                        gf
+                        Lorem ipsum <span class="search-item-bg">hello1234 </span> sit amet consectetur adipisicing
+                        elit. Commodi eveniet debitis porro dicta nesciunt consectetur molestiae eaque pariatur quod
+                        vel?
+                    </span>
+                    <span class="message-time-right">10:34 PM </span>
+                </div>
+
+
+                <div class="message right">
+                    <span class="message-right">
+                        hello i right
+                        glroemdfgfg fg d
+                        Lorem ipsum dolor si adipisicing elit.
+                        Cupiditate, iusto?
+                        gjfl jgfl jg dfk
+                        gf
+                        Lorem ipsum <span class="search-item-bg">hello1234 </span> sit amet consectetur adipisicing
+                        elit. Commodi eveniet debitis porro dicta nesciunt consectetur molestiae eaque pariatur quod
+                        vel?
+                    </span>
+                    <span class="message-time-right">10:34 PM </span>
+                </div>
+
+
+
                 <button id="sub_button" type="submit"> click me </button>
 
             </div>
@@ -808,29 +331,30 @@ cursor:pointer;
             
         // const socket = io('https://socket-event-hadler.herokuapp.com/');
 
-        // let name = prompt("enter your name");
-        let name = ['maggi', 'mohan', 'manp', 'mango', 'splic', 'taste', 'bhatman'];
+        // var  name = prompt("enter your name");
+        var  name = ['maggi', 'mohan', 'manp', 'mango', 'splic', 'taste', 'bhatman'];
         name = name[(Date.now()) % name.length];
 
 
-        let mess_bd = document.getElementById("message-body");
-        let side_list_search_icon = document.getElementById("side-list-search-icon");
-        let side_list_up_icon = document.getElementById("side-list-up-icon");
-        let side_list_down_icon = document.getElementById("side-list-down-icon");
-        let side_list_close_icon = document.getElementById("side-list-close-icon");
+        var  mess_bd = document.getElementById("message-body");
+        var  side_list_search_icon = document.getElementById("side-list-search-icon");
+        var  side_list_up_icon = document.getElementById("side-list-up-icon");
+        var  side_list_down_icon = document.getElementById("side-list-down-icon");
+        var  side_list_close_icon = document.getElementById("side-list-close-icon");
 
-        let side_list_search_count = document.getElementById("side-list-search-count");
-        //  let name = prompt("enter your name ");
-        let myform = document.getElementById("myform");
-        // let sub_button" = document.getElementById("sub_button");
-        let message_input = document.getElementById("message_input");
-        let input_search_keyword = document.getElementById("input-search-keyword");
-        let side_list_curr_pos = 0;
-        let child_arr_pos = [];
+        var  side_list_search_count = document.getElementById("side-list-search-count");
+        //  var  name = prompt("enter your name ");
+        var  myform = document.getElementById("myform");
 
+        var  message_input = document.getElementById("message_input");
+        var  input_search_keyword = document.getElementById("input-search-keyword");
+        var  side_list_curr_pos = 0;
+        var  child_arr_pos = [];
+       var  menu = document.getElementById("menu");
+       var  menu_box = document.getElementById("menu-box");
+var  menu_close = document.getElementById("menu_close");
 
-
-        let ping_audio = new Audio("ping.mp3")
+        var  ping_audio = new Audio("ping.mp3")
 
 //stackoverflow function 
         function selectElementText(el, win) {
@@ -850,6 +374,13 @@ cursor:pointer;
     }
 
 
+      menu_close.addEventListener("click",()=>{
+                menu_box.style.display="none"; 
+           }); 
+
+       menu.addEventListener("click",()=>{
+                menu_box.style.display="block"
+           }); 
 
 
         side_list_down_icon.addEventListener("click", () => {
