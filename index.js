@@ -27,7 +27,8 @@ app.set("views" , "views")
 
 
 app.get('/', (req, res) => {
-  res.render("home"); 
+  res.render("find_friend"); 
+//  res.sendFile("find_friend"); 
 });
 
 

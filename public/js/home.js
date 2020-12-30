@@ -25,6 +25,7 @@ var  child_arr_pos = [];
 var  menu = document.getElementById("menu");
 var  menu_box = document.getElementById("menu-box");
 var  menu_close = document.getElementById("menu_close");
+// var  find_new_friend = document.getElementById("find_new_friend");
 
 var  ping_audio = new Audio("ping.mp3")
 
