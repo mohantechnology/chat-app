@@ -27,7 +27,8 @@ app.set("views" , "views")
 
 
 app.get('/', (req, res) => {
-  res.render("find_friend"); 
+  res.send({"status":"ok","message":"connected to server"}); 
+  // res.render("find_friend"); 
 //  res.sendFile("find_friend"); 
 });
 
@@ -108,6 +109,36 @@ app.get('/profile', (req, res) => {
    
 });
 
+
+app.get('/find_friend', (req, res) => {
+   res.sendFile(view_dir_name + "/find_friend.html"); 
+}); 
+
+app.post('/find_friend', (req, res) => {
+
+
+  
+  let cookie_data = jwt.decode( req.cookies.li); 
+  if(cookie_data){
+    cookie_data.search_value=req.body.search_value; 
+  }
+
+ console.log("incoming cookie data from find-friend ",cookie_data,req.body); 
+  axios({
+    method: 'post',
+    url:  process.env.API_URL+"/find_friend"   ,
+    data: cookie_data
+  }).then(function (response) {
+    console.log(response.data);
+    res.send(response.data); 
+  }).catch(err=>{
+    console.log("error is: "); 
+    console.log(err); 
+    res.status(500).send({"status":"Internal server error"});
+  });
+
+   
+});
 
 app.get('/reg', (req, res) => {
 

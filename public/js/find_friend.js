@@ -1,7 +1,7 @@
 var side_list_search_icon = document.getElementById("side-list-search-icon");
 var side_list_close_icon = document.getElementById("side-list-close-icon");
 var input_search_keyword = document.getElementById("input-search-keyword");
-
+var message_body =document.getElementById("message-body");  
 
 function make_element(data) {
 
@@ -14,7 +14,7 @@ function make_element(data) {
         <p class="user-time">${data.pro_mess} </p>
            
     </span>
-    <div class="send-request-but">Send Friend Request</div>
+    <div  id="${data.p_id}" class="send-request-but">Send Friend Request</div>
 
 </div>`
 }
@@ -24,6 +24,7 @@ function make_element(data) {
 
 
 function send_xhr(param, url) {
+    console.log(param); 
     let xhttp = new XMLHttpRequest();
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -35,14 +36,20 @@ function send_xhr(param, url) {
                 let len = data.list.length ?data.list.length:0; 
                 let html_str =""; 
                 for(let i=0 ; i<len; i++){
-                    str+= make_element(data)
+                    html_str+= make_element(data.list[i])
 
                 }
              
+                // console.log(html_str);
+                message_body.innerHTML = html_str; 
 
             } else {
                 console.log("error occured");
                 console.log(data);
+                if(data.message=="Not a valid user"){
+                    // windows.location("./login"); 
+                    window.location = "./login"; 
+                }
             }
             ;
         }
@@ -57,33 +64,28 @@ function display_error(error) {
 
 
 
-side_list_search_icon.addEventListener("click", () => {
+input_search_keyword.addEventListener("keyup", (e) => {
     side_list_close_icon.style.display = "inline-block";
     side_list_search_icon.style.display = "none";
 
 
-    let serach_value
-    if (input_search_keyword.value) {
-        serach_value = encodeURIComponent(input_search_keyword.value.trim());
-        if (search_value == "") {
-            display_error("All Fields are Required");
-            return;
+    let search_value; 
+        // console.log(e.keyCode==13)
+        if(  e.key=="Enter" || e.keyCode ==13 ){
+                search_value = encodeURIComponent(input_search_keyword.value.trim());
+                param = "search_value=" + search_value;
+                send_xhr(param, "./find_friend");
+
+            input_search_keyword.value=""; 
+            side_list_close_icon.style.display = "none";
+            side_list_search_icon.style.display = "inline-block";
+
         }
-        param = "search_value=" + search_value;
-        send_xhr(param, "./find_friend");
-
-    } else {
-        display_error("All Fields are Required");
-        return;
-    }
-
-
-
-  
 
 
 
 });
+
 side_list_close_icon.addEventListener("click", () => {
     side_list_close_icon.style.display = "none";
     side_list_search_icon.style.display = "inline-block";

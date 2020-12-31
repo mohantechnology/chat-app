@@ -316,18 +316,21 @@
 
     
     .friend-image {
-        width:125px; 
+        width:135px; 
 
 
     }
     .user-name {
         position: relative;
-    left:10px
+    left:10px;
+    top:3px; 
     }
     
     .user-time {
         position: relative;
-        left:10px
+        left:10px;
+        top:2px; 
+
     }
 
     
