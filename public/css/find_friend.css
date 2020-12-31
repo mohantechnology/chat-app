@@ -311,6 +311,20 @@
    cursor:pointer;
 }
 
+.sended-request-but{
+    background-color: rgba(153, 45, 72, 0.733);
+    color:white;
+     font-size: 14px;
+    border-radius: 4px;
+    padding:5px; 
+
+ height: 20px; ;
+   border:2px solid rgba(255, 252, 252, 0.753);
+   position: absolute;
+   right:17px;
+   top:12px;  
+}
+
 
 @media screen and (max-width:600px){
 

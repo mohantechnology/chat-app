@@ -53,7 +53,7 @@ app.post('/login', (req, res) => {
     console.log(response.data);
     if(response.data.status=="ok"){
   
-       let token = jwt.sign({email:response.data.email,name:response.data.name,u_id:response.data.u_id,token:response.data.token } ,process.env.JWT_SECRET_KEY); 
+       let token = jwt.sign({email:response.data.email,name:response.data.name,u_id:response.data.u_id,token:response.data.token,p_id:response.data.p_id } ,process.env.JWT_SECRET_KEY); 
        res.cookie("li",token,{expires:new Date(Date.now()+6000000)}); 
       console.log("cookie encodded",token); 
        console.log("succesfull set cookie ",jwt.decode(token)); 
@@ -127,6 +127,35 @@ app.post('/find_friend', (req, res) => {
   axios({
     method: 'post',
     url:  process.env.API_URL+"/find_friend"   ,
+    data: cookie_data
+  }).then(function (response) {
+    console.log(response.data);
+    res.send(response.data); 
+  }).catch(err=>{
+    console.log("error is: "); 
+    console.log(err); 
+    res.status(500).send({"status":"Internal server error"});
+  });
+
+   
+});
+
+
+app.post('/send_friend_request', (req, res) => {
+
+
+  
+  let cookie_data = jwt.decode( req.cookies.li); 
+  if(cookie_data){
+    cookie_data.friend_p_id=req.body.p_id; 
+    cookie_data.date=req.body.date; 
+    cookie_data.time=req.body.time; 
+  }
+
+ console.log("incoming cookie data from send_friend_request",cookie_data); 
+  axios({
+    method: 'post',
+    url:  process.env.API_URL+"/send_friend_request"   ,
     data: cookie_data
   }).then(function (response) {
     console.log(response.data);

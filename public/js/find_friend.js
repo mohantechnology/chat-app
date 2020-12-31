@@ -14,16 +14,50 @@ function make_element(data) {
         <p class="user-time">${data.pro_mess} </p>
            
     </span>
-    <div  id="${data.p_id}" class="send-request-but">Send Friend Request</div>
+    <div  id="${data.p_id}" class="${ data.p_id ==0 ? 'sended-request-but':'send-request-but'}"> 
+    ${ data.p_id ==0 ?"Sended Request":"Send Friend Request"}</div>
 
 </div>`
 }
 
 
 
+message_body.addEventListener("click",(e)=>{
+    if(e.target.className =="send-request-but"){
+      let id=e.target.id; 
+      console.log(id); 
+      let xhttp = new XMLHttpRequest();
 
 
-function send_xhr(param, url) {
+      xhttp.open("POST", "./send_friend_request", true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+              let data = JSON.parse(this.response);
+              console.log(data);
+              if (data.status == "ok") {
+              
+               
+                  // console.log(html_str);
+                  e.target.innerHTML= "Request Sended";
+                //   console.log(e.target.className); 
+                  e.target.className="sended-request-but"; 
+              } else {
+                  console.log("error occured");
+                  console.log(data);
+                 
+              }
+              ;
+          }
+      }
+   let param = "p_id=" + id+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+      xhttp.send(param);
+
+    } 
+})
+
+
+function fetch_friend_list(param, url) {
     console.log(param); 
     let xhttp = new XMLHttpRequest();
     xhttp.open("POST", url, true);
@@ -74,7 +108,7 @@ input_search_keyword.addEventListener("keyup", (e) => {
         if(  e.key=="Enter" || e.keyCode ==13 ){
                 search_value = encodeURIComponent(input_search_keyword.value.trim());
                 param = "search_value=" + search_value;
-                send_xhr(param, "./find_friend");
+                fetch_friend_list(param, "./find_friend");
 
             input_search_keyword.value=""; 
             side_list_close_icon.style.display = "none";
