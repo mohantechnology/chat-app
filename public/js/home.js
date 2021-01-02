@@ -25,8 +25,10 @@ var  child_arr_pos = [];
 var  menu = document.getElementById("menu");
 var  menu_box = document.getElementById("menu-box");
 var  menu_close = document.getElementById("menu_close");
-// var  find_new_friend = document.getElementById("find_new_friend");
-
+var  noti_box = document.getElementById("noti_box");
+var noti = document.getElementById("noti"); 
+var rec_req =document.getElementById("rec_req"); 
+var req_box =document.getElementById("req_box"); 
 var  ping_audio = new Audio("ping.mp3")
 
 //stackoverflow function 
@@ -45,6 +47,208 @@ range.moveToElementText(el);
 range.select();
 }
 }
+
+
+
+function make_element_for_friend_req(data) {
+
+
+    return  `<div class="friend-profile">
+     <div class="friend-image">
+         <img src="${data.sender_img} " alt="profile-image">
+     </div>
+     <span class="profile  noti-profile">
+         <p class="user-name">${data.sender_name} </p>
+         <p class="user-time">${data.sender_pro_mess} </p>
+ 
+     </span>
+     <div id='${ data.sender_p_id }' class="send-request-but">Accept Request</div>
+ 
+ </div>`; 
+ 
+  }
+
+
+//display all recived request 
+rec_req.addEventListener("click",()=>{
+    menu_box.style.display="none"; 
+    // message_body.style.display="none"; 
+    //TODO
+
+    let xhttp = new XMLHttpRequest();
+
+
+    xhttp.open("POST", "./accept_friend_request", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+            let data = JSON.parse(this.response);
+            console.log(data);
+            if (data.status == "ok") {
+               let len = data.data.length; 
+               let html_str = ""; 
+               for(let i=0 ; i<len; i++){
+                   html_str += make_element_for_friend_req(data.data[i]); 
+
+               }
+                 
+               req_box.innerHTML = html_str; 
+               
+                  console.log(data);
+                  console.log(req_box.innerHTML);  
+            //     // console.log(html_str);
+            //     e.target.innerHTML= "Added as Friend";
+            //   //   console.log(e.target.className); 
+            //     e.target.className="sended-request-but"; 
+            // } else {
+            //     console.log("error occured");
+            //     console.log(data);
+               
+            }
+            ;
+        }
+    }
+    let param = "signal=0&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+ 
+//  let param = "p_id=" + id+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+    xhttp.send(param);
+
+
+})
+
+req_box.addEventListener("click",(e)=>{
+
+    // message_body.style.display="none"; 
+    //TODO
+
+    if(e.target.textContent=="Accept Request"){
+
+        let xhttp = new XMLHttpRequest();
+        let id=e.target.id; 
+
+        xhttp.open("POST", "./accept_friend_request", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+                let data = JSON.parse(this.response);
+                console.log(data);
+                if (data.status == "ok") {
+                   let len = data.data.length; 
+                   let html_str = ""; 
+                   for(let i=0 ; i<len; i++){
+                       html_str += make_element_for_friend_req(data.data[i]); 
+    
+                   }
+                     
+                   req_box.innerHTML = html_str; 
+                   
+                      console.log(data);
+                      console.log(req_box.innerHTML);  
+                //     // console.log(html_str);
+                //     e.target.innerHTML= "Added as Friend";
+                //   //   console.log(e.target.className); 
+                //     e.target.className="sended-request-but"; 
+                // } else {
+                //     console.log("error occured");
+                //     console.log(data);
+                   
+                }
+                ;
+            }
+        }
+        // let param = "signal=" + 0+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+     
+     let param =  "signal=1&p_id=" + id+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+        xhttp.send(param);
+    
+
+    }
+ 
+
+})
+
+
+//display
+noti.addEventListener("click",()=>{
+    menu_box.style.display="none"; 
+    // message_body.style.display="none"; 
+    //TODO
+
+    let xhttp = new XMLHttpRequest();
+
+
+    xhttp.open("POST", "./display_noti", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+            let data = JSON.parse(this.response);
+            console.log(data);
+            if (data.status == "ok") {
+            
+             
+            //     // console.log(html_str);
+            //     e.target.innerHTML= "Added as Friend";
+            //   //   console.log(e.target.className); 
+            //     e.target.className="sended-request-but"; 
+            // } else {
+            //     console.log("error occured");
+            //     console.log(data);
+               
+            }
+            ;
+        }
+    }
+ let param = "p_id=" + id+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+    xhttp.send(param);
+
+
+})
+
+
+
+ 
+
+
+
+
+
+noti_box.addEventListener("click",(e)=>{
+
+    //if Accept request is clicked 
+    if(e.target.className =="send-request-but"){
+      let id=e.target.id; 
+      console.log(id); 
+      let xhttp = new XMLHttpRequest();
+
+
+      xhttp.open("POST", "./accept_friend_request", true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+              let data = JSON.parse(this.response);
+              console.log(data);
+              if (data.status == "ok") {
+              
+               
+                  // console.log(html_str);
+                  e.target.innerHTML= "Added as Friend";
+                //   console.log(e.target.className); 
+                  e.target.className="sended-request-but"; 
+              } else {
+                  console.log("error occured");
+                  console.log(data);
+                 
+              }
+              ;
+          }
+      }
+   let param = "p_id=" + id+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+      xhttp.send(param);
+
+    } 
+})
+
+
 
 
 menu_close.addEventListener("click",()=>{

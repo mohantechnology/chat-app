@@ -88,6 +88,7 @@ app.get('/profile', (req, res) => {
     url:  process.env.API_URL+"/profile"   ,
     data: cookie_data
   }).then(function (response) {
+    console.log("response data is: "); 
     console.log(response.data);
     if(response.data.status =="ok"){
       let r_data =  (response.data); 
@@ -168,6 +169,76 @@ app.post('/send_friend_request', (req, res) => {
 
    
 });
+
+
+
+
+
+app.post('/accept_friend_request', (req, res) => {
+
+
+  
+  let cookie_data = jwt.decode( req.cookies.li); 
+  if(cookie_data){
+    cookie_data.friend_p_id=req.body.p_id; 
+    cookie_data.date=req.body.date; 
+    cookie_data.time=req.body.time; 
+    cookie_data.signal=req.body.signal; 
+    
+  }
+
+ console.log("incoming cookie data from accept_friend_request",cookie_data); 
+  axios({
+    method: 'post',
+    url:  process.env.API_URL+"/accept_friend_request"   ,
+    data: cookie_data
+  }).then(function (response) {
+    console.log(response.data);
+    res.send(response.data); 
+  }).catch(err=>{
+    console.log("error is: "); 
+    console.log(err); 
+    res.status(500).send({"status":"Internal server error"});
+  });
+
+   
+});
+
+
+
+
+app.post('/req', (req, res) => {
+
+
+  
+  let cookie_data = jwt.decode( req.cookies.li); 
+  if(cookie_data){
+    cookie_data.friend_p_id=req.body.p_id; 
+    cookie_data.date=req.body.date; 
+    cookie_data.time=req.body.time; 
+  }
+
+ console.log("incoming cookie data from send_friend_request",cookie_data); 
+  axios({
+    method: 'post',
+    url:  process.env.API_URL+"/send_friend_request"   ,
+    data: cookie_data
+  }).then(function (response) {
+    console.log(response.data);
+    res.send(response.data); 
+  }).catch(err=>{
+    console.log("error is: "); 
+    console.log(err); 
+    res.status(500).send({"status":"Internal server error"});
+  });
+
+   
+});
+
+
+
+
+
 
 app.get('/reg', (req, res) => {
 

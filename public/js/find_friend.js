@@ -7,7 +7,7 @@ function make_element(data) {
 
    return  `<div class="friend-profile">
     <div class="friend-image">
-        <img src=${data.img} alt="profile-image">
+        <img src='${data.img}' alt="profile-image">
      </div>
     <span class="profile">
         <p class="user-name">${data.name}</p>

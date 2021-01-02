@@ -287,14 +287,14 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
 
     }
 
-    .friend-profile:hover {
+  #col-1   .friend-profile:hover {
         background-color: #FF3CAC;
         background-image: linear-gradient(225deg, #f89acf 10%, #784BA0 50%);
 
         cursor: pointer;
     }
 
-    .friend-profile:hover * {
+    #col-1    .friend-profile:hover * {
         color: white;
     }
 
@@ -413,7 +413,7 @@ cursor:pointer;
 
     .side-list {
         overflow: auto;
-        {{!-- height: 17vh; --}}
+
 
     }
 
@@ -613,3 +613,107 @@ a{
     text-decoration: none;
     color:white;
 }
+#noti_box{
+   overflow:auto ; 
+   height: 84vh;
+
+
+}
+
+
+#noti_box .friend-profile {
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    padding: 5px 0px;
+    background-color: rgb(255, 255, 255);
+    /* background-color: rgb(44, 38, 38); */
+    border-radius: 3px;
+    position: relative;
+}
+
+#noti_box .noti-profile{
+
+    position: absolute;
+    top: 15px;
+    left: 60px;
+}
+.send-request-but{  
+ background-color: rgba(69, 45, 153, 0.534);
+    color:white;
+     font-size: 14px;
+    border-radius: 4px;
+    padding:5px; 
+
+ height: 20px; ;
+   border:2px solid rgba(255, 252, 252, 0.753);
+   position: absolute;
+   right:17px;
+   top:12px;  
+
+}
+
+#req_box{
+    overflow:auto ; 
+    height: 84vh;
+ 
+ 
+ }
+ 
+ 
+ #req_box .friend-profile {
+     display: block;
+     width: 90%;
+     margin: 10px auto;
+     padding: 5px 0px;
+     background-color: rgb(255, 255, 255);
+     /* background-color: rgb(44, 38, 38); */
+     border-radius: 3px;
+     position: relative;
+ }
+
+
+
+
+#req_box .noti-profile{
+
+    position: absolute;
+    top: 15px;
+    left: 60px;
+}
+
+
+
+.send-request-but{
+    background-color: rgba(69, 45, 153, 0.534);
+       color:white;
+        font-size: 14px;
+       border-radius: 4px;
+       padding:5px; 
+   
+    height: 20px; ;
+      border:2px solid rgba(255, 252, 252, 0.753);
+      position: absolute;
+      right:17px;
+      top:12px;  
+   
+   }
+   .send-request-but:hover{
+       background-color: rgba(69, 45, 153, 0.7);
+      cursor:pointer;
+   }
+   
+   .sended-request-but{
+       background-color: rgba(153, 45, 72, 0.733);
+       color:white;
+        font-size: 14px;
+       border-radius: 4px;
+       padding:5px; 
+   
+    height: 20px; ;
+      border:2px solid rgba(255, 252, 252, 0.753);
+      position: absolute;
+      right:17px;
+      top:12px;  
+   }
+   

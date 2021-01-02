@@ -23,295 +23,451 @@
 
 
 
-<h1 style="color: white;">
-   data is: ''
-{{data}} 
+    <h1 style="color: white;">
+        data is: ''
+        {{data}}
 
-    <div id="box">
+        <div id="box">
 
-</h1>
+    </h1>
 
-        <div id="col-1">
+    <div id="col-1">
 
-            <div class="friend-profile not-hover">
-                <div class="friend-image">
-                    <img src="tony.jpg" alt="profile-image">
-                    <div class="message-count  not-visible"> <span class="count-num"></span></div>
-                </div>
-
-
-                <span class="profile">
-                    <p class="user-name">{{name}}tony startk </p>
-                    <p class="user-time">Last seen today at 8:30 pm </p>
-
-                </span>
+        <div class="friend-profile not-hover">
+            <div class="friend-image">
+                <img src="tony.jpg" alt="profile-image">
+                <div class="message-count  not-visible"> <span class="count-num"></span></div>
             </div>
 
-            <hr>
-            <div  class="search-friend" id="first-col-search-friend-box">
 
-        
-                <svg  id="first-col-close-icon" width="25px" height="25px" viewBox="0 0 16 16" class="bi bi-x"
+            <span class="profile">
+                <p class="user-name">{{name}}tony startk </p>
+                <p class="user-time">Last seen today at 8:30 pm </p>
+
+            </span>
+        </div>
+
+        <hr>
+        <div class="search-friend" id="first-col-search-friend-box">
+
+
+            <svg id="first-col-close-icon" width="25px" height="25px" viewBox="0 0 16 16" class="bi bi-x"
                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
                     d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
             </svg>
-                <svg class="side-list-search-icon"  id="first-col-search-icon" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search"
+            <svg class="side-list-search-icon" id="first-col-search-icon" width="1em" height="1em" viewBox="0 0 16 16"
+                class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                    d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
+                <path fill-rule="evenodd"
+                    d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
+            </svg>
+
+
+            <input id="first-col-input-box" class="input_box" type="text" placeholder="search friends list">
+
+        </div>
+        <hr>
+
+        <div class="side-list" id="first-col-friend-list">
+
+
+
+            <div class="friend-profile" style="display:none;">
+
+                <span class="profile" style="padding-left:80px;">
+                    <p class="user-name"> "No Match" </p>
+
+
+                </span>
+
+            </div>
+
+
+
+
+
+
+
+            {{#each data}}
+            <div class="friend-profile" id="{{u_id}}">
+                <div class="friend-image">
+                    <img src=" {{ img }}" alt="profile-image">
+
+                    {{#if count }}
+                    <div class="message-count"> <span class="count-num">{{ count }} </span></div>
+                    {{else}}
+                    <div class="message-count not-visible"> <span class="count-num">{{ count }} </span></div>
+                    {{/if}}
+
+                </div>
+
+
+                <span class="profile">
+                    <p class="user-name"> {{ name}} </p>
+                    <p class="user-time">Last seen 8:30 pm </p>
+
+                </span>
+
+            </div>
+            {{/each}}
+
+
+        </div>
+
+
+
+    </div>
+
+    <div id="col-2">
+        <header class="header">
+            <img src="phone_img.jpg" alt="profile-image">
+            <span class="profile">
+                <p class="user-name"> Manpreeet saluja </p>
+                <p class="user-seen">Last seen today at 8:30 pm </p>
+
+            </span>
+
+
+            <div class="search-keyword">
+
+                <input class="input_box" id="input-search-keyword" type="text" placeholder="search friends list">
+                <span id="side-list-search-count"> 0/10</span>
+
+                <svg id="side-list-up-icon" width="18px" height="18px" viewBox="0 0 16 16"
+                    class="bi bi-chevron-double-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M7.646 2.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 3.707 2.354 9.354a.5.5 0 1 1-.708-.708l6-6z" />
+                    <path fill-rule="evenodd"
+                        d="M7.646 6.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 7.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
+                </svg>
+
+                <svg id="side-list-down-icon" width="18px" height="18px" viewBox="0 0 16 16"
+                    class="bi bi-chevron-double-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                    <path fill-rule="evenodd"
+                        d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                </svg>
+
+
+                <svg id="side-list-close-icon" width="25px" height="25px" viewBox="0 0 16 16" class="bi bi-x"
                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                </svg>
+
+
+
+
+                <svg id="side-list-search-icon" class="side-list-search-icon" width="1em" height="1em"
+                    viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd"
                         d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
                     <path fill-rule="evenodd"
                         d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
                 </svg>
-               
-
- <input id="first-col-input-box" class="input_box"  type="text" placeholder="search friends list">
-               
-            </div >
-            <hr>
-
-            <div class="side-list" id="first-col-friend-list">
-
-
-
-                <div class="friend-profile" style="display:none;" >
-                 
-                   <span class="profile"  style="padding-left:80px;" >
-                        <p class="user-name"  > "No Match" </p>
-                
-
-                    </span>
-
-                </div>
-
-
-
-
-     
-    
-                
-
-  {{#each data}}
-                <div class="friend-profile">
-                    <div class="friend-image">
-                        <img src=" {{ img }}" alt="profile-image">
-
-                        {{#if count }}
-                        <div class="message-count"> <span class="count-num">{{ count }} </span></div>
-                        {{else}}
-                         <div class="message-count not-visible"> <span class="count-num">{{ count }} </span></div>
-                         {{/if}}
-                         
-                    </div>
-
-
-                    <span class="profile">
-                        <p class="user-name"> {{ name}}  </p>
-                        <p class="user-time">Last seen 8:30 pm </p>
-
-                    </span>
-
-                </div>
- {{/each}}
 
 
             </div>
-
-
-
-        </div>
-
-        <div id="col-2">
-            <header class="header">
-                <img src="phone_img.jpg" alt="profile-image">
-                <span class="profile">
-                    <p class="user-name"> Manpreeet saluja </p>
-                    <p class="user-seen">Last seen today at 8:30 pm </p>
-
-                </span>
-
-
-                <div class="search-keyword">
-                    
-                    <input class="input_box" id="input-search-keyword" type="text" placeholder="search friends list">
-                    <span id="side-list-search-count"> 0/10</span>
-
-                    <svg id="side-list-up-icon" width="18px" height="18px" viewBox="0 0 16 16"
-                        class="bi bi-chevron-double-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M7.646 2.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 3.707 2.354 9.354a.5.5 0 1 1-.708-.708l6-6z" />
-                        <path fill-rule="evenodd"
-                            d="M7.646 6.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 7.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z" />
-                    </svg>
-
-                    <svg id="side-list-down-icon" width="18px" height="18px" viewBox="0 0 16 16"
-                        class="bi bi-chevron-double-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M1.646 6.646a.5.5 0 0 1 .708 0L8 12.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
-                        <path fill-rule="evenodd"
-                            d="M1.646 2.646a.5.5 0 0 1 .708 0L8 8.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
-                    </svg>
-
-
-                    <svg id="side-list-close-icon" width="25px" height="25px" viewBox="0 0 16 16" class="bi bi-x"
-                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
-                    </svg>
-
-
-
-
-                    <svg id="side-list-search-icon" class="side-list-search-icon" width="1em" height="1em"
-                        viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z" />
-                        <path fill-rule="evenodd"
-                            d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
-                    </svg>
-
-             
-  </div>  
-   {{!-- <svg id="notification" xmlns="http://www.w3.org/2000/svg"  fill="#500000"   xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px"version="1.1" x="0px" y="0px" viewBox="0 0 100 125" style="enable-background:new 0 0 100 100;" xml:space="preserve"><g><g><path d="M51.9,94.3c4.9,0,8.9-4,8.9-8.9H43C43,90.3,47,94.3,51.9,94.3z M80.6,67.7V43.4c0-13.6-9.4-25-22.1-28v-3    c0-3.7-3-6.6-6.6-6.6s-6.6,3-6.6,6.6v3c-12.7,3-22.1,14.4-22.1,28v24.3l-8.9,8.9V81h75.2v-4.4L80.6,67.7z"/></g></g></svg>
+            {{!-- <svg id="notification" xmlns="http://www.w3.org/2000/svg" fill="#500000"
+                xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" version="1.1" x="0px" y="0px"
+                viewBox="0 0 100 125" style="enable-background:new 0 0 100 100;" xml:space="preserve">
+                <g>
+                    <g>
+                        <path
+                            d="M51.9,94.3c4.9,0,8.9-4,8.9-8.9H43C43,90.3,47,94.3,51.9,94.3z M80.6,67.7V43.4c0-13.6-9.4-25-22.1-28v-3    c0-3.7-3-6.6-6.6-6.6s-6.6,3-6.6,6.6v3c-12.7,3-22.1,14.4-22.1,28v24.3l-8.9,8.9V81h75.2v-4.4L80.6,67.7z" />
+                    </g>
+                </g>
+            </svg>
             --}}
 
             <div id="side-list-menu-box">
 
-          
-           <svg id="menu"   xmlns="http://www.w3.org/2000/svg" fill="#ffffff"xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 48 60" style="enable-background:new 0 0 48 48;" xml:space="preserve"  width="36px"height="36px"   ><g><path  d="M41.79,5H20.14c-2.21,0-4,1.79-4,4s1.79,4,4,4h21.64c2.21,0,4-1.79,4-4S44,5,41.79,5z M41.79,12H20.14c-1.65,0-3-1.35-3-3   c0-1.65,1.35-3,3-3h21.64c1.65,0,3,1.35,3,3C44.79,10.66,43.44,12,41.79,12z"/><path d="M41.79,19.57H20.14c-2.21,0-4,1.79-4,4s1.79,4,4,4h21.64c2.21,0,4-1.79,4-4S44,19.57,41.79,19.57z M41.79,26.57H20.14   c-1.65,0-3-1.35-3-3c0-1.65,1.35-3,3-3h21.64c1.65,0,3,1.35,3,3C44.79,25.23,43.44,26.57,41.79,26.57z"/><path d="M41.79,34.14H20.14c-2.21,0-4,1.79-4,4s1.79,4,4,4h21.64c2.21,0,4-1.79,4-4S44,34.14,41.79,34.14z M41.79,41.14H20.14   c-1.65,0-3-1.35-3-3c0-1.65,1.35-3,3-3h21.64c1.65,0,3,1.35,3,3C44.79,39.8,43.44,41.14,41.79,41.14z"/><path d="M11.24,4.32H4.37c-1.65,0-2.69,1.79-1.86,3.22l3.44,5.96c0.41,0.72,1.14,1.08,1.86,1.08c0.72,0,1.45-0.36,1.86-1.08   l3.43-5.96C13.92,6.11,12.89,4.32,11.24,4.32z M12.23,7.04L8.8,13c-0.3,0.52-0.8,0.58-1,0.58c-0.2,0-0.7-0.06-1-0.58L3.37,7.04   c-0.3-0.52-0.1-0.98,0-1.15c0.1-0.17,0.4-0.57,1-0.57h6.87c0.6,0,0.9,0.4,1,0.57S12.53,6.52,12.23,7.04z"/><path d="M11.23,18.87H4.37c-1.65,0-2.69,1.79-1.86,3.22l3.44,5.96c0.41,0.72,1.14,1.08,1.86,1.08c0.72,0,1.45-0.36,1.86-1.08   l3.43-5.96C13.92,20.66,12.89,18.87,11.23,18.87z M12.23,21.59L8.8,27.55c-0.3,0.52-0.8,0.58-1,0.58c-0.2,0-0.7-0.06-1-0.58   l-3.44-5.96c-0.3-0.52-0.1-0.98,0-1.15c0.1-0.17,0.4-0.57,1-0.57h6.87c0.6,0,0.9,0.4,1,0.57C12.33,20.62,12.53,21.07,12.23,21.59z"/><path d="M5.94,42.61c0.41,0.72,1.14,1.08,1.86,1.08c0.72,0,1.45-0.36,1.86-1.08l3.43-5.96c0.83-1.43-0.21-3.22-1.86-3.22H4.37   c-1.65,0-2.69,1.79-1.86,3.22L5.94,42.61z M3.37,35c0.1-0.17,0.4-0.57,1-0.57h6.87c0.6,0,0.9,0.4,1,0.57c0.1,0.17,0.3,0.63,0,1.15   L8.8,42.11c-0.3,0.52-0.8,0.58-1,0.58c-0.2,0-0.7-0.06-1-0.58l-3.44-5.96C3.07,35.63,3.27,35.17,3.37,35z"/></g></svg>
 
-            <div id="menu-box">
-                <div id="menu_close">X </div>
-                <div class="menu-box-child" id="find_new_friend"> <a href="./search_friend">  Find New Friends</a></div>
-                <div class="menu-box-child">Search New Friends</div>
-                <div class="menu-box-child">Search New Friends</div>
-                <div class="menu-box-child">Search New Friends</div>
-                <div class="menu-box-child">Search New Friends</div>
+                <svg id="menu" xmlns="http://www.w3.org/2000/svg" fill="#ffffff"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 48 60"
+                    style="enable-background:new 0 0 48 48;" xml:space="preserve" width="36px" height="36px">
+                    <g>
+                        <path
+                            d="M41.79,5H20.14c-2.21,0-4,1.79-4,4s1.79,4,4,4h21.64c2.21,0,4-1.79,4-4S44,5,41.79,5z M41.79,12H20.14c-1.65,0-3-1.35-3-3   c0-1.65,1.35-3,3-3h21.64c1.65,0,3,1.35,3,3C44.79,10.66,43.44,12,41.79,12z" />
+                        <path
+                            d="M41.79,19.57H20.14c-2.21,0-4,1.79-4,4s1.79,4,4,4h21.64c2.21,0,4-1.79,4-4S44,19.57,41.79,19.57z M41.79,26.57H20.14   c-1.65,0-3-1.35-3-3c0-1.65,1.35-3,3-3h21.64c1.65,0,3,1.35,3,3C44.79,25.23,43.44,26.57,41.79,26.57z" />
+                        <path
+                            d="M41.79,34.14H20.14c-2.21,0-4,1.79-4,4s1.79,4,4,4h21.64c2.21,0,4-1.79,4-4S44,34.14,41.79,34.14z M41.79,41.14H20.14   c-1.65,0-3-1.35-3-3c0-1.65,1.35-3,3-3h21.64c1.65,0,3,1.35,3,3C44.79,39.8,43.44,41.14,41.79,41.14z" />
+                        <path
+                            d="M11.24,4.32H4.37c-1.65,0-2.69,1.79-1.86,3.22l3.44,5.96c0.41,0.72,1.14,1.08,1.86,1.08c0.72,0,1.45-0.36,1.86-1.08   l3.43-5.96C13.92,6.11,12.89,4.32,11.24,4.32z M12.23,7.04L8.8,13c-0.3,0.52-0.8,0.58-1,0.58c-0.2,0-0.7-0.06-1-0.58L3.37,7.04   c-0.3-0.52-0.1-0.98,0-1.15c0.1-0.17,0.4-0.57,1-0.57h6.87c0.6,0,0.9,0.4,1,0.57S12.53,6.52,12.23,7.04z" />
+                        <path
+                            d="M11.23,18.87H4.37c-1.65,0-2.69,1.79-1.86,3.22l3.44,5.96c0.41,0.72,1.14,1.08,1.86,1.08c0.72,0,1.45-0.36,1.86-1.08   l3.43-5.96C13.92,20.66,12.89,18.87,11.23,18.87z M12.23,21.59L8.8,27.55c-0.3,0.52-0.8,0.58-1,0.58c-0.2,0-0.7-0.06-1-0.58   l-3.44-5.96c-0.3-0.52-0.1-0.98,0-1.15c0.1-0.17,0.4-0.57,1-0.57h6.87c0.6,0,0.9,0.4,1,0.57C12.33,20.62,12.53,21.07,12.23,21.59z" />
+                        <path
+                            d="M5.94,42.61c0.41,0.72,1.14,1.08,1.86,1.08c0.72,0,1.45-0.36,1.86-1.08l3.43-5.96c0.83-1.43-0.21-3.22-1.86-3.22H4.37   c-1.65,0-2.69,1.79-1.86,3.22L5.94,42.61z M3.37,35c0.1-0.17,0.4-0.57,1-0.57h6.87c0.6,0,0.9,0.4,1,0.57c0.1,0.17,0.3,0.63,0,1.15   L8.8,42.11c-0.3,0.52-0.8,0.58-1,0.58c-0.2,0-0.7-0.06-1-0.58l-3.44-5.96C3.07,35.63,3.27,35.17,3.37,35z" />
+                    </g>
+                </svg>
 
-                <div class="menu-box-child">Search New Friends</div>
-                <div class="menu-box-child">Settings </div>
-            </div>
-           
-            </div>
-               
-            </header>
-            <hr>
-            <div id="message-body">
+                <div id="menu-box">
+                    <div id="menu_close">X </div>
+                    <div class="menu-box-child" id="find_new_friend"> <a href="./find_friend"> Find New Friends</a>
+                    </div>
 
+                    <div class="menu-box-child" id="noti">Notifications</div>
+                    <div class="menu-box-child" id="rec_req">Recieved Reqest</div>
+                    <div class="menu-box-child">Search New Friends</div>
 
-
-                <div class="message left">
-                    <span class="message-left">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing . Ipsa, quibusdam.
-                    </span>
-                    <span class="message-time-left">10:34 PM AA</span>
+                    <div class="menu-box-child">Search New Friends</div>
+                    <div class="menu-box-child">Settings </div>
                 </div>
-
-
-
-
-                <div class="message right">
-                    <span class="message-right">
-                        hello i right
-                        glroemdfgfg fg d
-                        Lorem ipsum dolor si adipisicing elit.
-                        Cupiditate, iusto?
-                        gjfl jgfl jg dfk
-                        gf
-                    </span>
-                    <span class="message-time-right">10:34 PM </span>
-                </div>
-
-
-            
-
-
-
-
-
-
-
-
-
-
-
-
-                <div class="message right">
-                    <span class="message-right">
-                        hello i right
-                        glroemdfgfg fg d
-                        Lorem ipsum dolor si adipisicing elit.
-                        Cupiditate, iusto?
-                        gjfl jgfl jg dfk
-                        gf
-                        Lorem ipsum <span class="search-item-bg">hello1234 </span> sit amet consectetur adipisicing
-                        elit. Commodi eveniet debitis porro dicta nesciunt consectetur molestiae eaque pariatur quod
-                        vel?
-                    </span>
-                    <span class="message-time-right">10:34 PM </span>
-                </div>
-
-
-                <div class="message right">
-                    <span class="message-right">
-                        hello i right
-                        glroemdfgfg fg d
-                        Lorem ipsum dolor si adipisicing elit.
-                        Cupiditate, iusto?
-                        gjfl jgfl jg dfk
-                        gf
-                        Lorem ipsum <span class="search-item-bg">hello1234 </span> sit amet consectetur adipisicing
-                        elit. Commodi eveniet debitis porro dicta nesciunt consectetur molestiae eaque pariatur quod
-                        vel?
-                    </span>
-                    <span class="message-time-right">10:34 PM </span>
-                </div>
-
-
-                <div class="message right">
-                    <span class="message-right">
-                        hello i right
-                        glroemdfgfg fg d
-                        Lorem ipsum dolor si adipisicing elit.
-                        Cupiditate, iusto?
-                        gjfl jgfl jg dfk
-                        gf
-                        Lorem ipsum <span class="search-item-bg">hello1234 </span> sit amet consectetur adipisicing
-                        elit. Commodi eveniet debitis porro dicta nesciunt consectetur molestiae eaque pariatur quod
-                        vel?
-                    </span>
-                    <span class="message-time-right">10:34 PM </span>
-                </div>
-
-
-                <div class="message right">
-                    <span class="message-right">
-                        hello i right
-                        glroemdfgfg fg d
-                        Lorem ipsum dolor si adipisicing elit.
-                        Cupiditate, iusto?
-                        gjfl jgfl jg dfk
-                        gf
-                        Lorem ipsum <span class="search-item-bg">hello1234 </span> sit amet consectetur adipisicing
-                        elit. Commodi eveniet debitis porro dicta nesciunt consectetur molestiae eaque pariatur quod
-                        vel?
-                    </span>
-                    <span class="message-time-right">10:34 PM </span>
-                </div>
-
-
-
-                <button id="sub_button" type="submit"> click me </button>
 
             </div>
-            <form action="" method="POST" id="myform">
-                <input type="text" name="message" id="message_input" autocomplete="off"
-                    placeholder="Write message here...">
-                <button id="sub_but" type="button"> Send</button>
 
-            </form>
+        </header>
+        <hr>
+        <div id="message-body" style="display:none">
+
+
+
+            <div class="message left">
+                <span class="message-left">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing . Ipsa, quibusdam.
+                </span>
+                <span class="message-time-left">10:34 PM AA</span>
+            </div>
+
+
+
+
+            <div class="message right">
+                <span class="message-right">
+                    hello i right
+                    glroemdfgfg fg d
+                    Lorem ipsum dolor si adipisicing elit.
+                    Cupiditate, iusto?
+                    gjfl jgfl jg dfk
+                    gf
+                </span>
+                <span class="message-time-right">10:34 PM </span>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="message right">
+                <span class="message-right">
+                    hello i right
+                    glroemdfgfg fg d
+                    Lorem ipsum dolor si adipisicing elit.
+                    Cupiditate, iusto?
+                    gjfl jgfl jg dfk
+                    gf
+                    Lorem ipsum <span class="search-item-bg">hello1234 </span> sit amet consectetur adipisicing
+                    elit. Commodi eveniet debitis porro dicta nesciunt consectetur molestiae eaque pariatur quod
+                    vel?
+                </span>
+                <span class="message-time-right">10:34 PM </span>
+            </div>
+
+
+            <div class="message right">
+                <span class="message-right">
+                    hello i right
+                    glroemdfgfg fg d
+                    Lorem ipsum dolor si adipisicing elit.
+                    Cupiditate, iusto?
+                    gjfl jgfl jg dfk
+                    gf
+                    Lorem ipsum <span class="search-item-bg">hello1234 </span> sit amet consectetur adipisicing
+                    elit. Commodi eveniet debitis porro dicta nesciunt consectetur molestiae eaque pariatur quod
+                    vel?
+                </span>
+                <span class="message-time-right">10:34 PM </span>
+            </div>
+
+
+            <div class="message right">
+                <span class="message-right">
+                    hello i right
+                    glroemdfgfg fg d
+                    Lorem ipsum dolor si adipisicing elit.
+                    Cupiditate, iusto?
+                    gjfl jgfl jg dfk
+                    gf
+                    Lorem ipsum <span class="search-item-bg">hello1234 </span> sit amet consectetur adipisicing
+                    elit. Commodi eveniet debitis porro dicta nesciunt consectetur molestiae eaque pariatur quod
+                    vel?
+                </span>
+                <span class="message-time-right">10:34 PM </span>
+            </div>
+
+
+            <div class="message right">
+                <span class="message-right">
+                    hello i right
+                    glroemdfgfg fg d
+                    Lorem ipsum dolor si adipisicing elit.
+                    Cupiditate, iusto?
+                    gjfl jgfl jg dfk
+                    gf
+                    Lorem ipsum <span class="search-item-bg">hello1234 </span> sit amet consectetur adipisicing
+                    elit. Commodi eveniet debitis porro dicta nesciunt consectetur molestiae eaque pariatur quod
+                    vel?
+                </span>
+                <span class="message-time-right">10:34 PM </span>
+            </div>
+
+
+
+            <button id="sub_button" type="submit"> click me </button>
 
         </div>
+        <form action="" method="POST" id="myform" style="display:none">
+            <input type="text" name="message" id="message_input" autocomplete="off" placeholder="Write message here...">
+            <button id="sub_but" type="button"> Send</button>
+
+        </form>
+
+
+
+        <div  >
+            
+            <div id="noti_box" style="display: none;">
+
+
+             <div class="friend-profile">
+                    <div class="friend-image">
+                        <img src="racoon.jpg" alt="profile-image">
+                    </div>
+                    <span class="profile  noti-profile">
+                        <p class="user-name">Manpreeet </p>
+                        <p class="user-time">Hefffffffff chat app </p>
+
+                    </span>
+                    <div class="send-request-but">Send Friend Request</div>
+
+                </div>
+
+
+     <div class="friend-profile">
+                    <div class="friend-image">
+                        <img src="racoon.jpg" alt="profile-image">
+                    </div>
+                    <span class="profile  noti-profile">
+                        <p class="user-name">Manpreeet </p>
+                        <p class="user-time">Hefffffffff chat app </p>
+
+                    </span>
+                    <div class="send-request-but">Send Friend Request</div>
+
+                </div>
+
+
+     <div class="friend-profile">
+                    <div class="friend-image">
+                        <img src="racoon.jpg" alt="profile-image">
+                    </div>
+                    <span class="profile  noti-profile">
+                        <p class="user-name">Manpreeet </p>
+                        <p class="user-time">Hefffffffff chat app </p>
+
+                    </span>
+                    <div class="send-request-but">Send Friend Request</div>
+
+                </div>
+
+
+
+
+
+
+                <div class="friend-profile">
+                    <div class="friend-image">
+                        <img src="racoon.jpg" alt="profile-image">
+                    </div>
+                    <span class="profile  noti-profile">
+                        <p class="user-name">Manpreeet </p>
+                        <p class="user-time">Hefffffffff chat app </p>
+
+                    </span>
+                    <div class="send-request-but">Send Friend Request</div>
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+            </div>
+            <div id="req_box">
+
+
+             <div class="friend-profile">
+                    <div class="friend-image">
+                        <img src="racoon.jpg" alt="profile-image">
+                    </div>
+                    <span class="profile  noti-profile">
+                        <p class="user-name">Manpreeet </p>
+                        <p class="user-time">Hefffffffff chat app </p>
+
+                    </span>
+                    <div class="send-request-but">Send Friend Request</div>
+
+                </div>
+
+
+     <div class="friend-profile">
+                    <div class="friend-image">
+                        <img src="racoon.jpg" alt="profile-image">
+                    </div>
+                    <span class="profile  noti-profile">
+                        <p class="user-name">Manpreeet </p>
+                        <p class="user-time">Hefffffffff chat app </p>
+
+                    </span>
+                    <div class="send-request-but">Send Friend Request</div>
+
+                </div>
+
+
+     <div class="friend-profile">
+                    <div class="friend-image">
+                        <img src="racoon.jpg" alt="profile-image">
+                    </div>
+                    <span class="profile  noti-profile">
+                        <p class="user-name">Manpreeet </p>
+                        <p class="user-time">Hefffffffff chat app </p>
+
+                    </span>
+                    <div class="send-request-but">Send Friend Request</div>
+
+                </div>
+
+
+
+
+
+
+
+            </div>
+
+
+        </div>
+
+    </div>
 
 
 
@@ -323,8 +479,8 @@
     <!-- <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script> -->
     <script src="http://localhost:8000/socket.io/socket.io.js"></script>
     <script src="first-col.js"></script>
-     <script src="js/home.js"></script>
- 
+    <script src="js/home.js"></script>
+
 
 </body>
 
