@@ -204,6 +204,71 @@ app.post('/accept_friend_request', (req, res) => {
    
 });
 
+app.post('/fetch_friend', (req, res) => {
+
+
+  
+  let cookie_data = jwt.decode( req.cookies.li); 
+  if(cookie_data){
+    cookie_data.friend_u_id=req.body.friend_u_id; 
+    cookie_data.date=req.body.date; 
+    cookie_data.time=req.body.time; 
+    
+  }
+
+ console.log("incoming cookie data from fetch_friend",cookie_data); 
+  axios({
+    method: 'post',
+    url:  process.env.API_URL+"/fetch_friend"   ,
+    data: cookie_data
+  }).then(function (response) {
+    console.log(response.data);
+    res.send(response.data); 
+  }).catch(err=>{
+    console.log("error is: "); 
+    console.log(err); 
+    res.status(500).send({"status":"Internal server error"});
+  });
+
+   
+});
+
+
+
+
+
+
+
+app.post('/display_noti', (req, res) => {
+
+
+  
+  let cookie_data = jwt.decode( req.cookies.li); 
+  if(cookie_data){
+    cookie_data.friend_p_id=req.body.p_id; 
+    cookie_data.date=req.body.date; 
+    cookie_data.time=req.body.time; 
+    cookie_data.signal=req.body.signal; 
+    
+  }
+
+ console.log("incoming cookie data from display_noti",cookie_data); 
+  axios({
+    method: 'post',
+    url:  process.env.API_URL+"/display_noti"   ,
+    data: cookie_data
+  }).then(function (response) {
+    console.log(response.data);
+    res.send(response.data); 
+  }).catch(err=>{
+    console.log("error is: "); 
+    console.log(err); 
+    res.status(500).send({"status":"Internal server error"});
+  });
+
+   
+});
+
 
 
 

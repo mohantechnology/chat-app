@@ -654,8 +654,10 @@ a{
 }
 
 #req_box{
+  
     overflow:auto ; 
     height: 84vh;
+
  
  
  }
@@ -715,5 +717,19 @@ a{
       position: absolute;
       right:17px;
       top:12px;  
+   }
+
+
+   .noti-mess{
+       /* border:1px solid black;  */
+       border-radius: 5px; ;
+       width: 80%; 
+     margin: 10px auto; 
+     padding:11px;
+    background-color:rgb(233 227 232); 
+       font-size: 14px;
+     
+       font-family: 'Roboto', sans-serif;
+       color: rgba(0, 0, 0, 0.7);
    }
    
