@@ -30,12 +30,16 @@ var noti = document.getElementById("noti");
 var rec_req =document.getElementById("rec_req"); 
 var req_box =document.getElementById("req_box"); 
 //-----------------first col 
-let first_col_friend_list = document.getElementById("first-col-friend-list");
-let first_col_input_box = document.getElementById("first-col-input-box");
-let first_col_close_icon = document.getElementById("first-col-close-icon");
-let  first_col_search_icon = document.getElementById("first-col-search-icon");
-let  first_col_search_friend_box = document.getElementById("first-col-search-friend-box");
+var  first_col_friend_list = document.getElementById("first-col-friend-list");
+var  first_col_input_box = document.getElementById("first-col-input-box");
+var  first_col_close_icon = document.getElementById("first-col-close-icon");
+var   first_col_search_icon = document.getElementById("first-col-search-icon");
+var   first_col_search_friend_box = document.getElementById("first-col-search-friend-box");
 
+
+var user_id; 
+var curr_f_id; 
+var prev_f_id ; 
 
 
 var  ping_audio = new Audio("ping.mp3"); 
@@ -244,7 +248,12 @@ return `   // <div class="message middle">
      
      let param =  "friend_u_id=" + id+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
         xhttp.send(param);
-    
+        //connect to this friend ;
+         
+        console.log("connected to  ",id); 
+        socket.emit("connected-to", { prev_f_id:prev_f_id,curr_f_id:id,u_id:user_id});
+        document.cookie = "curr_f_id="+id+"; path=/;";
+       curr_f_id = id; 
 
     }
  
@@ -547,18 +556,6 @@ input_search_keyword.value = "";
 });
 
 
-socket.emit("new-user-connected", { "name": name });
-
-
-document.getElementById("sub_button").addEventListener("click", () => {
-socket.emit('send-specific-client');
-})
-
-
-
-
-
-
 
 
 
@@ -710,7 +707,7 @@ if (id) {
 myform.addEventListener("submit", (e) => {
 e.preventDefault();
 let curr_time = (new Date()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-socket.emit('message-sent', { "message": message_input.value, "time": curr_time });
+socket.emit('send-message', { "message": message_input.value, "time": curr_time , date:(new Date()).toLocaleDateString,curr_f_id:curr_f_id});
 
 let temp1 = document.createElement("div");
 temp1.classList = "message left";
@@ -732,11 +729,33 @@ temp1.appendChild(temp2);
 mess_bd.appendChild(temp1);
 
 
-
-message_input.value = "";
 console.log(message_input.value);
+message_input.value = "";
+
 set_scroll_to_bottom(mess_bd);
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ----- socket --------------
+
+socket.emit("new-user-connected", { "name": name });
+
+
+document.getElementById("sub_button").addEventListener("click", () => {
+socket.emit('send-specific-client');
+})
 
 
 socket.on("new-user-connected", (data) => {
@@ -760,22 +779,27 @@ set_scroll_to_bottom(mess_bd);
 });
 
 
-socket.on("user-disconnected", (data) => {
-console.log("new user in client ");
 
 
-let temp1 = document.createElement("div");
-temp1.classList = "message middle";
-let temp2 = document.createElement("span");
-temp2.textContent = data + " leave the Chat ";
-temp2.classList = "message-middle";
-temp1.appendChild(temp2);
-mess_bd.appendChild(temp1);
 
-set_scroll_to_bottom(mess_bd);
+socket.on("setid", (data) => {
+    console.log("setting id to",data); 
+   user_id=data.id; 
 });
 
-socket.on("message-recived", (data) => {
+
+
+
+
+
+
+
+
+
+
+
+
+socket.on("rec-message", (data) => {
 console.log("data recied  ");
 console.log(data);
 
@@ -788,8 +812,6 @@ if (data.message.trim() == "") {
 } else {
     temp2.textContent = data.message;
 }
-
-
 temp2.classList = "message-right";
 temp1.appendChild(temp2);
 temp2 = document.createElement("span");
@@ -806,6 +828,27 @@ set_scroll_to_bottom(mess_bd);
 
 });
 
+
+socket.on("redirect", (data) => {
+       location  = "./login";     
+    });
+    
+// socket.on("user-disconnected", (data) => {
+//     console.log("new user in client ");
+    
+    
+//     let temp1 = document.createElement("div");
+//     temp1.classList = "message middle";
+//     let temp2 = document.createElement("span");
+//     temp2.textContent = data + " leave the Chat ";
+//     temp2.classList = "message-middle";
+//     temp1.appendChild(temp2);
+//     mess_bd.appendChild(temp1);
+    
+//     set_scroll_to_bottom(mess_bd);
+//     });
+    
+
 socket.on("user-disconnected", (data) => {
 console.log("new user in client ");
 
@@ -821,25 +864,17 @@ mess_bd.appendChild(temp1);
 set_scroll_to_bottom(mess_bd);
 });
 
-socket.on("recieved-pecific-client", (data) => {
+// socket.on("recieved-pecific-client", (data) => {
 
-console.log(data);
-set_scroll_to_bottom(mess_bd);
-
-
-
-});
+// console.log(data);
+// set_scroll_to_bottom(mess_bd);
 
 
 
+// });
 
 
 
-
-
-
-
-
-console.log("data is: ); "); 
+// console.log("data is: ); "); 
 // console.log({{status}}); 
 
