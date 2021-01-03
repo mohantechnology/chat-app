@@ -12,6 +12,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser"); 
 
 
+var port = process.env.PORT || 3000;
+
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
 console.log(__dirname, '/views');
@@ -393,8 +395,8 @@ app.get("/*",(req,res)=>{
 //   var token = buffer.toString('hex');
 // });
 // var token = crypto.randomBytes(64).toString('hex');
-app.listen(3000, () => {
-  console.log("listening at 3000");
+app.listen(port, () => {
+  console.log("listening at "  + port );
 });
 
 
