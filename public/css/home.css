@@ -147,6 +147,10 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         text-align: center;
 
     }
+    .message-middle{
+        background-color:white;
+        border-radius:5px; 
+    }
 
     .message {
 

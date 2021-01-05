@@ -36,6 +36,8 @@ var  first_col_close_icon = document.getElementById("first-col-close-icon");
 var   first_col_search_icon = document.getElementById("first-col-search-icon");
 var   first_col_search_friend_box = document.getElementById("first-col-search-friend-box");
 
+var message_list   = {}; 
+
 
 var user_id; 
 var curr_f_id; 
@@ -170,41 +172,71 @@ return `    <div class="friend-profile">
   }
     
 
-  function make_element_for_mess_bd(data) {
+//   function make_element_for_mess_bd(data) {
 
 
-if(data.direction=="in"){
-    return `     <div class="message right">
-    <span class="message-right">${data.message}</span>
-    <span class="message-time-right">${data.time}</span>
-</div>
+// if(data.direction=="in"){
+//     return `     <div class="message right">
+//     <span class="message-right">${data.message}</span>
+//     <span class="message-time-right">${data.time}</span>
+// </div>
 
-`;
-}
-else   if(data.direction=="out")    {
-    `
-    <div class="message left">
-    <span class="message-left">${data.message}
-    </span>
-    <span class="message-time-left">${data.time}</span>
-</div>`
+// `;
+// }
+// else   if(data.direction=="out")    {
+//     `
+//     <div class="message left">
+//     <span class="message-left">${data.message}
+//     </span>
+//     <span class="message-time-left">${data.time}</span>
+// </div>`
 
-}
-return `   // <div class="message middle">
-//                 <span class="message-middle">
-//                   ${data.message}
+// }
+// return `   // <div class="message middle">
+// //                 <span class="message-middle">
+// //                   ${data.message}
 
-//                 </span>
-//             </div>
-`
+// //                 </span>
+// //             </div>
+// `
     
      
     
     
     
-      }
+//       }
 
  
+function make_message_element(data) {
+ 
+    let temp = document.createElement("div") 
+    data.message = data.message.trim()
+    if (data.message== "") {
+      data.innerHTML = "&nbsp;";
+  } 
+  
+      if(data.direction=="in"){
+          temp.classList ="message right"; 
+          temp.innerHTML = `    <span class="message-right">${data.message}</span>
+          <span class="message-time-right">${data.time}</span>  `;
+          
+      }
+      else   if(data.direction=="out")    {
+          temp.classList ="message left"; 
+          temp.innerHTML = `
+          <span class="message-left">${data.message}
+          </span>
+          <span class="message-time-left">${data.time}</span>`
+   
+      }
+      else {
+          temp.classList ="message middle"; 
+          temp.innerHTML = `       <span class="message-middle">  ${data.message}  </span> `
+      }
+  
+      return temp;          }
+      
+  
 
 //fetch friend chat message 
  first_col_friend_list.addEventListener("click",(e)=>{
@@ -216,10 +248,10 @@ return `   // <div class="message middle">
     console.log("clcicked->"); 
     
     if(e.target.className=="friend-profile"){
-
+        mess_bd.innerHTML = ""; 
         let xhttp = new XMLHttpRequest();
         let id=e.target.id;
-           
+        let total_mess_len = message_list[id]? message_list[id].length : 0;
            console.log("id=" + id); 
         xhttp.open("POST", "./fetch_friend", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -229,24 +261,18 @@ return `   // <div class="message middle">
                 console.log(data);
                 if (data.status == "ok") {
                    let len = data.data.length; 
-                   let html_str = ""; 
-                   for(let i=0 ; i<len; i++){
-                       html_str += make_element_for_mess_bd(data.data[i]); 
+                   
+                   for(let i=len-1; i>=0; i--){
+                     mess_bd.prepend (make_message_element(data.data[i])); 
     
-                   }
-                     
-                   mess_bd.innerHTML = html_str; 
-                   
-                      console.log(data);
-
-                   
-                }
-                ;
+                   } 
+                    console.log(data);
+            } ;
             }
         }
         // let param = "signal=" + 0+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
      
-     let param =  "friend_u_id=" + id+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+     let param =  "friend_u_id=" + id+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString()) + "&len="+total_mess_len;
         xhttp.send(param);
         //connect to this friend ;
          
@@ -255,8 +281,21 @@ return `   // <div class="message middle">
         document.cookie = "curr_f_id="+id+"; path=/;";
        curr_f_id = id; 
 
+       if(total_mess_len!=0){
+           let elem = {direction:"ser" , message:"unreaded messages"}
+        mess_bd.append(make_message_element( elem)); 
+        mess_bd.append(make_message_element(  message_list[id].pop())); 
+        set_scroll_to_bottom(mess_bd); 
+       }
+           
+        for(i=1; i<total_mess_len; i++){
+           
+            mess_bd.append(make_message_element(  message_list[id].pop())); 
+        }
+  
+        e.target.children[0].children[1].classList.add("not-visible"); 
     }
- 
+  
 
 }); 
 
@@ -707,7 +746,7 @@ if (id) {
 myform.addEventListener("submit", (e) => {
 e.preventDefault();
 let curr_time = (new Date()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-socket.emit('send-message', { "message": message_input.value, "time": curr_time , date:(new Date()).toLocaleDateString,curr_f_id:curr_f_id});
+socket.emit('send-message', { "message": message_input.value, "time": curr_time , date:(new Date()).toLocaleDateString,curr_f_id:curr_f_id,user_id:user_id});
 
 let temp1 = document.createElement("div");
 temp1.classList = "message left";
@@ -798,32 +837,61 @@ socket.on("setid", (data) => {
 
 
 
-
 socket.on("rec-message", (data) => {
 console.log("data recied  ");
 console.log(data);
 
-let temp1 = document.createElement("div");
-temp1.classList = "message right";
-let temp2 = document.createElement("span");
+// if()
+data.direction = "in"; 
+if(data.user_id==curr_f_id){
+     
+    temp = make_message_element(data); 
+   
+    console.log("temp is: ") ; 
+    console.log(temp);
+     mess_bd.appendChild(temp);
+     set_scroll_to_bottom(mess_bd);
+} 
+else{
 
-if (data.message.trim() == "") {
-    temp2.innerHTML = "&nbsp;";
-} else {
-    temp2.textContent = data.message;
+  
+       if(message_list[data.user_id]!=undefined ){
+            
+        message_list[data.user_id].push(data); 
+       }else{
+        message_list[data.user_id] = [data]; 
+       }
+      let elem =  document.getElementById(data.user_id).children[0].children[1]; 
+      elem.children[0].textContent = message_list[data.user_id].length ; 
+      elem.classList.remove("not-visible"); 
+    //   elem.classList.add("not-visible"); 
+      console.log(elem); 
 }
-temp2.classList = "message-right";
-temp1.appendChild(temp2);
-temp2 = document.createElement("span");
-temp2.textContent = data.time;
-temp2.classList = "message-time-right";
-temp1.appendChild(temp2);
-mess_bd.appendChild(temp1);
+
+   
 ping_audio.currentTime = 0;
-ping_audio.play();
+    ping_audio.play();
+    
+    console.log(message_list); 
+// return; 
 
-set_scroll_to_bottom(mess_bd);
-
+// let temp1 = document.createElement("div");
+//     temp1.classList = "message right";
+//     let temp2 = document.createElement("span");
+    
+//     if (data.message.trim() == "") {
+//         temp2.innerHTML = "&nbsp;";
+//     } else {
+//         temp2.textContent = data.message;
+//     }
+//     temp2.classList = "message-right";
+//     temp1.appendChild(temp2);
+//     temp2 = document.createElement("span");
+//     temp2.textContent = data.time;
+//     temp2.classList = "message-time-right";
+//     temp1.appendChild(temp2);
+//     mess_bd.appendChild(temp1);
+   
 
 
 });
