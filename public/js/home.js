@@ -35,15 +35,16 @@ var  first_col_input_box = document.getElementById("first-col-input-box");
 var  first_col_close_icon = document.getElementById("first-col-close-icon");
 var   first_col_search_icon = document.getElementById("first-col-search-icon");
 var   first_col_search_friend_box = document.getElementById("first-col-search-friend-box");
-
+var header_name = document.getElementById("header_name"); 
 var message_list   = {}; 
-
+var d_img_url = "phone_img.jpg"
 
 var user_id; 
 var curr_f_id; 
 var prev_f_id ; 
 
-
+document.cookie = "date="+ (new Date().toLocaleDateString())+"; path=/;";
+document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
 var  ping_audio = new Audio("ping.mp3"); 
 
     
@@ -135,7 +136,7 @@ function make_element_for_friend_req(data) {
 
     return  `<div class="friend-profile">
      <div class="friend-image">
-         <img src="${data.sender_img}" alt="profile-image">
+         <img src="${data.sender_img ?data.sender_img:d_img_url}" alt="profile-image">
      </div>
      <span class="profile  noti-profile">
          <p class="user-name">${data.sender_name} </p>
@@ -154,7 +155,7 @@ function make_element_for_friend_req(data) {
 
 return `    <div class="friend-profile">
                     <div class="friend-image">
-                        <img src="${data.sender_img}" alt="profile-image">
+                        <img src="${data.sender_img?data.sender_img:d_img_url}" alt="profile-image">
                     </div>
                     <span class="profile  noti-profile">
                         <p class="user-name">${data.sender_name}</p>
@@ -246,8 +247,13 @@ function make_message_element(data) {
     // noti_box.style.display= "none"; 
     // req_box.style.display="block";
     console.log("clcicked->"); 
+
+    document.cookie = "date="+ (new Date().toLocaleDateString())+"; path=/;";
+document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
     
-    if(e.target.className=="friend-profile"){
+    if(e.target.className=="friend-profile" && curr_f_id!=e.target.id){
+
+        document.cookie = "curr_f_id="+(e.target.id)+"; path=/;";
         mess_bd.innerHTML = ""; 
         let xhttp = new XMLHttpRequest();
         let id=e.target.id;
@@ -266,8 +272,18 @@ function make_message_element(data) {
                      mess_bd.prepend (make_message_element(data.data[i])); 
     
                    } 
+                
+                   mess_bd.scrollTop = mess_bd.children[len-1].offsetTop; 
+                     console.log("seting scroll ot len-1 ",mess_bd.children[len-1].offsetTop); 
+                  
+
                     console.log(data);
             } ;
+           console.log("setted img"); 
+            header_name.children[0].src=data.img?data.img: "racoon.jpg";
+            header_name.children[1].children[0].textContent = data.name; 
+            header_name.children[1].children[1].textContent = data.current_status; 
+            
             }
         }
         // let param = "signal=" + 0+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
@@ -278,16 +294,18 @@ function make_message_element(data) {
          
         console.log("connected to  ",id); 
         socket.emit("connected-to", { prev_f_id:prev_f_id,curr_f_id:id,u_id:user_id});
-        document.cookie = "curr_f_id="+id+"; path=/;";
+      
        curr_f_id = id; 
 
        if(total_mess_len!=0){
-           let elem = {direction:"ser" , message:"unreaded messages"}
+           let elem = {direction:"ser" , message:"unreaded messages ("+total_mess_len+")"}
         mess_bd.append(make_message_element( elem)); 
         mess_bd.append(make_message_element(  message_list[id].pop())); 
-        set_scroll_to_bottom(mess_bd); 
+        
        }
-           
+       console.log("setting scroll to bottom "); 
+        // mess_bd.scrollTop = src_id.offsetTop - 20;
+        // set_scroll_to_bottom(mess_bd);    
         for(i=1; i<total_mess_len; i++){
            
             mess_bd.append(make_message_element(  message_list[id].pop())); 
@@ -295,8 +313,8 @@ function make_message_element(data) {
   
         e.target.children[0].children[1].classList.add("not-visible"); 
     }
-  
 
+  
 }); 
 
 
@@ -306,7 +324,8 @@ function make_message_element(data) {
 
   noti.addEventListener("click",()=>{
     menu_box.style.display="none"; 
-    // message_body.style.display="none"; 
+    mess_bd.style.display="none"; 
+    noti_box.style.display="block"; 
     //TODO
 
     let xhttp = new XMLHttpRequest();
@@ -353,9 +372,12 @@ rec_req.addEventListener("click",()=>{
     //TODO
 
     let xhttp = new XMLHttpRequest();
-
-
-    xhttp.open("POST", "./fetch_friend", true);
+ mess_bd.style.display="none"; 
+ noti_box.style.display="none"; 
+ req_box.style.display ="block"; 
+//  header_name.style.display="none"
+ myform.style.display="none"; 
+    xhttp.open("POST", "./accept_friend_request", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
@@ -368,7 +390,7 @@ rec_req.addEventListener("click",()=>{
                    html_str += make_element_for_friend_req(data.data[i]); 
 
                }
-                 
+               
                req_box.innerHTML = html_str; 
                
                   console.log(data);
@@ -399,7 +421,7 @@ req_box.addEventListener("click",(e)=>{
     //TODO
     noti_box.style.display= "none"; 
     req_box.style.display="block";
-
+  
     if(e.target.textContent=="Accept Request"){
 
         let xhttp = new XMLHttpRequest();
@@ -819,6 +841,13 @@ set_scroll_to_bottom(mess_bd);
 
 
 
+
+socket.on("friend-status", (data) => {
+    console.log("frined is offlien to",data); 
+    if(curr_f_id == data.id){
+        header_name.children[1].children[1].textContent = data.current_status; 
+       }
+});
 
 
 socket.on("setid", (data) => {

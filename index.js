@@ -95,7 +95,7 @@ app.get('/profile', (req, res) => {
     if(response.data.status =="ok"){
       let r_data =  (response.data); 
       
-        res.render("home",{ data: r_data.data ,name:r_data.name}); 
+        res.render("home",r_data); 
        
 
     }

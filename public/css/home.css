@@ -292,7 +292,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
     }
 
   #col-1   .friend-profile:hover {
-        background-color: #FF3CAC;
+    background-color: #FF3CAC;
         background-image: linear-gradient(225deg, #f89acf 10%, #784BA0 50%);
 
         cursor: pointer;
@@ -318,6 +318,10 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         position: relative;
         left: 17px;
         top: 6px;
+        /* height:20px; 
+        width:20px; 
+        border:6px solid white;  */
+
 
 
     }
@@ -676,6 +680,7 @@ a{
      /* background-color: rgb(44, 38, 38); */
      border-radius: 3px;
      position: relative;
+     min-height: 70px;
  }
 
 
