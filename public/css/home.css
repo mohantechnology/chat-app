@@ -267,7 +267,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
     .message-time-right {
         position: relative;
         bottom: -20px;
-        right: 80px;
+        right: 56px;
         font-size: 10px;
 
         color: rgb(143, 162, 188)
@@ -290,27 +290,38 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
 
 
     }
+ #col-1 .selected{
+    background-image: linear-gradient(225deg, #f89acf 10%, #674386 50%);
+    /* background-color: #FF3CAC; */
+ }
 
-  #col-1   .friend-profile:hover {
+ #col-1   .selected * {
+    color: white;
+}
+#first-col-friend-list .friend-profile:hover {
     background-color: #FF3CAC;
         background-image: linear-gradient(225deg, #f89acf 10%, #784BA0 50%);
 
         cursor: pointer;
     }
 
-    #col-1    .friend-profile:hover * {
+    #first-col-friend-list  .friend-profile:hover * {
         color: white;
     }
 
     .profile {
         width: 70%;
         display: inline-block;
-        border-bottom: 0.1px solid rgba(32, 1, 1, 0.4);
+      
 
         /* border-bottom:  0.1px solid rgb(130, 122, 122) ; */
 
 
     }
+#col-1 .profile{
+    border-bottom: 0.1px solid rgba(32, 1, 1, 0.4);;
+}
+
 
 
     .friend-image {
@@ -556,10 +567,10 @@ cursor:pointer;
     }
 
 #menu{
-    width:15px; 
+    width: 24px;
     position: absolute;
-    right:10px; 
-    top:10px; 
+    right: 10px;
+    top: 8px; 
     padding:0px 5px; 
     cursor:pointer; 
  }
@@ -571,8 +582,8 @@ cursor:pointer;
 
 }
 .not-hover:hover{
-
- cursor:default
+ 
+ cursor:default !important; 
 }
 
 #side-list-menu-box{
@@ -742,3 +753,81 @@ a{
        color: rgba(0, 0, 0, 0.7);
    }
    
+   .head_opt{
+    position:relative; 
+    background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(227, 47, 84, 0.7049194677871149) 100%);
+    color:white; 
+ /* background-color:white;  */
+    display:none; 
+}
+
+.header_mess{
+position: relative;
+left: 10px;
+top: -7px;
+padding:2px; 
+border-bottom:1px solid rgb(255, 255, 255);  
+}
+
+.close_opt{
+
+    position: absolute;
+    background-color: rgb(123, 107, 224);
+    padding: 0px 4px;
+    right: 10px;
+    top: 8px;
+      color:white; 
+      padding:2px 8px; 
+ border-radius: 5px; ;
+}
+.close_opt:hover{
+    background-color: rgba(170, 161, 228, 0.993); 
+    cursor:pointer; 
+   
+}
+#header_logo{
+    display:block; 
+}
+#myform{
+    display:none; 
+}
+#sett_box{
+    
+    width:80%; 
+  margin:auto; 
+}
+#sett_box .friend-profile{
+    padding:15px 10px; 
+    margin:10px; 
+    border-radius:3px; 
+}
+#sett_box .sett-profile span{
+    margin:5px; 
+    margin-left:10px;
+    font-size:15px; 
+    padding:5px; 
+    /* border:2px solid black;   */
+}
+.prof_mess{
+    width: 85%;
+    padding: 5px;
+    margin-left:20px;
+    margin-top:10px;  
+    background-color: transparent;
+    border:none;
+    border-bottom:1px solid rgb(0, 0, 0) ;
+    ;
+  
+
+
+}
+
+.prof_mess:focus {
+    outline: none;
+    /* outline-bottom:1px solid rgb(0, 0, 0) ; */
+    border-bottom:1px solid violet;
+    box-shadow:-1px 0px 4px 1px rgba(2, 0, 128, 0.377); 
+    border-radius: 1px; ;
+    /* border-bottom: violet; */
+
+}

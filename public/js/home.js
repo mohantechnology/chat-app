@@ -28,14 +28,27 @@ var  menu_close = document.getElementById("menu_close");
 var  noti_box = document.getElementById("noti_box");
 var noti = document.getElementById("noti"); 
 var rec_req =document.getElementById("rec_req"); 
-var req_box =document.getElementById("req_box"); 
+var req_box =document.getElementById("req_box");
+var sett_box =document.getElementById("sett_box");
+
+
+
+var setting =document.getElementById("setting");
 //-----------------first col 
 var  first_col_friend_list = document.getElementById("first-col-friend-list");
 var  first_col_input_box = document.getElementById("first-col-input-box");
 var  first_col_close_icon = document.getElementById("first-col-close-icon");
 var   first_col_search_icon = document.getElementById("first-col-search-icon");
 var   first_col_search_friend_box = document.getElementById("first-col-search-friend-box");
-var header_name = document.getElementById("header_name"); 
+var header_name = document.getElementById("header_name");
+
+var close_noti = document.getElementById("close_noti");
+var close_req = document.getElementById("close_req");
+var close_sett = document.getElementById("close_sett");
+
+
+var find_new_friend = document.getElementById("find_new_friend");
+
 var message_list   = {}; 
 var d_img_url = "phone_img.jpg"
 
@@ -45,9 +58,24 @@ var prev_f_id ;
 
 document.cookie = "date="+ (new Date().toLocaleDateString())+"; path=/;";
 document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
+
 var  ping_audio = new Audio("ping.mp3"); 
 
-    
+close_noti.addEventListener("click",()=>{
+    close_noti.parentNode.style.display="none"; 
+    noti_box.style.display="none"; 
+header_name.style.display="block"; 
+}); 
+close_req.addEventListener("click",()=>{
+    close_req.parentNode.style.display="none"; 
+header_name.style.display="block"; 
+}); 
+close_sett.addEventListener("click",()=>{
+    close_sett.parentNode.style.display="none"; 
+header_name.style.display="block"; 
+}); 
+
+
 first_col_close_icon.addEventListener("click", () => {
     first_col_input_box.value = "";
     first_col_search_icon.style.display = "inline-block";
@@ -173,39 +201,7 @@ return `    <div class="friend-profile">
   }
     
 
-//   function make_element_for_mess_bd(data) {
 
-
-// if(data.direction=="in"){
-//     return `     <div class="message right">
-//     <span class="message-right">${data.message}</span>
-//     <span class="message-time-right">${data.time}</span>
-// </div>
-
-// `;
-// }
-// else   if(data.direction=="out")    {
-//     `
-//     <div class="message left">
-//     <span class="message-left">${data.message}
-//     </span>
-//     <span class="message-time-left">${data.time}</span>
-// </div>`
-
-// }
-// return `   // <div class="message middle">
-// //                 <span class="message-middle">
-// //                   ${data.message}
-
-// //                 </span>
-// //             </div>
-// `
-    
-     
-    
-    
-    
-//       }
 
  
 function make_message_element(data) {
@@ -242,21 +238,27 @@ function make_message_element(data) {
 //fetch friend chat message 
  first_col_friend_list.addEventListener("click",(e)=>{
 
-    // message_body.style.display="none"; 
-    //TODO
-    // noti_box.style.display= "none"; 
-    // req_box.style.display="block";
-    console.log("clcicked->"); 
-
+        close_noti.parentNode.style.display="none"; 
+        close_req.parentNode.style.display="none"; 
+         close_sett.parentNode.style.display="none";
+         noti_box.style.display="none"; 
+         myform.style.display="block"; 
+         mess_bd.style.display="block"; 
+         header_name.style.display="block"; 
+        let id; 
+        if(e.target.id){id=e.target.id;}
+        else if(e.target.parentNode.id){id=e.target.parentNode.id;}
+        else if(e.target.parentNode.parentNode.id){id=e.target.parentNode.parentNode.id;}
+        // console.log("id->",id); 
     document.cookie = "date="+ (new Date().toLocaleDateString())+"; path=/;";
 document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
     
-    if(e.target.className=="friend-profile" && curr_f_id!=e.target.id){
+    if(id &&   curr_f_id!=id){
 
-        document.cookie = "curr_f_id="+(e.target.id)+"; path=/;";
+        document.cookie = "curr_f_id="+(id)+"; path=/;";
         mess_bd.innerHTML = ""; 
         let xhttp = new XMLHttpRequest();
-        let id=e.target.id;
+
         let total_mess_len = message_list[id]? message_list[id].length : 0;
            console.log("id=" + id); 
         xhttp.open("POST", "./fetch_friend", true);
@@ -292,9 +294,9 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
         xhttp.send(param);
         //connect to this friend ;
          
-        console.log("connected to  ",id); 
+        // console.log("connected to  ",id); 
+        prev_f_id = curr_f_id; 
         socket.emit("connected-to", { prev_f_id:prev_f_id,curr_f_id:id,u_id:user_id});
-      
        curr_f_id = id; 
 
        if(total_mess_len!=0){
@@ -311,14 +313,14 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
             mess_bd.append(make_message_element(  message_list[id].pop())); 
         }
   
-        e.target.children[0].children[1].classList.add("not-visible"); 
+       document.getElementById(id).children[0].children[1].classList.add("not-visible"); 
     }
 
   
 }); 
 
-
-
+find_new_friend.addEventListener("click",()=>{
+    location="./find_friend"}); 
 
 
 
@@ -326,6 +328,9 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
     menu_box.style.display="none"; 
     mess_bd.style.display="none"; 
     noti_box.style.display="block"; 
+    close_noti.parentNode.style.display="block";
+    header_name.style.display= "none"; 
+    myform.style.display="none"; 
     //TODO
 
     let xhttp = new XMLHttpRequest();
@@ -363,11 +368,23 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
 
 })
 
+//display setting 
+setting.addEventListener("click",()=>{
+    menu_box.style.display="none"; 
+    mess_bd.style.display="none"; 
+    sett_box.style.display="block"; 
+    close_sett.parentNode.style.display="block";
+    header_name.style.display= "none";  
+    myform.style.display="none"; 
 
-
+}); 
 //display all recived request 
 rec_req.addEventListener("click",()=>{
     menu_box.style.display="none"; 
+    mess_bd.style.display="none"; 
+    noti_box.style.display="block"; 
+    close_req.parentNode.style.display="block";
+    header_name.style.display= "none";  
     // message_body.style.display="none"; 
     //TODO
 
@@ -798,14 +815,32 @@ set_scroll_to_bottom(mess_bd);
 
 
 
+    message_input.addEventListener("focusin",()=>{
+        socket.emit("typing", { curr_f_id: curr_f_id,u_id:user_id});
+        }); 
+        
+message_input.addEventListener("focusout",()=>{
+    socket.emit("not-typing", { curr_f_id: curr_f_id,u_id:user_id});
+    }); 
+    
 
 
 
 
+  window.onload= confirmExit; 
+window.onbeforeunload = confirmExit;
+function confirmExit(){
+    document.cookie = "date="+ (new Date().toLocaleDateString())+"; path=/;";
+document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
+
+}
 
 
 
 
+// socket.on("close", (data) => {
+//     console.log("close ",data); 
+//     });
 
 
 
@@ -814,13 +849,13 @@ set_scroll_to_bottom(mess_bd);
 socket.emit("new-user-connected", { "name": name });
 
 
-document.getElementById("sub_button").addEventListener("click", () => {
-socket.emit('send-specific-client');
-})
+
 
 
 socket.on("new-user-connected", (data) => {
 console.log("new user in client ");
+
+
 
 // <div class="message middle">
 //                 <span class="message-middle">
@@ -843,13 +878,29 @@ set_scroll_to_bottom(mess_bd);
 
 
 socket.on("friend-status", (data) => {
-    console.log("frined is offlien to",data); 
+    console.log("frined  status is  to",data); 
     if(curr_f_id == data.id){
         header_name.children[1].children[1].textContent = data.current_status; 
        }
 });
 
 
+
+
+socket.on("typing", (data) => {
+    if(curr_f_id == data.u_id){
+
+        header_name.children[1].children[1].textContent="typing..."; 
+    }
+});
+
+socket.on("not-typing", (data) => {
+    if(curr_f_id == data.u_id){
+
+        header_name.children[1].children[1].textContent="online";; 
+    }
+
+});
 socket.on("setid", (data) => {
     console.log("setting id to",data); 
    user_id=data.id; 
