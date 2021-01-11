@@ -33,16 +33,19 @@
 
     <div id="col-1">
 
-        <div class="friend-profile not-hover">
+        <div class="friend-profile not-hover" id="self_prof">
             <div class="friend-image">
-                <img src="tony.jpg" alt="profile-image">
+                <span class="all_img" >
+                     <img src="tony.jpg" alt="profile-image">
+                </span>
+               
                 <div class="message-count  not-visible"> <span class="count-num"></span></div>
             </div>
 
 
             <span class="profile">
                 <p class="user-name">{{name}}</p>
-                <p class="user-time">Last seen today at 8:30 pm </p>
+                <p class="user-time">Last sessen today at 8:30 pm </p>
 
             </span>
         </div>
@@ -94,6 +97,9 @@
 
             <div class="friend-profile" id="{{u_id}}">
                 <div class="friend-image">
+                    <span class="all_img" >
+                   
+                
                     <img src=" {{ img }}" alt="profile-image">
 
                     {{#if count }}
@@ -101,7 +107,7 @@
                     {{else}}
                     <div class="message-count not-visible"> <span class="count-num">{{ count }} </span></div>
                     {{/if}}
-
+                </span>
                 </div>
            
 
@@ -135,7 +141,7 @@
 
         <header class="header" id="header_name">
       
-            <img src="tony.jpg" alt="profile-image">
+            <img class="border_radius" src="tony.jpg" alt="profile-image">
             <span class="profile" style=" border-bottom: 0.1px solid rgba(32, 1, 1, 0.4);;">
                 <p class="user-name" style="color:whitesmoke"> Chat Box</p>
                 <p class="user-seen" style="border-bottom:1px solid rgb(255, 255, 255)">{{current_status}}&nbsp; </p>
@@ -206,13 +212,8 @@
 
 
 
-
-
-
-
-
           <header class="head_opt" id="header_noti">
-             <img src="phone_img.jpg" alt="profile-image">
+             <img class="border_radius" src="phone_img.jpg" alt="profile-image">
             <span class="profile">
                 <p class="header_mess">Notifications</p>
             
@@ -222,7 +223,7 @@
 
         </header>
         <header class="head_opt"id="header_req">
-            <img src="phone_img.jpg" alt="profile-image">
+            <img class="border_radius" src="phone_img.jpg" alt="profile-image">
             <span class="profile">
                 <p class="header_mess">Recieved Request</p>
               
@@ -232,7 +233,7 @@
 
         </header>
         <header class="head_opt" id="header_sett">
-            <img src="settings.png" alt="profile-image">
+            <img class="border_radius" src="settings.png" alt="profile-image">
             <span class="profile">
                 <p class="header_mess"> Settings </p>
               
@@ -266,7 +267,7 @@
                         <p class="sett-name">Account Type </p>
                         <hr>
                        
-                        <span>Public <input type="radio"  name="account_type"></span> 
+                        <span>Public <input type="radio" id="account_type" name="account_type"></span> 
                          
                            <div class="noti-mess">public account is visible when people search in new friend list  </div>
                            
@@ -280,13 +281,13 @@
                   
 
              </div>
-
+       
            <div class="friend-profile">
                 
                     <span class="profile  sett-profile">
                         <p class="sett-name">Message Tone </p>
                        <hr>
-                        <span>on <input type="radio"  name="message_tone"></span> 
+                        <span>on <input type="radio"  name="message_tone"  id="mess_tone"></span> 
                          <span>off  <input type="radio"  name="message_tone"></span> 
                        
                          
@@ -302,19 +303,18 @@
                   <span class="profile  sett-profile">
                         <p class="sett-name">Upload Profile Image </p>
                         <hr>
-                       
-                        <span>Browse<input type="radio"  name="account_type"></span> 
-                         
-                           <div class="noti-mess">public account is visible when people search in new friend list  </div>
-                           
-                           
+                        <span class="all_img" style="position:relative; left:12px; border:1px solid rgba(43, 39, 39, 0.411);width:110px;height:110px">
 
-                             <span>Private <input type="radio"  name="account_type"></span> 
+                          <img  id="prof_img" src="tony.jpg" alt="">
+                        </span>
+                          <br>
+                        <span>
+         <button id="upload_but"> Browse Image</button>  <input type="file" name="sampleFile"  id="upload_file" onchange="preview_img()" /> 
                          
-                           <div class="noti-mess">private account is hidden  when people search in new friend list</div>
+                        
 
                     </span>
-                  
+             
 
            </div>
                   
@@ -325,12 +325,15 @@
                         <p class="sett-name">Profile Message </p>
                         <hr>
                        
-                        <span><input  class="prof_mess" type="text"  name="account_type" placeholder=" Message" ></span> 
+                        <span><input  class="prof_mess" type="text"  name="account_type" id="prof_mess" placeholder=" Message" ></span> 
                          
                        
                   
 
            </div>
+
+
+         <button id="update_but"> Update</button>  
              </div>
 
 

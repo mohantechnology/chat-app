@@ -4,6 +4,8 @@ myfile/
 myfile2/
 mailjet/
 temp.js
-temp.html
+temp.*
 temp.*
 .env
+upload/
+views/temp.html

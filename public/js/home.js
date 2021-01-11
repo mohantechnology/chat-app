@@ -45,9 +45,17 @@ var header_name = document.getElementById("header_name");
 var close_noti = document.getElementById("close_noti");
 var close_req = document.getElementById("close_req");
 var close_sett = document.getElementById("close_sett");
-
-
+var prof_img = document.getElementById("prof_img"); 
+var self_prof = document.getElementById("self_prof");
+var update_but = document.getElementById("update_but");
+var upload_file = document.getElementById("upload_file");
+var upload_but = document.getElementById("upload_but");
 var find_new_friend = document.getElementById("find_new_friend");
+
+
+var account_type = document.getElementById("account_type");
+var prof_mess = document.getElementById("prof_mess");
+var mess_tone = document.getElementById("mess_tone");
 
 var message_list   = {}; 
 var d_img_url = "phone_img.jpg"
@@ -55,6 +63,8 @@ var d_img_url = "phone_img.jpg"
 var user_id; 
 var curr_f_id; 
 var prev_f_id ; 
+
+
 
 document.cookie = "date="+ (new Date().toLocaleDateString())+"; path=/;";
 document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
@@ -75,6 +85,60 @@ close_sett.addEventListener("click",()=>{
 header_name.style.display="block"; 
 }); 
 
+upload_but.addEventListener("click",()=>{
+    upload_file.click(); 
+ 
+})
+
+function preview_img() {
+    self_prof.children[0].children[0].children[0].src=   prof_img.src = URL.createObjectURL(upload_file.files[0]);
+       
+    prof_img.onload = function() {
+      URL.revokeObjectURL(prof_img.src) // free memory
+      URL.revokeObjectURL(self_prof.src) 
+      console.log("loaded");
+    }
+
+}
+
+
+update_but.addEventListener("click",(e)=>{
+    let up_file = upload_file.files[0]; 
+    console.log(up_file); 
+
+    
+    //    stack overflow
+    
+    
+
+       let form_data = new FormData(); 
+       form_data.append("myfile",up_file); 
+     
+
+      console.log(form_data,up_file ); 
+
+        let xhttp = new XMLHttpRequest();
+        let url = `/update_prof/${account_type.checked==true?"1":"0"}/${encodeURIComponent(prof_mess.value) }`; 
+        console.log("url = ",url ); 
+        xhttp.open("POST", url, true);
+
+        // xhttp.setRequestHeader("Content-type", "ap");
+       xhttp.upload.onprogress = function (e) {
+                console.log("progress"); 
+               console.log( Math.round(e.loaded/e.total*100)+ "%" ); 
+       }
+      
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+               console.log("resrpn->",this.response); 
+            
+            }
+        }
+        xhttp.send(form_data) ; 
+
+
+        
+}); 
 
 first_col_close_icon.addEventListener("click", () => {
     first_col_input_box.value = "";
@@ -164,7 +228,9 @@ function make_element_for_friend_req(data) {
 
     return  `<div class="friend-profile">
      <div class="friend-image">
-         <img src="${data.sender_img ?data.sender_img:d_img_url}" alt="profile-image">
+     <span class="all_img" >
+     <img src="${data.sender_img ?data.sender_img:d_img_url}" alt="profile-image">
+</span>
      </div>
      <span class="profile  noti-profile">
          <p class="user-name">${data.sender_name} </p>
@@ -183,7 +249,9 @@ function make_element_for_friend_req(data) {
 
 return `    <div class="friend-profile">
                     <div class="friend-image">
-                        <img src="${data.sender_img?data.sender_img:d_img_url}" alt="profile-image">
+                    <span class="all_img" >
+                    <img src="${data.sender_img?data.sender_img:d_img_url}" alt="profile-image">
+               </span>
                     </div>
                     <span class="profile  noti-profile">
                         <p class="user-name">${data.sender_name}</p>

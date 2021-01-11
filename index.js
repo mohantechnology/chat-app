@@ -1,15 +1,19 @@
 // 'use strict';
-require('dotenv').config(); 
+require('dotenv').config();
 const { response } = require('express');
 const express = require('express');
 const axios = require('axios');
 const app = express();
-const jwt = require("jsonwebtoken"); 
+const fs = require('fs');
+const jwt = require("jsonwebtoken");
 var view_dir_name = __dirname + "/views"
+const fileUpload = require('express-fileupload');
+
+
 
 // app.set('views', (__dirname, '/views/'))
 const bodyParser = require('body-parser');
-const cookieParser = require("cookie-parser"); 
+const cookieParser = require("cookie-parser");
 
 
 var port = process.env.PORT || 3000;
@@ -23,16 +27,122 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 
 
-app.set("view engine","hbs"); 
-app.set("views" , "views")
+app.set("view engine", "hbs");
+app.set("views", "views")
 
 
 
-app.get('/', (req, res) => {
-  res.send({"status":"ok","message":"connected to server"}); 
-  // res.render("find_friend"); 
-//  res.sendFile("find_friend"); 
+
+app.use(fileUpload({
+  limits: { fileSize: 10000000 * 100000 },
+}));
+
+
+
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/temp.html");
+  // return res.send("ok conneted sucess "); 
 });
+
+
+
+
+
+
+app.post('/update_prof/:acc_tp/:prof_mess', function (req, res) {
+  // console.log(req.files); 
+
+  let up_file
+  let cookie_data = jwt.decode(req.cookies.li);
+  // if file is present then  update the file in database also and delete prev file 
+  if (req.files) {
+    up_file = req.files.myfile;
+    cookie_data.is_file = 1;
+    if (req.files.myfile) {
+      cookie_data.file_name = req.files.myfile.name
+    }
+  } else {
+    cookie_data.is_file = 0;
+  }
+  cookie_data.prof_mess = req.params.prof_mess;
+  cookie_data.account_type = req.params.acc_tp;
+
+  console.log("incoming cookie data", cookie_data);
+  axios({
+    method: 'post',
+    url: process.env.API_URL + "/update_prof",
+    data: cookie_data
+  }).then(function (response) {
+    console.log("response data is: ");
+    console.log(response.data);
+    if (response.data.status == "ok") {
+      let r_data = (response.data);
+
+      if (cookie_data.is_file == 1) {
+
+        let sampleFile = req.files.myfile;
+        sampleFile.mv(__dirname + '/upload/' + r_data.curr_file_name, function (err) {
+          if (err) {
+            console.log("erro is: ", err.message)
+            res.send({ status: "error", message: err.message });
+          }
+
+        });
+       
+        let path_link = __dirname + '/upload/' + r_data.prev_file_name; 
+        if (fs.existsSync(path_link)) {
+          fs.unlinkSync(path_link);
+          console.log("exist and elteted");
+        } else {
+          console.log("not exist ");
+        }
+      }
+      res.send({ status: "ok" });
+
+    } else {
+      res.send({ status: "error", message: "profile is not updated" });
+    }
+  }).catch(err => {
+    console.log("error is: ");
+    console.log(err);
+    res.status(500).send({ "status": "Internal server error" });
+  });
+
+
+
+
+console.log("file is : ", req.files);
+console.log("req.body is: ", req.body);
+console.log("req.params is: ", req.params);
+console.log("req.cookies is: ", req.cookies);
+
+  // let sampleFile = req.files.myfile;
+  // sampleFile.mv(__dirname + '/upload/' + sampleFile.name, function (err) {
+  //   if (err) {
+  //     console.log("erro is: ", err.message)
+  //     return res.status(500).send(err);
+  //   }
+  //   else {
+  //     res.send('File uploaded!');
+  //   }
+  // })
+});
+
+app.post("/image", (req, res) => {
+  console.log("./imgae cllaed ")
+  upload(req, res, (err) => {
+    if (err) {
+      res.status(400).send("Something went wrong!");
+      console.log(err);
+      console.log(req.file);
+    }
+    console.log(req.files, req.file);
+    res.send(req.file);
+  });
+});
+
+
 
 
 
@@ -48,27 +158,27 @@ app.post('/login', (req, res) => {
 
   axios({
     method: 'post',
-    url:  process.env.API_URL+"/login"   ,
+    url: process.env.API_URL + "/login",
     data: req.body
-   
+
   }).then(function (response) {
     console.log(response.data);
-    if(response.data.status=="ok"){
-  
-       let token = jwt.sign({email:response.data.email,name:response.data.name,u_id:response.data.u_id,token:response.data.token,p_id:response.data.p_id } ,process.env.JWT_SECRET_KEY); 
-       res.cookie("li",token,{expires:new Date(Date.now()+6000000)}); 
-      console.log("cookie encodded",token); 
-       console.log("succesfull set cookie ",jwt.decode(token)); 
-       res.send({"status":"ok"}); 
+    if (response.data.status == "ok") {
+
+      let token = jwt.sign({ email: response.data.email, name: response.data.name, u_id: response.data.u_id, token: response.data.token, p_id: response.data.p_id }, process.env.JWT_SECRET_KEY);
+      res.cookie("li", token, { expires: new Date(Date.now() + 6000000) });
+      console.log("cookie encodded", token);
+      console.log("succesfull set cookie ", jwt.decode(token));
+      res.send({ "status": "ok" });
 
     }
-    else{
-      res.send(response.data); 
+    else {
+      res.send(response.data);
     }
-  }).catch(err=>{
-    console.log("error is: "); 
-    console.log(err); 
-    res.status(500).send({"status":"Internal server error"});
+  }).catch(err => {
+    console.log("error is: ");
+    console.log(err);
+    res.status(500).send({ "status": "Internal server error" });
   });
 
   // res.send(view_dir_name + "/login.html");
@@ -82,94 +192,94 @@ app.post('/login', (req, res) => {
 app.get('/profile', (req, res) => {
 
 
-  
-  let cookie_data = jwt.decode( req.cookies.li); 
- console.log("incoming cookie data",cookie_data); 
+
+  let cookie_data = jwt.decode(req.cookies.li);
+  console.log("incoming cookie data", cookie_data);
   axios({
     method: 'post',
-    url:  process.env.API_URL+"/profile"   ,
+    url: process.env.API_URL + "/profile",
     data: cookie_data
   }).then(function (response) {
-    console.log("response data is: "); 
+    console.log("response data is: ");
     console.log(response.data);
-    if(response.data.status =="ok"){
-      let r_data =  (response.data); 
-      
-        res.render("home",r_data); 
-       
+    if (response.data.status == "ok") {
+      let r_data = (response.data);
+
+      res.render("home", r_data);
+
 
     }
-    else{
+    else {
       res.send(response.data);
-     
+
     }
-  }).catch(err=>{
-    console.log("error is: "); 
-    console.log(err); 
-    res.status(500).send({"status":"Internal server error"});
+  }).catch(err => {
+    console.log("error is: ");
+    console.log(err);
+    res.status(500).send({ "status": "Internal server error" });
   });
 
-   
+
 });
 
 
 app.get('/find_friend', (req, res) => {
-   res.sendFile(view_dir_name + "/find_friend.html"); 
-}); 
+  res.sendFile(view_dir_name + "/find_friend.html");
+});
 
 app.post('/find_friend', (req, res) => {
 
 
-  
-  let cookie_data = jwt.decode( req.cookies.li); 
-  if(cookie_data){
-    cookie_data.search_value=req.body.search_value; 
+
+  let cookie_data = jwt.decode(req.cookies.li);
+  if (cookie_data) {
+    cookie_data.search_value = req.body.search_value;
   }
 
- console.log("incoming cookie data from find-friend ",cookie_data,req.body); 
+  console.log("incoming cookie data from find-friend ", cookie_data, req.body);
   axios({
     method: 'post',
-    url:  process.env.API_URL+"/find_friend"   ,
+    url: process.env.API_URL + "/find_friend",
     data: cookie_data
   }).then(function (response) {
     console.log(response.data);
-    res.send(response.data); 
-  }).catch(err=>{
-    console.log("error is: "); 
-    console.log(err); 
-    res.status(500).send({"status":"Internal server error"});
+    res.send(response.data);
+  }).catch(err => {
+    console.log("error is: ");
+    console.log(err);
+    res.status(500).send({ "status": "Internal server error" });
   });
 
-   
+
 });
 
 
 app.post('/send_friend_request', (req, res) => {
 
 
-  
-  let cookie_data = jwt.decode( req.cookies.li); 
-  if(cookie_data){
-    cookie_data.friend_p_id=req.body.p_id; 
-    cookie_data.date=req.body.date; 
-    cookie_data.time=req.body.time; 
+
+  let cookie_data = jwt.decode(req.cookies.li);
+  if (cookie_data) {
+    cookie_data.friend_p_id = req.body.p_id;
+    cookie_data.date = req.body.date;
+    cookie_data.time = req.body.time;
   }
 
- console.log("incoming cookie data from send_friend_request",cookie_data); 
+  console.log("incoming cookie data from send_friend_request", cookie_data);
   axios({
     method: 'post',
-    url:  process.env.API_URL+"/send_friend_request"   ,
+    url: process.env.API_URL + "/send_friend_request",
     data: cookie_data
   }).then(function (response) {
     console.log(response.data);
-    res.send(response.data); 
-  }).catch(err=>{
-    console.log("error is: "); 
-    console.log(err); 
-    res.status(500).send({"status":"Internal server error"});
+    res.send(response.data);
+  }).catch(err => {
+    console.log("error is: ");
+    console.log(err);
+    res.status(500).send({ "status": "Internal server error" });
   });
 
-   
+
 });
 
 
@@ -179,61 +289,61 @@ app.post('/send_friend_request', (req, res) => {
 app.post('/accept_friend_request', (req, res) => {
 
 
-  
-  let cookie_data = jwt.decode( req.cookies.li); 
-  if(cookie_data){
-    cookie_data.friend_p_id=req.body.p_id; 
-    cookie_data.date=req.body.date; 
-    cookie_data.time=req.body.time; 
-    cookie_data.signal=req.body.signal; 
-    
+
+  let cookie_data = jwt.decode(req.cookies.li);
+  if (cookie_data) {
+    cookie_data.friend_p_id = req.body.p_id;
+    cookie_data.date = req.body.date;
+    cookie_data.time = req.body.time;
+    cookie_data.signal = req.body.signal;
+
   }
 
- console.log("incoming cookie data from accept_friend_request",cookie_data); 
+  console.log("incoming cookie data from accept_friend_request", cookie_data);
   axios({
     method: 'post',
-    url:  process.env.API_URL+"/accept_friend_request"   ,
+    url: process.env.API_URL + "/accept_friend_request",
     data: cookie_data
   }).then(function (response) {
     console.log(response.data);
-    res.send(response.data); 
-  }).catch(err=>{
-    console.log("error is: "); 
-    console.log(err); 
-    res.status(500).send({"status":"Internal server error"});
+    res.send(response.data);
+  }).catch(err => {
+    console.log("error is: ");
+    console.log(err);
+    res.status(500).send({ "status": "Internal server error" });
   });
 
-   
+
 });
 
 
 app.post('/fetch_friend', (req, res) => {
 
 
-  
-  let cookie_data = jwt.decode( req.cookies.li); 
-  if(cookie_data){
-    cookie_data.friend_u_id=req.body.friend_u_id; 
-    cookie_data.date=req.body.date; 
-    cookie_data.time=req.body.time; 
-    
+
+  let cookie_data = jwt.decode(req.cookies.li);
+  if (cookie_data) {
+    cookie_data.friend_u_id = req.body.friend_u_id;
+    cookie_data.date = req.body.date;
+    cookie_data.time = req.body.time;
+
   }
 
- console.log("incoming cookie data from fetch_friend",cookie_data); 
+  console.log("incoming cookie data from fetch_friend", cookie_data);
   axios({
     method: 'post',
-    url:  process.env.API_URL+"/fetch_friend"   ,
+    url: process.env.API_URL + "/fetch_friend",
     data: cookie_data
   }).then(function (response) {
     console.log(response.data);
-    res.send(response.data); 
-  }).catch(err=>{
-    console.log("error is: "); 
-    console.log(err); 
-    res.status(500).send({"status":"Internal server error"});
+    res.send(response.data);
+  }).catch(err => {
+    console.log("error is: ");
+    console.log(err);
+    res.status(500).send({ "status": "Internal server error" });
   });
 
-   
+
 });
 
 
@@ -245,31 +355,31 @@ app.post('/fetch_friend', (req, res) => {
 app.post('/display_noti', (req, res) => {
 
 
-  
-  let cookie_data = jwt.decode( req.cookies.li); 
-  if(cookie_data){
-    cookie_data.friend_p_id=req.body.p_id; 
-    cookie_data.date=req.body.date; 
-    cookie_data.time=req.body.time; 
-    cookie_data.signal=req.body.signal; 
-    
+
+  let cookie_data = jwt.decode(req.cookies.li);
+  if (cookie_data) {
+    cookie_data.friend_p_id = req.body.p_id;
+    cookie_data.date = req.body.date;
+    cookie_data.time = req.body.time;
+    cookie_data.signal = req.body.signal;
+
   }
 
- console.log("incoming cookie data from display_noti",cookie_data); 
+  console.log("incoming cookie data from display_noti", cookie_data);
   axios({
     method: 'post',
-    url:  process.env.API_URL+"/display_noti"   ,
+    url: process.env.API_URL + "/display_noti",
     data: cookie_data
   }).then(function (response) {
     console.log(response.data);
-    res.send(response.data); 
-  }).catch(err=>{
-    console.log("error is: "); 
-    console.log(err); 
-    res.status(500).send({"status":"Internal server error"});
+    res.send(response.data);
+  }).catch(err => {
+    console.log("error is: ");
+    console.log(err);
+    res.status(500).send({ "status": "Internal server error" });
   });
 
-   
+
 });
 
 
@@ -278,29 +388,29 @@ app.post('/display_noti', (req, res) => {
 app.post('/req', (req, res) => {
 
 
-  
-  let cookie_data = jwt.decode( req.cookies.li); 
-  if(cookie_data){
-    cookie_data.friend_p_id=req.body.p_id; 
-    cookie_data.date=req.body.date; 
-    cookie_data.time=req.body.time; 
+
+  let cookie_data = jwt.decode(req.cookies.li);
+  if (cookie_data) {
+    cookie_data.friend_p_id = req.body.p_id;
+    cookie_data.date = req.body.date;
+    cookie_data.time = req.body.time;
   }
 
- console.log("incoming cookie data from send_friend_request",cookie_data); 
+  console.log("incoming cookie data from send_friend_request", cookie_data);
   axios({
     method: 'post',
-    url:  process.env.API_URL+"/send_friend_request"   ,
+    url: process.env.API_URL + "/send_friend_request",
     data: cookie_data
   }).then(function (response) {
     console.log(response.data);
-    res.send(response.data); 
-  }).catch(err=>{
-    console.log("error is: "); 
-    console.log(err); 
-    res.status(500).send({"status":"Internal server error"});
+    res.send(response.data);
+  }).catch(err => {
+    console.log("error is: ");
+    console.log(err);
+    res.status(500).send({ "status": "Internal server error" });
   });
 
-   
+
 });
 
 
@@ -317,31 +427,31 @@ app.post('/reg', (req, res) => {
 
   axios({
     method: 'post',
-    url: process.env.API_URL + "/register" ,
+    url: process.env.API_URL + "/register",
     data: req.body
   }).then(function (response) {
     console.log(response.data);
-    res.send(response.data); 
-  }).catch(error=>{
-    res.json({status: "error",message: "something went wrong "}); 
+    res.send(response.data);
+  }).catch(error => {
+    res.json({ status: "error", message: "something went wrong " });
   });
 
 });
 
 app.get('/activate/:email/:t_name/:t_value', (req, res) => {
-  console.log("incoming data at actiavte app ",req.params); 
-  let data = {email: req.params.email}; 
-  data[req.params.t_name]= req.params.t_value; 
-  console.log("ingoing  data at actiavte app ",data); 
+  console.log("incoming data at actiavte app ", req.params);
+  let data = { email: req.params.email };
+  data[req.params.t_name] = req.params.t_value;
+  console.log("ingoing  data at actiavte app ", data);
   axios({
     method: 'post',
-    url: process.env.API_URL + "/activate" ,
+    url: process.env.API_URL + "/activate",
     data
   }).then(function (response) {
     console.log(response.data);
-    res.send(response.data); 
-  }).catch(error=>{
-    res.json({status: "error",message: "something went wrong "}); 
+    res.send(response.data);
+  }).catch(error => {
+    res.json({ status: "error", message: "something went wrong " });
   });
 
 });
@@ -385,8 +495,8 @@ app.get('/test', (req, res) => {
 
 
 
-app.get("/*",(req,res)=>{
-  res.status(404).send({"status":"error",message:"page not found from 1"})
+app.get("/*", (req, res) => {
+  res.status(404).send({ "status": "error", message: "page not found from 1" })
 })
 
 
@@ -396,7 +506,7 @@ app.get("/*",(req,res)=>{
 // });
 // var token = crypto.randomBytes(64).toString('hex');
 app.listen(port, () => {
-  console.log("listening at "  + port );
+  console.log("listening at " + port);
 });
 
 

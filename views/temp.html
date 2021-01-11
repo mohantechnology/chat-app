@@ -166,10 +166,39 @@ background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vc
         </body>
 
 
- <script>
 
 
-  
- </script>
+
+
+<!-- 
+ <form method="POST" action="/upload-profile-pic" enctype="multipart/form-data">
+  <div>
+      <label>Select your profile picture:</label>
+      <input type="file" name="profile_pic" />
+  </div>
+  <div>
+      <input type="submit" name="btn_upload_profile_pic" value="Upload" />
+  </div>
+</form> -->
+
+
+<html>
+  <body>
+    <form ref='uploadForm' 
+      id='uploadForm' 
+      action='http://localhost:8000/upload' 
+      method='post' 
+      encType="multipart/form-data">
+        <input type="file" name="sampleFile"  multiple/>
+        <input type='submit' value='Upload!' />
+    </form>     
+  </body>
+</html>
+
+
+        <script>
+
+var upfile_but = document.getElementById("up_file_but");
+        </script>
 </body>
 </html>
