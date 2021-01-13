@@ -50,7 +50,7 @@ app.get("/", (req, res) => {
 
 
 
-app.post('/update_prof/:acc_tp/:prof_mess', function (req, res) {
+app.post('/update_prof/:acc_tp?/:pro_mess?', function (req, res) {
   // console.log(req.files); 
 
   let up_file
@@ -63,9 +63,10 @@ app.post('/update_prof/:acc_tp/:prof_mess', function (req, res) {
       cookie_data.file_name = req.files.myfile.name
     }
   } else {
+    if(cookie_data)
     cookie_data.is_file = 0;
   }
-  cookie_data.prof_mess = req.params.prof_mess;
+  cookie_data.pro_mess = req.params.pro_mess;
   cookie_data.account_type = req.params.acc_tp;
 
   console.log("incoming cookie data", cookie_data);
@@ -82,7 +83,7 @@ app.post('/update_prof/:acc_tp/:prof_mess', function (req, res) {
       if (cookie_data.is_file == 1) {
 
         let sampleFile = req.files.myfile;
-        sampleFile.mv(__dirname + '/upload/' + r_data.curr_file_name, function (err) {
+        sampleFile.mv(__dirname + '/public/img/profile/' + r_data.curr_file_name, function (err) {
           if (err) {
             console.log("erro is: ", err.message)
             res.send({ status: "error", message: err.message });
@@ -90,7 +91,7 @@ app.post('/update_prof/:acc_tp/:prof_mess', function (req, res) {
 
         });
        
-        let path_link = __dirname + '/upload/' + r_data.prev_file_name; 
+        let path_link = __dirname + '/public/img/profile/' + r_data.prev_file_name; 
         if (fs.existsSync(path_link)) {
           fs.unlinkSync(path_link);
           console.log("exist and elteted");
@@ -194,7 +195,12 @@ app.get('/profile', (req, res) => {
 
 
   let cookie_data = jwt.decode(req.cookies.li);
-  console.log("incoming cookie data", cookie_data);
+console.log("incoming cookie data", cookie_data);
+  if( !(cookie_data) || !(cookie_data.u_id)){
+   return  res.redirect("./login"); 
+    
+  }
+  
   axios({
     method: 'post',
     url: process.env.API_URL + "/profile",
@@ -211,6 +217,7 @@ app.get('/profile', (req, res) => {
     }
     else {
       res.send(response.data);
+      
 
     }
   }).catch(err => {

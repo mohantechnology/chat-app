@@ -9,3 +9,4 @@ temp.*
 .env
 upload/
 views/temp.html
+/public/img/profile

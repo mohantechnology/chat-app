@@ -50,13 +50,17 @@ var self_prof = document.getElementById("self_prof");
 var update_but = document.getElementById("update_but");
 var upload_file = document.getElementById("upload_file");
 var upload_but = document.getElementById("upload_but");
+var log_out = document.getElementById("log_out");
 var find_new_friend = document.getElementById("find_new_friend");
 
 
-var account_type = document.getElementById("account_type");
-var prof_mess = document.getElementById("prof_mess");
-var mess_tone = document.getElementById("mess_tone");
+var account_type_pub = document.getElementById("account_type_pub");
+var account_type_pri = document.getElementById("account_type_pri");
 
+var prof_mess = document.getElementById("prof_mess");
+var mess_tone_off = document.getElementById("mess_tone_off");
+var mess_tone_on = document.getElementById("mess_tone_on");
+var mess_tone=localStorage.getItem("mess_tone");
 var message_list   = {}; 
 var d_img_url = "phone_img.jpg"
 
@@ -68,6 +72,9 @@ var prev_f_id ;
 
 document.cookie = "date="+ (new Date().toLocaleDateString())+"; path=/;";
 document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
+
+
+
 
 var  ping_audio = new Audio("ping.mp3"); 
 
@@ -101,6 +108,18 @@ function preview_img() {
 
 }
 
+log_out.addEventListener("click",()=>{
+    console.log("clieked logout ")
+    let cookie_arr = document.cookie.split(";"); 
+    for(let i=0; i<cookie_arr.length; i++){
+        let temp = `${cookie_arr[i].split("=")[0]}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; `; 
+        // console.log(temp); 
+        document.cookie = temp;
+           
+    }
+    location="./login"; 
+}); 
+
 
 update_but.addEventListener("click",(e)=>{
     let up_file = upload_file.files[0]; 
@@ -112,31 +131,49 @@ update_but.addEventListener("click",(e)=>{
     
 
        let form_data = new FormData(); 
-       form_data.append("myfile",up_file); 
-     
 
-      console.log(form_data,up_file ); 
+       if(update_but.innerText=="Update"){
+        form_data.append("myfile",up_file); 
+        update_but.innerText="Updating...";
+        
+        console.log(form_data,up_file ); 
+  
+          let xhttp = new XMLHttpRequest();
+          let url = `/update_prof/${account_type_pub.checked==true?"public":"private"}/${encodeURIComponent(prof_mess.value) }`; 
+          console.log("url = ",url ); 
+          xhttp.open("POST", url, true);
+  
+          // xhttp.setRequestHeader("Content-type", "ap");
+         xhttp.upload.onprogress = function (e) {
+                  console.log("progress"); 
+                 console.log( Math.round(e.loaded/e.total*100)+ "%" ); 
+         }
+        
+          xhttp.onreadystatechange = function () {
+              if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+                 console.log("resrpn->",this.response); 
+                 let res_data = JSON.parse(this.response)
+                 if(res_data.status=="ok"){
+                     update_but.innerText="Updated";
+                 location="./profile"; 
+                 }
+                 else{
+                    update_but.innerText="Not Updated";
+                 }
+              
+              }
+          }
+          xhttp.send(form_data) ; 
 
-        let xhttp = new XMLHttpRequest();
-        let url = `/update_prof/${account_type.checked==true?"1":"0"}/${encodeURIComponent(prof_mess.value) }`; 
-        console.log("url = ",url ); 
-        xhttp.open("POST", url, true);
-
-        // xhttp.setRequestHeader("Content-type", "ap");
-       xhttp.upload.onprogress = function (e) {
-                console.log("progress"); 
-               console.log( Math.round(e.loaded/e.total*100)+ "%" ); 
        }
-      
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-               console.log("resrpn->",this.response); 
-            
-            }
-        }
-        xhttp.send(form_data) ; 
+     
+      if(mess_tone_on.checked){
+          localStorage.setItem("mess_tone","on");
+      }else{
 
-
+        localStorage.setItem("mess_tone","off"); 
+      }
+       
         
 }); 
 
@@ -348,6 +385,8 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
                   
 
                     console.log(data);
+            }else{
+                location  = "./login";     
             } ;
            console.log("setted img"); 
             header_name.children[0].src=data.img?data.img: "racoon.jpg";
@@ -444,6 +483,12 @@ setting.addEventListener("click",()=>{
     close_sett.parentNode.style.display="block";
     header_name.style.display= "none";  
     myform.style.display="none"; 
+    
+    if(localStorage.getItem("mess_tone")=="on"){
+        mess_tone_on.checked=true; 
+    }else{
+        mess_tone_off.checked=true; 
+    }    
 
 }); 
 //display all recived request 
@@ -1016,30 +1061,14 @@ else{
       console.log(elem); 
 }
 
-   
-ping_audio.currentTime = 0;
+if(mess_tone =="on"){           
+    ping_audio.currentTime = 0;
     ping_audio.play();
+ }
+
+
     
     console.log(message_list); 
-// return; 
-
-// let temp1 = document.createElement("div");
-//     temp1.classList = "message right";
-//     let temp2 = document.createElement("span");
-    
-//     if (data.message.trim() == "") {
-//         temp2.innerHTML = "&nbsp;";
-//     } else {
-//         temp2.textContent = data.message;
-//     }
-//     temp2.classList = "message-right";
-//     temp1.appendChild(temp2);
-//     temp2 = document.createElement("span");
-//     temp2.textContent = data.time;
-//     temp2.classList = "message-time-right";
-//     temp1.appendChild(temp2);
-//     mess_bd.appendChild(temp1);
-   
 
 
 });

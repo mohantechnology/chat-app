@@ -493,6 +493,14 @@ height:5vh;
         // var user_pass = document.getElementById("user_pass");
         // var user_pass = document.getElementById("user_pass");
         // var user_pass = document.getElementById("user_pass");
+
+         if(localStorage.getItem("rem")){
+               
+      email.value=  localStorage.getItem("email"); 
+      user_pass.value =      localStorage.getItem("pass");
+      remem_me.checked=true;  
+         }
+       
          
      function send_xhr(param,url){
           let xhttp = new XMLHttpRequest(); 
@@ -503,6 +511,7 @@ height:5vh;
                    let data = JSON.parse(this.response); 
                    console.log(data); 
                   if (data.status=="ok"){
+
                       console.log("redirect"); 
                       location="./profile"; 
                   }else{
@@ -512,7 +521,7 @@ height:5vh;
                   ; 
               }
           }
-
+    
           xhttp.send( param );
         }
         function display_error(error){
@@ -521,7 +530,19 @@ height:5vh;
 
         login_butt.addEventListener("click", ()=>{
             let param ; 
-         
+            if(remem_me.checked){
+              localStorage.setItem("email",email.value); 
+              localStorage.setItem("pass",user_pass.value);
+              localStorage.setItem("rem",true); 
+
+              
+              console.log("seteed'); ") ; 
+              
+            }else{
+                localStorage.removeItem("email"); 
+                localStorage.removeItem("pass");
+                localStorage.removeItem("rem");
+            }
             let user_email ,user_password; 
             try {
              user_email = encodeURIComponent(email.value.trim()); 

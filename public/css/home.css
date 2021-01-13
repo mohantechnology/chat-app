@@ -59,7 +59,8 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         display:inline-block; 
 
         overflow:hidden;
-        position: relative;;  
+        position: relative;; 
+
        left:-10px; 
     }
    .all_img img{
@@ -362,7 +363,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         height: 10px;
         ;
         position: relative;
-        left: -17px;
+        left: -26px;
         bottom: 27px;
         padding: 2px;
 
@@ -856,6 +857,9 @@ border-bottom:1px solid rgb(255, 255, 255);
     margin: 9px;
     font-size: 13px;
 
+}
+#upload_but{
+    width: 152px;
 }
 #update_but:hover,#upload_but:hover{
  cursor:pointer;
