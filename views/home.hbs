@@ -23,13 +23,7 @@
 
 
 
-    <h1 style="color: white;">
-        data is: ''
-        {{data}}
 
-        <div id="box">
-
-    </h1>
 
     <div id="col-1">
 
@@ -38,9 +32,9 @@
                 <span class="all_img" >
                 
                     {{#if img }}
-                              <img src="/img/profile/{{img}}" alt="profile-image"> 
+                              <img src="/img/profile/{{img}}" alt="profile-image"  class="selectDisable" > 
                      {{else}}
-                    <img src="default_img.jpg" alt="profile-image">
+                    <img src="default_img.jpg" alt="profile-image"  class="selectDisable" >
                     {{/if}}
                     
                 </span>
@@ -51,9 +45,13 @@
 
             <span class="profile">
                 <p class="user-name">{{name}}</p>
-                <p class="user-time">{{pro_mess}} </p>
+                <p class="user-time">{{pro_mess}}&nbsp; </p>
 
             </span>
+            <a id="forward">
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"  fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+</svg></a>
         </div>
 
         <hr>
@@ -74,7 +72,7 @@
             </svg>
 
 
-            <input id="first-col-input-box" class="input_box" type="text" placeholder="search friends list">
+            <input id="first-col-input-box" class="input_box" type="text" placeholder="search friend list">
 
         </div>
         <hr>
@@ -155,18 +153,22 @@
 
 
         <header class="header" id="header_name">
-      
+  
+
             <img class="border_radius" src="tony.jpg" alt="profile-image">
-            <span class="profile" style=" border-bottom: 0.1px solid rgba(32, 1, 1, 0.4);;">
+            <span class="profile" >
                 <p class="user-name" style="color:whitesmoke"> Chat Box</p>
                 <p class="user-seen" style="border-bottom:1px solid rgb(255, 255, 255)">{{current_status}}&nbsp; </p>
 
             </span>
-
+     <a id="back" ><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+</svg>
+ </a>
 
             <div class="search-keyword">
 
-                <input class="input_box" id="input-search-keyword" type="text" placeholder="search friends list">
+                <input class="input_box" id="input-search-keyword" type="text" placeholder="search keyword">
                 <span id="side-list-search-count"> 0/10</span>
 
                 <svg id="side-list-up-icon" width="18px" height="18px" viewBox="0 0 16 16"
@@ -203,9 +205,9 @@
                         d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z" />
                 </svg>
 
-
             </div>
           
+           <span class="close_opt" id="close_search"> X</span>
             <div id="side-list-menu-box">
 
 <svg id="menu" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" viewBox="0 0 30 30" width="40px" height="40px"><path fill="#c2e8ff" d="M1.5 13.5H28.5V16.5H1.5z"/><path fill="#7496c4" d="M28,14v2H2v-2H28 M29,13H1v4h28V13L29,13z"/><path fill="#c2e8ff" d="M1.5 5.5H28.5V8.5H1.5z"/><path fill="#7496c4" d="M28,6v2H2V6H28 M29,5H1v4h28V5L29,5z"/><g><path fill="#c2e8ff" d="M1.5 21.5H28.5V24.5H1.5z"/><path fill="#7496c4" d="M28,22v2H2v-2H28 M29,21H1v4h28V21L29,21z"/></g></svg>
@@ -218,6 +220,7 @@
                     <div class="menu-box-child" id="noti">Notifications</div>
                     <div class="menu-box-child" id="rec_req">Recieved Reqest</div>
                     <div class="menu-box-child" id="setting"> Profile Settings </div>
+                     <div class="menu-box-child" id="search_keyword_alias"> Search keyword </div>
  <div class="menu-box-child" id="log_out"> Logout </div>
 
                 </div>
@@ -262,7 +265,7 @@
         <div id="message-body"  style="display:none"></div>
            <form action="" method="POST" id="myform" >
             <input type="text" name="message" id="message_input" autocomplete="off" placeholder="Write message here...">
-            <button id="sub_but" type="button"> Send</button>
+            {{!-- <button id="sub_but" type="button"> Send</button> --}}
 
         </form>
 

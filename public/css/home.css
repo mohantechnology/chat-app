@@ -3,22 +3,22 @@
         margin: 0px;
         padding: 0px;
         /* background-color: rgb(156, 156, 138); */
-        background-color: rgb(228, 223, 228);
+        /* background-color: rgb(228, 223, 228); */
 
 
         font-size: 20px;
         font-family: 'Roboto', sans-serif;
-        background-color: white;
+        /* background-color: white;
         background-color: #4158D0;
         background-color: #8EC5FC;
         background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
         background-color: #4f7e8e;
-        background-image: linear-gradient(0deg, #8EC5FC 40%, #c3ebfc 70%);
+        background-image: linear-gradient(0deg, #8EC5FC 40%, #c3ebfc 70%); */
         /* background-color: #FF9A8B;
 background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
  */
         background-color: #FF3CAC;
-        background-image: linear-gradient(225deg, #FF3CAC 10%, #784BA0 50%, #b6360e 10%);
+        /* background-image: linear-gradient(225deg, #FF3CAC 10%, #784BA0 50%, #b6360e 10%); */
 
          
 
@@ -46,7 +46,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
 
 
     #message-body {
-        height: 75vh;
+        height: 76vh;
         overflow-y: auto;
         overflow-x: hidden;
         position: relative;
@@ -81,26 +81,18 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
 
         display: inline-block;
         height: 100vh;
+        overflow: hidden;
     }
 
-    #col-1 {
-        /* background-color: rgb(149, 30, 30); */
-        /* background-color: rgb(240, 29, 241); */
-
-        /* background-color: #FF3CAC; */
-
-        background-image: linear-gradient(225deg, #FF3CAC 10%, #784BA0 50%);
-
-
-
-
-        width: 25%;
+    #col-1 { background-image: linear-gradient(225deg, #FF3CAC 10%, #784BA0 50%);
+            width: 25%;
         display: inline-block;
         height: 100vh;
         position: absolute;
         top: 0px;
         left: 0px;
         z-index: 1;
+        overflow:auto; 
 
     }
 
@@ -341,14 +333,13 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
     .friend-image {
         display: inline-block;
         position: relative;
-        left: 17px;
+        left: 30px;
         top: 6px;
-        /* height:20px; 
-        width:20px; 
-        border:6px solid white;  */
-
-
-
+        /* width:40px;   
+        height:40px; 
+    
+        border:1px solid rgb(83, 26, 26); 
+   */
     }
 
     .message-count {
@@ -452,8 +443,6 @@ cursor:pointer;
 
     .header {
         background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(233, 49, 86, 0.705) 100%);
-
-
 
     }
 
@@ -804,11 +793,18 @@ border-bottom:1px solid rgb(255, 255, 255);
 }
 #myform{
     display:none; 
+    position:absolute;
+    bottom:0px; 
+    width:100%; 
+    /* overflow-x:hidden;   */
+    padding: 10px 0px;
+
 }
 #sett_box{
     
     width:80%; 
-  margin:auto; 
+  margin:auto;
+  display:none;  
 }
 #sett_box .friend-profile{
     padding:15px 10px; 
@@ -873,9 +869,208 @@ border-bottom:1px solid rgb(255, 255, 255);
 #menu_box_opt{
     overflow-y:auto;
     height: 83vh;
+    
+    /* display:none;  */
 }
 /* #prof_img{
     position: relative;
     left:28px;
     width:110px ;  
 } */
+
+
+#search_keyword_alias{
+    display:none; 
+}
+
+#close_search{
+    display:none; 
+}
+
+
+#back,#forward{
+    text-decoration: none;
+    color:white;
+    position: fixed;
+    left: 2px;
+    top: 14px;
+    border-radius: 4px;
+    padding:3px 15px; 
+  width:20px; 
+ height: 20px; ;
+ cursor:pointer;
+ display:none; 
+}
+
+
+#forward{
+
+    top: 20px;
+    left:auto; 
+    right:10px;  ;
+   border:2px solid rgba(255, 252, 252, 0.753);
+
+}
+#forward:hover{
+    background-color: rgba(255, 252, 252, 0.753);
+    color:rgb(15, 15, 104); 
+    cursor:pointer
+ 
+}
+
+
+/* .selectDisable {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+} */
+
+
+/* @media only screen and (min-width: 950px){
+    #col-1{
+        display: inline-block;
+    }
+    #col-2{
+        display: inline-block;
+    }
+   
+} */
+
+@media only screen and (max-width:950px) {
+  
+  #forward,#back{
+      display: inline-block;
+  }
+  
+    #self_prof{
+        background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(233, 49, 86, 0.705) 110%);
+   
+
+    }
+    #self_prof p{
+        color:whitesmoke;
+
+    }
+    #self_prof .user-time{
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.8);
+    }
+ 
+    #self_prof .profile{
+     border-bottom:1px solid rgb(255, 255, 255); 
+     width:60%; 
+
+    }
+
+    #req_box ,#noti_box{
+        height: 82vh;
+    }
+
+    #first-col-friend-list{
+        min-height: 72vh;
+        background-color: white;
+    }
+
+    #header_name img{
+        left:23px; 
+    }
+    #header_name .profile {
+        position: relative;
+        left: 23px;
+    }
+    #menu_close {
+        padding: 6px 9px;
+    }    
+  #col-2{
+    background-color:  #ff3cac;  
+width:100%;
+    display:block;
+   position:relative ; 
+       display:none; 
+
+  }
+  #col-1{
+
+ 
+   background-color:  #ff3cac;  
+   height:auto; 
+     width:100%;
+   display:block;
+  position:unset ; 
+   margin:2px auto;
+   /* border-radius:2px;   */
+       /* display:none; */
+  }
+  #first-col-input-box {
+    width: 89%;
+}
+
+#col-1 .search-friend {
+  width:96%; 
+  margin:auto;
+} 
+
+    #search_keyword_alias{
+        display:block; 
+      
+    }
+   #close_search{
+    top: 13px;
+    right: 21px;
+   }
+
+    #header_name .search-keyword{
+      
+    width: 77%;
+    display: none;
+    top: 12px;
+
+    left: 19px;
+        
+     
+    }
+    #header_name .user-seen{
+        margin-bottom:3px; 
+    }
+    #header_name p{
+        width:150%; 
+    }
+    .header {
+       min-height:55px; 
+
+
+    }
+    #header_name .input_box {
+        width: 72%;
+    }
+
+}
+
+
+@media only screen and (max-width:750px) {
+
+    #header_name .input_box {
+        width: 64%;
+    }
+
+}
+
+
+@media only screen and (max-width:600px) {
+
+    #header_name .input_box {
+        width: 54%;
+    }
+
+}
+
+
+@media only screen and (max-width:460px) {
+
+    #header_name .input_box {
+        width: 44%;
+    }
+
+}

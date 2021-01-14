@@ -30,11 +30,15 @@ var noti = document.getElementById("noti");
 var rec_req =document.getElementById("rec_req"); 
 var req_box =document.getElementById("req_box");
 var sett_box =document.getElementById("sett_box");
+var search_keyword_alias =document.getElementById("search_keyword_alias");
 
 
 
 var setting =document.getElementById("setting");
 //-----------------first col 
+
+var  col_1 = document.getElementById("col-1");
+var  col_2 = document.getElementById("col-2");
 var  first_col_friend_list = document.getElementById("first-col-friend-list");
 var  first_col_input_box = document.getElementById("first-col-input-box");
 var  first_col_close_icon = document.getElementById("first-col-close-icon");
@@ -42,6 +46,7 @@ var   first_col_search_icon = document.getElementById("first-col-search-icon");
 var   first_col_search_friend_box = document.getElementById("first-col-search-friend-box");
 var header_name = document.getElementById("header_name");
 
+var close_search = document.getElementById("close_search");
 var close_noti = document.getElementById("close_noti");
 var close_req = document.getElementById("close_req");
 var close_sett = document.getElementById("close_sett");
@@ -61,12 +66,18 @@ var prof_mess = document.getElementById("prof_mess");
 var mess_tone_off = document.getElementById("mess_tone_off");
 var mess_tone_on = document.getElementById("mess_tone_on");
 var mess_tone=localStorage.getItem("mess_tone");
+var back = document.getElementById("back");
+var forward = document.getElementById("forward");
+var m_q = window.matchMedia("(max-width: 950px)"); 
+
 var message_list   = {}; 
 var d_img_url = "phone_img.jpg"
 
 var user_id; 
 var curr_f_id; 
 var prev_f_id ; 
+var  ping_audio = new Audio("ping.mp3"); 
+
 
 
 
@@ -76,7 +87,86 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
 
 
 
-var  ping_audio = new Audio("ping.mp3"); 
+
+m_q.addEventListener("change",()=>{
+
+    if (m_q.matches) { // If media query matches
+        
+      
+
+        if( col_1.style.display=="inline-block"){
+            forward.style.display="inline-block";
+            back.style.display="none";
+            col_2.style.display="none";
+         }else{
+           back.style.display="inline-block";
+           forward.style.display="none";
+           col_1.style.display="none";
+           col_2.style.display="inline-block" ; 
+          
+         }
+        console.log("width = ",document.querySelector("body").offsetWidth); 
+        console.log("yellow") ;
+      }  else{
+         
+         col_1.style.display="inline-block";
+        col_2.style.display="inline-block";
+        forward.style.display="none";
+        back.style.display="none";
+        console.log("width = ",document.querySelector("body").offsetWidth); 
+        console.log("pink for greater") ;
+      }
+    
+}); 
+
+search_keyword_alias.addEventListener("click",()=>{
+    input_search_keyword.parentNode.style.display="inline-block"
+    search_keyword_alias.style.display="none"; 
+    header_name.children[0].style.display="none"; 
+    header_name.children[1].style.display="none"; 
+    header_name.children[2].style.display="none"; 
+    menu_box.style.display="none";
+    close_search.style.display="inline-block"; 
+    menu.style.display="none"; 
+})
+
+
+
+
+
+close_search.addEventListener("click",()=>{
+    input_search_keyword.parentNode.style.display="none"; 
+    search_keyword_alias.style.display="block";
+    header_name.children[0].style.display="inline-block";
+    header_name.children[1].style.display="inline-block";
+    header_name.children[2].style.display="inline-block";
+    close_search.style.display="none"; 
+    menu.style.display="inline-block"; 
+    
+}); 
+
+// mess_bd.onscroll=()=>{
+//     console.log("scrollling"); 
+// } ; 
+mess_bd.addEventListener("scroll",()=>{
+    console.log("scrollling",mess_bd.scrollTop); 
+   }); 
+
+
+back.addEventListener("click",()=>{
+ col_1.style.display="block"; 
+ col_2.style.display="none"; 
+ forward.style.display="inline-block";
+}); 
+
+
+forward.addEventListener("click",()=>{
+    col_1.style.display="none"; 
+    col_2.style.display="block"; 
+    back.style.display="inline-block";
+}); 
+
+
 
 close_noti.addEventListener("click",()=>{
     close_noti.parentNode.style.display="none"; 
@@ -85,10 +175,12 @@ header_name.style.display="block";
 }); 
 close_req.addEventListener("click",()=>{
     close_req.parentNode.style.display="none"; 
+    req_box.style.display="none"; 
 header_name.style.display="block"; 
 }); 
 close_sett.addEventListener("click",()=>{
     close_sett.parentNode.style.display="none"; 
+    sett_box.style.display="none"; 
 header_name.style.display="block"; 
 }); 
 
@@ -314,7 +406,7 @@ function make_message_element(data) {
     let temp = document.createElement("div") 
     data.message = data.message.trim()
     if (data.message== "") {
-      data.innerHTML = "&nbsp;";
+      data.message = "&nbsp;";
   } 
   
       if(data.direction=="in"){
@@ -359,11 +451,17 @@ function make_message_element(data) {
 document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
     
     if(id &&   curr_f_id!=id){
+        if(m_q.matches){
+            col_1.style.display="none"; 
+            col_2.style.display="block";
+            back.style.display="inline-block";
+        
+        }
 
         document.cookie = "curr_f_id="+(id)+"; path=/;";
         mess_bd.innerHTML = ""; 
         let xhttp = new XMLHttpRequest();
-
+        menu_box.style.display="none"; 
         let total_mess_len = message_list[id]? message_list[id].length : 0;
            console.log("id=" + id); 
         xhttp.open("POST", "./fetch_friend", true);
