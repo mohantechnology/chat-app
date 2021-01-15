@@ -924,7 +924,8 @@ border-bottom:1px solid rgb(255, 255, 255);
     width:20px;
     height:20px; 
     border:1px solid black;
-    position:fixed; 
+ 
+    
 }
 
 .loader {
@@ -935,14 +936,18 @@ border-bottom:1px solid rgb(255, 255, 255);
     width: 120px;
     height: 120px;
     animation: spin 2s linear infinite; */
-    
+    position: absolute;;  
+     z-index:1 ;  
+     left:47%;
+  /* transform:  translate( -50% ,10%);  */
 border: 4px solid #a1a9c5;
 border-top: 4px solid #888e91;
 border-radius: 50%;
 width: 30px;
 height: 30px;
-animation: spin 1136ms linear infinite;
 animation: spin 1s linear infinite;
+display:none; 
+
   }
   
   @keyframes spin {
@@ -1002,6 +1007,7 @@ animation: spin 1s linear infinite;
     #first-col-friend-list{
         min-height: 72vh;
         background-color: white;
+        overflow-x:hidden;
     }
 
     #header_name img{

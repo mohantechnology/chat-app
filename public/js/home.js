@@ -31,7 +31,7 @@ var rec_req =document.getElementById("rec_req");
 var req_box =document.getElementById("req_box");
 var sett_box =document.getElementById("sett_box");
 var search_keyword_alias =document.getElementById("search_keyword_alias");
-
+var loader =document.getElementById("loader");
 
 
 var setting =document.getElementById("setting");
@@ -153,6 +153,7 @@ mess_bd.addEventListener("scroll",()=>{
 
 if(is_recieved   && mess_bd.scrollTop < 100 &&  curr_no>0 && curr_f_id ){
     is_recieved =false; 
+    loader.style.display="block"; 
   
     let xhttp = new XMLHttpRequest();
 
@@ -160,9 +161,11 @@ if(is_recieved   && mess_bd.scrollTop < 100 &&  curr_no>0 && curr_f_id ){
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+            
             let data = JSON.parse(this.response);
             console.log(data);    
             is_recieved =true; 
+            loader.style.display="none"; 
             if (data.status == "ok") {
                let len = data.data.length; 
          
@@ -187,6 +190,7 @@ if(is_recieved   && mess_bd.scrollTop < 100 &&  curr_no>0 && curr_f_id ){
         
         }else if(this.readyState==4){
             is_recieved =true; 
+            loader.style.display="none"; 
             console.log("served creashed ");
         }
     }
@@ -506,7 +510,7 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
             back.style.display="inline-block";
         
         }
-
+        curr_no = undefined; 
         document.cookie = "curr_f_id="+(id)+"; path=/;";
         mess_bd.innerHTML = ""; 
         let xhttp = new XMLHttpRequest();
@@ -575,7 +579,13 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
         }
   
        document.getElementById(id).children[0].children[1].classList.add("not-visible"); 
-    }
+    }else  if(id && m_q.matches    ){
+     
+            col_1.style.display="none"; 
+            col_2.style.display="block";
+            back.style.display="inline-block";
+        
+        }
 
   
 }); 

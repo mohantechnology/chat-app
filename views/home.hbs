@@ -72,7 +72,7 @@
             </svg>
 
 
-            <input id="first-col-input-box" class="input_box" type="text" placeholder="search friend list">
+            <input id="first-col-input-box" class="input_box" type="text" placeholder="search friend list" autocomplete="off">
 
         </div>
         <hr>
@@ -81,7 +81,7 @@
 
 
 
-            <div class="friend-profile" style="display:none;">
+            <div class="friend-profile not-hover" style="display:none;">
 
                 <span class="profile" style="padding-left:80px;">
                     <p class="user-name"> "No Match" </p>
@@ -146,8 +146,6 @@
     <div id="col-2">
 
 
-       {{!-- <div class="loader-parent"><div class="loader"></div> --}}
-
 
 
 
@@ -168,7 +166,7 @@
 
             <div class="search-keyword">
 
-                <input class="input_box" id="input-search-keyword" type="text" placeholder="search keyword">
+                <input class="input_box" id="input-search-keyword" type="text" placeholder="search keyword" autocomplete="off" >
                 <span id="side-list-search-count"> 0/10</span>
 
                 <svg id="side-list-up-icon" width="18px" height="18px" viewBox="0 0 16 16"
@@ -262,7 +260,7 @@
 
         </header>
         <hr>
- 
+ <div class="loader" id="loader"></div>
         <div id="message-body"  style="display:none"></div>
            <form action="" method="POST" id="myform" >
             <input type="text" name="message" id="message_input" autocomplete="off" placeholder="Write message here...">
@@ -373,6 +371,7 @@
 
     </div>
 
+   
     <script>
         var a_t = "{{account_type}}"; 
         if(a_t=="private"){

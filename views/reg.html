@@ -97,7 +97,7 @@
 
 
     .button {
-        background-color: blue;
+        background-color: #0000ffc4;
         color: white;
         border: none;
         padding: 8px 10px;
@@ -450,7 +450,7 @@
 
 
                 <button id="reg-butt" class="button"> Register Account </button>
-
+                <button id="back-butt" class="button"> Back  </button>
 
 
 
@@ -474,8 +474,7 @@
         var user_pass = document.getElementById("user-pass");
         var conform_pass = document.getElementById("conform-pass");
         var reg_butt = document.getElementById("reg-butt");
-
-        // var user_pass = document.getElementById("user_pass");
+        var back_butt = document.getElementById("back-butt");
         // var user_pass = document.getElementById("user_pass");
         // var user_pass = document.getElementById("user_pass");
          
@@ -536,6 +535,10 @@
            
         })
 
+        back_butt.addEventListener("click",()=>{
+            email.value=user_pass.value= "";
+            location="./login"; 
+        })
     </script>
 </body>
 
