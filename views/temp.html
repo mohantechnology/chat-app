@@ -168,6 +168,35 @@ background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vc
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
           </svg>
+
+<style>
+  .loader {
+ 
+            /* border: 16px solid #a1a9c5; 
+            border-top: 16px solid #3498db; 
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite; */
+            
+    border: 4px solid #a1a9c5;
+    border-top: 4px solid #888e91;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 1136ms linear infinite;
+    animation: spin 1s linear infinite;
+          }
+          
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+
+</style>
+<div style="background-color: white;"><div class="loader"></div>
+</div>
+
         </body>
 
 

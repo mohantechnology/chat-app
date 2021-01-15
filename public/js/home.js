@@ -75,6 +75,8 @@ var d_img_url = "phone_img.jpg"
 
 var user_id; 
 var curr_f_id; 
+var curr_no; 
+var is_recieved=true; 
 var prev_f_id ; 
 var  ping_audio = new Audio("ping.mp3"); 
 
@@ -145,11 +147,58 @@ close_search.addEventListener("click",()=>{
     
 }); 
 
-// mess_bd.onscroll=()=>{
-//     console.log("scrollling"); 
-// } ; 
+
 mess_bd.addEventListener("scroll",()=>{
-    console.log("scrollling",mess_bd.scrollTop); 
+    // console.log("scrollling",mess_bd.scrollTop); 
+
+if(is_recieved   && mess_bd.scrollTop < 100 &&  curr_no>0 && curr_f_id ){
+    is_recieved =false; 
+  
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.open("POST", "./fetch_remain", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+            let data = JSON.parse(this.response);
+            console.log(data);    
+            is_recieved =true; 
+            if (data.status == "ok") {
+               let len = data.data.length; 
+         
+               for(let i=len-1; i>=0; i--){
+                 mess_bd.prepend (make_message_element(data.data[i])); 
+
+               } 
+               if(data.no ){
+                document.cookie = "no="+(data.no)+"; path=/;";
+                curr_no = data.no; 
+               }else{
+                document.cookie = "no=0; path=/;";
+                curr_no = 0; 
+               }
+          mess_bd.scrollTop = mess_bd.children[len-1].offsetTop; 
+            //      console.log("seting scroll ot len-1 ",mess_bd.children[len-1].offsetTop); 
+              
+
+                // console.log(data);
+        } 
+     
+        
+        }else if(this.readyState==4){
+            is_recieved =true; 
+            console.log("served creashed ");
+        }
+    }
+    let param =  "friend_u_id=" + curr_f_id+  "&no="+curr_no;
+    xhttp.send(param);
+    //connect to this friend ;
+     
+    // console.log("connected to  ",id); 
+    
+
+}
+
    }); 
 
 
@@ -469,7 +518,7 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
                 let data = JSON.parse(this.response);
-                console.log(data);
+                // console.log(data);
                 if (data.status == "ok") {
                    let len = data.data.length; 
                    
@@ -477,14 +526,21 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
                      mess_bd.prepend (make_message_element(data.data[i])); 
     
                    } 
-                
+                   if(data.no){
+                    document.cookie = "no="+(data.no)+"; path=/;";
+                    curr_no = data.no; 
+                   }else{
+                    document.cookie = "no=0; path=/;";
+                    curr_no  =0; 
+                   }
                    mess_bd.scrollTop = mess_bd.children[len-1].offsetTop; 
                      console.log("seting scroll ot len-1 ",mess_bd.children[len-1].offsetTop); 
                   
 
                     console.log(data);
             }else{
-                location  = "./login";     
+                console.log("error "); 
+                // location  = "./login";     
             } ;
            console.log("setted img"); 
             header_name.children[0].src=data.img?data.img: "racoon.jpg";

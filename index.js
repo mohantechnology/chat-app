@@ -197,6 +197,7 @@ app.get('/profile', (req, res) => {
   let cookie_data = jwt.decode(req.cookies.li);
 console.log("incoming cookie data", cookie_data);
   if( !(cookie_data) || !(cookie_data.u_id)){
+    console.log("redirecting"); 
    return  res.redirect("./login"); 
     
   }
@@ -355,7 +356,37 @@ app.post('/fetch_friend', (req, res) => {
 
 
 
+app.post('/fetch_remain', (req, res) => {
 
+
+
+  let cookie_data = jwt.decode(req.cookies.li);
+  if (cookie_data) {
+    cookie_data.friend_u_id = req.body.friend_u_id;
+    cookie_data.date = req.body.date;
+    cookie_data.time = req.body.time;
+    cookie_data.no = req.body.no;
+    
+
+  }
+
+  console.log("incoming cookie data from fetch_friend", cookie_data);
+  axios({
+    method: 'post',
+    url: process.env.API_URL + "/fetch_remain",
+    data: cookie_data
+  }).then(function (response) {
+    console.log(response.data);
+     
+    res.send(response.data);
+  }).catch(err => {
+    console.log("error is: ");
+    console.log(err);
+    res.status(500).send({ "status": "Internal server error" });
+  });
+
+
+});
 
 
 
