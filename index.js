@@ -11,8 +11,8 @@ const fileUpload = require('express-fileupload');
 
 const cookieParser = require("cookie-parser");
 
-// const bodyParser = require('body-parser');
-// app.set('views', (__dirname, '/views/'))
+const bodyParser = require('body-parser');
+app.set('views', (__dirname, '/views/'))
 
 
 
@@ -21,9 +21,9 @@ var port = process.env.PORT || 3000;
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
 console.log(__dirname, '/views');
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }))
 
 
 
@@ -148,6 +148,7 @@ app.post("/image", (req, res) => {
 
 
 app.get('/login', (req, res) => {
+
   res.sendFile(view_dir_name + "/login.html");
 });
 
