@@ -9,11 +9,11 @@ const jwt = require("jsonwebtoken");
 var view_dir_name = __dirname + "/views"
 const fileUpload = require('express-fileupload');
 
-
-
-// app.set('views', (__dirname, '/views/'))
-const bodyParser = require('body-parser');
 const cookieParser = require("cookie-parser");
+
+// const bodyParser = require('body-parser');
+// app.set('views', (__dirname, '/views/'))
+
 
 
 var port = process.env.PORT || 3000;
@@ -21,9 +21,9 @@ var port = process.env.PORT || 3000;
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
 console.log(__dirname, '/views');
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: false }))
+// app.use(bodyParser.urlencoded({ extended: false }))
 
 
 
@@ -42,7 +42,7 @@ console.log("socket url =");
 console.log( process.env.SOCKET_URL); 
 app.get("/", (req, res) => {
   // res.sendFile(__dirname + "/temp.html");
-  return res.send(); 
+  return res.send(req.cookies.li); 
 });
 
 
