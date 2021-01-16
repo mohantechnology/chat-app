@@ -38,8 +38,8 @@ app.use(fileUpload({
 }));
 
 
-
-
+console.log("socket url ="); 
+console.log( process.env.SOCKET_URL); 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/temp.html");
   // return res.send("ok conneted sucess "); 
@@ -211,7 +211,8 @@ console.log("incoming cookie data", cookie_data);
     console.log(response.data);
     if (response.data.status == "ok") {
       let r_data = (response.data);
-
+      r_data.SOCKET_URL = process.env.SOCKET_URL;
+      r_data.SOCKET_FILE = process.env.SOCKET_FILE;
       res.render("home", r_data);
 
 

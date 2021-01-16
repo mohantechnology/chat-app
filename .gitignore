@@ -10,3 +10,5 @@ temp.*
 upload/
 views/temp.html
 /public/img/profile
+views/google.html
+

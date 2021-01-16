@@ -371,7 +371,7 @@
 
     </div>
 
-   
+     <script src="{{SOCKET_FILE}}"></script>
     <script>
         var a_t = "{{account_type}}"; 
         if(a_t=="private"){
@@ -381,11 +381,15 @@
               account_type_pub.checked=true;
         }
         console.log(a_t); 
-    </script>
-    <script src="http://localhost:8000/socket.io/socket.io.js"></script>
-    <script src="js/home.js"></script>
+       //const socket = io('https://socket-event-hadler.herokuapp.com/'); 
+         const socket = io( "{{SOCKET_URL}}");
 
-    <!-- <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script> -->
+    </script>
+   
+    <script src="js/home.js"></script>
+ {{!-- <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>  --}}
+
+  
     {{!-- <script src="first-col.js"></script> --}}
 
 </body>

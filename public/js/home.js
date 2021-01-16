@@ -1,11 +1,9 @@
 
-const socket = io('http://localhost:8000');
-
-// const socket = io('https://socket-event-hadler.herokuapp.com/');
+// const socket = io('http://localhost:8000');
 
 // var  name = prompt("enter your name");
 var  name = ['maggi', 'mohan', 'manp', 'mango', 'splic', 'taste', 'bhatman'];
-name = name[(Date.now()) % name.length];
+// name = name[(Date.now()) % name.length];
 
 
 var  mess_bd = document.getElementById("message-body");
