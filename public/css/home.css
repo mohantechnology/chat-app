@@ -950,6 +950,115 @@ display:none;
 
   }
   
+
+
+
+  .message-file {
+    border: 1px solid black;
+    position: relative;
+
+  }
+
+  .download-img {
+    width: 25px;
+    height: 25px;
+
+    display: inline-block;
+    background-image: url("../file_download.svg");
+    border: 1px solid black;
+    background-repeat: no-repeat;
+    cursor:pointer; 
+    color:rgba(160, 81, 206, 0.356); 
+    position:relative; 
+    left:2px;
+    top:4px; 
+    padding:2px;  
+  
+  }
+ .download-img-display{
+   border:2px dotted green ; 
+   background-image: url("../racoon.jpg");
+   background-repeat: no-repeat;
+   min-height:200px;
+   margin:auto;
+   /* width:200px;  */
+    /* border-radius: 50%;; */
+   background-position: center;
+   background-size: 80%;
+   
+ }
+  .download-img-mess {
+    border: 1px solid green;
+    display: block;
+  width:97%;
+  padding:7px;  
+  margin:auto; 
+  padding:5px; 
+  word-spacing: 0px;
+  text-align: justify;
+  }
+
+  .load_box {
+    /* border:1px solid grey;  */
+    border-radius: 5px;
+
+    border: 2px solid #5f9ea03b;
+    position: relative;
+    margin: 3px;
+    /* overflow: hidden; */
+  }
+
+  .loading-body {
+    width: 10%;
+    position: relative;
+    z-index: 10;
+    background-color: #5f9ea03b;
+    height: 25px;
+  }
+
+  .loading {
+    height: 2px;
+    width: 96%;
+    background-color: #4158d0c2;
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    top: 18px;
+    left: 2%;
+    border-radius: 4px;
+  }
+
+  .percent,
+  .byte {
+    display: inline-block;
+    position: absolute;
+
+    font-size: 10px;
+    /* font-weight: 500; */
+    color: rgb(0, 0, 0);
+  }
+  .percent{
+    top:5px; 
+    left:4px; 
+  }
+  .byte {
+    right: 7px;
+    top:5px; 
+  }
+ .file{
+   background-color: white !important;
+   border:none; 
+   box-shadow:0px 0px 13px 0px #00000070;
+ }
+
+
+
+
+
+
+
+
+
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }

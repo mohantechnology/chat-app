@@ -30,6 +30,7 @@ var req_box =document.getElementById("req_box");
 var sett_box =document.getElementById("sett_box");
 var search_keyword_alias =document.getElementById("search_keyword_alias");
 var loader =document.getElementById("loader");
+var add_file =document.getElementById("add_file");
 
 
 var setting =document.getElementById("setting");
@@ -54,9 +55,11 @@ var update_but = document.getElementById("update_but");
 var upload_file = document.getElementById("upload_file");
 var upload_but = document.getElementById("upload_but");
 var log_out = document.getElementById("log_out");
+var send_file = document.getElementById("send_file");
+var transfer_file = document.getElementById("transfer_file");
+
+
 var find_new_friend = document.getElementById("find_new_friend");
-
-
 var account_type_pub = document.getElementById("account_type_pub");
 var account_type_pri = document.getElementById("account_type_pri");
 
@@ -83,6 +86,8 @@ var  ping_audio = new Audio("ping.mp3");
 
 document.cookie = "date="+ (new Date().toLocaleDateString())+"; path=/;";
 document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
+
+
 
 
 
@@ -144,6 +149,74 @@ close_search.addEventListener("click",()=>{
     menu.style.display="inline-block"; 
     
 }); 
+
+
+
+ 
+function make_file_element(data) {
+ 
+    let temp = document.createElement("div") 
+    data.message = data.message.trim()
+    if (data.message== "") {
+      data.message = "&nbsp;";
+  } 
+  
+      if(data.direction=="in"){
+          temp.classList ="message right"; 
+          temp.innerHTML = `    <span class="message-right">${data.message}</span>
+          <span class="message-time-right">${data.time}</span>  `;
+          
+      }
+      else   if(data.direction=="out")    {
+          temp.classList ="message left"; 
+          temp.innerHTML = `
+          <span class="message-left">${data.message}
+          </span>
+          <span class="message-time-left">${data.time}</span>`
+   
+      }
+      else {
+          temp.classList ="message middle"; 
+          temp.innerHTML = `       <span class="message-middle">  ${data.message}  </span> `
+      }
+  
+      return temp;          }
+      
+ 
+function make_message_element(data) {
+ 
+    let temp = document.createElement("div") 
+    data.message = data.message.trim()
+    if (data.message== "") {
+      data.message = "&nbsp;";
+  } 
+  
+      if(data.direction=="in"){
+          temp.classList ="message right"; 
+          temp.innerHTML = `    <span class="message-right">${data.message}</span>
+          <span class="message-time-right">${data.time}</span>  `;
+          
+      }
+      else   if(data.direction=="out")    {
+          temp.classList ="message left"; 
+          temp.innerHTML = `
+          <span class="message-left">${data.message}
+          </span>
+          <span class="message-time-left">${data.time}</span>`
+   
+      }
+      else {
+          temp.classList ="message middle"; 
+          temp.innerHTML = `       <span class="message-middle">  ${data.message}  </span> `
+      }
+  
+      return temp;          }
+      
+
+
+
+
+
 
 
 mess_bd.addEventListener("scroll",()=>{
@@ -263,7 +336,59 @@ log_out.addEventListener("click",()=>{
     location="./login"; 
 }); 
 
+send_file.addEventListener("click",(e)=>{
+    let up_file; 
+    let total_file ; 
+    console.log(up_file); 
 
+    if( transfer_file.files && transfer_file.files.length>0){
+        total_file = transfer_file.files.length; 
+    }
+    //    stack overflow
+    
+   let f_id= curr_f_id; 
+    for(let i =0; i<total_file; i++){
+        
+        let form_data = new FormData(); 
+        form_data.append("transfer_file",transfer_file.files[i]); 
+        let file_mess = "file message"; 
+          
+         let xhttp = new XMLHttpRequest();
+        let url = `/transfer_file/${f_id}/${encodeURIComponent(file_mess) }`; 
+        console.log("url = ",url ); 
+        xhttp.open("POST", url, true);
+        // xhttp.setRequestHeader("Content-type", "ap");
+       xhttp.upload.onprogress = function (e) {
+                console.log("progress"); 
+               console.log( Math.round(e.loaded/e.total*100)+ "%" ); 
+       }
+
+       xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+           console.log("resrpn->",this.response); 
+           let res_data = JSON.parse(this.response)
+           if(res_data.status=="ok"){
+            socket.emit('send-message', { "message": file_mess, "time": curr_time , date:(new Date()).toLocaleDateString,curr_f_id:f_id,user_id:user_id ,mess_type:"file",file_link:res_data.file_link});
+
+           }
+           else{
+            //   update_but.innerText="Not Updated";
+           }
+        
+        }
+    }
+    xhttp.send(form_data) ; 
+      
+    }
+
+  
+ 
+        
+}); 
+
+
+
+//profile image file 
 update_but.addEventListener("click",(e)=>{
     let up_file = upload_file.files[0]; 
     console.log(up_file); 
@@ -451,38 +576,7 @@ return `    <div class="friend-profile">
 
 
 
- 
-function make_message_element(data) {
- 
-    let temp = document.createElement("div") 
-    data.message = data.message.trim()
-    if (data.message== "") {
-      data.message = "&nbsp;";
-  } 
   
-      if(data.direction=="in"){
-          temp.classList ="message right"; 
-          temp.innerHTML = `    <span class="message-right">${data.message}</span>
-          <span class="message-time-right">${data.time}</span>  `;
-          
-      }
-      else   if(data.direction=="out")    {
-          temp.classList ="message left"; 
-          temp.innerHTML = `
-          <span class="message-left">${data.message}
-          </span>
-          <span class="message-time-left">${data.time}</span>`
-   
-      }
-      else {
-          temp.classList ="message middle"; 
-          temp.innerHTML = `       <span class="message-middle">  ${data.message}  </span> `
-      }
-  
-      return temp;          }
-      
-  
-
 //fetch friend chat message 
  first_col_friend_list.addEventListener("click",(e)=>{
 
@@ -525,7 +619,12 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
                    let len = data.data.length; 
                    
                    for(let i=len-1; i>=0; i--){
-                     mess_bd.prepend (make_message_element(data.data[i])); 
+                    if(data.data[i].mess_type){
+                        mess_bd.prepend (make_file_element(data.data[i])); 
+                    }else{
+
+                        mess_bd.prepend (make_message_element(data.data[i])); 
+                    }
     
                    } 
                    if(data.no){
@@ -565,15 +664,26 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
        if(total_mess_len!=0){
            let elem = {direction:"ser" , message:"unreaded messages ("+total_mess_len+")"}
         mess_bd.append(make_message_element( elem)); 
-        mess_bd.append(make_message_element(  message_list[id].pop())); 
+        // mess_bd.append(make_message_element(  message_list[id].pop())); 
+        if(  message_list[id][0].mess_type){
+            mess_bd.append (make_file_element( message_list[id].pop())); 
+        }else{
+            mess_bd.append(make_message_element(  message_list[id].pop()));
+        }
         
        }
        console.log("setting scroll to bottom "); 
         // mess_bd.scrollTop = src_id.offsetTop - 20;
-        // set_scroll_to_bottom(mess_bd);    
+        // set_scroll_to_bottom(mess_bd); 
+        //i start with one to set scroll to first messgae   
         for(i=1; i<total_mess_len; i++){
            
-            mess_bd.append(make_message_element(  message_list[id].pop())); 
+            if(  message_list[id][i].mess_type){
+                mess_bd.append (make_file_element( message_list[id].pop())); 
+            }else{
+                mess_bd.append(make_message_element(  message_list[id].pop()));
+            }
+            
         }
   
        document.getElementById(id).children[0].children[1].classList.add("not-visible"); 
@@ -1199,8 +1309,13 @@ console.log(data);
 // if()
 data.direction = "in"; 
 if(data.user_id==curr_f_id){
-     
-    temp = make_message_element(data); 
+    
+    //if recieved message is file 
+    if(data.mess_type){
+        temp = make_file_element(data);
+    }else{
+        temp = make_message_element(data); 
+    }
    
     console.log("temp is: ") ; 
     console.log(temp);

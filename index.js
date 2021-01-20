@@ -12,7 +12,9 @@ const fileUpload = require('express-fileupload');
 const cookieParser = require("cookie-parser");
 
 const bodyParser = require('body-parser');
+const { strict } = require('assert');
 app.set('views', (__dirname, '/views/'))
+
 
 
 
@@ -48,8 +50,72 @@ app.get("/", (req, res) => {
 
 
 
+// transfer_file
+
+app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
+  console.log(req.files); 
+
+  let up_file; 
+ 
+
+  // if file is present then  update the file in database also and delete prev file 
+  if (req.files && req.files.transfer_file ) {
+
+ let cookie_data = jwt.decode(req.cookies.li);
+ cookie_data.file_name = req.files.transfer_file.name; 
+ cookie_data.file_mess = req.params.file_mess; 
+ cookie_data.curr_f_id =  req.params.curr_f_id; 
+ 
+
+    axios({
+      method: 'post',
+      url: process.env.API_URL + "/transfer_file",
+      data: cookie_data
+    }).then(function (response) {
+      console.log("response data is: ");
+      console.log(response.data);
+      if (response.data.status == "ok") {
+        let r_data = (response.data);
+  
+        let sampleFile = req.files.transfer_file;
+        //create folder if not exist 
+        let path_link =__dirname + `/transfer_file/${r_data.folder_name}`;
+        if (!fs.existsSync(path_link)) {
+          fs.mkdirSync(path_link); 
+        }
+        sampleFile.mv(path_link+"/"+r_data.curr_file_name, function (err) {
+          if (err) {
+            console.log("erro is: ", err.message)
+            res.send({ status: "error", message: err.message });
+          }
+          else{
+            res.send({status:"ok",file_link: r_data.curr_file_name }); 
+          }
+
+        }); 
+         
+     
+        } else {
+        res.send({ status: "error", message: "File is not sended successfully" });
+      }
+    }).catch(err => {
+      console.log("error is: ");
+      console.log(err);
+      res.status(500).send({ "status": "Internal server error" });
+
+    }); 
+  }else{
+    res.send({status:"error",message:"File not present" }); 
+  }
+
+  });
 
 
+
+
+
+
+// upload profile image 
 app.post('/update_prof/:acc_tp?/:pro_mess?', function (req, res) {
   // console.log(req.files); 
 
@@ -167,8 +233,9 @@ app.post('/login', (req, res) => {
     console.log(response.data);
     if (response.data.status == "ok") {
 
+      
       let token = jwt.sign({ email: response.data.email, name: response.data.name, u_id: response.data.u_id, token: response.data.token, p_id: response.data.p_id }, process.env.JWT_SECRET_KEY);
-      res.cookie("li", token, { expires: new Date(Date.now() + 6000000) });
+      res.cookie("li", token, { expires: new Date(Date.now() + 6000000),sameSite:"strict"} );
       console.log("cookie encodded", token);
       console.log("succesfull set cookie ", jwt.decode(token));
       res.send({ "status": "ok" });
