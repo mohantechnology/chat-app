@@ -77,6 +77,7 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
       if (response.data.status == "ok") {
         let r_data = (response.data);
   
+      
         let sampleFile = req.files.transfer_file;
         //create folder if not exist 
         let path_link =__dirname + `/transfer_file/${r_data.folder_name}`;
@@ -89,7 +90,7 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
             res.send({ status: "error", message: err.message });
           }
           else{
-            res.send({status:"ok",file_link: r_data.curr_file_name }); 
+            res.send({status:"ok",file_link: r_data.curr_file_name,file_name:r_data.file_name }); 
           }
 
         }); 

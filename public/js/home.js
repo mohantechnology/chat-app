@@ -33,6 +33,7 @@ var loader =document.getElementById("loader");
 var add_file =document.getElementById("add_file");
 var setting =document.getElementById("setting");
 var all_id = {}; 
+var upload_list= {}; 
 //-----------------first col 
 
 var  col_1 = document.getElementById("col-1");
@@ -187,7 +188,7 @@ close_search.addEventListener("click",()=>{
  */}
 
 
- function make_file_send_element(data) {
+ function make_file_sent_element(data) {
  
     let temp = document.createElement("div") 
   if(!data.message){
@@ -200,7 +201,7 @@ close_search.addEventListener("click",()=>{
            <span class="message-right file-right">
           <div class="message-file">
             <div class="download-img-display" >data image </div>
-            <span class="download-img-mess download-img-mess-send">${data.message} </span><div class="file-name"> mesage file .png </div> 
+            <span class="download-img-mess download-img-mess-send">${data.message} </span><div class="file-name"> ${data.file_name}</div> 
               <span class="download-img"> </span>
               <span class="share-img"> </span>
          
@@ -217,7 +218,7 @@ close_search.addEventListener("click",()=>{
           <div class="message-file">
             <div class="download-img-display" > </div>
             <span class="download-img-mess download-img-mess-send">${data.message}</span>
-            <div class="file-name"> mesage file .png </div> 
+            <div class="file-name">  ${data.file_name}</div> 
               <span class="download-img"> </span>
               <span class="share-img"> </span>
          
@@ -257,7 +258,7 @@ function make_file_upload_element(data) {
             <div class="load_box" id="${data.upload_id}">
             
               <span class="percent">0%</span>
-              <span class="byte"> s${data.byte}</span>
+              <span class="byte"> ${data.byte}</span>
               <div class="loading-body"> </div>
               <div class="loading"></div>
             </div>
@@ -523,6 +524,7 @@ send_file.addEventListener("click",(e)=>{
     if( transfer_file.files && transfer_file.files.length>0){
         total_file = transfer_file.files.length; 
     }else{
+        console.log("no file "); 
         return; 
     }
     console.log( transfer_file.files)
@@ -533,6 +535,7 @@ send_file.addEventListener("click",(e)=>{
         //generate upload id 
    
         let upload_id = f_id+ parseInt (Math.random()*10000); 
+        
         while(all_id[upload_id]){
           upload_id = f_id+ parseInt (Math.random()*10000); 
         }
@@ -542,7 +545,7 @@ send_file.addEventListener("click",(e)=>{
         size_detail.final_size =Math.round(size_detail.size*100/size_detail.divi)/100 +  " " + size_detail.unit; 
         let form_data = new FormData(); 
         form_data.append("transfer_file",transfer_file.files[i]); 
-        let file_mess = "file message"; 
+        let file_mess = "file message is nothing "; 
           all_id
          let xhttp = new XMLHttpRequest();
         let url = `/transfer_file/${f_id}/${encodeURIComponent(file_mess) }`; 
@@ -580,8 +583,30 @@ send_file.addEventListener("click",(e)=>{
            console.log("resrpn->",this.response); 
            let res_data = JSON.parse(this.response)
            if(res_data.status=="ok"){
-            socket.emit('send-message', { "message": file_mess, "time":(new Date()).toLocaleTimeString(), date:(new Date()).toLocaleDateString,curr_f_id:f_id,user_id:user_id ,mess_type:"file",file_link:res_data.file_link});
-               console.log("successly sended file "); 
+               res_data.message= file_mess;
+               res_data.time= (new Date()).toLocaleTimeString(); 
+               res_data.curr_f_id= f_id;
+               res_data.mess_type="file"; 
+               res_data.user_id= user_id;
+               res_data.direction="out"; 
+               
+            //    res_data.mess_type="file";
+
+            socket.emit('sent-file', res_data);
+               console.log("successly sended file ",res_data); 
+               
+                if(curr_f_id == f_id){
+                    document.getElementById(upload_id).parentNode.parentNode.parentNode.parentNode.remove(); 
+                    mess_bd.append(make_file_sent_element(res_data)); 
+                }else{
+               
+                    if(message_list[upload_id]!=undefined ){
+                            
+                        message_list[upload_id].push(res_data); 
+                    }else{
+                        message_list[upload_id] = [res_data]; 
+                    }
+                }
            }
            else{
             //   update_but.innerText="Not Updated";
@@ -590,11 +615,16 @@ send_file.addEventListener("click",(e)=>{
         }
     }
     xhttp.send(form_data) ; 
-   
-    let temp_child = make_file_upload_element({file_name:transfer_file.files[i].name,byte:"0 bytes",upload_id: upload_id}); 
+ 
+    let temp_child = make_file_upload_element({file_name:transfer_file.files[i].name,byte:"waiting...",upload_id: upload_id}); 
     console.log("temp upload child "); 
     console.log(temp_child); 
     mess_bd.append(temp_child)
+    if(upload_list.f_id){
+         upload_list[f_id].push({upload_id:temp_child})
+    }else{
+        upload_list[f_id] = [{upload_id:temp_child}]
+    }
     set_scroll_to_bottom(mess_bd); 
     }
 
@@ -837,7 +867,7 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
                    
                    for(let i=len-1; i>=0; i--){
                     if(data.data[i].mess_type){
-                        mess_bd.prepend (make_file_element(data.data[i])); 
+                        mess_bd.prepend (make_file_sent_element(data.data[i])); 
                     }else{
 
                         mess_bd.prepend (make_message_element(data.data[i])); 
@@ -883,7 +913,7 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
         mess_bd.append(make_message_element( elem)); 
         // mess_bd.append(make_message_element(  message_list[id].pop())); 
         if(  message_list[id][0].mess_type){
-            mess_bd.append (make_file_element( message_list[id].pop())); 
+            mess_bd.append (make_file_sent_element( message_list[id].pop())); 
         }else{
             mess_bd.append(make_message_element(  message_list[id].pop()));
         }
@@ -896,7 +926,7 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
         for(i=1; i<total_mess_len; i++){
            
             if(  message_list[id][i].mess_type){
-                mess_bd.append (make_file_element( message_list[id].pop())); 
+                mess_bd.append (make_file_sent_element( message_list[id].pop())); 
             }else{
                 mess_bd.append(make_message_element(  message_list[id].pop()));
             }
@@ -1526,10 +1556,12 @@ console.log(data);
 // if()
 data.direction = "in"; 
 if(data.user_id==curr_f_id){
-    
+    // ##
+console.log("recived data is: ",data); 
     //if recieved message is file 
-    if(data.mess_type){
-        temp = make_file_element(data);
+    if(data.mess_type=="file"){
+        console.log("fmessage type is file make in file element ")
+        temp = make_file_sent_element(data);
     }else{
         temp = make_message_element(data); 
     }
