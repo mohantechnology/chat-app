@@ -31,9 +31,8 @@ var sett_box =document.getElementById("sett_box");
 var search_keyword_alias =document.getElementById("search_keyword_alias");
 var loader =document.getElementById("loader");
 var add_file =document.getElementById("add_file");
-
-
 var setting =document.getElementById("setting");
+var all_id = {}; 
 //-----------------first col 
 
 var  col_1 = document.getElementById("col-1");
@@ -149,40 +148,209 @@ close_search.addEventListener("click",()=>{
     menu.style.display="inline-block"; 
     
 }); 
-
-
-
+    
+{/* <div class="message right">
+<span class="message-right file-right">
+  <div class="message-file">
+    <div class="download-img-display" > </div>
+    <span class="download-img-mess download-img-mess-send"> Downlaod loerj lorem
+     aliquam ex ullam reiciendis autem mollitia asperiores quisquam a delectus libero quidem, architecto cumque? file message </span>
+      <span class="download-img"> </span>
+      <span class="share-img"> </span>
  
-function make_file_element(data) {
+  </div>
+</span>
+
+<span class="message-time-left">12:34:33 pm </span>
+</div>
+<hr>   
+<hr>
+
+<div class="message left ">
+<span class="message-left file-left">
+  <div class="message-file">
+    <div class="download-img-display" > </div>
+    <span class="download-img-mess download-img-mess-send"> Downlaod loerj lorem
+     aliquam ex ullam reiciendis autem mollitia asperiores quisquam a delectus libero quidem, architecto cumque? file message </span>
+      <span class="download-img"> </span>
+      <span class="share-img"> </span>
+ 
+  </div>
+</span>
+
+<span class="message-time-left">12:34:33 pm </span>
+</div>
+<hr>
+
+
+<hr>
+ */}
+
+
+ function make_file_send_element(data) {
  
     let temp = document.createElement("div") 
-    data.message = data.message.trim()
-    if (data.message== "") {
-      data.message = "&nbsp;";
-  } 
+  if(!data.message){
+      data.message=""; 
+  }
   
       if(data.direction=="in"){
           temp.classList ="message right"; 
-          temp.innerHTML = `    <span class="message-right">${data.message}</span>
-          <span class="message-time-right">${data.time}</span>  `;
+          temp.innerHTML = `   
+           <span class="message-right file-right">
+          <div class="message-file">
+            <div class="download-img-display" >data image </div>
+            <span class="download-img-mess download-img-mess-send">${data.message} </span><div class="file-name"> mesage file .png </div> 
+              <span class="download-img"> </span>
+              <span class="share-img"> </span>
+         
+          </div>
+        </span>
+                  <span class="message-time-left">${data.time}</span>` ;
           
       }
+    
       else   if(data.direction=="out")    {
           temp.classList ="message left"; 
           temp.innerHTML = `
-          <span class="message-left">${data.message}
-          </span>
+          <span class="message-left file-left">
+          <div class="message-file">
+            <div class="download-img-display" > </div>
+            <span class="download-img-mess download-img-mess-send">${data.message}</span>
+            <div class="file-name"> mesage file .png </div> 
+              <span class="download-img"> </span>
+              <span class="share-img"> </span>
+         
+          </div>
+        </span>
+
           <span class="message-time-left">${data.time}</span>`
    
       }
       else {
+          
           temp.classList ="message middle"; 
           temp.innerHTML = `       <span class="message-middle">  ${data.message}  </span> `
       }
   
-      return temp;          }
+      return temp;        
+  }
       
+// mess_bd.append(make_file_upload_element({time:"34/34/3402" ,message:"kdjfldsjf" ,direction:"out"})); 
  
+function make_file_upload_element(data) {
+ 
+    let temp = document.createElement("div") 
+    
+    if ((!data.message)|| data.message== "") {
+      data.message = "&nbsp;";
+  } 
+  data.message = data.message.trim()
+
+          temp.classList ="message left"; 
+      
+          temp.innerHTML = `   <span class="message-left file-left">file shareng
+          <div class="message-file">
+            <span class="download-img-mess"> ${data.file_name}
+           
+              <hr>   Uploading... <br>
+            <div class="load_box" id="${data.upload_id}">
+            
+              <span class="percent">0%</span>
+              <span class="byte"> s${data.byte}</span>
+              <div class="loading-body"> </div>
+              <div class="loading"></div>
+            </div>
+          </div>
+        </span>
+       `;
+          
+  
+      return temp;        
+  }
+      
+
+
+
+
+
+ 
+{/*
+    upload 1
+<div class="message left">
+  <span class="message-left file-left">file shareng
+    <div class="message-file">
+      <span class="download-img-mess"> fifb3eb0e5ee50598fc839.pdf
+     
+        <hr>   Uploading... <br>
+      <div class="load_box" id="box1">
+      
+        <span class="percent">100%</span>
+        <span class="byte">20.23/40.23 MB</span>
+        <div class="loading-body"> </div>
+        <div class="loading"></div>
+      </div>
+    </div>
+  </span>
+
+</div>
+
+
+
+
+<hr>
+    
+    
+    
+    <div class="message right ">
+  <span class="message-right file-right">file shareng
+    <div class="message-file">
+      <span class="download-img-mess"> fifb3eb0e5ee50598fc839.pdf
+     
+        <hr>   Uploading... <br>
+      <div class="load_box" id="box2">
+      
+        <span class="percent">100%</span>
+        <span class="byte">20.23/40.23 MB</span>
+        <div class="loading-body"> </div>
+        <div class="loading"></div>
+      </div>
+    </div>
+  </span>
+
+</div> */}
+
+
+// function make_file_load_element(data) {
+ 
+//  let temp = document.createElement("div") 
+//  data.message = data.message.trim()
+//  if (data.message== "") {
+//    data.message = "&nbsp;";
+// } 
+
+//        temp.classList ="message left"; 
+//        temp.innerHTML = `
+//         <span class="message-left file-left">file shareng
+//          <div class="message-file">
+//            <span class="download-img-mess"> fifb3eb0e5ee50598fc839.pdf
+          
+//              <hr>   Uploading... <br>
+//            <div class="load_box" id="box1">
+           
+//              <span class="percent">100%</span>
+//              <span class="byte">20.23/40.23 MB</span>
+//              <div class="loading-body"> </div>
+//              <div class="loading"></div>
+//            </div>
+//          </div>
+//        </span>`;
+
+
+
+//    return temp;         
+// }
+
 function make_message_element(data) {
  
     let temp = document.createElement("div") 
@@ -210,7 +378,8 @@ function make_message_element(data) {
           temp.innerHTML = `       <span class="message-middle">  ${data.message}  </span> `
       }
   
-      return temp;          }
+      return temp;         
+ }
       
 
 
@@ -323,6 +492,16 @@ function preview_img() {
     }
 
 }
+function byte_to_unit(size) {
+    if(size<=1000) return { divi: 1 , unit:"B"}; 
+    if(size<=100000) return { divi: 1000 , unit:"KB"};
+    if(size<=100000000) return { divi: 1000000 , unit:"MB"};
+    if(size<=100000000000) return { divi: 1000000000 , unit:"GB"};
+    if(size<=100000000000000) return { divi: 1000000000000 , unit:"TB"};
+
+
+    
+}
 
 log_out.addEventListener("click",()=>{
     console.log("clieked logout ")
@@ -343,33 +522,66 @@ send_file.addEventListener("click",(e)=>{
 
     if( transfer_file.files && transfer_file.files.length>0){
         total_file = transfer_file.files.length; 
+    }else{
+        return; 
     }
+    console.log( transfer_file.files)
     //    stack overflow
-    
-   let f_id= curr_f_id; 
+    let f_id= curr_f_id; 
+  
     for(let i =0; i<total_file; i++){
-        
+        //generate upload id 
+   
+        let upload_id = f_id+ parseInt (Math.random()*10000); 
+        while(all_id[upload_id]){
+          upload_id = f_id+ parseInt (Math.random()*10000); 
+        }
+        all_id[upload_id]=true; 
+        let size_detail = byte_to_unit(transfer_file.files[i].size); 
+        size_detail.size = transfer_file.files[i].size;
+        size_detail.final_size =Math.round(size_detail.size*100/size_detail.divi)/100 +  " " + size_detail.unit; 
         let form_data = new FormData(); 
         form_data.append("transfer_file",transfer_file.files[i]); 
         let file_mess = "file message"; 
-          
+          all_id
          let xhttp = new XMLHttpRequest();
         let url = `/transfer_file/${f_id}/${encodeURIComponent(file_mess) }`; 
         console.log("url = ",url ); 
-        xhttp.open("POST", url, true);
-        // xhttp.setRequestHeader("Content-type", "ap");
+        xhttp.open("POST", url, true);   
+        console.log(size_detail);
+        console.log(transfer_file.files[i].size); 
+        
+        // xhttp.setRequestHeader("Content-type", "ap");\
        xhttp.upload.onprogress = function (e) {
-                console.log("progress"); 
-               console.log( Math.round(e.loaded/e.total*100)+ "%" ); 
+           let element = document.getElementById(upload_id)
+              if(element){
+                  let frac =e.loaded/e.total; 
+                  console.log(e.loaded); 
+                  element.children[0].innerText=Math.round (frac*100)+ "%"; 
+                  element.children[1].innerText =Math.round(e.loaded *100/size_detail.divi)/100+ "/" +  Math.round(e.total *100/size_detail.divi)/100 + size_detail.unit; 
+                  element.children[2].style.width=Math.round (frac*100)+ "%"; 
+                  element.children[3].style.width= Math.round (frac*95)+ "%"; ;  
+            //    console.log( Math.round(e.loaded/e.total*100)+ "%" ); 
+             
+            `
+            <div class="load_box" id="">
+            
+            <span class="percent">0%</span>
+            <span class="byte">20.23/40.23 MB</span>
+            <div class="loading-body"> </div>
+            <div class="loading"></div>`
+            }
+              
+            
        }
-
+      
        xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
            console.log("resrpn->",this.response); 
            let res_data = JSON.parse(this.response)
            if(res_data.status=="ok"){
-            socket.emit('send-message', { "message": file_mess, "time": curr_time , date:(new Date()).toLocaleDateString,curr_f_id:f_id,user_id:user_id ,mess_type:"file",file_link:res_data.file_link});
-
+            socket.emit('send-message', { "message": file_mess, "time":(new Date()).toLocaleTimeString(), date:(new Date()).toLocaleDateString,curr_f_id:f_id,user_id:user_id ,mess_type:"file",file_link:res_data.file_link});
+               console.log("successly sended file "); 
            }
            else{
             //   update_but.innerText="Not Updated";
@@ -378,7 +590,12 @@ send_file.addEventListener("click",(e)=>{
         }
     }
     xhttp.send(form_data) ; 
-      
+   
+    let temp_child = make_file_upload_element({file_name:transfer_file.files[i].name,byte:"0 bytes",upload_id: upload_id}); 
+    console.log("temp upload child "); 
+    console.log(temp_child); 
+    mess_bd.append(temp_child)
+    set_scroll_to_bottom(mess_bd); 
     }
 
   

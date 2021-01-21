@@ -46,7 +46,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
 
 
     #message-body {
-        height: 76vh;
+        height: 56vh;
         overflow-y: auto;
         overflow-x: hidden;
         position: relative;
@@ -185,7 +185,6 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         /* color:rgb(197,197,197); */
         /* box-shadow: 1px 1px 5px 0.1px black; */
         border: 1px solid rgb(193, 205, 223);
-
 
 
 
@@ -954,48 +953,80 @@ display:none;
 
 
   .message-file {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     position: relative;
 
   }
 
   .download-img {
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
 
     display: inline-block;
     background-image: url("../file_download.svg");
-    border: 1px solid black;
+    /* border: 1px solid black; */
     background-repeat: no-repeat;
     cursor:pointer; 
     color:rgba(160, 81, 206, 0.356); 
     position:relative; 
+    margin-top: 8px;
     left:2px;
     top:4px; 
     padding:2px;  
   
   }
+  .share-img{
+
+        width: 20px;
+        height: 20px;
+    
+        display: inline-block; 
+        background-image: url("../share-fill.svg");
+        background-position: center;
+        /* border: 1px solid black; */
+        background-repeat: no-repeat;
+        cursor:pointer; 
+        color:rgba(160, 81, 206, 0.356); 
+        position:relative; 
+        left:12px;
+        /* top:4px;  */
+        padding:2px;  
+
+  }
+
  .download-img-display{
-   border:2px dotted green ; 
+   /* border:2px dotted green ;  */
    background-image: url("../racoon.jpg");
    background-repeat: no-repeat;
+   border-top-left-radius: 5px;
+   border-top-right-radius: 5px;
    min-height:200px;
    margin:auto;
-   /* width:200px;  */
+   min-width:200px; 
     /* border-radius: 50%;; */
    background-position: center;
-   background-size: 80%;
+   background-size: 100%;
    
  }
   .download-img-mess {
-    border: 1px solid green;
+    border-left: 3px solid rgba(34, 0, 128, 0.418);
+
+background-color: white;
+/* rgba(0, 0, 255, 0.096) */
     display: block;
-  width:97%;
+  width:95%;
+  min-width: 250px;
   padding:7px;  
   margin:auto; 
   padding:5px; 
   word-spacing: 0px;
   text-align: justify;
+  }
+  .download-img-mess-send{
+    background-color: #ded9d9d6;
+    border-radius: 4px; ;
+    padding:5px ;
+    margin:5px 0px ;  
   }
 
   .load_box {
@@ -1014,17 +1045,19 @@ display:none;
     z-index: 10;
     background-color: #5f9ea03b;
     height: 25px;
+    transition:width 0.2s linear;
   }
 
   .loading {
     height: 2px;
-    width: 96%;
+    width: 3%;
     background-color: #4158d0c2;
     margin: 0px;
     padding: 0px;
     position: absolute;
     top: 18px;
     left: 2%;
+    transition:width 0.2s linear;
     border-radius: 4px;
   }
 
@@ -1045,13 +1078,34 @@ display:none;
     right: 7px;
     top:5px; 
   }
- .file{
+ .file-left{
    background-color: white !important;
    border:none; 
+
    box-shadow:0px 0px 13px 0px #00000070;
  }
 
+ .file-right{
+    background-color: white !important;
+    border:none; 
+    margin-right: 60px;
+    color:black; 
+    box-shadow:0px 0px 13px 0px #00000070;
+  }
+  .file-name{
+    border-left: 2px solid rgba(34, 0, 128, 0.418);
 
+    border-right: 2px solid rgba(34, 0, 128, 0.418);
+    background-color: rgba(216, 176, 176, 0.284);
+    /* rgba(0, 0, 255, 0.096) */
+        display: block;
+      width:94%;
+      padding:7px;  
+      margin:auto; 
+      padding:5px; 
+      word-spacing: 0px;
+      text-align: justify;
+  }
 
 
 
