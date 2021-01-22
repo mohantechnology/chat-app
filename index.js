@@ -13,6 +13,7 @@ const cookieParser = require("cookie-parser");
 
 const bodyParser = require('body-parser');
 const { strict } = require('assert');
+const { fips } = require('crypto');
 app.set('views', (__dirname, '/views/'))
 
 
@@ -65,6 +66,7 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
  cookie_data.file_name = req.files.transfer_file.name; 
  cookie_data.file_mess = req.params.file_mess; 
  cookie_data.curr_f_id =  req.params.curr_f_id; 
+ cookie_data.mime_type = req.files.transfer_file.mimetype; 
  
 
     axios({
@@ -80,7 +82,8 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
       
         let sampleFile = req.files.transfer_file;
         //create folder if not exist 
-        let path_link =__dirname + `/transfer_file/${r_data.folder_name}`;
+        let path_link =__dirname + `/public/transfer_file/${r_data.folder_name}`;
+        // let path_link =__dirname + `/transfer_file`;
         if (!fs.existsSync(path_link)) {
           fs.mkdirSync(path_link); 
         }
@@ -90,7 +93,7 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
             res.send({ status: "error", message: err.message });
           }
           else{
-            res.send({status:"ok",file_link: r_data.curr_file_name,file_name:r_data.file_name }); 
+            res.send({status:"ok",file_link: r_data.curr_file_name,file_name:r_data.file_name,mime_type:sampleFile.mimetype,folder_name: r_data.folder_name }); 
           }
 
         }); 
@@ -108,6 +111,36 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
   }else{
     res.send({status:"error",message:"File not present" }); 
   }
+
+  });
+
+
+  // transfer_file
+
+app.get('/download/:folder/:file/:file_name?', function (req, res) {
+  console.log(req.params); 
+  
+
+
+ 
+        let path_link =__dirname + `/public/transfer_file/${req.params.folder}/${req.params.file}`;
+        // let path_link =__dirname + `/transfer_file`;
+       
+          if(req.params.file_name)
+         {    
+        res.download(path_link,req.params.file_name)
+           }
+       else{
+          res.download(path_link)
+       }
+         
+      
+          //  console.log("File not present ")
+          //   res.send({status:"error",message:"File not present" }); 
+      
+      
+   
+
 
   });
 

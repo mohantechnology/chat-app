@@ -1,6 +1,7 @@
 
 // const socket = io('http://localhost:8000');
 
+
 // var  name = prompt("enter your name");
 var  name = ['maggi', 'mohan', 'manp', 'mango', 'splic', 'taste', 'bhatman'];
 // name = name[(Date.now()) % name.length];
@@ -191,18 +192,30 @@ close_search.addEventListener("click",()=>{
  function make_file_sent_element(data) {
  
     let temp = document.createElement("div") 
+    let mime_type=""; 
   if(!data.message){
       data.message=""; 
   }
-  
+  if(data.mime_type){
+    mime_type= data.mime_type.split("/")[0]; 
+    console.log(mime_type); 
+    if(mime_type == "image"){
+        mime_type = `background-image:url('../transfer_file/${data.folder_name}/${data.file_link}');min-height: 200px;`;
+        // mime_type = `background-image:url('../chat_image.png')`; 
+        
+    }
+  }
+//   let download_link = `./download/${data.folder_name}/${data.file_link}`
+//   console.log("file mime type ---> ",); 
+//   console.log(mime_type,"=>end"); 
       if(data.direction=="in"){
           temp.classList ="message right"; 
           temp.innerHTML = `   
            <span class="message-right file-right">
           <div class="message-file">
-            <div class="download-img-display" >data image </div>
+            <div class="download-img-display" style="${mime_type}" >data image </div>
             <span class="download-img-mess download-img-mess-send">${data.message} </span><div class="file-name"> ${data.file_name}</div> 
-              <span class="download-img"> </span>
+              <span class="download-img" id="${data.folder_name}-${data.file_link}"> </span>
               <span class="share-img"> </span>
          
           </div>
@@ -216,10 +229,10 @@ close_search.addEventListener("click",()=>{
           temp.innerHTML = `
           <span class="message-left file-left">
           <div class="message-file">
-            <div class="download-img-display" > </div>
+            <div class="download-img-display"  style="${mime_type}" > </div>
             <span class="download-img-mess download-img-mess-send">${data.message}</span>
             <div class="file-name">  ${data.file_name}</div> 
-              <span class="download-img"> </span>
+              <span class="download-img" id="${data.folder_name}-${data.file_link}" > </span>
               <span class="share-img"> </span>
          
           </div>
@@ -447,6 +460,38 @@ if(is_recieved   && mess_bd.scrollTop < 100 &&  curr_no>0 && curr_f_id ){
    }); 
 
 
+   mess_bd.addEventListener("click",(e)=>{
+      if(e.target.className=="download-img"){
+        //   console.log(e.target.previousElementSibling.innerText); 
+          let path  = e.target.id.split("-"); 
+        
+           let url = "./download/"+ path[0]+ "/" + path[1] + "/" + e.target.previousElementSibling.innerText ; 
+        //    location = url; 
+        var elel =  document.createElement("a"); 
+        elel.setAttribute("href",url); 
+        elel.setAttribute("target","_blank"); 
+        elel.click(); 
+        console
+    // let xhttp = new XMLHttpRequest();
+    // xhttp.open("POST", url, true);
+    
+    // xhttp.addEventListener("progress", function (evt) {
+    //     if(evt.lengthComputable) {
+    //         var percentComplete = evt.loaded   + " " + evt.total;
+    //         console.log(percentComplete);
+    //     }
+    // }, false);
+           
+
+    //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+    //          console.log(this.response)
+    //     }
+    
+    // xhttp.send();
+      }
+
+   })
+
 back.addEventListener("click",()=>{
  col_1.style.display="block"; 
  col_2.style.display="none"; 
@@ -566,13 +611,13 @@ send_file.addEventListener("click",(e)=>{
                   element.children[3].style.width= Math.round (frac*95)+ "%"; ;  
             //    console.log( Math.round(e.loaded/e.total*100)+ "%" ); 
              
-            `
-            <div class="load_box" id="">
+            // 
+            // <div class="load_box" id="">
             
-            <span class="percent">0%</span>
-            <span class="byte">20.23/40.23 MB</span>
-            <div class="loading-body"> </div>
-            <div class="loading"></div>`
+            // <span class="percent">0%</span>
+            // <span class="byte">20.23/40.23 MB</span>
+            // <div class="loading-body"> </div>
+            // <div class="loading"></div>
             }
               
             
@@ -586,7 +631,7 @@ send_file.addEventListener("click",(e)=>{
                res_data.message= file_mess;
                res_data.time= (new Date()).toLocaleTimeString(); 
                res_data.curr_f_id= f_id;
-               res_data.mess_type="file"; 
+               res_data.mess_type="file";
                res_data.user_id= user_id;
                res_data.direction="out"; 
                
@@ -600,13 +645,24 @@ send_file.addEventListener("click",(e)=>{
                     mess_bd.append(make_file_sent_element(res_data)); 
                 }else{
                
-                    if(message_list[upload_id]!=undefined ){
+                    if(message_list[f_id]!=undefined ){
                             
-                        message_list[upload_id].push(res_data); 
+                        message_list[f_id].push(res_data); 
                     }else{
-                        message_list[upload_id] = [res_data]; 
+                        message_list[f_id] = [res_data]; 
                     }
                 }
+                // let upload_len = upload_list[f_id].length; 
+                // for(let j=0; j<upload_len; j++){
+                //      if(upload_list[f_id][j][upload_id]){
+                //         upload_list[f_id] =  upload_list[f_id].splice(j,1); 
+           
+                //      }
+                    
+                // }
+               delete upload_list[f_id][upload_id]; 
+              console.log(upload_list); 
+              console.log("detedted "); 
            }
            else{
             //   update_but.innerText="Not Updated";
@@ -614,16 +670,22 @@ send_file.addEventListener("click",(e)=>{
         
         }
     }
+
+    // let arr = [{name: "maggi",age:234},{name: "yes ",age:234}]
+    // arr.search({name:"maggi",age:234}) 
     xhttp.send(form_data) ; 
- 
-    let temp_child = make_file_upload_element({file_name:transfer_file.files[i].name,byte:"waiting...",upload_id: upload_id}); 
+    let upload_data = {file_name:transfer_file.files[i].name,byte:"waiting...",upload_id: upload_id}; 
+    let upload_detail = {}; 
+    upload_detail[upload_id]= upload_data; 
+    let temp_child = make_file_upload_element(upload_data); 
     console.log("temp upload child "); 
     console.log(temp_child); 
     mess_bd.append(temp_child)
-    if(upload_list.f_id){
-         upload_list[f_id].push({upload_id:temp_child})
+
+    if(upload_list[f_id]){
+         upload_list[f_id][upload_id]= upload_data; 
     }else{
-        upload_list[f_id] = [{upload_id:temp_child}]
+        upload_list[f_id] = upload_detail; 
     }
     set_scroll_to_bottom(mess_bd); 
     }
@@ -648,7 +710,7 @@ update_but.addEventListener("click",(e)=>{
        let form_data = new FormData(); 
 
        if(update_but.innerText=="Update"){
-        form_data.append("myfile",up_file); 
+        form_data.append("myfile",up_file);        
         update_but.innerText="Updating...";
         
         console.log(form_data,up_file ); 
@@ -908,15 +970,27 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
         socket.emit("connected-to", { prev_f_id:prev_f_id,curr_f_id:id,u_id:user_id});
        curr_f_id = id; 
 
-       if(total_mess_len!=0){
+    //    append the upload list to mess_bd
+       let upload_obj = upload_list[curr_f_id]; 
+       if(upload_obj){
+           let upload_arr = Object.values(upload_obj); 
+        for(let i=0; i<upload_arr.length; i++){
+           mess_bd.append(make_file_upload_element  (upload_arr[i])); 
+           console.log("*** upload arr i ")
+           console.log(upload_arr[i]);
+        }
+        
+       } 
+    
+    if(total_mess_len!=0){
            let elem = {direction:"ser" , message:"unreaded messages ("+total_mess_len+")"}
         mess_bd.append(make_message_element( elem)); 
         // mess_bd.append(make_message_element(  message_list[id].pop())); 
-        if(  message_list[id][0].mess_type){
-            mess_bd.append (make_file_sent_element( message_list[id].pop())); 
-        }else{
+        // if(  message_list[id][0].mess_type){
+        //     mess_bd.append (make_file_sent_element( message_list[id].pop())); 
+        // }else{ }
             mess_bd.append(make_message_element(  message_list[id].pop()));
-        }
+       
         
        }
        console.log("setting scroll to bottom "); 
@@ -1556,7 +1630,7 @@ console.log(data);
 // if()
 data.direction = "in"; 
 if(data.user_id==curr_f_id){
-    // ##
+  
 console.log("recived data is: ",data); 
     //if recieved message is file 
     if(data.mess_type=="file"){
