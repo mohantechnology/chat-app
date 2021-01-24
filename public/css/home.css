@@ -81,7 +81,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
 
         display: inline-block;
         height: 100vh;
-        overflow: hidden;
+        /* overflow: hidden; */
     }
 
     #col-1 { background-image: linear-gradient(225deg, #FF3CAC 10%, #784BA0 50%);
@@ -787,6 +787,7 @@ border-bottom:1px solid rgb(255, 255, 255);
     cursor:pointer; 
    
 }
+
 #header_logo{
     display:block; 
 }
@@ -840,7 +841,7 @@ border-bottom:1px solid rgb(255, 255, 255);
 
 }
 
-#update_but,#upload_but{
+#update_but,#upload_but,#browse_file{
     background-color: blue;
     color: white;
     border: none;
@@ -856,7 +857,7 @@ border-bottom:1px solid rgb(255, 255, 255);
 #upload_but{
     width: 152px;
 }
-#update_but:hover,#upload_but:hover{
+#update_but:hover,#upload_but:hover,#browse_file{
  cursor:pointer;
  background-color: rgb(130, 92, 167);
 }
@@ -1105,12 +1106,113 @@ background-color: white;
       padding:5px; 
       word-spacing: 0px;
       text-align: justify;
+      margin-top: 5px;
   }
 
 
+#transfer_file{
+    display: none;
+}
+#display_file{
+    overflow: auto;
+    height: 50vh;
+ width:  98%; 
+    margin-top: 40px;
+}
+  .drop-box{
+    border:1px solid #49524947; 
+    min-height:60vh;    
+     display: none;
+     position: relative;
+    /* background-color: rgb(216, 175, 207); */
+  }
+ 
+  .drop-area{
+      border:2px dashed rgb(216, 192, 204);
+      margin:20px; 
+      margin-top:44px; 
+      height:60vh; 
+ 
+     color: rgba(255, 235, 205, 0.527);
+     padding:10px ; 
+
+     
+     }
+     .drop-area:hover{
+ border-color:  rgba(252, 105, 178, 0.651);;
+ 
+     }
+     .drop-img{
+       transition : transform 200ms ease-in-out ;
+ 
+       background-image: url('../file-earmark-plus.svg');
+     background-repeat: no-repeat;
+     background-position: center;
+    margin:auto; 
+    width:100px; 
+    height: 100px; 
+    position: relative;
+    top: 14%;
+ 
+   }
+   .drag-drop-browser{
+    text-align: center;
+    margin: auto;
+    width: 92%;
+    margin-top: 21px;
+    padding: 10px 0px;
+    color: rgba(20, 1, 6, 0.7);
+    border: 1px solid #00000052; 
+
+   color: rgba(20, 1, 6, 0.7)
+   }
+   .hr-line {
+    width: 18%;
+    display: inline-block;
+
+    position: relative;
+    top: 4px;
+
+}
+#select_file{
+    border:1px solid blue; 
+    border-radius: 50%;
+    width:20px; 
+    height: 20px ;
+    display: inline-block;
+    cursor: pointer;
+}
+.drop-file{
+    display: block;
+    width: 90%;
+    margin: 10px auto;
+    padding-left:20px; 
+    padding-bottom:5px; 
+    /* border:1px solid blue;  */
+    background-color: rgb(255, 255, 255);
+    /* background-color: rgb(44, 38, 38); */
+    border-radius: 3px;
+    position: relative;
+    
 
 
+}
+.drop-file-name{
+    font-size: 15px;
+    color: rgb(28, 32, 32);
+    /* border:1px solid blue;  */
+    display:inline-block; 
+    padding-bottom: 3px;
+    width: 55%;  
+    border-bottom:1px solid rgba(40, 41, 46, 0.384); 
 
+}
+.drop-file-img{
+    width:20px; 
+    position: relative;
+    top:7px; 
+    /* border:1px solid blue;  */
+}
 
 
   @keyframes spin {

@@ -261,7 +261,34 @@
         </header>
         <hr>
  <div class="loader" id="loader"></div>
-        <div id="message-body"  style="">     </div>
+        <div id="message-body" style="display:none" >  </div>
+
+
+    <div class="drop-box" id="drop_box">
+        <div class="drop-area" id="drop_file">
+            <div class="drag-drop-browser">
+                <button id="browse_file">Broswe File</button> <br>
+    
+                <hr class="hr-line"> OR
+                <hr class="hr-line"> <br>
+    
+                Drag and Drop
+    
+            </div>
+            <div class="drop-img"></div>
+    
+    
+        </div>
+        
+    
+  <span class="close_opt"  id="close_file_upload"> X</span>
+        <div id="display_file">
+
+        </div>
+  
+    </div>
+    
+
 
 
 
@@ -271,9 +298,12 @@
 
 
            <form action="" method="POST" id="myform" >
+               <div id="select_file"> <img src="./paperclip.svg" alt="" draggable="false"></div>
+             
             <input type="text" name="message" id="message_input" autocomplete="off" placeholder="Write message here...">
-                  <input type="file" id="transfer_file" name="transfer_file"  multiple/>
-            <button id="add_file_but" type="button">Add file   </button>
+        
+                  <input type="file" id="transfer_file" name="transfer_file" multiple />
+            {{!-- <button id="add_file_but" type="button">Add file   </button> --}}
            <button id="send_file" type="button">send file </button>
  
         </form>

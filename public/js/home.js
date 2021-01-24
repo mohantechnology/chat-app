@@ -58,11 +58,15 @@ var upload_but = document.getElementById("upload_but");
 var log_out = document.getElementById("log_out");
 var send_file = document.getElementById("send_file");
 var transfer_file = document.getElementById("transfer_file");
+var display_file = document.getElementById("display_file");
+var drop_box = document.getElementById("drop_box");
+var close_file_upload = document.getElementById("close_file_upload");
 
 
 var find_new_friend = document.getElementById("find_new_friend");
 var account_type_pub = document.getElementById("account_type_pub");
 var account_type_pri = document.getElementById("account_type_pri");
+
 
 var prof_mess = document.getElementById("prof_mess");
 var mess_tone_off = document.getElementById("mess_tone_off");
@@ -71,6 +75,9 @@ var mess_tone=localStorage.getItem("mess_tone");
 var back = document.getElementById("back");
 var forward = document.getElementById("forward");
 var m_q = window.matchMedia("(max-width: 950px)"); 
+var drop_file = document.getElementById("drop_file"); 
+var select_file = document.getElementById("select_file");
+var browse_file = document.getElementById("browse_file");
 
 var message_list   = {}; 
 var d_img_url = "phone_img.jpg"
@@ -137,7 +144,10 @@ search_keyword_alias.addEventListener("click",()=>{
 })
 
 
-
+close_file_upload.addEventListener("click",()=>{
+      drop_box.style.display="none"; 
+      mess_bd.style.display="block"; 
+}); 
 
 
 close_search.addEventListener("click",()=>{
@@ -205,6 +215,11 @@ close_search.addEventListener("click",()=>{
         
     }
   }
+  if(data.message ){
+      data.message=  `<span class="download-img-mess download-img-mess-send">${data.message}</span>`
+  }else{
+      data.message=""; 
+  }
 //   let download_link = `./download/${data.folder_name}/${data.file_link}`
 //   console.log("file mime type ---> ",); 
 //   console.log(mime_type,"=>end"); 
@@ -213,8 +228,9 @@ close_search.addEventListener("click",()=>{
           temp.innerHTML = `   
            <span class="message-right file-right">
           <div class="message-file">
-            <div class="download-img-display" style="${mime_type}" >data image </div>
-            <span class="download-img-mess download-img-mess-send">${data.message} </span><div class="file-name"> ${data.file_name}</div> 
+            <div class="download-img-display" style="${mime_type}" ></div>
+            ${data.message} 
+</span><div class="file-name"> ${data.file_name}</div> 
               <span class="download-img" id="${data.folder_name}-${data.file_link}"> </span>
               <span class="share-img"> </span>
          
@@ -230,7 +246,7 @@ close_search.addEventListener("click",()=>{
           <span class="message-left file-left">
           <div class="message-file">
             <div class="download-img-display"  style="${mime_type}" > </div>
-            <span class="download-img-mess download-img-mess-send">${data.message}</span>
+            ${data.message} 
             <div class="file-name">  ${data.file_name}</div> 
               <span class="download-img" id="${data.folder_name}-${data.file_link}" > </span>
               <span class="share-img"> </span>
@@ -561,11 +577,11 @@ log_out.addEventListener("click",()=>{
     location="./login"; 
 }); 
 
-send_file.addEventListener("click",(e)=>{
-    let up_file; 
-    let total_file ; 
-    console.log(up_file); 
+function transfer_file_to_friend(e) {
 
+    let total_file ; 
+
+     console.log("files aare ",transfer_file); 
     if( transfer_file.files && transfer_file.files.length>0){
         total_file = transfer_file.files.length; 
     }else{
@@ -575,7 +591,8 @@ send_file.addEventListener("click",(e)=>{
     console.log( transfer_file.files)
     //    stack overflow
     let f_id= curr_f_id; 
-  
+    let file_mess =  message_input.value; 
+    message_input.value=""; 
     for(let i =0; i<total_file; i++){
         //generate upload id 
    
@@ -590,10 +607,11 @@ send_file.addEventListener("click",(e)=>{
         size_detail.final_size =Math.round(size_detail.size*100/size_detail.divi)/100 +  " " + size_detail.unit; 
         let form_data = new FormData(); 
         form_data.append("transfer_file",transfer_file.files[i]); 
-        let file_mess = "file message is nothing "; 
+       
           all_id
          let xhttp = new XMLHttpRequest();
         let url = `/transfer_file/${f_id}/${encodeURIComponent(file_mess) }`; 
+      
         console.log("url = ",url ); 
         xhttp.open("POST", url, true);   
         console.log(size_detail);
@@ -643,6 +661,7 @@ send_file.addEventListener("click",(e)=>{
                 if(curr_f_id == f_id){
                     document.getElementById(upload_id).parentNode.parentNode.parentNode.parentNode.remove(); 
                     mess_bd.append(make_file_sent_element(res_data)); 
+                     set_scroll_to_bottom(mess_bd); 
                 }else{
                
                     if(message_list[f_id]!=undefined ){
@@ -691,11 +710,89 @@ send_file.addEventListener("click",(e)=>{
     }
 
   
- 
-        
+    
+}
+function make_element_for_display_file(file_name) {
+    let temp = document.createElement("div"); 
+    temp.className="drop-file";
+    temp.innerHTML= ` <img  class="drop-file-img" src="./file-earmark-check.svg" alt="file"> <span class="drop-file-name" > ${file_name}</span>`; 
+  return temp; 
+}
+
+send_file.addEventListener("click",(e)=>{  
+    transfer_file_to_friend(e); 
+    display_file.innerHTML=""; 
+    mess_bd.style.display="block"; 
+    drop_box.style.display="none";  
+       
 }); 
+browse_file.addEventListener("click",()=>{
+     transfer_file.click();
+})
+// drop file and upload 
+
+select_file.addEventListener("click",()=>{
+      mess_bd.style.display="none";  
+    drop_box.style.display="block"; 
+    drop_file.style.display="block";
+
+    //
+    // drop_file.parentElement.style.display="block";
+    // mess_bd.style.display="none";  
+}) ;
+
+transfer_file.addEventListener("change",()=>{
+    // if(transfer_file.files && transfer_file.files.length>0){
+
+    // }
+    // drop_box.style.display="none";
+    display_file.innerHTML=""; 
+    drop_file.style.display="none"; 
+    console.log("tranfer ifle is ",transfer_file)
+    for(let i =0; i<transfer_file.files.length; i++){
+       display_file.append(make_element_for_display_file(transfer_file.files[i].name)); 
+       console.log("apending ",transfer_file.files[i].name); 
+    }
+    
+}); 
+  drop_file.addEventListener("dragover",(e)=>{
+    e.preventDefault(); 
+
+    console.log("drage voer "); 
+    drop_file.parentElement.style.backgroundColor="rgba(212, 175, 204, 0.719)"
+    drop_file.lastElementChild.style.transform="scale(1.3)"
+
+    
+  })
+
+  drop_file.addEventListener("dragleave",(e)=>{
+    console.log("leave" );
+    drop_file.parentElement.style.backgroundColor="rgb(216, 175, 207)"; 
+    drop_file.lastElementChild.style.transform="scale(1)"
+
+  })
 
 
+
+  drop_file.addEventListener("drop",(e)=>{
+    e.preventDefault(); 
+    drop_file.style.display="none"; 
+
+    if( curr_f_id){
+        display_file.innerHTML=""; 
+         transfer_file.files = e.dataTransfer.files; 
+         for(let i =0; i<transfer_file.files.length; i++){
+            display_file.append(make_element_for_display_file(transfer_file.files[i].name)); 
+            console.log("apending ",transfer_file.files[i].name); 
+         }
+    // transfer_file_to_friend(e); 
+    }
+   
+    console.log("droped" );
+    console.log(e.dataTransfer.files); 
+    // drop_file.parentElement.style.backgroundColor="rgb(216, 175, 207)"; 
+    // drop_file.firstElementChild.style.transform="scale(1)"
+  });
 
 //profile image file 
 update_but.addEventListener("click",(e)=>{
@@ -888,7 +985,8 @@ return `    <div class="friend-profile">
   
 //fetch friend chat message 
  first_col_friend_list.addEventListener("click",(e)=>{
-
+         
+    drop_box.style.display="none";
         close_noti.parentNode.style.display="none"; 
         close_req.parentNode.style.display="none"; 
          close_sett.parentNode.style.display="none";
@@ -999,7 +1097,7 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
         //i start with one to set scroll to first messgae   
         for(i=1; i<total_mess_len; i++){
            
-            if(  message_list[id][i].mess_type){
+            if(  message_list[id][i] &&   message_list[id][i].mess_type){
                 mess_bd.append (make_file_sent_element( message_list[id].pop())); 
             }else{
                 mess_bd.append(make_message_element(  message_list[id].pop()));
@@ -1490,6 +1588,10 @@ if (id) {
 
 myform.addEventListener("submit", (e) => {
 e.preventDefault();
+// return if input message is for file
+if(drop_box.style.display=="block"){
+    return; 
+}
 let curr_time = (new Date()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 socket.emit('send-message', { "message": message_input.value, "time": curr_time , date:(new Date()).toLocaleDateString,curr_f_id:curr_f_id,user_id:user_id});
 
@@ -1629,7 +1731,7 @@ console.log(data);
 
 // if()
 data.direction = "in"; 
-if(data.user_id==curr_f_id){
+if(data.user_id==curr_f_id && m_q.matches && col_2.style.display=="block"){
   
 console.log("recived data is: ",data); 
     //if recieved message is file 
