@@ -29,15 +29,16 @@
 
         <div class="friend-profile not-hover" id="self_prof">
             <div class="friend-image">
-                <span class="all_img" >
+    
                 
                     {{#if img }}
-                              <img src="/img/profile/{{img}}" alt="profile-image"  class="selectDisable" > 
+                      <span class="all_img" style="background-image: url('/img/profile/{{img}}');"  > </span>
+                        
                      {{else}}
-                    <img src="default_img.jpg" alt="profile-image"  class="selectDisable" >
+                       <span class="all_img" style="background-image: url('/img/profile/default_img.jpg');"  class="selectDisable" > </span>
+                 
                     {{/if}}
                     
-                </span>
                
                 <div class="message-count  not-visible"> 10<span class="count-num"></span></div>
             </div>
@@ -99,15 +100,18 @@
 
             {{#each data}}
 
+ 
+
+
             <div class="friend-profile" id="{{u_id}}">
                 <div class="friend-image">
-                    <span class="all_img" >
-                   
+
+
 
                        {{#if img }} 
-                       <img src="/img/profile/{{img}}" alt="profile-image">
+                        <span class="all_img" style="background-image: url('/img/profile/{{img}}');" > </span>
                     {{else}}
-                     <img src="/img/profile/default_img.jpg" alt="profile-image">
+                     <span class="all_img" style="background-image: url('/img/profile/default_img.jpg');" > </span>
                     {{/if}}
                   </span>
                 {{#if count }}
@@ -150,10 +154,16 @@
 
 
 
+
+
         <header class="header" id="header_name">
   
 
-            <img class="border_radius" src="tony.jpg" alt="profile-image">
+   <div class="friend-image">
+ <span class="all_img" style="background-image: url('img/profile/default_img.jpg');" > </span>
+</div>
+
+            {{!-- <img class="border_radius" src="tony.jpg" alt="profile-image"> --}}
             <span class="profile" >
                 <p class="user-name" style="color:whitesmoke"> Chat Box</p>
                 <p class="user-seen" style="border-bottom:1px solid rgb(255, 255, 255)">{{current_status}}&nbsp; </p>
@@ -298,14 +308,13 @@
 
 
            <form action="" method="POST" id="myform" >
-               <div id="select_file"> <img src="./paperclip.svg" alt="" draggable="false"></div>
+               <div id="select_file" > </div>
              
             <input type="text" name="message" id="message_input" autocomplete="off" placeholder="Write message here...">
         
                   <input type="file" id="transfer_file" name="transfer_file" multiple />
-            {{!-- <button id="add_file_but" type="button">Add file   </button> --}}
-           <button id="send_file" type="button">send file </button>
- 
+         {{!-- <button type="submit" id="send_file"  ></button type="submit"> --}}
+           <div id="send_file" ></div>
         </form>
 
    
@@ -360,15 +369,19 @@
                   <span class="profile  sett-profile">
                         <p class="sett-name">Upload Profile Image </p>
                         <hr>
-                        <span class="all_img" style="position:relative; left:30px; border:1px solid rgba(43, 39, 39, 0.411);width:110px;height:110px">
+         
         
               {{#if img }}
-                            <img  id="prof_img" src="/img/profile/{{img}}" alt="">
+               <span id="prof_img" class="all_img" style="position:relative; left:30px; border:1px solid rgba(43, 39, 39, 0.411);width:110px;height:110px;background-image: url('/img/profile/{{img}}');"></span>
+             
                      {{else}}
-                     <img  id="prof_img" src="/img/profile/default_img.jpg" alt="">
+                        <span id="prof_img" class="all_img" style="position:relative; left:30px; border:1px solid rgba(43, 39, 39, 0.411);width:110px;height:110px;background-image: url('/img/profile/default_img.jpg');"></span>
+
+                   
                     {{/if}}
-                         
-                        </span>
+
+
+                        
                           <br>
                         <span>
          <button id="upload_but"> Change Profile Image</button>  <input type="file" name="sampleFile"  id="upload_file" onchange="preview_img()" hidden /> 
