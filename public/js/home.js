@@ -1654,33 +1654,68 @@ document.cookie = "time="+ (new Date().toLocaleTimeString())+"; path=/;";
 
 // ----- socket --------------
 
-socket.emit("new-user-connected", { "name": name });
+
+// 
+window.addEventListener('load', (e) => {
+    console.log('page is fully loaded');
+
+    let data = document.cookie.split(";")
+    let cookie_data = {} ; 
+    let temp ; 
+    for(let i=0; i<data.length; i++){
+        temp = data[i].split("=") ; 
+       cookie_data[temp[0].trim()]=temp[1]; 
+    } 
+
+ console.log(cookie_data); 
+    socket.emit("user-connected", cookie_data); 
+
+  });
+
+  window.addEventListener("beforeunload", function(e){
+
+    console.log('page is is unloading .. loaded');
+    let data = document.cookie.split(";")
+    let cookie_data = {} ; 
+    let temp ; 
+    for(let i=0; i<data.length; i++){
+        temp = data[i].split("=") ; 
+       cookie_data[temp[0].trim()]=temp[1]; 
+    } 
+    socket.emit("user-disconnect", cookie_data); 
+
+ }, false);
 
 
 
 
 
-socket.on("new-user-connected", (data) => {
-console.log("new user in client ");
 
 
 
-// <div class="message middle">
-//                 <span class="message-middle">
-//                     This is middle line
+// socket.on("new-user-connected", (data) => {
+// console.log("new user in client ");
 
-//                 </span>
-//             </div>
-let temp1 = document.createElement("div");
-temp1.classList = "message middle";
-let temp2 = document.createElement("span");
-temp2.textContent = data + " Joined the Chat ";
-temp2.classList = "message-middle";
-temp1.appendChild(temp2);
-mess_bd.appendChild(temp1);
 
-set_scroll_to_bottom(mess_bd);
-});
+
+// // <div class="message middle">
+// //                 <span class="message-middle">
+// //                     This is middle line
+
+// //                 </span>
+// //             </div>
+// let temp1 = document.createElement("div");
+// temp1.classList = "message middle";
+// let temp2 = document.createElement("span");
+// temp2.textContent = data + " Joined the Chat ";
+// temp2.classList = "message-middle";
+// temp1.appendChild(temp2);
+// mess_bd.appendChild(temp1);
+
+// set_scroll_to_bottom(mess_bd);
+// });
+
+
 
 
 
@@ -1713,13 +1748,6 @@ socket.on("setid", (data) => {
     console.log("setting id to",data); 
    user_id=data.id; 
 });
-
-
-
-
-
-
-
 
 
 
