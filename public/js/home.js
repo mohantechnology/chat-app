@@ -1817,7 +1817,7 @@ socket.on("rec-message", (data) => {
         console.log(elem);
     }
 
-    if (mess_tone == "on") {
+    if ( mess_tone==undefined ||  mess_tone == "on") {
         ping_audio.currentTime = 0;
         ping_audio.play();
     }
