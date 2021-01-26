@@ -219,7 +219,10 @@
         padding:5px; 
         display: none;
     }
-  
+  #verify_acc {
+      background-color: #2d2d5cc4;     
+      display:none; 
+  }
 
     @media screen and (min-width:951px) {
 
@@ -396,7 +399,11 @@
 
 
       }
-  
+      @media screen and (max-width:550px) {
+        .login-box{
+            width: 85%;
+        }
+      }
 </style>
 
 <body>
@@ -460,6 +467,7 @@
 
 
                 <button id="reg-butt" class="button"> Register Account </button>
+                <button id="verify_acc" class="button">Activate Account </button>
                 <button id="back-butt" class="button"> Back  </button>
 
 
@@ -485,6 +493,8 @@
         var conform_pass = document.getElementById("conform-pass");
         var reg_butt = document.getElementById("reg-butt");
         var back_butt = document.getElementById("back-butt");
+        var verify_acc = document.getElementById("verify_acc");
+        
         var timeout_id ; 
         // var user_pass = document.getElementById("user_pass");
         // var user_pass = document.getElementById("user_pass");
@@ -498,9 +508,12 @@
                    let data = JSON.parse(this.response); 
                    console.log(data); 
                   if (data.status=="ok"){
-                     display_message("Account is successfully  Registered", "green"); 
-                      console.log("redirect"); 
-                      location="./login"; 
+                     display_message("Account is successfully  Registered. Please  Check your Email. A verification Link is sent to your Email Account to Verify your email", "green",300000); 
+                     u_name.value =email.value =  user_pass.value = conform_pass.value = "";
+              
+                     verify_acc.style.display="inline-block" ; 
+                     reg_butt.style.display="none" ; 
+                    //   location="./login"; 
                   }else{    
                          display_message(data.message, "red"); 
                       console.log(data); 
@@ -511,7 +524,7 @@
 
           xhttp.send( param );
         }
-        function display_message(mess,color){
+        function display_message(mess,color,time=10000){
             clearTimeout(timeout_id); 
             message.innerHTML = mess; 
             message.style.display="block";
@@ -519,9 +532,13 @@
           timeout_id =   setTimeout(() => {
             message.innerHTML = ""; 
             message.style.display="none"; 
-            }, 5000);
+            }, time);
 
         }
+
+        verify_acc.addEventListener("click",()=>{
+            location = "./active"
+        }); 
         reg_butt.addEventListener("click", ()=>{
             let param ; 
             console.log(u_name.value,email.value,user_pass.value,conform_pass.value); 

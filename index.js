@@ -571,13 +571,30 @@ app.post('/reg', (req, res) => {
     url: process.env.API_URL + "/register",
     data: req.body
   }).then(function (response) {
+    console.log("register response")
     console.log(response.data);
-    res.send(response.data);
+    if(response.data.status=="ok" && response.data.message=="Acount Registered Successfully"){
+      console.log('sendign "email "'); 
+      res.send(response.data)
+    }else{
+       res.send(response.data);
+    }
+   
   }).catch(error => {
     res.json({ status: "error", message: "something went wrong " });
   });
 
 });
+
+
+
+app.get('/active', (req, res) => {
+  console.log("activate file is sent ")
+ res.sendFile(view_dir_name + "/activate.html")
+
+});
+
+
 
 app.get('/activate/:email/:t_name/:t_value', (req, res) => {
   console.log("incoming data at actiavte app ", req.params);
@@ -599,7 +616,7 @@ app.get('/activate/:email/:t_name/:t_value', (req, res) => {
 
 app.get('/forgot', (req, res) => {
 
-  res.sendFile(view_dir_name + "/forgot");
+  res.sendFile(view_dir_name + "/forgot.html");
 });
 app.get('/reset', (req, res) => {
 
