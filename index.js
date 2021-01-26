@@ -43,9 +43,11 @@ app.use(fileUpload({
 
 console.log("socket url ="); 
 console.log( process.env.SOCKET_URL); 
+
+
 app.get("/", (req, res) => {
   // res.sendFile(__dirname + "/temp.html");
-  return res.send(req.cookies.li); 
+  res.sendFile(view_dir_name + "/login.html");
 });
 
 
@@ -656,7 +658,12 @@ app.get('/activate/:email/:t_name/:t_value', (req, res) => {
     data
   }).then(function (response) {
     console.log(response.data);
-    res.send(response.data);
+    if(response.data.status=="ok" ){
+      res.redirect("/login"); 
+    }else{
+
+      res.send(response.data);
+    }
   }).catch(error => {
     res.json({ status: "error", message: "something went wrong " });
   });

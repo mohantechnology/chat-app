@@ -2,6 +2,7 @@ var side_list_search_icon = document.getElementById("side-list-search-icon");
 var side_list_close_icon = document.getElementById("side-list-close-icon");
 var input_search_keyword = document.getElementById("input-search-keyword");
 var message_body =document.getElementById("message-body");  
+var loader =document.getElementById("loader");  
 
 function make_element(data) {
 
@@ -66,12 +67,20 @@ function fetch_friend_list(param, url) {
         if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
             let data = JSON.parse(this.response);
             console.log(data);
+            loader.style.display="none"; 
             if (data.status == "ok") {
+                
                 let len = data.list.length ?data.list.length:0; 
                 let html_str =""; 
                 for(let i=0 ; i<len; i++){
                     html_str+= make_element(data.list[i])
 
+                }
+                if(len==0){
+                    html_str = `<div class="friend-profile"><span class="profile">
+                        <p class="user-time">&nbsp;</p>
+                        <p class="user-name">"No Result Found"</p>
+                        <p class="user-time">&nbsp;</p> </span></div>`
                 }
              
                 // console.log(html_str);
@@ -90,6 +99,8 @@ function fetch_friend_list(param, url) {
     }
 
     xhttp.send(param);
+    message_body.innerHTML =""
+    loader.style.display="block"; 
 }
 function display_error(error) {
   console.log(error); 

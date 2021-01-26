@@ -98,7 +98,9 @@ document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
 
 
 
-
+if(m_q.matches){
+    col_2.style.display = "none";
+}
 
 
 m_q.addEventListener("change", () => {
@@ -950,7 +952,7 @@ function make_element_for_friend_req(data) {
      </div>
      <span class="profile  noti-profile">
          <p class="user-name">${data.sender_name} </p>
-         <p class="user-time">${data.sender_pro_mess} </p>
+         <p class="user-time">${data.sender_pro_mess?data.sender_pro_mess:"Hello, I am using chat app"} </p>
  
      </span>
      <div id='${data.sender_p_id}' class="send-request-but">Accept Request</div>
@@ -971,7 +973,7 @@ function make_element_for_noti(data) {
                     </div>
                     <span class="profile  noti-profile">
                         <p class="user-name">${data.sender_name}</p>
-                        <p class="user-time">${data.sender_pro_mess} </p>
+                        <p class="user-time">${data.sender_pro_mess?data.sender_pro_mess:"Hello, I am using chat app"} </p>
 
                     </span>
                     <div class="noti-mess">${data.message}
