@@ -356,13 +356,14 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         position: relative;
         left: -26px;
         bottom: 27px;
-        padding: 2px;
+        text-align: center;
+        padding: 3px;
 
     }
 
     .count-num {
         position: relative;
-        left: 3px;
+         font-size: 10px;
 
     }
 
@@ -922,7 +923,7 @@ border-bottom:1px solid rgb(255, 255, 255);
 #back,#forward{
     text-decoration: none;
     color:white;
-    position: fixed;
+    position: absolute;
     left: 2px;
     top: 14px;
     border-radius: 4px;
@@ -1291,7 +1292,7 @@ background-color: white;
   
     #self_prof{
         background: radial-gradient(circle, rgba(63, 94, 251, 1) 0%, rgba(233, 49, 86, 0.705) 110%);
-   
+     position: relative;
 
     }
     #self_prof p{

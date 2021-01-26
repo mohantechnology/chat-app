@@ -599,7 +599,7 @@ app.get('/activate/:email/:t_name/:t_value', (req, res) => {
 
 app.get('/forgot', (req, res) => {
 
-  res.sendFile(view_dir_name + "/forgot.html");
+  res.sendFile(view_dir_name + "/forgot");
 });
 app.get('/reset', (req, res) => {
 

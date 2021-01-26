@@ -209,7 +209,16 @@
     top: 17px;
     display: none;
    }       
-
+   #message{
+        border-radius: 1px solid blue;
+        background-color:green ;
+        color:white; 
+        text-align: center;
+        width:80%; 
+        margin:auto; 
+        padding:5px; 
+        display: none;
+    }
   
 
     @media screen and (min-width:951px) {
@@ -404,6 +413,7 @@
             <p id="head-message"> Create Account </p>
 
             <hr style="width: 80%;">
+            <div id="message"></div> 
             <div class="login-body">
                       
                  
@@ -436,7 +446,7 @@
                         <path fill-rule="evenodd"
                             d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z">
                         </path>
-                    </svg> <input type="text" id="user-pass" placeholder="Create Password"> </span>
+                    </svg> <input type="password" id="user-pass" placeholder="Create Password"> </span>
 
 
                 <span class="input-field"> <svg class="svg-icon" width="1em" height="1em" viewBox="0 0 16 16"
@@ -445,7 +455,7 @@
                         <path fill-rule="evenodd"
                             d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z">
                         </path>
-                    </svg> <input type="text" id="conform-pass" placeholder="Conform Password"> </span>
+                    </svg> <input type="password" id="conform-pass" placeholder="Conform Password"> </span>
 
 
 
@@ -475,6 +485,7 @@
         var conform_pass = document.getElementById("conform-pass");
         var reg_butt = document.getElementById("reg-butt");
         var back_butt = document.getElementById("back-butt");
+        var timeout_id ; 
         // var user_pass = document.getElementById("user_pass");
         // var user_pass = document.getElementById("user_pass");
          
@@ -487,11 +498,11 @@
                    let data = JSON.parse(this.response); 
                    console.log(data); 
                   if (data.status=="ok"){
-
+                     display_message("Account is successfully  Registered", "green"); 
                       console.log("redirect"); 
                       location="./login"; 
-                  }else{
-                      console.log("error occured"); 
+                  }else{    
+                         display_message(data.message, "red"); 
                       console.log(data); 
                   }
                   ; 
@@ -500,31 +511,40 @@
 
           xhttp.send( param );
         }
-        function display_error(error){
-            console.log(error); 
-        }
+        function display_message(mess,color){
+            clearTimeout(timeout_id); 
+            message.innerHTML = mess; 
+            message.style.display="block";
+            message.style.backgroundColor= color; 
+          timeout_id =   setTimeout(() => {
+            message.innerHTML = ""; 
+            message.style.display="none"; 
+            }, 5000);
 
+        }
         reg_butt.addEventListener("click", ()=>{
             let param ; 
             console.log(u_name.value,email.value,user_pass.value,conform_pass.value); 
             let user_email ,user_password,user_conform_pass,user_name; 
-            try {
+
                 user_name = encodeURIComponent(u_name.value.trim()); 
                 user_email = encodeURIComponent(email.value.trim()); 
                 user_password = encodeURIComponent( user_pass.value.trim());
               user_conform_pass = encodeURIComponent(conform_pass.value.trim()); 
-            } catch (error) {
-                console.log(error); 
-                display_error("All Fields are Required"); 
+
+      if(user_name=="" || user_email =="" || user_password =="" ||user_conform_pass  ==""  ){
+           display_message("All Fields are Required","red"); 
                 return; 
-            }
+      }
+               
+
 
             if(user_password.length<6){
-               display_error("Password length must be at greater than or equal to 6 characters"); 
+               display_message("Password length must be at greater than or equal to 6 characters","red"); 
                return ; 
            }
            else if(user_password !=user_conform_pass ){
-               display_error("Password Not Matched"); 
+               display_message("Password Not Matched","red"); 
                return; 
            }
              
