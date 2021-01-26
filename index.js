@@ -8,7 +8,7 @@ const fs = require('fs');
 const jwt = require("jsonwebtoken");
 var view_dir_name = __dirname + "/views"
 const fileUpload = require('express-fileupload');
-
+var nodemailer = require('nodemailer');
 const cookieParser = require("cookie-parser");
 
 const bodyParser = require('body-parser');
@@ -572,15 +572,64 @@ app.post('/reg', (req, res) => {
     data: req.body
   }).then(function (response) {
     console.log("register response")
-    console.log(response.data);
+    // console.log(response.data);
     if(response.data.status=="ok" && response.data.message=="Acount Registered Successfully"){
-      console.log('sendign "email "'); 
-      res.send(response.data)
-    }else{
-       res.send(response.data);
+      //send activation email 
+
+      let email_mess_bd = fs.readFileSync(view_dir_name+ "/email.html","utf-8"); 
+      //  console.log(email_mess_bd)
+      let activate_url= `${process.env.SELF_URL}/activate/${response.data.email}/token_str/${response.data.token_str}`;
+      email_mess_bd=  email_mess_bd.replace("{{$activate_code}}",response.data.token_no); 
+      email_mess_bd=  email_mess_bd.replace("{{$activate_url}}",activate_url); 
+      email_mess_bd= email_mess_bd.replace("{{$activate_url}}",activate_url); 
+      email_mess_bd= email_mess_bd.replace("{{$email}}",process.env.EMAIL);    
+           
+
+      var mailOptions = {
+        from: process.env.EMAIL,
+        to:     response.data.email ,
+        subject:"Account Activation Mail from Chat App",
+    
+        html: email_mess_bd ,      
+       
+      };
+
+    
+    
+      var transporter = nodemailer.createTransport({
+        service:  'gmail',
+        host:'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+          user:process.env.EMAIL,
+          pass:process.env.EMAIL_PASS
+        }
+      });
+console.log(mailOptions); 
+// console.log(transporter); 
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+        
+          res.send({status: "error" , message : "Activation link is not sent to your Mail. Check if you have registered with valid email . For more details contact us at "+process.env.EMAIL});
+        } else {
+          res.send({status: "ok" , message : "Mailed successfully"} );
+            
+        
+        }
+
+        console.log("email message "); 
+        console.log(error);   console.log(info); 
+        
+
+      });
+    
     }
-   
+    else{
+      res.send({status:response.data.status, message: response.data.message});
+    }
   }).catch(error => {
+    console.log(error); 
     res.json({ status: "error", message: "something went wrong " });
   });
 

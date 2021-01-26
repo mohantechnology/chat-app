@@ -473,9 +473,12 @@ height:50vh;
                   console.log(this.response); 
                    let data = JSON.parse(this.response); 
                   if (data.status=="ok"){
-                     display_message("successful", "green"); 
+                     display_message("Account is Activated Successfully", "green",3000); 
                       console.log("redirect"); 
-                      location="./login"; 
+                      setTimeout(() => {
+                          location="./login"; 
+                      }, 1000);
+                      
                   }else{
                       console.log("error occured"); 
                       console.log(data); 
@@ -487,7 +490,7 @@ height:50vh;
     
           xhttp.send( param );
         }
-        function display_message(mess,color){
+        function display_message(mess,color,time=10000){
             clearTimeout(timeout_id); 
             message.innerHTML = mess; 
             message.style.display="block";
@@ -495,7 +498,7 @@ height:50vh;
           timeout_id =   setTimeout(() => {
             message.innerHTML = ""; 
             message.style.display="none"; 
-            }, 5000);
+            }, time);
 
         }
 
@@ -509,7 +512,7 @@ height:50vh;
             let user_act_code,user_email ;
           
              user_act_code = encodeURIComponent(act_code.value.trim());
-             user_email = encodeURIComponent(email.value.trim());
+             user_email = (email.value.trim());
              if( user_act_code=="" || user_email =="" ){
 
                  display_message("Activation code  Required","red"); 
