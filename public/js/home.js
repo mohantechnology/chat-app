@@ -692,7 +692,7 @@ function transfer_file_to_friend(e) {
                     console.log("detedted ");
                 }
                 else {
-                    //   update_but.innerText="Not Updated";
+                      console.log(res_data.error);
                 }
 
             }
@@ -733,6 +733,8 @@ send_file.addEventListener("click", (e) => {
     mess_bd.style.display = "block";
     drop_box.style.display = "none";
     transfer_file.files = null;
+    send_file.style.display="none"; 
+    select_file.style.display="inline-block"; 
 
 });
 browse_file.addEventListener("click", () => {

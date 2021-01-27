@@ -107,7 +107,8 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
     }).catch(err => {
       console.log("error is: ");
       console.log(err);
-      res.status(500).send({ "status": "Internal server error" });
+      // ### ca
+      res.status(500).send({ "status": "Internal server error",error:err });
 
     }); 
   }else{
