@@ -80,7 +80,7 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
       console.log(response.data);
       if (response.data.status == "ok") {
         let r_data = (response.data);
-  
+   
       
         let sampleFile = req.files.transfer_file;
         //create folder if not exist 
@@ -117,6 +117,50 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
 
   });
 
+
+
+
+  //tranfer without file 
+  app.post('/transfer_without_file', function (req, res) {
+
+   
+  
+    // if file is present then  update the file in database also and delete prev file 
+  
+    // console.log(req.params); 
+    console.log(req.body.li); 
+    // return res.send({status: "ok" , message: "succefully connected "}); 
+
+   let cookie_data = jwt.decode(req.body.li);
+   cookie_data.file_name = req.body.file_name; 
+   cookie_data.file_mess =req.body.file_mess; 
+   cookie_data.curr_f_id =  req.body.curr_f_id; 
+   cookie_data.mime_type = req.body.mimetype; 
+   
+  
+      axios({
+        method: 'post',
+        url: process.env.API_URL + "/transfer_file",
+        data: cookie_data
+      }).then(function (response) {
+        console.log("response data is: ");
+        console.log(response.data);
+        if (response.data.status == "ok") {
+          res.send(response.data); ``
+          } else {
+          ({ status: "error", message: "File is not sended successfully" });
+        }
+      }).catch(err => {
+        console.log("error is: ");
+        console.log(err);
+        // ### ca
+        res.status(500).send({ "status": "Internal server error",error:err });
+  
+      }); 
+   
+  
+    });
+  
 
   // transfer_file
 

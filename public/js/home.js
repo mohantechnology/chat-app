@@ -601,6 +601,18 @@ function transfer_file_to_friend(e) {
     let f_id = curr_f_id;
     let file_mess = message_input.value;
     message_input.value = "";
+
+
+    let data = document.cookie.split(";")
+  
+    let temp;
+    let param = ""; 
+    for (let i = 0; i < data.length; i++) {
+        temp = data[i].split("=");
+        param+=  "&" + temp[0].trim() +"=" + temp[1]; 
+  
+    }
+
     for (let i = 0; i < total_file; i++) {
         //generate upload id 
 
@@ -616,11 +628,11 @@ function transfer_file_to_friend(e) {
         let form_data = new FormData();
         form_data.append("transfer_file", transfer_file.files[i]);
 
-        all_id
         let xhttp = new XMLHttpRequest();
-        let url = `/transfer_file/${f_id}/${encodeURIComponent(file_mess)}`;
-
-        console.log("url = ", url);
+        // let url = `/transfer_file/${f_id}/${encodeURIComponent(file_mess)}`;
+        let url = `http://localhost/transfer_file/transfer_file.php?f_id=${f_id}&file_mess=${encodeURIComponent(file_mess)} ${param}`;
+        
+        // console.log("url = ", url);
         xhttp.open("POST", url, true);
         console.log(size_detail);
         console.log(transfer_file.files[i].size);
@@ -1665,13 +1677,13 @@ message_input.addEventListener("focusout", () => {
 
 
 
-window.onload = confirmExit;
-window.onbeforeunload = confirmExit;
-function confirmExit() {
-    document.cookie = "date=" + (new Date().toLocaleDateString()) + "; path=/;";
-    document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
+// window.onload = confirmExit;
+// window.onbeforeunload = confirmExit;
+// function confirmExit() {
+//     document.cookie = "date=" + (new Date().toLocaleDateString()) + "; path=/;";
+//     document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
 
-}
+// }
 
 
 
@@ -1704,6 +1716,8 @@ window.addEventListener('load', (e) => {
 
 window.addEventListener("beforeunload", function (e) {
 
+    document.cookie = "date=" + (new Date().toLocaleDateString()) + "; path=/;";
+    document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
     console.log('page is is unloading .. loaded');
     let data = document.cookie.split(";")
     let cookie_data = {};
