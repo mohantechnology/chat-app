@@ -14,6 +14,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require('body-parser');
 const { strict } = require('assert');
 const { fips } = require('crypto');
+const cors = require('cors'); 
 app.set('views', (__dirname, '/views/'))
 
 
@@ -27,7 +28,7 @@ console.log(__dirname, '/views');
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: false }))
-
+app.use(cors( { credentials: true}));
 
 
 app.set("view engine", "hbs");
