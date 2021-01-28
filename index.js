@@ -87,6 +87,7 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
         //create folder if not exist 
         let path_link =__dirname + `/public/transfer_file/${r_data.folder_name}`;
         // let path_link =__dirname + `/transfer_file`;
+        
         if (!fs.existsSync(path_link)) {
           fs.mkdirSync(path_link); 
         }
