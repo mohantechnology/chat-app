@@ -4,15 +4,18 @@ var input_search_keyword = document.getElementById("input-search-keyword");
 var message_body =document.getElementById("message-body");  
 var loader =document.getElementById("loader");  
 
+var d_img_url = "default_img1111.jpg"
+var d_mess = "Hello, I am using chat app";
+
 function make_element(data) {
 
    return  `<div class="friend-profile">
     <div class="friend-image">
-        <img src='${data.img}' alt="profile-image">
+        <img src='${data.img?data.img:d_img_url}' alt="profile-image">
      </div>
     <span class="profile">
         <p class="user-name">${data.name}</p>
-        <p class="user-time">${data.pro_mess} </p>
+        <p class="user-time">${data.pro_mess?data.pro_mess:d_mess} </p>
            
     </span>
     <div  id="${data.p_id}" class="${ data.p_id ==0 ? 'sended-request-but':'send-request-but'}"> 
