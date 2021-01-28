@@ -10,7 +10,7 @@ var view_dir_name = __dirname + "/views"
 const fileUpload = require('express-fileupload');
 var nodemailer = require('nodemailer');
 const cookieParser = require("cookie-parser");
-
+const cors = require('cors')
 const bodyParser = require('body-parser');
 const { strict } = require('assert');
 const { fips } = require('crypto');
@@ -21,13 +21,20 @@ app.set('views', (__dirname, '/views/'))
 
 var port = process.env.PORT || 3000;
 
+
+// var cors_opt = {
+//   origin:"https://php-file-api.000webhostapp.com/transfer_file.php"
+// }
+
+
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
 console.log(__dirname, '/views');
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: false }))
-
+// app.use(cors(cors_opt));
+app.use(cors( { credentials: true}));
 
 
 app.set("view engine", "hbs");
@@ -449,7 +456,8 @@ console.log("incoming cookie data", cookie_data);
 
 
 app.get('/find_friend', (req, res) => {
-  res.sendFile(view_dir_name + "/find_friend.html");
+  let r_data = { PROFILE_IMG_URL : process.env.PROFILE_IMG_URL };
+  res.render("find_friend",r_data);
 });
 
 app.post('/find_friend', (req, res) => {

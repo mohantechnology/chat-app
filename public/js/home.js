@@ -80,7 +80,7 @@ var select_file = document.getElementById("select_file");
 var browse_file = document.getElementById("browse_file");
 
 var message_list = {};
-var d_img_url = "default_img1111.jpg"
+var d_img_url = "default_img.jpg"
 var d_mess = "Hello, I am using chat app";
 
 var user_id;
@@ -1937,4 +1937,14 @@ socket.on("user-disconnected", (data) => {
 
 // console.log("data is: ); "); 
 // console.log({{status}}); 
+
+
+
+
+
+
+
+
+
+
 
