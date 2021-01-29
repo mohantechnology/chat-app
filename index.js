@@ -10,7 +10,7 @@ var view_dir_name = __dirname + "/views"
 const fileUpload = require('express-fileupload');
 var nodemailer = require('nodemailer');
 const cookieParser = require("cookie-parser");
-
+const cors = require('cors')
 const bodyParser = require('body-parser');
 const { strict } = require('assert');
 const { fips } = require('crypto');
@@ -21,6 +21,12 @@ app.set('views', (__dirname, '/views/'))
 
 
 var port = process.env.PORT || 3000;
+
+
+// var cors_opt = {
+//   origin:"https://php-file-api.000webhostapp.com/transfer_file.php"
+// }
+
 
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
@@ -81,7 +87,7 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
       console.log(response.data);
       if (response.data.status == "ok") {
         let r_data = (response.data);
-  
+   
       
         let sampleFile = req.files.transfer_file;
         //create folder if not exist 
@@ -120,7 +126,52 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
   });
 
 
-  // transfer_file
+
+
+  //tranfer without file 
+  app.post('/transfer_without_file', function (req, res) {
+
+   
+  
+    // if file is present then  update the file in database also and delete prev file 
+  
+    // console.log(req.params); 
+    console.log(req.body); 
+    // return res.send({status: "ok" , message: "succefully connected "}); 
+
+   let cookie_data = jwt.decode(req.body.li);
+   cookie_data.file_name = req.body.file_name; 
+   cookie_data.file_mess =req.body.file_mess; 
+   cookie_data.curr_f_id =  req.body.curr_f_id; 
+   cookie_data.mime_type = req.body.mime_type; 
+   console.log("cookies is:===> "); 
+   console.log(cookie_data) ; 
+   
+      axios({
+        method: 'post',
+        url: process.env.API_URL + "/transfer_file",
+        data: cookie_data
+      }).then(function (response) {
+        console.log("response data is: ");
+        console.log(response.data);
+        if (response.data.status == "ok") {
+          res.send(response.data); 
+          } else {
+          ({ status: "error", message: "File is not sended successfully" });
+        }
+      }).catch(err => {
+        console.log("error is: ");
+        console.log(err);
+        // ### ca
+        res.status(500).send({ "status": "Internal server error",error:err });
+  
+      }); 
+   
+  
+    });
+  
+
+  // download transfer_file
 
 app.get('/download/:folder/:file/:file_name?', function (req, res) {
   console.log(req.params); 
@@ -168,7 +219,9 @@ app.post('/update_prof/:acc_tp?/:pro_mess?', function (req, res) {
       cookie_data.file_name = req.files.myfile.name
     }
   } else {
-    if(cookie_data)
+    if(!cookie_data){
+      cookie_data ={}; 
+    }
     cookie_data.is_file = 0;
   }
   cookie_data.pro_mess = req.params.pro_mess;
@@ -235,6 +288,61 @@ console.log("req.cookies is: ", req.cookies);
   // })
 });
 
+//upload profile without image
+app.post('/update_prof_without_img', function (req, res) {
+  // console.log(req.files); 
+
+  let cookie_data = jwt.decode(req.body.li);
+  if(!cookie_data){
+    cookie_data ={}; 
+  }
+  // if file is present then  update the file in database also and delete prev file 
+  if (req.body.is_file==true) {
+    // up_file = req.files.myfile;
+    cookie_data.is_file = 1;
+    cookie_data.file_name = req.body.file_name;
+  } else {
+    
+    cookie_data.is_file = 0;
+  }
+  cookie_data.pro_mess = req.body.pro_mess;
+  cookie_data.account_type = req.body.acc_tp;
+
+  console.log("incoming cookie data", cookie_data);
+  axios({
+    method: 'post',
+    url: process.env.API_URL + "/update_prof",
+    data: cookie_data
+  }).then(function (response) {
+    console.log("response data is: ");
+    console.log(response.data);
+   res.send(response.data) ; 
+    
+  }).catch(err => {
+    console.log("error is: ");
+    console.log(err);
+    res.status(500).send({ "status": "Internal server error" });
+  });
+
+
+
+
+console.log("file is : ", req.files);
+console.log("req.body is: ", req.body);
+console.log("req.params is: ", req.params);
+console.log("req.cookies is: ", req.cookies);
+
+  // let sampleFile = req.files.myfile;
+  // sampleFile.mv(__dirname + '/upload/' + sampleFile.name, function (err) {
+  //   if (err) {
+  //     console.log("erro is: ", err.message)
+  //     return res.status(500).send(err);
+  //   }
+  //   else {
+  //     res.send('File uploaded!');
+  //   }
+  // })
+});
 app.post("/image", (req, res) => {
   console.log("./imgae cllaed ")
   upload(req, res, (err) => {
@@ -320,6 +428,15 @@ console.log("incoming cookie data", cookie_data);
       let r_data = (response.data);
       r_data.SOCKET_URL = process.env.SOCKET_URL;
       r_data.SOCKET_FILE = process.env.SOCKET_FILE;
+      r_data.FILE_TRANSFER_URL = process.env.FILE_TRANSFER_URL; 
+      r_data.FILE_DOWNLOAD_URL = process.env.FILE_DOWNLOAD_URL; 
+      r_data.FILE_D_N = process.env.FILE_D_N; 
+      r_data.PROFILE_IMG_URL = process.env.PROFILE_IMG_URL; 
+      r_data.PROFILE_UPDATE_URL = process.env.PROFILE_UPDATE_URL; 
+      for(let i=0; i< r_data.data.length  ; i++){
+        r_data.data[i].PROFILE_IMG_URL = r_data.PROFILE_IMG_URL
+      }
+
       res.render("home", r_data);
 
 
@@ -340,7 +457,8 @@ console.log("incoming cookie data", cookie_data);
 
 
 app.get('/find_friend', (req, res) => {
-  res.sendFile(view_dir_name + "/find_friend.html");
+  let r_data = { PROFILE_IMG_URL : process.env.PROFILE_IMG_URL };
+  res.render("find_friend",r_data);
 });
 
 app.post('/find_friend', (req, res) => {

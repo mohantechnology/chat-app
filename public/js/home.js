@@ -80,14 +80,18 @@ var select_file = document.getElementById("select_file");
 var browse_file = document.getElementById("browse_file");
 
 var message_list = {};
-var d_img_url = "phone_img.jpg"
+var d_img_url = "default_img.jpg"
+var d_mess = "Hello, I am using chat app";
 
 var user_id;
 var curr_f_id;
 var curr_no;
 var is_recieved = true;
+var is_recieved_noti = true;
+var is_recieved_reqest = true;
 var prev_f_id;
 var ping_audio = new Audio("ping.mp3");
+
 
 
 
@@ -152,6 +156,8 @@ close_file_upload.addEventListener("click", () => {
     select_file.style.display = "inline-block";
     send_file.style.display = "none";
     display_file.innerHTML=""; 
+    transfer_file.files = null; 
+ 
 });
 
 
@@ -215,7 +221,9 @@ function make_file_sent_element(data) {
         mime_type = data.mime_type.split("/")[0];
         console.log(mime_type);
         if (mime_type == "image") {
-            mime_type = `background-image:url('../transfer_file/${data.folder_name}/${data.file_link}');min-height: 200px;`;
+            // mime_type = `background-image:url('../transfer_file/${data.folder_name}/${data.file_link}');min-height: 200px;`;
+            mime_type = `background-image:url('${FILE_D_N}/transfer_file/transfer_file/${data.folder_name}/${data.file_link}');min-height: 200px;`;
+            console.log("file is image ", mime_type); 
             // mime_type = `background-image:url('../chat_image.png')`; 
 
         }
@@ -486,13 +494,19 @@ mess_bd.addEventListener("click", (e) => {
         //   console.log(e.target.previousElementSibling.innerText); 
         let path = e.target.id.split("-");
 
-        let url = "./download/" + path[0] + "/" + path[1] + "/" + e.target.previousElementSibling.innerText;
+        // let url = "./transfer_file/" + path[0] + "/" + path[1] + "/" + e.target.previousElementSibling.innerText;
+        // ownload/:folder/:file/:file_name
+        let url = FILE_DOWNLOAD_URL + "?folder_name=" + path[0] + "&file_name=" + path[1] + "&file_org_name=" +encodeURIComponent (e.target.previousElementSibling.innerText);
+        // 
         //    location = url; 
+        // let url =FILE_D_N + "/transfer_file/transfer_file/" + path[0] + "/" + path[1] ;
+        console.log(url); 
         var elel = document.createElement("a");
         elel.setAttribute("href", url);
+        // elel.setAttribute("download", "true");
         elel.setAttribute("target", "_blank");
         elel.click();
-        console
+
         // let xhttp = new XMLHttpRequest();
         // xhttp.open("POST", url, true);
 
@@ -601,6 +615,18 @@ function transfer_file_to_friend(e) {
     let f_id = curr_f_id;
     let file_mess = message_input.value;
     message_input.value = "";
+
+
+    let data = document.cookie.split(";")
+  
+    let temp;
+    let param = ""; 
+    for (let i = 0; i < data.length; i++) {
+        temp = data[i].split("=");
+        param+=  "&" + temp[0].trim() +"=" + temp[1]; 
+  
+    }
+
     for (let i = 0; i < total_file; i++) {
         //generate upload id 
 
@@ -616,11 +642,11 @@ function transfer_file_to_friend(e) {
         let form_data = new FormData();
         form_data.append("transfer_file", transfer_file.files[i]);
 
-        all_id
         let xhttp = new XMLHttpRequest();
-        let url = `/transfer_file/${f_id}/${encodeURIComponent(file_mess)}`;
-
-        console.log("url = ", url);
+        // let url = `/transfer_file/${f_id}/${encodeURIComponent(file_mess)}`;
+        let url = `${FILE_TRANSFER_URL}?f_id=${f_id}&file_mess=${encodeURIComponent(file_mess)} ${param}`;
+        
+        // console.log("url = ", url);
         xhttp.open("POST", url, true);
         console.log(size_detail);
         console.log(transfer_file.files[i].size);
@@ -701,7 +727,7 @@ function transfer_file_to_friend(e) {
         // let arr = [{name: "maggi",age:234},{name: "yes ",age:234}]
         // arr.search({name:"maggi",age:234}) 
         xhttp.send(form_data);
-        let upload_data = { file_name: transfer_file.files[i].name, byte: "waiting...", upload_id: upload_id };
+        let upload_data = { file_name: encodeURIComponent( transfer_file.files[i].name), byte: "waiting...", upload_id: upload_id };
         let upload_detail = {};
         upload_detail[upload_id] = upload_data;
         let temp_child = make_file_upload_element(upload_data);
@@ -821,9 +847,20 @@ update_but.addEventListener("click", (e) => {
         update_but.innerText = "Updating...";
 
         console.log(form_data, up_file);
+    //read   cookie 
+    let temp_data = document.cookie.split(";")
+    let temp_cookie;
+    let param = ""; 
+    for (let i = 0; i < temp_data.length; i++) {
+        temp_cookie = temp_data[i].split("=");
+        param+=  "&" + temp_cookie[0].trim() +"=" +encodeURIComponent( temp_cookie[1]); 
+  
+    }
 
         let xhttp = new XMLHttpRequest();
-        let url = `/update_prof/${account_type_pub.checked == true ? "public" : "private"}/${encodeURIComponent(prof_mess.value)}`;
+        // let url = `/update_prof/${account_type_pub.checked == true ? "public" : "private"}/${encodeURIComponent(prof_mess.value)}`;
+        let url = `${PROFILE_UPDATE_URL}?account_type_pub=${account_type_pub.checked == true ? "public" : "private"}${param}&prof_mess=${encodeURIComponent(prof_mess.value)}`;
+
         console.log("url = ", url);
         xhttp.open("POST", url, true);
 
@@ -954,7 +991,7 @@ function make_element_for_friend_req(data) {
      </div>
      <span class="profile  noti-profile">
          <p class="user-name">${data.sender_name} </p>
-         <p class="user-time">${data.sender_pro_mess?data.sender_pro_mess:"Hello, I am using chat app"} </p>
+         <p class="user-time">${data.sender_pro_mess?data.sender_pro_mess:d_mess} </p>
  
      </span>
      <div id='${data.sender_p_id}' class="send-request-but">Accept Request</div>
@@ -1138,6 +1175,10 @@ find_new_friend.addEventListener("click", () => {
 
 
 noti.addEventListener("click", () => {
+    
+if(is_recieved_noti){
+    is_recieved_noti=false; 
+    loader.style.display = "inline-block"; 
     menu_box.style.display = "none";
     mess_bd.style.display = "none";
     noti_box.style.display = "block";
@@ -1145,7 +1186,10 @@ noti.addEventListener("click", () => {
     header_name.style.display = "none";
     myform.style.display = "none";
     //TODO
+   
 
+ 
+    
     let xhttp = new XMLHttpRequest();
 
 
@@ -1169,8 +1213,9 @@ noti.addEventListener("click", () => {
                 //   console.log(req_box.innerHTML);  
 
 
-            }
-            ;
+            };
+            is_recieved_noti=true; 
+            loader.style.display = "none"; 
         }
     }
     // let param = "signal=0&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
@@ -1178,6 +1223,7 @@ noti.addEventListener("click", () => {
     let param = "date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
     xhttp.send(param);
 
+    }
 
 })
 
@@ -1199,6 +1245,11 @@ setting.addEventListener("click", () => {
 });
 //display all recived request 
 rec_req.addEventListener("click", () => {
+
+    if(is_recieved_reqest){
+        is_recieved_reqest=false; 
+        loader.style.display = "inline-block"; 
+    
     menu_box.style.display = "none";
     mess_bd.style.display = "none";
     noti_box.style.display = "block";
@@ -1239,8 +1290,10 @@ rec_req.addEventListener("click", () => {
                 //     console.log("error occured");
                 //     console.log(data);
 
-            }
-            ;
+            };
+            is_recieved_reqest=true; 
+            loader.style.display = "none"; 
+
         }
     }
     let param = "signal=0&date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
@@ -1248,7 +1301,7 @@ rec_req.addEventListener("click", () => {
     //  let param = "p_id=" + id+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
     xhttp.send(param);
 
-
+    }
 })
 
 req_box.addEventListener("click", (e) => {
@@ -1665,13 +1718,13 @@ message_input.addEventListener("focusout", () => {
 
 
 
-window.onload = confirmExit;
-window.onbeforeunload = confirmExit;
-function confirmExit() {
-    document.cookie = "date=" + (new Date().toLocaleDateString()) + "; path=/;";
-    document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
+// window.onload = confirmExit;
+// window.onbeforeunload = confirmExit;
+// function confirmExit() {
+//     document.cookie = "date=" + (new Date().toLocaleDateString()) + "; path=/;";
+//     document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
 
-}
+// }
 
 
 
@@ -1704,6 +1757,8 @@ window.addEventListener('load', (e) => {
 
 window.addEventListener("beforeunload", function (e) {
 
+    document.cookie = "date=" + (new Date().toLocaleDateString()) + "; path=/;";
+    document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
     console.log('page is is unloading .. loaded');
     let data = document.cookie.split(";")
     let cookie_data = {};
@@ -1882,4 +1937,14 @@ socket.on("user-disconnected", (data) => {
 
 // console.log("data is: ); "); 
 // console.log({{status}}); 
+
+
+
+
+
+
+
+
+
+
 
