@@ -414,6 +414,14 @@ height:50vh;
             <div id="message"></div>
             <div class="login-body">
                
+                <span id="e_body"  class="input-field"> <svg class="svg-icon" width="1em" height="1em" viewBox="0 0 16 16"
+                    class="bi bi-envelope" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                    data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;">
+                    <path fill-rule="evenodd"
+                        d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z">
+                    </path>
+                </svg><input type="text" id="email" placeholder="Your Email"> </span>
+
                 <span class="input-field"> <svg class="svg-icon" width="1em" height="1em" viewBox="0 0 16 16"
                     class="bi bi-key-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                     data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;">
@@ -452,11 +460,18 @@ height:50vh;
         var message = document.getElementById("message"); 
         var email = document.getElementById("email"); 
         var back_butt = document.getElementById("back-butt"); 
-        
+        var e_body = document.getElementById("e_body");
         
         var timeout_id ; 
 
        
+        if( sessionStorage.getItem("ote")  ){
+           e_body.style.display="none"; 
+           email.value = sessionStorage.getItem("ote") ; 
+       }else{
+        e_body.style.display="inline-block"; 
+       }
+       ; 
          
      function send_xhr(param,url){
           let xhttp = new XMLHttpRequest(); 
@@ -467,10 +482,10 @@ height:50vh;
                   console.log(this.response); 
                    let data = JSON.parse(this.response); 
                   if (data.status=="ok"){
-                     display_message("Account is Activated Successfully", "green",3000); 
+                     display_message("Verification Successful", "green",3000); 
                       console.log("redirect"); 
                       setTimeout(() => {
-                          location="./login"; 
+                          location="./reset"; 
                       }, 1000);
                       
                   }else{
@@ -482,6 +497,7 @@ height:50vh;
               }
           }
     
+
           xhttp.send( param );
         }
         function display_message(mess,color,time=10000){
@@ -506,14 +522,14 @@ height:50vh;
             let user_act_code,user_email ;
           
              user_act_code = encodeURIComponent(act_code.value.trim());
-             user_email = (email.value.trim());
+             user_email = encodeURIComponent(email.value.trim());
              if( user_act_code=="" || user_email =="" ){
 
-                 display_message("Activation code  Required","red"); 
+                 display_message("Activation code  Required","red",3000); 
                  return;
              }
             
-            param = `/activate/${user_email}/token_no/${user_act_code}`;
+            param = `/ver_reset_pass/${user_email}/token_no/${user_act_code}`;
            send_xhr("",param); 
            
         })

@@ -422,14 +422,17 @@ height:25vh;
 
         <div class="login-box">
             <div id="or-head">
-                <hr class="hr-line"> <img id="person_img" src="person.png" alt="">    <hr class="hr-line">
+                <hr class="hr-line"> <img id="person_img" src="../../../person.png" alt="">    <hr class="hr-line">
    
             </div>
             <p id="head-message"> Change Password </p>
 
             <hr style="width: 80%;">
+            <div id="message"></div>
             <div class="login-body">
 
+
+                
                 
                 <span class="input-field"> <svg class="svg-icon" width="1em" height="1em" viewBox="0 0 16 16"
                         class="bi bi-key-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
@@ -470,7 +473,7 @@ height:25vh;
 
         </div>
 
-        <img id="chat_img" src="chat_image.png" alt="">
+        <img id="chat_img" src="../../../chat_image.png" alt="">
     </div>
 
     <div id="bottom" ></div>
@@ -480,10 +483,13 @@ height:25vh;
          var conform_pass = document.getElementById("conform-pass");
         var reset_butt = document.getElementById("reset-butt"); 
         var back_butt = document.getElementById("back-butt");
+        var message = document.getElementById("message");
+      
       
       
         var is_rec_req=true; 
         var timeout_id ; 
+
 
 
         function display_message(mess,color,time=10000){
@@ -511,15 +517,18 @@ height:25vh;
                     //  display_message("successful", "green"); 
                       console.log("redirect"); 
                       display_message(data.message, "green",30000);
-                      otp_butt.style.display = "inline-block"; 
-                      reset_butt.innerText = "Resend Verfication Link" ; 
+                      setTimeout(() => {
+                          location="../../../login";   
+                      }, 1000);
+                     
                   }else{
                       console.log("error occured"); 
                       console.log(data); 
                       display_message(data.message, "red",30000);
-                      reset_butt.innerText = "Submit" ; 
+                      
                    
                   }
+                  reset_butt.innerText = "Reset password" ; 
          
                   ; 
               }
@@ -559,11 +568,11 @@ height:25vh;
                return; 
            }
              
-            param ="password=" + user_password +"&conform_password="+user_conform_pass ; 
+            param ="password=" + user_password  ; 
             console.log("param = "); 
             console.log(param);  
-           send_xhr(param,"./new_pass"); 
-           email.value= "";
+           send_xhr(param,"../../../new_pass"); 
+           user_pass.value  = conform_pass.value = ""; 
            reset_butt.innerText = "Processing.... " ;
            
         })
@@ -572,7 +581,7 @@ height:25vh;
 
 
         back_butt.addEventListener("click",()=>{
-            location="./login"; 
+            location="../../../login"; 
         })
     </script>
 </body>

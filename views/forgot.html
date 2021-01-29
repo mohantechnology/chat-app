@@ -527,6 +527,7 @@ height:50vh;
                  return; 
              }
             param = "email="+user_email; 
+            sessionStorage.setItem("ote",email.value.trim()); 
            send_xhr(param,"./forgot_pass"); 
            email.value= "";
            reset_butt.innerText = "Processing.... " ;

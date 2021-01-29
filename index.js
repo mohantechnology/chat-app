@@ -877,7 +877,12 @@ app.get('/ver_reset_pass/:email/:t_name/:t_value', (req, res) => {
     if(response.data.status=="ok" ){
       let token = jwt.sign({ email: response.data.email,  token_str: response.data.token_str,token_no:response.data.token_no }, process.env.JWT_SECRET_KEY);
       res.cookie("rp", token, { expires: new Date(Date.now() + 6000000)} );
-      res.sendFile(view_dir_name + "/reset.html");
+      if(req.params.t_name=="token_str"){
+         res.sendFile(view_dir_name + "/reset.html");
+      }else{
+            res.send({status:"ok"})
+      }
+     
     }else{
 
       res.send(response.data);
@@ -889,11 +894,17 @@ app.get('/ver_reset_pass/:email/:t_name/:t_value', (req, res) => {
 });
 
 
+
+app.get('/reset', (req, res) => {
+
+  res.sendFile(view_dir_name + "/reset.html");
+});
+
 app.post('/new_pass', (req, res) => {
   
  let cookie_data = jwt.decode(req.cookies.rp);
- cookie_data.new_pass = req.body.new_pass; 
-  console.log("incoming data at new_pass ", cookie_data);
+ cookie_data.password = req.body.password; 
+  console.log("incoming da$$ta at new_pass ", cookie_data);
 
   
   axios({
