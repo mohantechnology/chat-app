@@ -3,7 +3,7 @@ var side_list_close_icon = document.getElementById("side-list-close-icon");
 var input_search_keyword = document.getElementById("input-search-keyword");
 var message_body =document.getElementById("message-body");  
 var loader =document.getElementById("loader");  
-
+var is_recieved_reqest= true; 
 var d_img_url = "../default_img.png"
 var d_mess = "Hello, I am using chat app";
 
@@ -63,6 +63,10 @@ message_body.addEventListener("click",(e)=>{
 
 
 function fetch_friend_list(param, url) {
+
+    if(is_recieved_reqest){
+        is_recieved_reqest= false;       
+ 
     console.log(param); 
     let xhttp = new XMLHttpRequest();
     xhttp.open("POST", url, true);
@@ -72,6 +76,7 @@ function fetch_friend_list(param, url) {
             let data = JSON.parse(this.response);
             console.log(data);
             loader.style.display="none"; 
+            is_recieved_reqest= true;
             if (data.status == "ok") {
                 
                 let len = data.list.length ?data.list.length:0; 
@@ -104,7 +109,8 @@ function fetch_friend_list(param, url) {
 
     xhttp.send(param);
     message_body.innerHTML =""
-    loader.style.display="block"; 
+    loader.style.display="block";
+   } 
 }
 function display_error(error) {
   console.log(error); 
@@ -121,6 +127,7 @@ input_search_keyword.addEventListener("keyup", (e) => {
     let search_value; 
         // console.log(e.keyCode==13)
         if(  e.key=="Enter" || e.keyCode ==13 ){
+            
                 search_value = encodeURIComponent(input_search_keyword.value.trim());
                 param = "search_value=" + search_value;
                 fetch_friend_list(param, "./find_friend");

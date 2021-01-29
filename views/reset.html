@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Reset Password</title>
 </head>
 <style>
     body {
@@ -151,7 +151,7 @@ height:25vh;
         background-color: rgb(248, 81, 51);
     }
 
-    #login-butt ,#reg-butt{
+    #reset-butt ,#reg-butt{
         /* background-color: hsl(131, 240, 45); */
         background-color: rgb(0, 70, 96);
     }
@@ -220,6 +220,22 @@ height:25vh;
      
     }
     
+    #back-butt{
+                    background-color:#0000ffc4 ;
+      }
+
+           
+ #message{
+        border-radius: 1px solid blue;
+        background-color:green ;
+        color:white; 
+        text-align: center;
+        width:80%; 
+        margin:auto; 
+        padding:5px; 
+        display: none;
+    }
+
 
 
 
@@ -409,7 +425,7 @@ height:25vh;
                 <hr class="hr-line"> <img id="person_img" src="person.png" alt="">    <hr class="hr-line">
    
             </div>
-            <p id="head-message"> Login </p>
+            <p id="head-message"> Change Password </p>
 
             <hr style="width: 80%;">
             <div class="login-body">
@@ -422,7 +438,7 @@ height:25vh;
                             d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z">
                         </path>
 
-                    </svg> <input type="text" id="user-pass" placeholder="New Password"> </span>
+                    </svg> <input type="password" id="user-pass" placeholder="New Password"> </span>
                    
                    
                     <span class="input-field"> <svg class="svg-icon" width="1em" height="1em" viewBox="0 0 16 16"
@@ -431,13 +447,14 @@ height:25vh;
                         <path fill-rule="evenodd"
                             d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z">
                         </path>
-                    </svg> <input type="text" id="conform-pass" placeholder=" Conform Password"> </span>
+                    </svg> <input type="password" id="conform-pass" placeholder=" Conform Password"> </span>
               
             
             
-                <button id="login-butt" class="button"> Reset password </button>
-                 
-          
+                <button id="reset-butt" class="button"> Reset password </button>
+                <button id="back-butt" class="button"> Back  </button>
+
+
 
 
 
@@ -458,7 +475,106 @@ height:25vh;
 
     <div id="bottom" ></div>
 
+    <script>
+         var user_pass = document.getElementById("user-pass");
+         var conform_pass = document.getElementById("conform-pass");
+        var reset_butt = document.getElementById("reset-butt"); 
+        var back_butt = document.getElementById("back-butt");
+      
+      
+        var is_rec_req=true; 
+        var timeout_id ; 
 
+
+        function display_message(mess,color,time=10000){
+            clearTimeout(timeout_id); 
+            message.innerHTML = mess; 
+            message.style.display="block";
+            message.style.backgroundColor= color; 
+          timeout_id =   setTimeout(() => {
+            message.innerHTML = ""; 
+            message.style.display="none"; 
+            }, time);
+
+        }
+
+     function send_xhr(param,url){
+          let xhttp = new XMLHttpRequest(); 
+          xhttp.open("POST", url, true);
+         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          xhttp.onreadystatechange = function(){
+              if(this.readyState == 4 && this.status>=200 && this.status<300){
+                is_rec_req=true; 
+                   let data = JSON.parse(this.response); 
+                   console.log(data); 
+                  if (data.status=="ok"){
+                    //  display_message("successful", "green"); 
+                      console.log("redirect"); 
+                      display_message(data.message, "green",30000);
+                      otp_butt.style.display = "inline-block"; 
+                      reset_butt.innerText = "Resend Verfication Link" ; 
+                  }else{
+                      console.log("error occured"); 
+                      console.log(data); 
+                      display_message(data.message, "red",30000);
+                      reset_butt.innerText = "Submit" ; 
+                   
+                  }
+         
+                  ; 
+              }
+          }
+    
+          xhttp.send( param );
+        }
+       
+
+
+
+        reset_butt.addEventListener("click", ()=>{
+
+            if(is_rec_req){
+                is_rec_req= false; 
+            }
+            let param ; 
+            let user_password,user_conform_pass,user_name; 
+
+               
+                user_password = encodeURIComponent( user_pass.value.trim());
+              user_conform_pass = encodeURIComponent(conform_pass.value.trim()); 
+
+      if(user_password =="" ||user_conform_pass  ==""  ){
+           display_message("All Fields are Required","red"); 
+                return; 
+      }
+               
+
+
+            if(user_password.length<6){
+               display_message("Password length must be at greater than or equal to 6 characters","red"); 
+               return ; 
+           }
+           else if(user_password !=user_conform_pass ){
+               display_message("Password Not Matched","red"); 
+               return; 
+           }
+             
+            param ="password=" + user_password +"&conform_password="+user_conform_pass ; 
+            console.log("param = "); 
+            console.log(param);  
+           send_xhr(param,"./new_pass"); 
+           email.value= "";
+           reset_butt.innerText = "Processing.... " ;
+           
+        })
+
+    
+
+
+        back_butt.addEventListener("click",()=>{
+            location="./login"; 
+        })
+    </script>
 </body>
 
 </html>

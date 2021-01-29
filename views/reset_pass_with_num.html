@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
+    <title>Verification Code </title>
 </head>
 <style>
     body {
@@ -80,10 +80,7 @@ height:50vh;
         /* margin:auto;  */
         border-radius: 40px;
         margin: 20px;
-        margin-top: 40px;
-        /* border:2px solid green; */
         background-color: rgb(255, 255, 255);
-        /* background-color: hsl(160, 0, 240); */
         box-shadow: 2px 2px 4px -3px black;
 
         padding-left: 5px;
@@ -154,7 +151,7 @@ height:50vh;
         background-color: rgb(248, 81, 51);
     }
 
-    #reset-butt ,#reg-butt{
+    #sub_but ,#reg-butt{
         /* background-color: hsl(131, 240, 45); */
         background-color: rgb(0, 70, 96);
     }
@@ -212,15 +209,7 @@ height:50vh;
  #box{
      padding:10px;
  }
- #otp-butt{
-    background-color: rgb(96 0 92);
-    display: none;
- }
- #back-butt{
-                    background-color:#0000ffc4 ;
-      }
-
-           
+ 
  #message{
         border-radius: 1px solid blue;
         background-color:green ;
@@ -231,6 +220,7 @@ height:50vh;
         padding:5px; 
         display: none;
     }
+
 
 
 
@@ -418,28 +408,28 @@ height:50vh;
                 <hr class="hr-line"> <img id="person_img" src="person.png" alt="">    <hr class="hr-line">
    
             </div>
-            <p id="head-message"> Forgot Password </p>
+            <p id="head-message"> Verification Code  </p>
 
             <hr style="width: 80%;">
             <div id="message"></div>
             <div class="login-body">
+               
                 <span class="input-field"> <svg class="svg-icon" width="1em" height="1em" viewBox="0 0 16 16"
-                        class="bi bi-envelope" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
-                        data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;">
-                        <path fill-rule="evenodd"
-                            d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z">
-                        </path>
-                    </svg><input type="text" id="email" placeholder="Your Email"> </span>
+                    class="bi bi-key-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                    data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;">
+                    <path fill-rule="evenodd"
+                        d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z">
+                    </path>
+                </svg>  <input type="number" id="act_code" placeholder="Verification Code"> </span>
                
 
 
             
-              <button id="otp-butt" class="button"> Reset Password using OTP </button>
-                <button id="reset-butt" class="button"> Submit </button>
+                <button id="sub_but" class="button">  Submit </button>
                 <button id="back-butt" class="button"> Back  </button>
 
 
-               
+           
 
 
 
@@ -455,16 +445,45 @@ height:50vh;
     </div>
 
     <div id="bottom" ></div>
+
     <script>
+        var act_code = document.getElementById("act_code"); 
+        var sub_but = document.getElementById("sub_but"); 
+        var message = document.getElementById("message"); 
         var email = document.getElementById("email"); 
-        var otp_butt = document.getElementById("otp-butt");
-        var reset_butt = document.getElementById("reset-butt");
-        var message = document.getElementById("message");
-        var back_butt = document.getElementById("back-butt");
-        var is_rec_req=true; 
+        var back_butt = document.getElementById("back-butt"); 
+        
+        
         var timeout_id ; 
 
-
+       
+         
+     function send_xhr(param,url){
+          let xhttp = new XMLHttpRequest(); 
+          xhttp.open("GET", url, true);
+         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          xhttp.onreadystatechange = function(){
+              if(this.readyState == 4 && this.status>=200 && this.status<300){
+                  console.log(this.response); 
+                   let data = JSON.parse(this.response); 
+                  if (data.status=="ok"){
+                     display_message("Account is Activated Successfully", "green",3000); 
+                      console.log("redirect"); 
+                      setTimeout(() => {
+                          location="./login"; 
+                      }, 1000);
+                      
+                  }else{
+                      console.log("error occured"); 
+                      console.log(data); 
+                      display_message(data.message, "red"); 
+                  }
+                  ; 
+              }
+          }
+    
+          xhttp.send( param );
+        }
         function display_message(mess,color,time=10000){
             clearTimeout(timeout_id); 
             message.innerHTML = mess; 
@@ -477,72 +496,30 @@ height:50vh;
 
         }
 
-     function send_xhr(param,url){
-          let xhttp = new XMLHttpRequest(); 
-          xhttp.open("POST", url, true);
-         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-          xhttp.onreadystatechange = function(){
-              if(this.readyState == 4 && this.status>=200 && this.status<300){
-                is_rec_req=true; 
-                   let data = JSON.parse(this.response); 
-                   console.log(data); 
-                  if (data.status=="ok"){
-                    //  display_message("successful", "green"); 
-                      console.log("redirect"); 
-                      display_message(data.message, "green",30000);
-                      otp_butt.style.display = "inline-block"; 
-                      reset_butt.innerText = "Resend Verfication Link" ; 
-                  }else{
-                      console.log("error occured"); 
-                      console.log(data); 
-                      display_message(data.message, "red",30000);
-                      reset_butt.innerText = "Submit" ; 
-                   
-                  }
-         
-                  ; 
-              }
-          }
-    
-          xhttp.send( param );
-        }
-       
-
-
-
-        reset_butt.addEventListener("click", ()=>{
-
-            if(is_rec_req){
-                is_rec_req= false; 
-            }
-            let param ; 
-           
-            let user_email ,user_password; 
-          
-             user_email = encodeURIComponent(email.value.trim()); 
-           
-             if(user_password=="" ){
-
-                 display_message("All Fields are Required","red"); 
-                 return; 
-             }
-            param = "email="+user_email; 
-           send_xhr(param,"./forgot_pass"); 
-           email.value= "";
-           reset_butt.innerText = "Processing.... " ;
-           
-        })
-
-        otp_butt.addEventListener("click",()=>{
-            email.value= "";
-            location="./res_pass_num"; 
-        });
-
-
         back_butt.addEventListener("click",()=>{
-            location="./login"; 
+            location = "./forgot"; 
         })
+
+        sub_but.addEventListener("click", ()=>{
+            let param ; 
+         
+            let user_act_code,user_email ;
+          
+             user_act_code = encodeURIComponent(act_code.value.trim());
+             user_email = (email.value.trim());
+             if( user_act_code=="" || user_email =="" ){
+
+                 display_message("Activation code  Required","red"); 
+                 return;
+             }
+            
+            param = `/activate/${user_email}/token_no/${user_act_code}`;
+           send_xhr("",param); 
+           
+        })
+
     </script>
+
 
 </body>
 

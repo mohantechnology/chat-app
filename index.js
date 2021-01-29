@@ -381,7 +381,7 @@ app.post('/login', (req, res) => {
 
       
       let token = jwt.sign({ email: response.data.email, name: response.data.name, u_id: response.data.u_id, token: response.data.token, p_id: response.data.p_id }, process.env.JWT_SECRET_KEY);
-      res.cookie("li", token, { expires: new Date(Date.now() + 6000000),sameSite:"strict"} );
+      res.cookie("li", token, { expires: new Date(Date.now() + 6000000)} );
       console.log("cookie encodded", token);
       console.log("succesfull set cookie ", jwt.decode(token));
       res.send({ "status": "ok" });
@@ -690,7 +690,7 @@ app.post('/reg', (req, res) => {
     if(response.data.status=="ok" && response.data.message=="Acount Registered Successfully"){
       //send activation email 
 
-      let email_mess_bd = fs.readFileSync(view_dir_name+ "/email.html","utf-8"); 
+      let email_mess_bd = fs.readFileSync(view_dir_name+ "/act_acc_email.html","utf-8"); 
       //  console.log(email_mess_bd)
       let activate_url= `${process.env.SELF_URL}/activate/${response.data.email}/token_str/${response.data.token_str}`;
       email_mess_bd=  email_mess_bd.replace("{{$activate_code}}",response.data.token_no); 
@@ -711,9 +711,9 @@ app.post('/reg', (req, res) => {
     
     
       var transporter = nodemailer.createTransport({
-        service:  'gmail',
-        host:'smtp.gmail.com',
-        port: 465,
+        service: process.env.SERVICE || 'gmail',
+        host:process.env.HOST || 'smtp.gmail.com',
+        port: process.env.EMAIL_PORT || 465,
         secure: true,
         auth: {
           user:process.env.EMAIL,
@@ -786,21 +786,140 @@ app.get('/forgot', (req, res) => {
 
   res.sendFile(view_dir_name + "/forgot.html");
 });
-app.get('/reset', (req, res) => {
 
-  res.sendFile(view_dir_name + "/reset.html");
+app.post('/forgot_pass', (req, res) => {
+
+  axios({
+    method: 'post',
+    url: process.env.API_URL + "/forgot_pass",
+    data: req.body
+  }).then(function (response) {
+    console.log("register response")
+    console.log(response.data);
+    if(response.data.status=="ok" ){
+      //send activation email 
+
+      let email_mess_bd = fs.readFileSync(view_dir_name+ "/reset_pass_email.html","utf-8"); 
+      //  console.log(email_mess_bd)
+      let activate_url= `${process.env.SELF_URL}/ver_reset_pass/${response.data.email}/token_str/${response.data.token_str}`;
+      email_mess_bd=  email_mess_bd.replace("{{$activate_code}}",response.data.token_no); 
+      email_mess_bd=  email_mess_bd.replace("{{$activate_url}}",activate_url); 
+      email_mess_bd= email_mess_bd.replace("{{$activate_url}}",activate_url); 
+      email_mess_bd= email_mess_bd.replace("{{$email}}",process.env.EMAIL);    
+           
+
+      var mailOptions = {
+        from: process.env.EMAIL,
+        to:     response.data.email ,
+        subject:"Reset Password Mail from Chat App",
+    
+        html: email_mess_bd ,      
+       
+      };
+
+    
+    
+      var transporter = nodemailer.createTransport({
+        service: process.env.SERVICE || 'gmail',
+        host:process.env.HOST || 'smtp.gmail.com',
+        port: process.env.EMAIL_PORT || 465,
+        secure: true,
+        auth: {
+          user:process.env.EMAIL,
+          pass:process.env.EMAIL_PASS
+        }
+      });
+// console.log(mailOptions); 
+// console.log(transporter); 
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+        
+          res.send({status: "error" , message : "Reset Password  link is not sent to your Mail. Please Check if you have entered a valid Email. For more details contact us at "+process.env.EMAIL});
+        } else {
+          res.send({status: "ok" , message : "Reset Password  link is Mailed Successfully. Please check your Email."} );
+            
+        
+        }
+
+        console.log("email message "); 
+        console.log(error);   console.log(info); 
+        
+
+      });
+    
+    }
+    else{
+      res.send({status:response.data.status, message: response.data.message});
+    }
+  }).catch(error => {
+    console.log(error); 
+    res.json({ status: "error", message: "something went wrong " });
+  });
+
 });
 
+app.get('/res_pass_num', (req, res) => {
+
+  res.sendFile(view_dir_name + "/reset_pass_with_num.html");
+});
+
+app.get('/ver_reset_pass/:email/:t_name/:t_value', (req, res) => {
+  console.log("incoming data at actiavte app ", req.params);
+  let data = { email: req.params.email };
+  data[req.params.t_name] = req.params.t_value;
+  console.log("ingoing  data at actiavte app ", data);
+  axios({
+    method: 'post',
+    url: process.env.API_URL + "/ver_reset_pass",
+    data
+  }).then(function (response) {
+    console.log(response.data);
+    if(response.data.status=="ok" ){
+      let token = jwt.sign({ email: response.data.email,  token_str: response.data.token_str,token_no:response.data.token_no }, process.env.JWT_SECRET_KEY);
+      res.cookie("rp", token, { expires: new Date(Date.now() + 6000000)} );
+      res.sendFile(view_dir_name + "/reset.html");
+    }else{
+
+      res.send(response.data);
+    }
+  }).catch(error => {
+    res.json({ status: "error", message: "something went wrong " });
+  });
+
+});
+
+
+app.post('/new_pass', (req, res) => {
+  
+ let cookie_data = jwt.decode(req.cookies.rp);
+ cookie_data.new_pass = req.body.new_pass; 
+  console.log("incoming data at new_pass ", cookie_data);
+
+  
+  axios({
+    method: 'post',
+    url: process.env.API_URL + "/new_pass",
+    data:cookie_data
+  }).then(function (response) {
+    console.log(response.data);
+    
+      res.send(response.data);
+
+  }).catch(error => {
+    res.json({ status: "error", message: "something went wrong " });
+  });
+
+});
 
 // app.get('/test', (req, res) => {
 
 //   res.sendFile(view_dir_name + "/test.html");
 // });
 
-app.get('/first-col.js', (req, res) => {
+// app.get('/first-col.js', (req, res) => {
 
-  res.sendFile(view_dir_name + "/first-col.js");
-});
+//   res.sendFile(view_dir_name + "/first-col.js");
+// });
 
 app.get('/test', (req, res) => {
   (async () => {
