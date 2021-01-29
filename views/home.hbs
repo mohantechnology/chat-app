@@ -32,10 +32,10 @@
   
 
                 {{#if img }}
-                <span class="all_img" style="background-image: url('{{PROFILE_IMG_URL}}/{{img}}');"> </span>
+                <span class="all_img" style="background-image: url('/img/profile/{{img}}');"> </span>
 
                 {{else}}
-                <span class="all_img" style="background-image: url('/img/profile/default_img.jpg');"
+                <span class="all_img" style="background-image: url('/img/profile/../default_img.png');"
                     class="selectDisable"> </span>
 
                 {{/if}}
@@ -112,9 +112,9 @@
 
 
                     {{#if img }}
-                    <span class="all_img" style="background-image: url('{{ PROFILE_IMG_URL}}/{{img}}');"> </span>
+                    <span class="all_img" style="background-image: url('/img/profile/{{img}}');"> </span>
                     {{else}}
-                    <span class="all_img" style="background-image: url('/img/profile/default_img.jpg');"> </span>
+                    <span class="all_img" style="background-image: url('/img/profile/../default_img.png');"> </span>
                     {{/if}}
                     </span>
                     {{#if count }}
@@ -163,7 +163,7 @@
 
 
             <div class="friend-image">
-                <span class="all_img" style="background-image: url('img/profile/default_img.jpg');"> </span>
+                <span class="all_img" style="background-image: url('img/profile/../default_img.png');"> </span>
             </div>
 
             {{!-- <img class="border_radius" src="tony.jpg" alt="profile-image"> --}}
@@ -390,11 +390,11 @@
 
                         {{#if img }}
                         <span id="prof_img" class="all_img"
-                            style="position:relative; left:30px; border:1px solid rgba(43, 39, 39, 0.411);width:110px;height:110px;background-image: url('{{PROFILE_IMG_URL}}/{{img}}');"></span>
+                            style="position:relative; left:30px; border:1px solid rgba(43, 39, 39, 0.411);width:110px;height:110px;background-image: url('/img/profile/{{img}}');"></span>
 
                         {{else}}
                         <span id="prof_img" class="all_img"
-                            style="position:relative; left:30px; border:1px solid rgba(43, 39, 39, 0.411);width:110px;height:110px;background-image: url('/img/profile/default_img.jpg');"></span>
+                            style="position:relative; left:30px; border:1px solid rgba(43, 39, 39, 0.411);width:110px;height:110px;background-image: url('/img/profile/../default_img.png');"></span>
 
 
                         {{/if}}
@@ -447,11 +447,7 @@
 
     <script src="{{SOCKET_FILE}}"></script>
     <script>
-        var FILE_TRANSFER_URL = "{{FILE_TRANSFER_URL}}";
-        var FILE_DOWNLOAD_URL = "{{FILE_DOWNLOAD_URL}}";
-        var FILE_D_N =  "{{FILE_D_N}}";
-        var PROFILE_IMG_URL = "{{PROFILE_IMG_URL}}";
-        var PROFILE_UPDATE_URL =  "{{PROFILE_UPDATE_URL}}";
+    
         var a_t = "{{account_type}}";
         if (a_t == "private") {
 

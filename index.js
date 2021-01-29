@@ -14,7 +14,6 @@ const cors = require('cors')
 const bodyParser = require('body-parser');
 const { strict } = require('assert');
 const { fips } = require('crypto');
-const cors = require('cors'); 
 app.set('views', (__dirname, '/views/'))
 
 
@@ -428,15 +427,7 @@ console.log("incoming cookie data", cookie_data);
       let r_data = (response.data);
       r_data.SOCKET_URL = process.env.SOCKET_URL;
       r_data.SOCKET_FILE = process.env.SOCKET_FILE;
-      r_data.FILE_TRANSFER_URL = process.env.FILE_TRANSFER_URL; 
-      r_data.FILE_DOWNLOAD_URL = process.env.FILE_DOWNLOAD_URL; 
-      r_data.FILE_D_N = process.env.FILE_D_N; 
-      r_data.PROFILE_IMG_URL = process.env.PROFILE_IMG_URL; 
-      r_data.PROFILE_UPDATE_URL = process.env.PROFILE_UPDATE_URL; 
-      for(let i=0; i< r_data.data.length  ; i++){
-        r_data.data[i].PROFILE_IMG_URL = r_data.PROFILE_IMG_URL
-      }
-
+     
       res.render("home", r_data);
 
 
@@ -457,8 +448,8 @@ console.log("incoming cookie data", cookie_data);
 
 
 app.get('/find_friend', (req, res) => {
-  let r_data = { PROFILE_IMG_URL : process.env.PROFILE_IMG_URL };
-  res.render("find_friend",r_data);
+
+  res.render("find_friend");
 });
 
 app.post('/find_friend', (req, res) => {

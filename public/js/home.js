@@ -80,7 +80,7 @@ var select_file = document.getElementById("select_file");
 var browse_file = document.getElementById("browse_file");
 
 var message_list = {};
-var d_img_url = "default_img.jpg"
+var d_img_url = "../default_img.png"
 var d_mess = "Hello, I am using chat app";
 
 var user_id;
@@ -221,8 +221,8 @@ function make_file_sent_element(data) {
         mime_type = data.mime_type.split("/")[0];
         console.log(mime_type);
         if (mime_type == "image") {
-            // mime_type = `background-image:url('../transfer_file/${data.folder_name}/${data.file_link}');min-height: 200px;`;
-            mime_type = `background-image:url('${FILE_D_N}/transfer_file/transfer_file/${data.folder_name}/${data.file_link}');min-height: 200px;`;
+            mime_type = `background-image:url('../transfer_file/${data.folder_name}/${data.file_link}');min-height: 200px;`;
+            // mime_type = `background-image:url('${FILE_D_N}/transfer_file/transfer_file/${data.folder_name}/${data.file_link}');min-height: 200px;`;
             console.log("file is image ", mime_type); 
             // mime_type = `background-image:url('../chat_image.png')`; 
 
@@ -493,10 +493,11 @@ mess_bd.addEventListener("click", (e) => {
     if (e.target.className == "download-img") {
         //   console.log(e.target.previousElementSibling.innerText); 
         let path = e.target.id.split("-");
-
+        let url = "./download/" + path[0] + "/" + path[1] + "/" +encodeURIComponent (e.target.previousElementSibling.innerText);
+        
         // let url = "./transfer_file/" + path[0] + "/" + path[1] + "/" + e.target.previousElementSibling.innerText;
         // ownload/:folder/:file/:file_name
-        let url = FILE_DOWNLOAD_URL + "?folder_name=" + path[0] + "&file_name=" + path[1] + "&file_org_name=" +encodeURIComponent (e.target.previousElementSibling.innerText);
+        // let url = FILE_DOWNLOAD_URL + "?folder_name=" + path[0] + "&file_name=" + path[1] + "&file_org_name=" +encodeURIComponent (e.target.previousElementSibling.innerText);
         // 
         //    location = url; 
         // let url =FILE_D_N + "/transfer_file/transfer_file/" + path[0] + "/" + path[1] ;
@@ -617,15 +618,15 @@ function transfer_file_to_friend(e) {
     message_input.value = "";
 
 
-    let data = document.cookie.split(";")
+    // let data = document.cookie.split(";")
   
-    let temp;
-    let param = ""; 
-    for (let i = 0; i < data.length; i++) {
-        temp = data[i].split("=");
-        param+=  "&" + temp[0].trim() +"=" + temp[1]; 
+    // let temp;
+    // let param = ""; 
+    // for (let i = 0; i < data.length; i++) {
+    //     temp = data[i].split("=");
+    //     param+=  "&" + temp[0].trim() +"=" + temp[1]; 
   
-    }
+    // }
 
     for (let i = 0; i < total_file; i++) {
         //generate upload id 
@@ -643,8 +644,8 @@ function transfer_file_to_friend(e) {
         form_data.append("transfer_file", transfer_file.files[i]);
 
         let xhttp = new XMLHttpRequest();
-        // let url = `/transfer_file/${f_id}/${encodeURIComponent(file_mess)}`;
-        let url = `${FILE_TRANSFER_URL}?f_id=${f_id}&file_mess=${encodeURIComponent(file_mess)} ${param}`;
+        let url = `/transfer_file/${f_id}/${encodeURIComponent(file_mess)}`;
+        // let url = `${FILE_TRANSFER_URL}?f_id=${f_id}&file_mess=${encodeURIComponent(file_mess)} ${param}`;
         
         // console.log("url = ", url);
         xhttp.open("POST", url, true);
@@ -858,8 +859,8 @@ update_but.addEventListener("click", (e) => {
     }
 
         let xhttp = new XMLHttpRequest();
-        // let url = `/update_prof/${account_type_pub.checked == true ? "public" : "private"}/${encodeURIComponent(prof_mess.value)}`;
-        let url = `${PROFILE_UPDATE_URL}?account_type_pub=${account_type_pub.checked == true ? "public" : "private"}${param}&prof_mess=${encodeURIComponent(prof_mess.value)}`;
+        let url = `/update_prof/${account_type_pub.checked == true ? "public" : "private"}/${encodeURIComponent(prof_mess.value)}`;
+        // let url = `${PROFILE_UPDATE_URL}?account_type_pub=${account_type_pub.checked == true ? "public" : "private"}${param}&prof_mess=${encodeURIComponent(prof_mess.value)}`;
 
         console.log("url = ", url);
         xhttp.open("POST", url, true);
@@ -986,7 +987,7 @@ function make_element_for_friend_req(data) {
     return `<div class="friend-profile">
      <div class="friend-image">
      <span class="all_img" >
-     <img src="${data.sender_img ? data.sender_img : d_img_url}" alt="profile-image">
+     <img src="img/profile/${data.sender_img ? data.sender_img : d_img_url}" alt="profile-image">
 </span>
      </div>
      <span class="profile  noti-profile">
@@ -1003,16 +1004,15 @@ function make_element_for_friend_req(data) {
 function make_element_for_noti(data) {
 
 
-
     return `    <div class="friend-profile">
                     <div class="friend-image">
                     <span class="all_img" >
-                    <img src="${data.sender_img ? data.sender_img : d_img_url}" alt="profile-image">
+                    <img src="img/profile/${data.img ? data.img : d_img_url}" alt="profile-image">
                </span>
                     </div>
                     <span class="profile  noti-profile">
                         <p class="user-name">${data.sender_name}</p>
-                        <p class="user-time">${data.sender_pro_mess?data.sender_pro_mess:"Hello, I am using chat app"} </p>
+                        <p class="user-time">${data.pro_mess?data.pro_mess:"Hello, I am using chat app"} </p>
 
                     </span>
                     <div class="noti-mess">${data.message}
@@ -1281,7 +1281,7 @@ rec_req.addEventListener("click", () => {
                 req_box.innerHTML = html_str;
 
                 console.log(data);
-                console.log(req_box.innerHTML);
+                // console.log(req_box.innerHTML);
                 //     // console.log(html_str);
                 //     e.target.innerHTML= "Added as Friend";
                 //   //   console.log(e.target.className); 
