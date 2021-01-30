@@ -491,6 +491,8 @@ height:50vh;
                       setTimeout(() => {
                           location="./login"; 
                       }, 1000);
+
+                      act_code.value = email.value = ""; 
                       
                   }else{
                       console.log("error occured"); 
@@ -590,7 +592,7 @@ height:50vh;
               display_message("All Fields are Required","red"); 
               return;
           }
-          param = `email=${user_email}&password=${user_act_code}`;
+          param = `email=${user_email}&password=${user_act_code}&sign=resend`;
            email.value = act_code.value = ""; 
 
 
@@ -604,7 +606,7 @@ height:50vh;
                    let data = JSON.parse(this.response); 
                   if (data.status=="ok"){
                      display_message(data.message, "green",3000); 
-                    
+                     act_code.value= ""; 
                       
                   }else{
                       console.log("error occured"); 

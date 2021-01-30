@@ -360,6 +360,20 @@ display:none;
 
    left:-10px
 }
+@media only screen and (min-width:2050px) {
+        body{
+            margin:auto;
+            width: 1750px;
+            position: relative;
+         }
+     
+    
+
+     #message-body {
+        height:85vh;
+     
+    }
+}
 
 @media screen and (max-width:600px){
 

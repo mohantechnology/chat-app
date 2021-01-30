@@ -691,7 +691,7 @@ app.post('/reg', (req, res) => {
     data: req.body
   }).then(function (response) {
     console.log("register response")
-    // console.log(response.data);
+    console.log(response.data);
     if(response.data.status=="ok" ){
       //send activation email 
 
@@ -725,7 +725,7 @@ app.post('/reg', (req, res) => {
           pass:process.env.EMAIL_PASS
         }
       });
-console.log(mailOptions); 
+// console.log(mailOptions); 
 // console.log(transporter); 
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
@@ -776,7 +776,12 @@ app.get('/activate/:email/:t_name/:t_value', (req, res) => {
   }).then(function (response) {
     console.log(response.data);
     if(response.data.status=="ok" ){
-      res.redirect("/login"); 
+      if(req.params.t_name=="token_str"){
+    res.redirect("/login");
+      }else{
+        res.send(response.data); 
+      }
+   
     }else{
 
       res.send(response.data);

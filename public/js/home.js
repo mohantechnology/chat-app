@@ -1412,9 +1412,7 @@ menu_close.addEventListener("click", () => {
 menu.addEventListener("click", () => {
     menu_box.style.display = "block"
 });
-
-
-side_list_down_icon.addEventListener("click", () => {
+function click_side_list_down_icon() {
     if (child_arr_pos.length > 0) {
         side_list_curr_pos = (side_list_curr_pos + 1) % child_arr_pos.length;
         let src_id = document.getElementById(child_arr_pos[side_list_curr_pos]);
@@ -1434,6 +1432,11 @@ side_list_down_icon.addEventListener("click", () => {
         // src_id.scrollIntoView();
 
     }
+}
+
+
+side_list_down_icon.addEventListener("click", () => {
+    click_side_list_down_icon(); 
     console.log("clickde");
 
 });
@@ -1581,6 +1584,11 @@ function set_color_to_text(text, patt_str = "", element_id=null) {
 }
 
 input_search_keyword.addEventListener("keyup", (e) => {
+
+    if(e.key == "Enter" || e.keyCode==13){
+        click_side_list_down_icon(); 
+        return; 
+    }
 
     side_list_search_icon.style.display = "none";
     side_list_down_icon.style.display = "inline-block";

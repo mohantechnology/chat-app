@@ -527,7 +527,7 @@
 
           xhttp.send( param );
         }
-        function display_message(mess,color,time=10000){
+        function display_message(mess,color,time=8000){
             clearTimeout(timeout_id); 
             message.innerHTML = mess; 
             message.style.display="block";
@@ -553,7 +553,7 @@
               user_conform_pass = encodeURIComponent(conform_pass.value.trim()); 
 
       if(user_name=="" || user_email =="" || user_password =="" ||user_conform_pass  ==""  ){
-           display_message("All Fields are Required","red"); 
+           display_message("All Fields are Required","red",5000); 
                 return; 
       }
                
