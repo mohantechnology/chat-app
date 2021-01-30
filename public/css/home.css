@@ -1,4 +1,6 @@
 
+
+
     body {
         margin: 0px;
         padding: 0px;
@@ -20,7 +22,8 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         background-color: #FF3CAC;
         /* background-image: linear-gradient(225deg, #FF3CAC 10%, #784BA0 50%, #b6360e 10%); */
 
-         
+         /* height:100px; */
+        overflow-y:hidden; 
 
     }
 
@@ -86,7 +89,9 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         overflow: hidden;
     }
 
-    #col-1 { background-image: linear-gradient(225deg, #FF3CAC 10%, #784BA0 50%);
+    #col-1 { 
+        background-image: linear-gradient(225deg, #FF3CAC 10%, #784BA0 50%);
+
             width: 25%;
         display: inline-block;
         height: 100vh;
@@ -94,7 +99,10 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         top: 0px;
         left: 0px;
         z-index: 1;
-        overflow:auto; 
+        overflow:hidden; 
+        /* margin:0px; 
+        padding:0px;  */
+        
 
     }
 
@@ -231,7 +239,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
 
     .profile p {
 
-        margin: 0px;
+        margin: 2px;
         padding-left: 5px;
     }
 
@@ -303,6 +311,11 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
 
  #col-1   .selected * {
     color: white;
+}
+
+#first-col-friend-list{
+   height: 72vh;
+    overflow-y:auto;
 }
 #first-col-friend-list .friend-profile:hover {
     background-color: #FF3CAC;
@@ -469,7 +482,8 @@ cursor:pointer;
         background-color: transparent;
         position: relative;
         bottom: 11px;
-        /* right: -70px; */
+   
+        right: -45px;
 
 
     }
@@ -1278,6 +1292,11 @@ background-color: white;
    
 } */
 
+
+#req_box .friend-profile .profile,#noti_box .friend-profile .profile{
+    margin-left:18px; 
+}
+
 @media only screen and (min-width:2050px) {
 
     body{
@@ -1319,9 +1338,9 @@ background-color: white;
     }
 
     #first-col-friend-list{
-        min-height: 72vh;
+ 
         background-color: white;
-        overflow-x:hidden;
+     
     }
 
     /* #header_name img{
@@ -1340,7 +1359,7 @@ background-color: white;
   #col-2{
     background-color:  #ff3cac;  
 width:100%;
-    display:block;
+    display:inline-block;
    position:relative ; 
        display:none; 
 
@@ -1349,7 +1368,7 @@ width:100%;
 
  
    background-color:  #ff3cac;  
-   height:auto; 
+  
      width:100%;
    display:block;
   position:unset ; 
@@ -1382,6 +1401,7 @@ width:100%;
     top: 12px;
 
     left: 19px;
+    
         
      
     }

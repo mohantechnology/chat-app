@@ -40,7 +40,15 @@
 
             <span class="profile">
                 <p class="user-name">{{name}}</p>
-                <p class="user-time">{{pro_mess}}&nbsp; </p>
+
+                
+                {{#if img }}
+             <p class="user-time">{{pro_mess}}&nbsp; </p>
+                {{else}}
+             <p class="user-time">Hello, I am using chat app&nbsp; </p>
+
+                {{/if}}
+               
 
             </span>
             <a id="forward">
@@ -125,7 +133,7 @@
                     {{#if pro_mess }}
                     <p class="user-time">{{pro_mess}} </p>
                     {{else}}
-                    <p class="user-time not-visible">Hello to all " </p>
+                    <p class="user-time ">Hello, I am using chat app&nbsp; </p>
                     {{/if}}
 
 
@@ -143,7 +151,7 @@
 
     </div>
 
-    <div id="col-2" style="display:block">
+    <div id="col-2" >
 
 
 

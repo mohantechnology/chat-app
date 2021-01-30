@@ -71,7 +71,7 @@ var account_type_pri = document.getElementById("account_type_pri");
 var prof_mess = document.getElementById("prof_mess");
 var mess_tone_off = document.getElementById("mess_tone_off");
 var mess_tone_on = document.getElementById("mess_tone_on");
-var mess_tone = localStorage.getItem("mess_tone");
+var mess_tone = localStorage.getItem("mess_tone")? localStorage.getItem("mess_tone"):"on";
 var back = document.getElementById("back");
 var forward = document.getElementById("forward");
 var m_q = window.matchMedia("(max-width: 950px)");
@@ -102,10 +102,6 @@ document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
 
 
 
-if(m_q.matches){
-    col_2.style.display = "none";
-}
-
 
 m_q.addEventListener("change", () => {
 
@@ -124,6 +120,8 @@ m_q.addEventListener("change", () => {
             col_2.style.display = "inline-block";
 
         }
+        search_keyword_alias.style.display = "block";;
+        input_search_keyword.parentNode.style.display = "none";
         console.log("width = ", document.querySelector("body").offsetWidth);
         console.log("yellow");
     } else {
@@ -134,6 +132,24 @@ m_q.addEventListener("change", () => {
         back.style.display = "none";
         console.log("width = ", document.querySelector("body").offsetWidth);
         console.log("pink for greater");
+
+
+        if(close_search.style.display=="inline-block"){
+            // input_search_keyword.parentNode.style.display = "none";
+            search_keyword_alias.style.display = "none";
+            input_search_keyword.parentNode.style.display = "inline-block";
+            header_name.children[0].style.display = "inline-block";
+            header_name.children[1].style.display = "inline-block";
+            header_name.children[2].style.display = "none";
+            
+            close_search.style.display = "none";
+            menu.style.display = "inline-block";
+
+        }else{
+            search_keyword_alias.style.display = "none";
+            input_search_keyword.parentNode.style.display = "inline-block";
+ 
+        }
     }
 
 });
@@ -537,7 +553,7 @@ back.addEventListener("click", () => {
 
 forward.addEventListener("click", () => {
     col_1.style.display = "none";
-    col_2.style.display = "block";
+    col_2.style.display = "inline-block";
     back.style.display = "inline-block";
 });
 
@@ -986,9 +1002,11 @@ function make_element_for_friend_req(data) {
 
     return `<div class="friend-profile">
      <div class="friend-image">
-     <span class="all_img" >
-     <img src="img/profile/${data.sender_img ? data.sender_img : d_img_url}" alt="profile-image">
-</span>
+
+     <span class="all_img"
+     style="background-image: url(./img/profile/${data.sender_img ? data.sender_img : d_img_url});">
+ </span>
+     
      </div>
      <span class="profile  noti-profile">
          <p class="user-name">${data.sender_name} </p>
@@ -1006,9 +1024,10 @@ function make_element_for_noti(data) {
 
     return `    <div class="friend-profile">
                     <div class="friend-image">
-                    <span class="all_img" >
-                    <img src="img/profile/${data.img ? data.img : d_img_url}" alt="profile-image">
-               </span>
+                    <span class="all_img"
+                    style="background-image: url(./img/profile/${data.img ? data.img : d_img_url});">
+                </span>
+                    
                     </div>
                     <span class="profile  noti-profile">
                         <p class="user-name">${data.sender_name}</p>
@@ -1054,7 +1073,7 @@ first_col_friend_list.addEventListener("click", (e) => {
     if (id && curr_f_id != id) {
         if (m_q.matches) {
             col_1.style.display = "none";
-            col_2.style.display = "block";
+            col_2.style.display = "inline-block";
             back.style.display = "inline-block";
 
         }
@@ -1119,7 +1138,7 @@ first_col_friend_list.addEventListener("click", (e) => {
         socket.emit("connected-to", { prev_f_id: prev_f_id, curr_f_id: id, u_id: user_id });
         curr_f_id = id;
 
-        //    append the upload list to mess_bd
+        //    append the uploading files  list to mess_bd 
         let upload_obj = upload_list[curr_f_id];
         if (upload_obj) {
             let upload_arr = Object.values(upload_obj);
@@ -1138,30 +1157,49 @@ first_col_friend_list.addEventListener("click", (e) => {
             // if(  message_list[id][0].mess_type){
             //     mess_bd.append (make_file_sent_element( message_list[id].pop())); 
             // }else{ }
-            mess_bd.append(make_message_element(message_list[id].pop()));
-
+            mess_bd.append(make_message_element(message_list[id].shift()));
 
         }
         console.log("setting scroll to bottom ");
+        for (i = 1; i < total_mess_len; i++) {
+
+            if (message_list[id][i] && message_list[id][i].mess_type) {
+                mess_bd.append(make_file_sent_element(message_list[id].shift()));
+            } else {
+                mess_bd.append(make_message_element(message_list[id].shift()));
+            }
+
+        }
+      
+        document.getElementById(id).children[0].children[1].classList.add("not-visible");
+    } else if (id && m_q.matches) {
+ // for smaller width update the incoming stored messages
+        col_1.style.display = "none";
+        col_2.style.display = "inline-block";
+        back.style.display = "inline-block";
+  let total_mess_len = message_list[id] ? message_list[id].length : 0;
+        if (total_mess_len != 0) {
+            let elem = { direction: "ser", message: "unreaded messages (" + total_mess_len + ")" }
+            mess_bd.append(make_message_element(elem));
+         
+            mess_bd.append(make_message_element(message_list[id].shift()));
+             set_scroll_to_bottom(mess_bd); 
+        }
+  
         // mess_bd.scrollTop = src_id.offsetTop - 20;
         // set_scroll_to_bottom(mess_bd); 
         //i start with one to set scroll to first messgae   
         for (i = 1; i < total_mess_len; i++) {
 
             if (message_list[id][i] && message_list[id][i].mess_type) {
-                mess_bd.append(make_file_sent_element(message_list[id].pop()));
+                mess_bd.append(make_file_sent_element(message_list[id].shift()));
             } else {
-                mess_bd.append(make_message_element(message_list[id].pop()));
+                mess_bd.append(make_message_element(message_list[id].shift()));
             }
 
         }
-
+      
         document.getElementById(id).children[0].children[1].classList.add("not-visible");
-    } else if (id && m_q.matches) {
-
-        col_1.style.display = "none";
-        col_2.style.display = "block";
-        back.style.display = "inline-block";
 
     }
 
@@ -1236,7 +1274,7 @@ setting.addEventListener("click", () => {
     header_name.style.display = "none";
     myform.style.display = "none";
 
-    if (localStorage.getItem("mess_tone") == "on") {
+    if ((!localStorage.getItem("mess_tone"))|| localStorage.getItem("mess_tone") == "on") {
         mess_tone_on.checked = true;
     } else {
         mess_tone_off.checked = true;
@@ -1852,7 +1890,9 @@ socket.on("rec-message", (data) => {
 
     // if()
     data.direction = "in";
-    if (data.user_id == curr_f_id && m_q.matches && col_2.style.display == "block") {
+    if (data.user_id == curr_f_id &&  col_2.style.display == "inline-block") {  
+
+        //m_q.matches && col_2.style.display == "block" && m_q.matches==false 
 
         console.log("recived data is: ", data);
         //if recieved message is file 
@@ -1931,6 +1971,16 @@ socket.on("user-disconnected", (data) => {
 
     set_scroll_to_bottom(mess_bd);
 });
+
+
+col_2.style.display = "inline-block";
+console.log("style is : " + col_2.style.display)
+if(m_q.matches){
+    col_1.style.display = "inline-block";
+    col_2.style.display = "none";
+}
+
+
 
 // socket.on("recieved-pecific-client", (data) => {
 

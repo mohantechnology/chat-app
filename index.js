@@ -436,10 +436,12 @@ console.log("incoming cookie data", cookie_data);
     
       if(response.data.message=="Account is Not Activated"){
         res.sendFile(view_dir_name + "/activate.html");
-      }else{
-          res.send(response.data);
+      }else if(response.data.message=="Not a valid user"){
+          res.redirect("/login"); 
       }
-      
+      else{
+        res.send(response.data);
+      }
 
     }
   }).catch(err => {
