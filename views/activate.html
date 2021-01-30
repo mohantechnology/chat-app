@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title id="title">Activate Account</title>
 </head>
 <style>
     body {
@@ -222,7 +222,9 @@ height:50vh;
     }
 
 
-
+    #resend_act_link_but {
+      background-color: #2d2d5cc4;     
+  }
 
     @media screen and (min-width:951px) {
 
@@ -432,6 +434,7 @@ height:50vh;
 
             
                 <button id="sub_but" class="button">  Submit </button>
+                <button id="resend_act_link_but" class="button">Not Recieved Activation Link</button>
                 <button id="back-butt" class="button"> Back  </button>
 
 
@@ -458,13 +461,23 @@ height:50vh;
         var message = document.getElementById("message"); 
         var email = document.getElementById("email"); 
         var back_butt = document.getElementById("back-butt"); 
-        
-        
+        var resend_act_link_but = document.getElementById("resend_act_link_but");
+        var title = document.getElementById("title"); 
+        var head_message = document.getElementById("head-message"); 
+        var is_rec_reqest=true; 
         var timeout_id ; 
+
+
 
        
          
      function send_xhr(param,url){
+        if(!is_rec_reqest){
+                return; 
+            }
+            is_rec_reqest=false;
+            sub_but.textContent = "Processing..."; 
+           
           let xhttp = new XMLHttpRequest(); 
           xhttp.open("GET", url, true);
          xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -485,6 +498,8 @@ height:50vh;
                       display_message(data.message, "red"); 
                   }
                   ; 
+                  is_rec_reqest=true;
+            sub_but.textContent = "Submit"; 
               }
           }
     
@@ -503,7 +518,18 @@ height:50vh;
         }
 
         back_butt.addEventListener("click",()=>{
+
+        if(    head_message.textContent != "Resend Activation Link" ){
             location = "./login"; 
+        }else{
+          head_message.textContent =   title.textContent="Activation Account"; 
+            act_code.setAttribute("placeholder" ,"Activation Code"); 
+            sub_but.style.display = "inline-block";
+            resend_act_link_but.textContent =   "Not Recieved Activation Link"; 
+            act_code.setAttribute("type","number");
+        }
+
+          
         })
 
         sub_but.addEventListener("click", ()=>{
@@ -522,8 +548,78 @@ height:50vh;
             param = `/activate/${user_email}/token_no/${user_act_code}`;
            send_xhr("",param); 
            
-        })
+        });
 
+
+
+
+        resend_act_link_but.addEventListener("click",()=>{
+
+            if(!is_rec_reqest){
+                return; 
+            }
+
+
+    
+      
+           if(   resend_act_link_but.textContent == "Resend Activation Link" ){
+            resend_act_link_but.textContent == "Processing..."; 
+            is_rec_reqest=false; 
+        
+           }else{
+            title.textContent="Resend Activation Link"; 
+            resend_act_link_but.textContent = "Resend Activation Link"; 
+            head_message.textContent = "Resend Activation Link"; 
+            act_code.setAttribute("placeholder" ,"Your Password");
+            act_code.setAttribute("type","password");  
+            sub_but.style.display = "none"; 
+               return; 
+           }
+
+
+      
+
+           let param ; 
+         
+         let user_act_code,user_email ;
+       
+          user_act_code = encodeURIComponent(act_code.value.trim());
+          user_email = (email.value.trim());
+          if( user_act_code=="" || user_email =="" ){
+
+              display_message("All Fields are Required","red"); 
+              return;
+          }
+          param = `email=${user_email}&password=${user_act_code}`;
+           email.value = act_code.value = ""; 
+
+
+      
+            let xhttp = new XMLHttpRequest(); 
+          xhttp.open("POST", "/reg", true);
+         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          xhttp.onreadystatechange = function(){
+              if(this.readyState == 4 && this.status>=200 && this.status<300){
+                  console.log(this.response); 
+                   let data = JSON.parse(this.response); 
+                  if (data.status=="ok"){
+                     display_message(data.message, "green",3000); 
+                    
+                      
+                  }else{
+                      console.log("error occured"); 
+                      console.log(data); 
+                      display_message(data.message, "red"); 
+                  }
+                  ; 
+                  resend_act_link_but.textContent = "Resend Activation Link"; 
+                  is_rec_reqest=true; 
+              }
+          }
+    
+          xhttp.send( param );
+         
+        });
     </script>
 
 

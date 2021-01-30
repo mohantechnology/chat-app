@@ -433,7 +433,12 @@ console.log("incoming cookie data", cookie_data);
 
     }
     else {
-      res.send(response.data);
+    
+      if(response.data.message=="Account is Not Activated"){
+        res.sendFile(view_dir_name + "/activate.html");
+      }else{
+          res.send(response.data);
+      }
       
 
     }
@@ -687,7 +692,7 @@ app.post('/reg', (req, res) => {
   }).then(function (response) {
     console.log("register response")
     // console.log(response.data);
-    if(response.data.status=="ok" && response.data.message=="Acount Registered Successfully"){
+    if(response.data.status=="ok" ){
       //send activation email 
 
       let email_mess_bd = fs.readFileSync(view_dir_name+ "/act_acc_email.html","utf-8"); 
