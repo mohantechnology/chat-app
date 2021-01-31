@@ -71,7 +71,7 @@ var account_type_pri = document.getElementById("account_type_pri");
 var prof_mess = document.getElementById("prof_mess");
 var mess_tone_off = document.getElementById("mess_tone_off");
 var mess_tone_on = document.getElementById("mess_tone_on");
-var mess_tone = localStorage.getItem("mess_tone")? localStorage.getItem("mess_tone"):"on";
+var mess_tone = localStorage.getItem("mess_tone") ? localStorage.getItem("mess_tone") : "on";
 var back = document.getElementById("back");
 var forward = document.getElementById("forward");
 var m_q = window.matchMedia("(max-width: 950px)");
@@ -134,21 +134,21 @@ m_q.addEventListener("change", () => {
         console.log("pink for greater");
 
 
-        if(close_search.style.display=="inline-block"){
+        if (close_search.style.display == "inline-block") {
             // input_search_keyword.parentNode.style.display = "none";
             search_keyword_alias.style.display = "none";
             input_search_keyword.parentNode.style.display = "inline-block";
             header_name.children[0].style.display = "inline-block";
             header_name.children[1].style.display = "inline-block";
             header_name.children[2].style.display = "none";
-            
+
             close_search.style.display = "none";
             menu.style.display = "inline-block";
 
-        }else{
+        } else {
             search_keyword_alias.style.display = "none";
             input_search_keyword.parentNode.style.display = "inline-block";
- 
+
         }
     }
 
@@ -171,9 +171,9 @@ close_file_upload.addEventListener("click", () => {
     mess_bd.style.display = "block";
     select_file.style.display = "inline-block";
     send_file.style.display = "none";
-    display_file.innerHTML=""; 
-    transfer_file.files = null; 
- 
+    display_file.innerHTML = "";
+    transfer_file.files = null;
+
 });
 
 
@@ -235,11 +235,11 @@ function make_file_sent_element(data) {
     }
     if (data.mime_type) {
         mime_type = data.mime_type.split("/")[0];
-        console.log(mime_type);
+        // console.log(mime_type);
         if (mime_type == "image") {
             mime_type = `background-image:url('../transfer_file/${data.folder_name}/${data.file_link}');min-height: 200px;`;
             // mime_type = `background-image:url('${FILE_D_N}/transfer_file/transfer_file/${data.folder_name}/${data.file_link}');min-height: 200px;`;
-            console.log("file is image ", mime_type); 
+            // console.log("file is image ", mime_type); 
             // mime_type = `background-image:url('../chat_image.png')`; 
 
         }
@@ -462,7 +462,7 @@ mess_bd.addEventListener("scroll", () => {
             if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
 
                 let data = JSON.parse(this.response);
-                console.log(data);
+                // console.log(data);
                 is_recieved = true;
                 loader.style.display = "none";
                 if (data.status == "ok") {
@@ -490,7 +490,7 @@ mess_bd.addEventListener("scroll", () => {
             } else if (this.readyState == 4) {
                 is_recieved = true;
                 loader.style.display = "none";
-                console.log("served creashed ");
+                // console.log("served creashed ");
             }
         }
         let param = "friend_u_id=" + curr_f_id + "&no=" + curr_no;
@@ -509,15 +509,15 @@ mess_bd.addEventListener("click", (e) => {
     if (e.target.className == "download-img") {
         //   console.log(e.target.previousElementSibling.innerText); 
         let path = e.target.id.split("-");
-        let url = "./download/" + path[0] + "/" + path[1] + "/" +encodeURIComponent (e.target.previousElementSibling.innerText);
-        
+        let url = "./download/" + path[0] + "/" + path[1] + "/" + encodeURIComponent(e.target.previousElementSibling.innerText);
+
         // let url = "./transfer_file/" + path[0] + "/" + path[1] + "/" + e.target.previousElementSibling.innerText;
         // ownload/:folder/:file/:file_name
         // let url = FILE_DOWNLOAD_URL + "?folder_name=" + path[0] + "&file_name=" + path[1] + "&file_org_name=" +encodeURIComponent (e.target.previousElementSibling.innerText);
         // 
         //    location = url; 
         // let url =FILE_D_N + "/transfer_file/transfer_file/" + path[0] + "/" + path[1] ;
-        console.log(url); 
+        // console.log(url); 
         var elel = document.createElement("a");
         elel.setAttribute("href", url);
         // elel.setAttribute("download", "true");
@@ -581,7 +581,7 @@ upload_but.addEventListener("click", () => {
 })
 
 function preview_img() {
-    self_prof.children[0].children[0].style.backgroundImage= prof_img.style.backgroundImage = `url('${URL.createObjectURL(upload_file.files[0])}')`;
+    self_prof.children[0].children[0].style.backgroundImage = prof_img.style.backgroundImage = `url('${URL.createObjectURL(upload_file.files[0])}')`;
 
     prof_img.onload = function () {
         URL.revokeObjectURL(prof_img.src) // free memory
@@ -602,7 +602,7 @@ function byte_to_unit(size) {
 }
 
 log_out.addEventListener("click", () => {
-    console.log("clieked logout ")
+    // console.log("clieked logout ")
     let cookie_arr = document.cookie.split(";");
     for (let i = 0; i < cookie_arr.length; i++) {
         let temp = `${cookie_arr[i].split("=")[0]}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; `;
@@ -617,17 +617,17 @@ function transfer_file_to_friend(e) {
 
     let total_file;
 
-    console.log("files aare ", transfer_file);
+    // console.log("files aare ", transfer_file);
     if (transfer_file.files && transfer_file.files.length > 0) {
         total_file = transfer_file.files.length;
     } else {
         console.log("no file ");
-        select_file.style.display="inline-block"; 
-        send_file.style.display="none"; 
+        select_file.style.display = "inline-block";
+        send_file.style.display = "none";
         return;
 
     }
-    console.log(transfer_file.files)
+    // console.log(transfer_file.files)
     //    stack overflow
     let f_id = curr_f_id;
     let file_mess = message_input.value;
@@ -635,13 +635,13 @@ function transfer_file_to_friend(e) {
 
 
     // let data = document.cookie.split(";")
-  
+
     // let temp;
     // let param = ""; 
     // for (let i = 0; i < data.length; i++) {
     //     temp = data[i].split("=");
     //     param+=  "&" + temp[0].trim() +"=" + temp[1]; 
-  
+
     // }
 
     for (let i = 0; i < total_file; i++) {
@@ -662,11 +662,11 @@ function transfer_file_to_friend(e) {
         let xhttp = new XMLHttpRequest();
         let url = `/transfer_file/${f_id}/${encodeURIComponent(file_mess)}`;
         // let url = `${FILE_TRANSFER_URL}?f_id=${f_id}&file_mess=${encodeURIComponent(file_mess)} ${param}`;
-        
+
         // console.log("url = ", url);
         xhttp.open("POST", url, true);
-        console.log(size_detail);
-        console.log(transfer_file.files[i].size);
+        // console.log(size_detail);
+        // console.log(transfer_file.files[i].size);
 
         // xhttp.setRequestHeader("Content-type", "ap");\
         xhttp.upload.onprogress = function (e) {
@@ -694,7 +694,7 @@ function transfer_file_to_friend(e) {
 
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-                console.log("resrpn->", this.response);
+                // console.log("resrpn->", this.response);
                 let res_data = JSON.parse(this.response)
                 if (res_data.status == "ok") {
                     res_data.message = file_mess;
@@ -707,7 +707,7 @@ function transfer_file_to_friend(e) {
                     //    res_data.mess_type="file";
 
                     socket.emit('sent-file', res_data);
-                    console.log("successly sended file ", res_data);
+                    // console.log("successly sended file ", res_data);
 
                     if (curr_f_id == f_id) {
                         document.getElementById(upload_id).parentNode.parentNode.parentNode.parentNode.remove();
@@ -731,11 +731,11 @@ function transfer_file_to_friend(e) {
 
                     // }
                     delete upload_list[f_id][upload_id];
-                    console.log(upload_list);
-                    console.log("detedted ");
+                    // console.log(upload_list);
+                    // console.log("detedted ");
                 }
                 else {
-                      console.log(res_data.error);
+                    console.log(res_data.error);
                 }
 
             }
@@ -744,12 +744,12 @@ function transfer_file_to_friend(e) {
         // let arr = [{name: "maggi",age:234},{name: "yes ",age:234}]
         // arr.search({name:"maggi",age:234}) 
         xhttp.send(form_data);
-        let upload_data = { file_name: encodeURIComponent( transfer_file.files[i].name), byte: "waiting...", upload_id: upload_id };
+        let upload_data = { file_name: encodeURIComponent(transfer_file.files[i].name), byte: "waiting...", upload_id: upload_id };
         let upload_detail = {};
         upload_detail[upload_id] = upload_data;
         let temp_child = make_file_upload_element(upload_data);
-        console.log("temp upload child ");
-        console.log(temp_child);
+        // console.log("temp upload child ");
+        // console.log(temp_child);
         mess_bd.append(temp_child)
 
         if (upload_list[f_id]) {
@@ -776,8 +776,8 @@ send_file.addEventListener("click", (e) => {
     mess_bd.style.display = "block";
     drop_box.style.display = "none";
     transfer_file.files = null;
-    send_file.style.display="none"; 
-    select_file.style.display="inline-block"; 
+    send_file.style.display = "none";
+    select_file.style.display = "inline-block";
 
 });
 browse_file.addEventListener("click", () => {
@@ -801,17 +801,17 @@ transfer_file.addEventListener("change", () => {
     // drop_box.style.display="none";
     display_file.innerHTML = "";
     drop_file.style.display = "none";
-    console.log("tranfer ifle is ", transfer_file)
+    // console.log("tranfer ifle is ", transfer_file)
     for (let i = 0; i < transfer_file.files.length; i++) {
         display_file.append(make_element_for_display_file(transfer_file.files[i].name));
-        console.log("apending ", transfer_file.files[i].name);
+        // console.log("apending ", transfer_file.files[i].name);
     }
 
 });
 drop_file.addEventListener("dragover", (e) => {
     e.preventDefault();
 
-    console.log("drage voer ");
+    // console.log("drage voer ");
     drop_file.parentElement.style.backgroundColor = "rgba(212, 175, 204, 0.719)"
     drop_file.lastElementChild.style.transform = "scale(1.3)"
 
@@ -819,7 +819,7 @@ drop_file.addEventListener("dragover", (e) => {
 })
 
 drop_file.addEventListener("dragleave", (e) => {
-    console.log("leave");
+    // console.log("leave");
     drop_file.parentElement.style.backgroundColor = "rgb(216, 175, 207)";
     drop_file.lastElementChild.style.transform = "scale(1)"
 
@@ -836,13 +836,13 @@ drop_file.addEventListener("drop", (e) => {
         transfer_file.files = e.dataTransfer.files;
         for (let i = 0; i < transfer_file.files.length; i++) {
             display_file.append(make_element_for_display_file(transfer_file.files[i].name));
-            console.log("apending ", transfer_file.files[i].name);
+            // console.log("apending ", transfer_file.files[i].name);
         }
         // transfer_file_to_friend(e); 
     }
 
-    console.log("droped");
-    console.log(e.dataTransfer.files);
+    // console.log("droped");
+    // console.log(e.dataTransfer.files);
     // drop_file.parentElement.style.backgroundColor="rgb(216, 175, 207)"; 
     // drop_file.firstElementChild.style.transform="scale(1)"
 });
@@ -850,7 +850,7 @@ drop_file.addEventListener("drop", (e) => {
 //profile image file 
 update_but.addEventListener("click", (e) => {
     let up_file = upload_file.files[0];
-    console.log(up_file);
+    // console.log(up_file);
 
 
     //    stack overflow
@@ -863,22 +863,22 @@ update_but.addEventListener("click", (e) => {
         form_data.append("myfile", up_file);
         update_but.innerText = "Updating...";
 
-        console.log(form_data, up_file);
-    //read   cookie 
-    let temp_data = document.cookie.split(";")
-    let temp_cookie;
-    let param = ""; 
-    for (let i = 0; i < temp_data.length; i++) {
-        temp_cookie = temp_data[i].split("=");
-        param+=  "&" + temp_cookie[0].trim() +"=" +encodeURIComponent( temp_cookie[1]); 
-  
-    }
+        // console.log(form_data, up_file);
+        //read   cookie 
+        let temp_data = document.cookie.split(";")
+        let temp_cookie;
+        let param = "";
+        for (let i = 0; i < temp_data.length; i++) {
+            temp_cookie = temp_data[i].split("=");
+            param += "&" + temp_cookie[0].trim() + "=" + encodeURIComponent(temp_cookie[1]);
+
+        }
 
         let xhttp = new XMLHttpRequest();
         let url = `/update_prof/${account_type_pub.checked == true ? "public" : "private"}/${encodeURIComponent(prof_mess.value)}`;
         // let url = `${PROFILE_UPDATE_URL}?account_type_pub=${account_type_pub.checked == true ? "public" : "private"}${param}&prof_mess=${encodeURIComponent(prof_mess.value)}`;
 
-        console.log("url = ", url);
+        // console.log("url = ", url);
         xhttp.open("POST", url, true);
 
         // xhttp.setRequestHeader("Content-type", "ap");
@@ -889,7 +889,7 @@ update_but.addEventListener("click", (e) => {
 
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-                console.log("resrpn->", this.response);
+                // console.log("resrpn->", this.response);
                 let res_data = JSON.parse(this.response)
                 if (res_data.status == "ok") {
                     update_but.innerText = "Updated";
@@ -1010,7 +1010,7 @@ function make_element_for_friend_req(data) {
      </div>
      <span class="profile  noti-profile">
          <p class="user-name">${data.sender_name} </p>
-         <p class="user-time">${data.sender_pro_mess?data.sender_pro_mess:d_mess} </p>
+         <p class="user-time">${data.sender_pro_mess ? data.sender_pro_mess : d_mess} </p>
  
      </span>
      <div id='${data.sender_p_id}' class="send-request-but">Accept Request</div>
@@ -1031,7 +1031,7 @@ function make_element_for_noti(data) {
                     </div>
                     <span class="profile  noti-profile">
                         <p class="user-name">${data.sender_name}</p>
-                        <p class="user-time">${data.pro_mess?data.pro_mess:"Hello, I am using chat app"} </p>
+                        <p class="user-time">${data.pro_mess ? data.pro_mess : "Hello, I am using chat app"} </p>
 
                     </span>
                     <div class="noti-mess">${data.message}
@@ -1061,7 +1061,7 @@ first_col_friend_list.addEventListener("click", (e) => {
     myform.style.display = "block";
     mess_bd.style.display = "block";
     header_name.style.display = "block";
-
+   
     let id;
     if (e.target.id) { id = e.target.id; }
     else if (e.target.parentNode.id) { id = e.target.parentNode.id; }
@@ -1071,25 +1071,27 @@ first_col_friend_list.addEventListener("click", (e) => {
     document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
 
     if (id && curr_f_id != id) {
+        console.log("if executed");
         if (m_q.matches) {
             col_1.style.display = "none";
             col_2.style.display = "inline-block";
             back.style.display = "inline-block";
 
         }
+        loader.style.display="inline-block"; 
         curr_no = undefined;
         document.cookie = "curr_f_id=" + (id) + "; path=/;";
         mess_bd.innerHTML = "";
         let xhttp = new XMLHttpRequest();
         menu_box.style.display = "none";
         let total_mess_len = message_list[id] ? message_list[id].length : 0;
-        console.log("id=" + id);
+        // console.log("id=" + id);
         xhttp.open("POST", "./fetch_friend", true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
                 let data = JSON.parse(this.response);
-                // console.log(data);
+                console.log(data);
                 if (data.status == "ok") {
                     let len = data.data.length;
 
@@ -1109,22 +1111,22 @@ first_col_friend_list.addEventListener("click", (e) => {
                         document.cookie = "no=0; path=/;";
                         curr_no = 0;
                     }
-                    mess_bd.scrollTop = mess_bd.children[len - 1].offsetTop;
-                    console.log("seting scroll ot len-1 ", mess_bd.children[len - 1].offsetTop);
+                    mess_bd.scrollTop = mess_bd.children[len>0 ?len - 1:0].offsetTop;
+                    // console.log("seting scroll ot len-1 ", mess_bd.children[len - 1].offsetTop);
 
 
-                    console.log(data);
+                    // console.log(data);
                 } else {
-                    console.log("error ");
+                    // console.log("error ");
                     // location  = "./login";     
                 };
-                console.log("setted img");
+                // console.log("setted img");
                 // header_name.children[0].src = data.img ? data.img : "racoon.jpg";
 
-                header_name.children[0].children[0].style.backgroundImage =document.getElementById(id).children[0].children[0].style.backgroundImage; 
+                header_name.children[0].children[0].style.backgroundImage = document.getElementById(id).children[0].children[0].style.backgroundImage;
                 header_name.children[1].children[0].textContent = data.name;
                 header_name.children[1].children[1].textContent = data.current_status;
-
+                loader.style.display="none"; 
             }
         }
         // let param = "signal=" + 0+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
@@ -1138,68 +1140,102 @@ first_col_friend_list.addEventListener("click", (e) => {
         socket.emit("connected-to", { prev_f_id: prev_f_id, curr_f_id: id, u_id: user_id });
         curr_f_id = id;
 
+            // console.log(" message = > "); 
+            // message_list[id].forEach(element => {
+            //           console.log(element) ;
+            // });
+       
+            // console.log("<= end  message = > "); 
+
         //    append the uploading files  list to mess_bd 
         let upload_obj = upload_list[curr_f_id];
         if (upload_obj) {
             let upload_arr = Object.values(upload_obj);
             for (let i = 0; i < upload_arr.length; i++) {
                 mess_bd.append(make_file_upload_element(upload_arr[i]));
-                console.log("*** upload arr i ")
-                console.log(upload_arr[i]);
             }
-
+       
         }
-
+  
         if (total_mess_len != 0) {
+            temp_messages = message_list[id]; 
+            message_list[id] = []; 
             let elem = { direction: "ser", message: "unreaded messages (" + total_mess_len + ")" }
             mess_bd.append(make_message_element(elem));
-            // mess_bd.append(make_message_element(  message_list[id].pop())); 
-            // if(  message_list[id][0].mess_type){
-            //     mess_bd.append (make_file_sent_element( message_list[id].pop())); 
-            // }else{ }
-            mess_bd.append(make_message_element(message_list[id].shift()));
 
-        }
-        console.log("setting scroll to bottom ");
-        for (i = 1; i < total_mess_len; i++) {
-
-            if (message_list[id][i] && message_list[id][i].mess_type) {
-                mess_bd.append(make_file_sent_element(message_list[id].shift()));
+            if (temp_messages[0].mess_type) {
+                mess_bd.append(make_file_sent_element(temp_messages[0]));
             } else {
-                mess_bd.append(make_message_element(message_list[id].shift()));
+                mess_bd.append(make_message_element(temp_messages[0]));
+            }
+            // set_scroll_to_bottom(mess_bd);
+        
+        // console.log("setting scroll to bottom ");
+        for (i = 1; i < total_mess_len; i++) {
+            console.log( "  i = "  + i  ); 
+            if (temp_messages[i].mess_type) {
+                console.log( " typeis = file  "  )
+                mess_bd.append(make_file_sent_element(temp_messages[i]));
+            } else {
+                console.log( " typeis = message  "  )
+                mess_bd.append(make_message_element(temp_messages[i]));
             }
 
         }
-      
+        loader.style.display="none"; 
+       }
         document.getElementById(id).children[0].children[1].classList.add("not-visible");
     } else if (id && m_q.matches) {
- // for smaller width update the incoming stored messages
+        console.log("else  executed ");
+        // for smaller width update the incoming stored messages
         col_1.style.display = "none";
         col_2.style.display = "inline-block";
         back.style.display = "inline-block";
-  let total_mess_len = message_list[id] ? message_list[id].length : 0;
+        let total_mess_len = message_list[id] ? message_list[id].length : 0;
+
+
+
+  
         if (total_mess_len != 0) {
+            temp_messages = message_list[id]; 
+            message_list[id] = []; 
             let elem = { direction: "ser", message: "unreaded messages (" + total_mess_len + ")" }
             mess_bd.append(make_message_element(elem));
-         
-            mess_bd.append(make_message_element(message_list[id].shift()));
-             set_scroll_to_bottom(mess_bd); 
-        }
-  
-        // mess_bd.scrollTop = src_id.offsetTop - 20;
-        // set_scroll_to_bottom(mess_bd); 
-        //i start with one to set scroll to first messgae   
-        for (i = 1; i < total_mess_len; i++) {
 
-            if (message_list[id][i] && message_list[id][i].mess_type) {
-                mess_bd.append(make_file_sent_element(message_list[id].shift()));
+            if (temp_messages[0].mess_type) {
+                mess_bd.append(make_file_sent_element(temp_messages[0]));
             } else {
-                mess_bd.append(make_message_element(message_list[id].shift()));
+                mess_bd.append(make_message_element(temp_messages[0]));
+            }
+            // set_scroll_to_bottom(mess_bd);
+        
+        // console.log("setting scroll to bottom ");
+        for (i = 1; i < total_mess_len; i++) {
+            console.log( "  i = "  + i  ); 
+            if (temp_messages[i].mess_type) {
+                console.log( " typeis = file  "  )
+                mess_bd.append(make_file_sent_element(temp_messages[i]));
+            } else {
+                console.log( " typeis = message  "  )
+                mess_bd.append(make_message_element(temp_messages[i]));
             }
 
         }
-      
+
+       }
         document.getElementById(id).children[0].children[1].classList.add("not-visible");
+
+        //    append the uploading files  list to mess_bd 
+        let upload_obj = upload_list[curr_f_id];
+        if (upload_obj) {
+            let upload_arr = Object.values(upload_obj);
+            for (let i = 0; i < upload_arr.length; i++) {
+                mess_bd.append(make_file_upload_element(upload_arr[i]));
+                // console.log("*** upload arr i ")
+                // console.log(upload_arr[i]);
+            }
+
+        }
 
     }
 
@@ -1213,53 +1249,53 @@ find_new_friend.addEventListener("click", () => {
 
 
 noti.addEventListener("click", () => {
-    
-if(is_recieved_noti){
-    is_recieved_noti=false; 
-    loader.style.display = "inline-block"; 
-    menu_box.style.display = "none";
-    mess_bd.style.display = "none";
-    noti_box.style.display = "block";
-    close_noti.parentNode.style.display = "block";
-    header_name.style.display = "none";
-    myform.style.display = "none";
-    //TODO
-   
 
- 
-    
-    let xhttp = new XMLHttpRequest();
+    if (is_recieved_noti) {
+        is_recieved_noti = false;
+        loader.style.display = "inline-block";
+        menu_box.style.display = "none";
+        mess_bd.style.display = "none";
+        noti_box.style.display = "block";
+        close_noti.parentNode.style.display = "block";
+        header_name.style.display = "none";
+        myform.style.display = "none";
+        //TODO
 
 
-    xhttp.open("POST", "./display_noti", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-            let data = JSON.parse(this.response);
-            console.log(data);
-            if (data.status == "ok") {
-                let len = data.data.length;
-                let html_str = "";
-                for (let i = 0; i < len; i++) {
-                    html_str += make_element_for_noti(data.data[i]);
-
-                }
-
-                noti_box.innerHTML = html_str;
-
-                console.log(data);
-                //   console.log(req_box.innerHTML);  
 
 
-            };
-            is_recieved_noti=true; 
-            loader.style.display = "none"; 
+        let xhttp = new XMLHttpRequest();
+
+
+        xhttp.open("POST", "./display_noti", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+                let data = JSON.parse(this.response);
+                // console.log(data);
+                if (data.status == "ok") {
+                    let len = data.data.length;
+                    let html_str = "";
+                    for (let i = 0; i < len; i++) {
+                        html_str += make_element_for_noti(data.data[i]);
+
+                    }
+
+                    noti_box.innerHTML = html_str;
+
+                    // console.log(data);
+                    //   console.log(req_box.innerHTML);  
+
+
+                };
+                is_recieved_noti = true;
+                loader.style.display = "none";
+            }
         }
-    }
-    // let param = "signal=0&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+        // let param = "signal=0&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
 
-    let param = "date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
-    xhttp.send(param);
+        let param = "date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
+        xhttp.send(param);
 
     }
 
@@ -1274,7 +1310,7 @@ setting.addEventListener("click", () => {
     header_name.style.display = "none";
     myform.style.display = "none";
 
-    if ((!localStorage.getItem("mess_tone"))|| localStorage.getItem("mess_tone") == "on") {
+    if ((!localStorage.getItem("mess_tone")) || localStorage.getItem("mess_tone") == "on") {
         mess_tone_on.checked = true;
     } else {
         mess_tone_off.checked = true;
@@ -1284,60 +1320,60 @@ setting.addEventListener("click", () => {
 //display all recived request 
 rec_req.addEventListener("click", () => {
 
-    if(is_recieved_reqest){
-        is_recieved_reqest=false; 
-        loader.style.display = "inline-block"; 
-    
-    menu_box.style.display = "none";
-    mess_bd.style.display = "none";
-    noti_box.style.display = "block";
-    close_req.parentNode.style.display = "block";
-    header_name.style.display = "none";
-    // message_body.style.display="none"; 
-    //TODO
+    if (is_recieved_reqest) {
+        is_recieved_reqest = false;
+        loader.style.display = "inline-block";
 
-    let xhttp = new XMLHttpRequest();
-    mess_bd.style.display = "none";
-    noti_box.style.display = "none";
-    req_box.style.display = "block";
-    //  header_name.style.display="none"
-    myform.style.display = "none";
-    xhttp.open("POST", "./accept_friend_request", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-            let data = JSON.parse(this.response);
-            console.log(data);
-            if (data.status == "ok") {
-                let len = data.data.length;
-                let html_str = "";
-                for (let i = 0; i < len; i++) {
-                    html_str += make_element_for_friend_req(data.data[i]);
+        menu_box.style.display = "none";
+        mess_bd.style.display = "none";
+        noti_box.style.display = "block";
+        close_req.parentNode.style.display = "block";
+        header_name.style.display = "none";
+        // message_body.style.display="none"; 
+        //TODO
 
-                }
-
-                req_box.innerHTML = html_str;
-
+        let xhttp = new XMLHttpRequest();
+        mess_bd.style.display = "none";
+        noti_box.style.display = "none";
+        req_box.style.display = "block";
+        //  header_name.style.display="none"
+        myform.style.display = "none";
+        xhttp.open("POST", "./accept_friend_request", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+                let data = JSON.parse(this.response);
                 console.log(data);
-                // console.log(req_box.innerHTML);
-                //     // console.log(html_str);
-                //     e.target.innerHTML= "Added as Friend";
-                //   //   console.log(e.target.className); 
-                //     e.target.className="sended-request-but"; 
-                // } else {
-                //     console.log("error occured");
-                //     console.log(data);
+                if (data.status == "ok") {
+                    let len = data.data.length;
+                    let html_str = "";
+                    for (let i = 0; i < len; i++) {
+                        html_str += make_element_for_friend_req(data.data[i]);
 
-            };
-            is_recieved_reqest=true; 
-            loader.style.display = "none"; 
+                    }
 
+                    req_box.innerHTML = html_str;
+
+                    console.log(data);
+                    // console.log(req_box.innerHTML);
+                    //     // console.log(html_str);
+                    //     e.target.innerHTML= "Added as Friend";
+                    //   //   console.log(e.target.className); 
+                    //     e.target.className="sended-request-but"; 
+                    // } else {
+                    //     console.log("error occured");
+                    //     console.log(data);
+
+                };
+                is_recieved_reqest = true;
+                loader.style.display = "none";
+
+            }
         }
-    }
-    let param = "signal=0&date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
+        let param = "signal=0&date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
 
-    //  let param = "p_id=" + id+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
-    xhttp.send(param);
+        //  let param = "p_id=" + id+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+        xhttp.send(param);
 
     }
 })
@@ -1459,13 +1495,13 @@ function click_side_list_down_icon() {
 
         src_id.style.color = "red";
         console.log(src_id.parentElement.parentElement);
-        console.log(src_id.parentElement.parentElement.offsetTop);  
-        if(src_id.parentElement.parentElement.className =="message-file"){
-              mess_bd.scrollTop = src_id.parentElement.parentElement.offsetTop - 20;
-        }else{
+        console.log(src_id.parentElement.parentElement.offsetTop);
+        if (src_id.parentElement.parentElement.className == "message-file") {
+            mess_bd.scrollTop = src_id.parentElement.parentElement.offsetTop - 20;
+        } else {
             mess_bd.scrollTop = src_id.offsetTop - 20;
         }
-      
+
         selectElementText(src_id);
         // src_id.scrollIntoView();
 
@@ -1474,7 +1510,7 @@ function click_side_list_down_icon() {
 
 
 side_list_down_icon.addEventListener("click", () => {
-    click_side_list_down_icon(); 
+    click_side_list_down_icon();
     console.log("clickde");
 
 });
@@ -1493,11 +1529,11 @@ side_list_up_icon.addEventListener("click", () => {
         // src_id.setPointerCapture();
         // src_id.selectionStart =5;
         // src_id.focus(); 
-        if(src_id.parentElement.parentElement.className =="message-file"){
+        if (src_id.parentElement.parentElement.className == "message-file") {
             mess_bd.scrollTop = src_id.parentElement.parentElement.offsetTop - 20;
-      }else{
-          mess_bd.scrollTop = src_id.offsetTop - 20;
-      }
+        } else {
+            mess_bd.scrollTop = src_id.offsetTop - 20;
+        }
         selectElementText(src_id);
 
     }
@@ -1549,7 +1585,7 @@ side_list_close_icon.addEventListener("click", () => {
 
 
 
-function set_color_to_text(text, patt_str = "", element_id=null) {
+function set_color_to_text(text, patt_str = "", element_id = null) {
 
     let last, result;
     let len1, len2;
@@ -1623,9 +1659,9 @@ function set_color_to_text(text, patt_str = "", element_id=null) {
 
 input_search_keyword.addEventListener("keyup", (e) => {
 
-    if(e.key == "Enter" || e.keyCode==13){
-        click_side_list_down_icon(); 
-        return; 
+    if (e.key == "Enter" || e.keyCode == 13) {
+        click_side_list_down_icon();
+        return;
     }
 
     side_list_search_icon.style.display = "none";
@@ -1645,11 +1681,11 @@ input_search_keyword.addEventListener("keyup", (e) => {
     let len = 0;
     let i = 0;
     let count = 0;
-    let c_name; 
+    let c_name;
     for (let i = 0; i < no_of_child; i++) {
-      c_name=mess_bd.children[i].firstElementChild.className; 
+        c_name = mess_bd.children[i].firstElementChild.className;
 
-     if (c_name== "message-left" || c_name=="message-right") {
+        if (c_name == "message-left" || c_name == "message-right") {
 
 
             mess_bd.children[i].firstElementChild.innerHTML = set_color_to_text(mess_bd.children[i].firstElementChild.textContent, search_value, mess_bd.children[i]);
@@ -1659,19 +1695,19 @@ input_search_keyword.addEventListener("keyup", (e) => {
 
         }
 
-       else  if( mess_bd.children[i].children[0] &&  mess_bd.children[i].children[0].children[0] &&  mess_bd.children[i].children[0].children[0].className == "message-file"){
-              if(mess_bd.children[i].children[0].children[0].children.length==5 ){
-                  //file mess    
-                   mess_bd.children[i].children[0].children[0].children[1].innerHTML =  set_color_to_text(mess_bd.children[i].children[0].children[0].children[1].textContent, search_value, mess_bd.children[i]);
-               //file name  
-               mess_bd.children[i].children[0].children[0].children[2].innerHTML =  set_color_to_text(mess_bd.children[i].children[0].children[0].children[2].textContent, search_value, mess_bd.children[i]);   
-              }else if(mess_bd.children[i].children[0].children[0].children.length==4){
+        else if (mess_bd.children[i].children[0] && mess_bd.children[i].children[0].children[0] && mess_bd.children[i].children[0].children[0].className == "message-file") {
+            if (mess_bd.children[i].children[0].children[0].children.length == 5) {
+                //file mess    
+                mess_bd.children[i].children[0].children[0].children[1].innerHTML = set_color_to_text(mess_bd.children[i].children[0].children[0].children[1].textContent, search_value, mess_bd.children[i]);
+                //file name  
+                mess_bd.children[i].children[0].children[0].children[2].innerHTML = set_color_to_text(mess_bd.children[i].children[0].children[0].children[2].textContent, search_value, mess_bd.children[i]);
+            } else if (mess_bd.children[i].children[0].children[0].children.length == 4) {
                 //file name 
-                mess_bd.children[i].children[0].children[0].children[1].innerHTML =  set_color_to_text(mess_bd.children[i].children[0].children[0].children[1].textContent, search_value, mess_bd.children[i]);
-              }
-            
-          }
-      
+                mess_bd.children[i].children[0].children[0].children[1].innerHTML = set_color_to_text(mess_bd.children[i].children[0].children[0].children[1].textContent, search_value, mess_bd.children[i]);
+            }
+
+        }
+
 
     }
 
@@ -1683,14 +1719,14 @@ input_search_keyword.addEventListener("keyup", (e) => {
         side_list_close_icon.style.color = "rgb(255,255,255)";
         side_list_up_icon.style.color = "rgb(255,255,255)";
         side_list_search_count.style.color = "rgb(255,255,255)";
-       let src_id = document.getElementById(child_arr_pos[0]);
-        if(src_id &&  src_id.parentElement.parentElement.className =="message-file"){
+        let src_id = document.getElementById(child_arr_pos[0]);
+        if (src_id && src_id.parentElement.parentElement.className == "message-file") {
             mess_bd.scrollTop = src_id.parentElement.parentElement.offsetTop - 20;
-            console.log("if with = ",src_id.parentElement.parentElement.offsetTop - 20 )
-      }else{
-          mess_bd.scrollTop = src_id.offsetTop - 20;
-          console.log("else with = ",src_id.offsetTop  )
-      }
+            console.log("if with = ", src_id.parentElement.parentElement.offsetTop - 20)
+        } else {
+            mess_bd.scrollTop = src_id.offsetTop - 20;
+            console.log("else with = ", src_id.offsetTop)
+        }
 
     }
     else {
@@ -1886,11 +1922,11 @@ socket.on("setid", (data) => {
 
 socket.on("rec-message", (data) => {
     console.log("data recied  ");
-    console.log(data);
+    // console.log(data);
 
     // if()
     data.direction = "in";
-    if (data.user_id == curr_f_id &&  col_2.style.display == "inline-block") {  
+    if (data.user_id == curr_f_id && col_2.style.display == "inline-block") {
 
         //m_q.matches && col_2.style.display == "block" && m_q.matches==false 
 
@@ -1903,8 +1939,8 @@ socket.on("rec-message", (data) => {
             temp = make_message_element(data);
         }
 
-        console.log("temp is: ");
-        console.log(temp);
+        console.log(" appending data  ");
+        // console.log(temp);
         mess_bd.appendChild(temp);
         set_scroll_to_bottom(mess_bd);
     }
@@ -1921,10 +1957,11 @@ socket.on("rec-message", (data) => {
         elem.children[0].textContent = message_list[data.user_id].length;
         elem.classList.remove("not-visible");
         //   elem.classList.add("not-visible"); 
-        console.log(elem);
+        console.log("stroing message ");;
+
     }
 
-    if ( mess_tone==undefined ||  mess_tone == "on") {
+    if (mess_tone == undefined || mess_tone == "on") {
         ping_audio.currentTime = 0;
         ping_audio.play();
     }
@@ -1974,8 +2011,8 @@ socket.on("user-disconnected", (data) => {
 
 
 col_2.style.display = "inline-block";
-console.log("style is : " + col_2.style.display)
-if(m_q.matches){
+// console.log("style is : " + col_2.style.display)
+if (m_q.matches) {
     col_1.style.display = "inline-block";
     col_2.style.display = "none";
 }

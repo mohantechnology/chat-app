@@ -71,6 +71,10 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
   if (req.files && req.files.transfer_file ) {
 
  let cookie_data = jwt.decode(req.cookies.li);
+ if(!cookie_data){
+   return {status: "error", message : "token expired"}
+  
+ }
  cookie_data.file_name = req.files.transfer_file.name; 
  cookie_data.file_mess = req.params.file_mess; 
  cookie_data.curr_f_id =  req.params.curr_f_id; 
@@ -211,6 +215,10 @@ app.post('/update_prof/:acc_tp?/:pro_mess?', function (req, res) {
   let up_file
   let cookie_data = jwt.decode(req.cookies.li);
   // if file is present then  update the file in database also and delete prev file 
+  if(!cookie_data){
+    return {status: "error", message : "token expired"}
+   
+  }
   if (req.files) {
     up_file = req.files.myfile;
     cookie_data.is_file = 1;
@@ -293,7 +301,8 @@ app.post('/update_prof_without_img', function (req, res) {
 
   let cookie_data = jwt.decode(req.body.li);
   if(!cookie_data){
-    cookie_data ={}; 
+    return {status: "error", message : "token expired"}
+   
   }
   // if file is present then  update the file in database also and delete prev file 
   if (req.body.is_file==true) {
@@ -381,7 +390,7 @@ app.post('/login', (req, res) => {
 
       
       let token = jwt.sign({ email: response.data.email, name: response.data.name, u_id: response.data.u_id, token: response.data.token, p_id: response.data.p_id }, process.env.JWT_SECRET_KEY);
-      res.cookie("li", token, { expires: new Date(Date.now() + 6000000)} );
+      res.cookie("li", token, { expires: new Date(Date.now() + 86400000)} );
       console.log("cookie encodded", token);
       console.log("succesfull set cookie ", jwt.decode(token));
       res.send({ "status": "ok" });
@@ -558,6 +567,7 @@ app.post('/fetch_friend', (req, res) => {
     cookie_data.friend_u_id = req.body.friend_u_id;
     cookie_data.date = req.body.date;
     cookie_data.time = req.body.time;
+    cookie_data.len = req.body.len;
 
   }
 
