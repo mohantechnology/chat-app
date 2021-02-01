@@ -7,6 +7,13 @@ var is_recieved_reqest= true;
 var d_img_url = "../default_img.png"
 var d_mess = "Hello, I am using chat app";
 
+
+if( localStorage.getItem("ln") !="1"  ){
+    location = "./login"; 
+}
+
+
+
 function make_element(data) {
 
 return `   <div class="friend-profile" >

@@ -29,7 +29,7 @@ var port = process.env.PORT || 3000;
 
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
-console.log(__dirname, '/views');
+// console.log(__dirname, '/views');
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -47,8 +47,7 @@ app.use(fileUpload({
 }));
 
 
-console.log("socket url ="); 
-console.log( process.env.SOCKET_URL); 
+
 
 
 app.get("/", (req, res) => {
@@ -62,7 +61,6 @@ app.get("/", (req, res) => {
 // transfer_file
 
 app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
-  console.log(req.files); 
 
   let up_file; 
  
@@ -86,8 +84,7 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
       url: process.env.API_URL + "/transfer_file",
       data: cookie_data
     }).then(function (response) {
-      console.log("response data is: ");
-      console.log(response.data);
+
       if (response.data.status == "ok") {
         let r_data = (response.data);
    
@@ -102,7 +99,7 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
         }
         sampleFile.mv(path_link+"/"+r_data.curr_file_name, function (err) {
           if (err) {
-            console.log("erro is: ", err.message)
+
             res.send({ status: "error", message: err.message });
           }
           else{
@@ -116,8 +113,7 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
         res.send({ status: "error", message: "File is not sended successfully" });
       }
     }).catch(err => {
-      console.log("error is: ");
-      console.log(err);
+
       // ### ca
       res.status(500).send({ "status": "Internal server error",error:err });
 
@@ -138,8 +134,7 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
   
     // if file is present then  update the file in database also and delete prev file 
   
-    // console.log(req.params); 
-    console.log(req.body); 
+
     // return res.send({status: "ok" , message: "succefully connected "}); 
 
    let cookie_data = jwt.decode(req.body.li);
@@ -147,24 +142,21 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
    cookie_data.file_mess =req.body.file_mess; 
    cookie_data.curr_f_id =  req.body.curr_f_id; 
    cookie_data.mime_type = req.body.mime_type; 
-   console.log("cookies is:===> "); 
-   console.log(cookie_data) ; 
+
    
       axios({
         method: 'post',
         url: process.env.API_URL + "/transfer_file",
         data: cookie_data
       }).then(function (response) {
-        console.log("response data is: ");
-        console.log(response.data);
+
         if (response.data.status == "ok") {
           res.send(response.data); 
           } else {
           ({ status: "error", message: "File is not sended successfully" });
         }
       }).catch(err => {
-        console.log("error is: ");
-        console.log(err);
+
         // ### ca
         res.status(500).send({ "status": "Internal server error",error:err });
   
@@ -177,8 +169,6 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
   // download transfer_file
 
 app.get('/download/:folder/:file/:file_name?', function (req, res) {
-  console.log(req.params); 
-  
 
 
  
@@ -193,12 +183,6 @@ app.get('/download/:folder/:file/:file_name?', function (req, res) {
           res.download(path_link)
        }
          
-      
-          //  console.log("File not present ")
-          //   res.send({status:"error",message:"File not present" }); 
-      
-      
-   
 
 
   });
@@ -233,15 +217,12 @@ app.post('/update_prof/:acc_tp?/:pro_mess?', function (req, res) {
   }
   cookie_data.pro_mess = req.params.pro_mess;
   cookie_data.account_type = req.params.acc_tp;
-
-  console.log("incoming cookie data", cookie_data);
   axios({
     method: 'post',
     url: process.env.API_URL + "/update_prof",
     data: cookie_data
   }).then(function (response) {
-    console.log("response data is: ");
-    console.log(response.data);
+
     if (response.data.status == "ok") {
       let r_data = (response.data);
 
@@ -250,7 +231,7 @@ app.post('/update_prof/:acc_tp?/:pro_mess?', function (req, res) {
         let sampleFile = req.files.myfile;
         sampleFile.mv(__dirname + '/public/img/profile/' + r_data.curr_file_name, function (err) {
           if (err) {
-            console.log("erro is: ", err.message)
+
             res.send({ status: "error", message: err.message });
           }
 
@@ -270,29 +251,14 @@ app.post('/update_prof/:acc_tp?/:pro_mess?', function (req, res) {
       res.send({ status: "error", message: "profile is not updated" });
     }
   }).catch(err => {
-    console.log("error is: ");
-    console.log(err);
+
     res.status(500).send({ "status": "Internal server error" });
   });
 
 
 
 
-console.log("file is : ", req.files);
-console.log("req.body is: ", req.body);
-console.log("req.params is: ", req.params);
-console.log("req.cookies is: ", req.cookies);
 
-  // let sampleFile = req.files.myfile;
-  // sampleFile.mv(__dirname + '/upload/' + sampleFile.name, function (err) {
-  //   if (err) {
-  //     console.log("erro is: ", err.message)
-  //     return res.status(500).send(err);
-  //   }
-  //   else {
-  //     res.send('File uploaded!');
-  //   }
-  // })
 });
 
 //upload profile without image
@@ -316,50 +282,30 @@ app.post('/update_prof_without_img', function (req, res) {
   cookie_data.pro_mess = req.body.pro_mess;
   cookie_data.account_type = req.body.acc_tp;
 
-  console.log("incoming cookie data", cookie_data);
   axios({
     method: 'post',
     url: process.env.API_URL + "/update_prof",
     data: cookie_data
   }).then(function (response) {
-    console.log("response data is: ");
-    console.log(response.data);
+
    res.send(response.data) ; 
     
   }).catch(err => {
-    console.log("error is: ");
-    console.log(err);
+
     res.status(500).send({ "status": "Internal server error" });
   });
 
 
 
-
-console.log("file is : ", req.files);
-console.log("req.body is: ", req.body);
-console.log("req.params is: ", req.params);
-console.log("req.cookies is: ", req.cookies);
-
-  // let sampleFile = req.files.myfile;
-  // sampleFile.mv(__dirname + '/upload/' + sampleFile.name, function (err) {
-  //   if (err) {
-  //     console.log("erro is: ", err.message)
-  //     return res.status(500).send(err);
-  //   }
-  //   else {
-  //     res.send('File uploaded!');
-  //   }
-  // })
 });
 app.post("/image", (req, res) => {
-  console.log("./imgae cllaed ")
+  // console.log("./imgae cllaed ")
   upload(req, res, (err) => {
     if (err) {
       res.status(400).send("Something went wrong!");
-      console.log(err);
-      console.log(req.file);
+
     }
-    console.log(req.files, req.file);
+    // console.log(req.files, req.file);
     res.send(req.file);
   });
 });
@@ -385,14 +331,13 @@ app.post('/login', (req, res) => {
     data: req.body
 
   }).then(function (response) {
-    console.log(response.data);
+
     if (response.data.status == "ok") {
 
       
       let token = jwt.sign({ email: response.data.email, name: response.data.name, u_id: response.data.u_id, token: response.data.token, p_id: response.data.p_id }, process.env.JWT_SECRET_KEY);
       res.cookie("li", token, { expires: new Date(Date.now() + 86400000)} );
-      console.log("cookie encodded", token);
-      console.log("succesfull set cookie ", jwt.decode(token));
+
       res.send({ "status": "ok" });
 
     }
@@ -400,8 +345,7 @@ app.post('/login', (req, res) => {
       res.send(response.data);
     }
   }).catch(err => {
-    console.log("error is: ");
-    console.log(err);
+
     res.status(500).send({ "status": "Internal server error" });
   });
 
@@ -418,9 +362,9 @@ app.get('/profile', (req, res) => {
 
 
   let cookie_data = jwt.decode(req.cookies.li);
-console.log("incoming cookie data", cookie_data);
+
   if( !(cookie_data) || !(cookie_data.u_id)){
-    console.log("redirecting"); 
+
    return  res.redirect("./login"); 
     
   }
@@ -430,8 +374,7 @@ console.log("incoming cookie data", cookie_data);
     url: process.env.API_URL + "/profile",
     data: cookie_data
   }).then(function (response) {
-    console.log("response data is: ");
-    console.log(response.data);
+
     if (response.data.status == "ok") {
       let r_data = (response.data);
       r_data.SOCKET_URL = process.env.SOCKET_URL;
@@ -454,8 +397,7 @@ console.log("incoming cookie data", cookie_data);
 
     }
   }).catch(err => {
-    console.log("error is: ");
-    console.log(err);
+
     res.status(500).send({ "status": "Internal server error" });
   });
 
@@ -477,17 +419,15 @@ app.post('/find_friend', (req, res) => {
     cookie_data.search_value = req.body.search_value;
   }
 
-  console.log("incoming cookie data from find-friend ", cookie_data, req.body);
   axios({
     method: 'post',
     url: process.env.API_URL + "/find_friend",
     data: cookie_data
   }).then(function (response) {
-    console.log(response.data);
+
     res.send(response.data);
   }).catch(err => {
-    console.log("error is: ");
-    console.log(err);
+
     res.status(500).send({ "status": "Internal server error" });
   });
 
@@ -506,17 +446,13 @@ app.post('/send_friend_request', (req, res) => {
     cookie_data.time = req.body.time;
   }
 
-  console.log("incoming cookie data from send_friend_request", cookie_data);
   axios({
     method: 'post',
     url: process.env.API_URL + "/send_friend_request",
     data: cookie_data
   }).then(function (response) {
-    console.log(response.data);
     res.send(response.data);
   }).catch(err => {
-    console.log("error is: ");
-    console.log(err);
     res.status(500).send({ "status": "Internal server error" });
   });
 
@@ -540,17 +476,15 @@ app.post('/accept_friend_request', (req, res) => {
 
   }
 
-  console.log("incoming cookie data from accept_friend_request", cookie_data);
   axios({
     method: 'post',
     url: process.env.API_URL + "/accept_friend_request",
     data: cookie_data
   }).then(function (response) {
-    console.log(response.data);
+
     res.send(response.data);
   }).catch(err => {
-    console.log("error is: ");
-    console.log(err);
+
     res.status(500).send({ "status": "Internal server error" });
   });
 
@@ -571,17 +505,16 @@ app.post('/fetch_friend', (req, res) => {
 
   }
 
-  console.log("incoming cookie data from fetch_friend", cookie_data);
+
   axios({
     method: 'post',
     url: process.env.API_URL + "/fetch_friend",
     data: cookie_data
   }).then(function (response) {
-    console.log(response.data);
+
     res.send(response.data);
   }).catch(err => {
-    console.log("error is: ");
-    console.log(err);
+
     res.status(500).send({ "status": "Internal server error" });
   });
 
@@ -604,18 +537,17 @@ app.post('/fetch_remain', (req, res) => {
 
   }
 
-  console.log("incoming cookie data from fetch_friend", cookie_data);
+
   axios({
     method: 'post',
     url: process.env.API_URL + "/fetch_remain",
     data: cookie_data
   }).then(function (response) {
-    console.log(response.data);
+   
      
     res.send(response.data);
   }).catch(err => {
-    console.log("error is: ");
-    console.log(err);
+
     res.status(500).send({ "status": "Internal server error" });
   });
 
@@ -637,17 +569,16 @@ app.post('/display_noti', (req, res) => {
 
   }
 
-  console.log("incoming cookie data from display_noti", cookie_data);
+
   axios({
     method: 'post',
     url: process.env.API_URL + "/display_noti",
     data: cookie_data
   }).then(function (response) {
-    console.log(response.data);
+
     res.send(response.data);
   }).catch(err => {
-    console.log("error is: ");
-    console.log(err);
+ 
     res.status(500).send({ "status": "Internal server error" });
   });
 
@@ -668,17 +599,15 @@ app.post('/req', (req, res) => {
     cookie_data.time = req.body.time;
   }
 
-  console.log("incoming cookie data from send_friend_request", cookie_data);
   axios({
     method: 'post',
     url: process.env.API_URL + "/send_friend_request",
     data: cookie_data
   }).then(function (response) {
-    console.log(response.data);
+
     res.send(response.data);
   }).catch(err => {
-    console.log("error is: ");
-    console.log(err);
+
     res.status(500).send({ "status": "Internal server error" });
   });
 
@@ -702,8 +631,7 @@ app.post('/reg', (req, res) => {
     url: process.env.API_URL + "/register",
     data: req.body
   }).then(function (response) {
-    console.log("register response")
-    console.log(response.data);
+
     if(response.data.status=="ok" ){
       //send activation email 
 
@@ -749,8 +677,7 @@ app.post('/reg', (req, res) => {
         
         }
 
-        console.log("email message "); 
-        console.log(error);   console.log(info); 
+
         
 
       });
@@ -760,7 +687,7 @@ app.post('/reg', (req, res) => {
       res.send({status:response.data.status, message: response.data.message});
     }
   }).catch(error => {
-    console.log(error); 
+ 
     res.json({ status: "error", message: "something went wrong " });
   });
 
@@ -769,7 +696,7 @@ app.post('/reg', (req, res) => {
 
 
 app.get('/active', (req, res) => {
-  console.log("activate file is sent ")
+
  res.sendFile(view_dir_name + "/activate.html")
 
 });
@@ -777,16 +704,16 @@ app.get('/active', (req, res) => {
 
 
 app.get('/activate/:email/:t_name/:t_value', (req, res) => {
-  console.log("incoming data at actiavte app ", req.params);
+
   let data = { email: req.params.email };
   data[req.params.t_name] = req.params.t_value;
-  console.log("ingoing  data at actiavte app ", data);
+
   axios({
     method: 'post',
     url: process.env.API_URL + "/activate",
     data
   }).then(function (response) {
-    console.log(response.data);
+
     if(response.data.status=="ok" ){
       if(req.params.t_name=="token_str"){
     res.redirect("/login");
@@ -816,8 +743,7 @@ app.post('/forgot_pass', (req, res) => {
     url: process.env.API_URL + "/forgot_pass",
     data: req.body
   }).then(function (response) {
-    console.log("register response")
-    console.log(response.data);
+
     if(response.data.status=="ok" ){
       //send activation email 
 
@@ -863,8 +789,6 @@ app.post('/forgot_pass', (req, res) => {
         
         }
 
-        console.log("email message "); 
-        console.log(error);   console.log(info); 
         
 
       });
@@ -874,7 +798,7 @@ app.post('/forgot_pass', (req, res) => {
       res.send({status:response.data.status, message: response.data.message});
     }
   }).catch(error => {
-    console.log(error); 
+
     res.json({ status: "error", message: "something went wrong " });
   });
 
@@ -886,16 +810,16 @@ app.get('/res_pass_num', (req, res) => {
 });
 
 app.get('/ver_reset_pass/:email/:t_name/:t_value', (req, res) => {
-  console.log("incoming data at actiavte app ", req.params);
+
   let data = { email: req.params.email };
   data[req.params.t_name] = req.params.t_value;
-  console.log("ingoing  data at actiavte app ", data);
+ 
   axios({
     method: 'post',
     url: process.env.API_URL + "/ver_reset_pass",
     data
   }).then(function (response) {
-    console.log(response.data);
+ 
     if(response.data.status=="ok" ){
       let token = jwt.sign({ email: response.data.email,  token_str: response.data.token_str,token_no:response.data.token_no }, process.env.JWT_SECRET_KEY);
       res.cookie("rp", token, { expires: new Date(Date.now() + 6000000)} );
@@ -926,7 +850,7 @@ app.post('/new_pass', (req, res) => {
   
  let cookie_data = jwt.decode(req.cookies.rp);
  cookie_data.password = req.body.password; 
-  console.log("incoming da$$ta at new_pass ", cookie_data);
+
 
   
   axios({
@@ -934,7 +858,7 @@ app.post('/new_pass', (req, res) => {
     url: process.env.API_URL + "/new_pass",
     data:cookie_data
   }).then(function (response) {
-    console.log(response.data);
+
     
       res.send(response.data);
 
@@ -944,15 +868,7 @@ app.post('/new_pass', (req, res) => {
 
 });
 
-// app.get('/test', (req, res) => {
 
-//   res.sendFile(view_dir_name + "/test.html");
-// });
-
-// app.get('/first-col.js', (req, res) => {
-
-//   res.sendFile(view_dir_name + "/first-col.js");
-// });
 
 app.get('/test', (req, res) => {
   (async () => {
@@ -963,7 +879,6 @@ app.get('/test', (req, res) => {
       responseType: 'json'
     });
 
-    console.log(body.data); res.send(body.data);
     // => {hello: 'world'}
   })();
 
@@ -978,11 +893,6 @@ app.get("/*", (req, res) => {
 })
 
 
-
-// require('crypto').randomBytes(48, function(err, buffer) {
-//   var token = buffer.toString('hex');
-// });
-// var token = crypto.randomBytes(64).toString('hex');
 app.listen(port, () => {
   console.log("listening at " + port);
 });

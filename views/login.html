@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="icon" href="favicon.png">
 </head>
 <style>
     body {
@@ -533,7 +534,9 @@ height:5vh;
                    console.log(data); 
                   if (data.status=="ok"){
                     //  display_message("successful", "green"); 
-                      console.log("redirect"); 
+                      console.log("redirect");
+                      localStorage.setItem("ln","1");  
+                      
                       location="./profile"; 
                   }else{
                       console.log("error occured"); 

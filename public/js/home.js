@@ -92,8 +92,9 @@ var is_recieved_reqest = true;
 var prev_f_id;
 var ping_audio = new Audio("ping.mp3");
 
-
-
+if( localStorage.getItem("ln") !="1"  ){
+    location = "./login"; 
+}
 
 
 document.cookie = "date=" + (new Date().toLocaleDateString()) + "; path=/;";
@@ -610,6 +611,8 @@ log_out.addEventListener("click", () => {
         document.cookie = temp;
 
     }
+    localStorage.removeItem("ln"); 
+   
     location = "./login";
 });
 
@@ -1111,7 +1114,10 @@ first_col_friend_list.addEventListener("click", (e) => {
                         document.cookie = "no=0; path=/;";
                         curr_no = 0;
                     }
-                    mess_bd.scrollTop = mess_bd.children[len>0 ?len - 1:0].offsetTop;
+                    if(mess_bd.children[len>0 ?len - 1:0]){
+                                mess_bd.scrollTop = mess_bd.children[len>0 ?len - 1:0].offsetTop;
+                    }
+            
                     // console.log("seting scroll ot len-1 ", mess_bd.children[len - 1].offsetTop);
 
 
@@ -1172,12 +1178,12 @@ first_col_friend_list.addEventListener("click", (e) => {
         
         // console.log("setting scroll to bottom ");
         for (i = 1; i < total_mess_len; i++) {
-            console.log( "  i = "  + i  ); 
+            // console.log( "  i = "  + i  ); 
             if (temp_messages[i].mess_type) {
-                console.log( " typeis = file  "  )
+                // console.log( " typeis = file  "  )
                 mess_bd.append(make_file_sent_element(temp_messages[i]));
             } else {
-                console.log( " typeis = message  "  )
+                // console.log( " typeis = message  "  )
                 mess_bd.append(make_message_element(temp_messages[i]));
             }
 
@@ -1186,7 +1192,7 @@ first_col_friend_list.addEventListener("click", (e) => {
        }
         document.getElementById(id).children[0].children[1].classList.add("not-visible");
     } else if (id && m_q.matches) {
-        console.log("else  executed ");
+        // console.log("else  executed ");
         // for smaller width update the incoming stored messages
         col_1.style.display = "none";
         col_2.style.display = "inline-block";
@@ -1211,12 +1217,12 @@ first_col_friend_list.addEventListener("click", (e) => {
         
         // console.log("setting scroll to bottom ");
         for (i = 1; i < total_mess_len; i++) {
-            console.log( "  i = "  + i  ); 
+            // console.log( "  i = "  + i  ); 
             if (temp_messages[i].mess_type) {
-                console.log( " typeis = file  "  )
+                // console.log( " typeis = file  "  )
                 mess_bd.append(make_file_sent_element(temp_messages[i]));
             } else {
-                console.log( " typeis = message  "  )
+                // console.log( " typeis = message  "  )
                 mess_bd.append(make_message_element(temp_messages[i]));
             }
 
@@ -1343,7 +1349,7 @@ rec_req.addEventListener("click", () => {
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
                 let data = JSON.parse(this.response);
-                console.log(data);
+                // console.log(data);
                 if (data.status == "ok") {
                     let len = data.data.length;
                     let html_str = "";
@@ -1354,7 +1360,7 @@ rec_req.addEventListener("click", () => {
 
                     req_box.innerHTML = html_str;
 
-                    console.log(data);
+                    // console.log(data);
                     // console.log(req_box.innerHTML);
                     //     // console.log(html_str);
                     //     e.target.innerHTML= "Added as Friend";
@@ -1395,7 +1401,7 @@ req_box.addEventListener("click", (e) => {
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
                 let data = JSON.parse(this.response);
-                console.log(data);
+                // console.log(data);
                 if (data.status == "ok") {
                     let len = data.data.length;
                     let html_str = "";
@@ -1406,8 +1412,8 @@ req_box.addEventListener("click", (e) => {
 
                     req_box.innerHTML = html_str;
 
-                    console.log(data);
-                    console.log(req_box.innerHTML);
+                    // console.log(data);
+                    // console.log(req_box.innerHTML);
                     //     // console.log(html_str);
                     //     e.target.innerHTML= "Added as Friend";
                     //   //   console.log(e.target.className); 
@@ -1445,7 +1451,7 @@ noti_box.addEventListener("click", (e) => {
     req_box.style.display = "none";
     if (e.target.className == "send-request-but") {
         let id = e.target.id;
-        console.log(id);
+        // console.log(id);
         let xhttp = new XMLHttpRequest();
 
 
@@ -1454,7 +1460,7 @@ noti_box.addEventListener("click", (e) => {
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
                 let data = JSON.parse(this.response);
-                console.log(data);
+                // console.log(data);
                 if (data.status == "ok") {
 
 
@@ -1463,8 +1469,8 @@ noti_box.addEventListener("click", (e) => {
                     //   console.log(e.target.className); 
                     e.target.className = "sended-request-but";
                 } else {
-                    console.log("error occured");
-                    console.log(data);
+                    // console.log("error occured");
+                    // console.log(data);
 
                 }
                 ;
@@ -1494,8 +1500,8 @@ function click_side_list_down_icon() {
         // src_id.focus();
 
         src_id.style.color = "red";
-        console.log(src_id.parentElement.parentElement);
-        console.log(src_id.parentElement.parentElement.offsetTop);
+        // console.log(src_id.parentElement.parentElement);
+        // console.log(src_id.parentElement.parentElement.offsetTop);
         if (src_id.parentElement.parentElement.className == "message-file") {
             mess_bd.scrollTop = src_id.parentElement.parentElement.offsetTop - 20;
         } else {
@@ -1511,7 +1517,7 @@ function click_side_list_down_icon() {
 
 side_list_down_icon.addEventListener("click", () => {
     click_side_list_down_icon();
-    console.log("clickde");
+    // console.log("clickde");
 
 });
 
@@ -1537,7 +1543,7 @@ side_list_up_icon.addEventListener("click", () => {
         selectElementText(src_id);
 
     }
-    console.log("clickde");
+    // console.log("clickde");
 
 });
 side_list_search_icon.addEventListener("click", () => {
@@ -1560,7 +1566,7 @@ side_list_close_icon.addEventListener("click", () => {
         src_id = document.getElementById(child_arr_pos[i]);
         if (src_id != null) {
 
-            console.log(src_id);
+            // console.log(src_id);
             // if(src_id != ) 
             src_id.parentNode.innerHTML = src_id.parentNode.textContent;
         }
@@ -1711,7 +1717,7 @@ input_search_keyword.addEventListener("keyup", (e) => {
 
     }
 
-    console.log(child_arr_pos.length);
+    // console.log(child_arr_pos.length);
     if (child_arr_pos.length > 0) {
         side_list_search_count.textContent = (side_list_curr_pos + 1) + "/" + child_arr_pos.length;
 
@@ -1722,10 +1728,10 @@ input_search_keyword.addEventListener("keyup", (e) => {
         let src_id = document.getElementById(child_arr_pos[0]);
         if (src_id && src_id.parentElement.parentElement.className == "message-file") {
             mess_bd.scrollTop = src_id.parentElement.parentElement.offsetTop - 20;
-            console.log("if with = ", src_id.parentElement.parentElement.offsetTop - 20)
+            // console.log("if with = ", src_id.parentElement.parentElement.offsetTop - 20)
         } else {
             mess_bd.scrollTop = src_id.offsetTop - 20;
-            console.log("else with = ", src_id.offsetTop)
+            // console.log("else with = ", src_id.offsetTop)
         }
 
     }
@@ -1754,7 +1760,7 @@ myform.addEventListener("submit", (e) => {
     e.preventDefault();
     // return if input message is for file
     if (drop_box.style.display == "block") {
-        console.log("reutnrign");
+        // console.log("reutnrign");
         return;
     }
     let curr_time = (new Date()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -1780,7 +1786,7 @@ myform.addEventListener("submit", (e) => {
     mess_bd.appendChild(temp1);
 
 
-    console.log(message_input.value);
+    // console.log(message_input.value);
     message_input.value = "";
 
     set_scroll_to_bottom(mess_bd);
@@ -1822,7 +1828,7 @@ message_input.addEventListener("focusout", () => {
 
 // 
 window.addEventListener('load', (e) => {
-    console.log('page is fully loaded');
+    // console.log('page is fully loaded');
 
     let data = document.cookie.split(";")
     let cookie_data = {};
@@ -1832,7 +1838,7 @@ window.addEventListener('load', (e) => {
         cookie_data[temp[0].trim()] = temp[1];
     }
 
-    console.log(cookie_data);
+    // console.log(cookie_data);
     socket.emit("user-connected", cookie_data);
 
 });
@@ -1841,7 +1847,7 @@ window.addEventListener("beforeunload", function (e) {
 
     document.cookie = "date=" + (new Date().toLocaleDateString()) + "; path=/;";
     document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
-    console.log('page is is unloading .. loaded');
+    // console.log('page is is unloading .. loaded');
     let data = document.cookie.split(";")
     let cookie_data = {};
     let temp;
@@ -1888,7 +1894,7 @@ window.addEventListener("beforeunload", function (e) {
 
 
 socket.on("friend-status", (data) => {
-    console.log("frined  status is  to", data);
+    // console.log("frined  status is  to", data);
     if (curr_f_id == data.id) {
         header_name.children[1].children[1].textContent = data.current_status;
     }
@@ -1912,7 +1918,7 @@ socket.on("not-typing", (data) => {
 
 });
 socket.on("setid", (data) => {
-    console.log("setting id to", data);
+    // console.log("setting id to", data);
     user_id = data.id;
 });
 
@@ -1921,7 +1927,7 @@ socket.on("setid", (data) => {
 
 
 socket.on("rec-message", (data) => {
-    console.log("data recied  ");
+    // console.log("data recied  ");
     // console.log(data);
 
     // if()
@@ -1930,16 +1936,16 @@ socket.on("rec-message", (data) => {
 
         //m_q.matches && col_2.style.display == "block" && m_q.matches==false 
 
-        console.log("recived data is: ", data);
+        // console.log("recived data is: ", data);
         //if recieved message is file 
         if (data.mess_type == "file") {
-            console.log("fmessage type is file make in file element ")
+            // console.log("fmessage type is file make in file element ")
             temp = make_file_sent_element(data);
         } else {
             temp = make_message_element(data);
         }
 
-        console.log(" appending data  ");
+        // console.log(" appending data  ");
         // console.log(temp);
         mess_bd.appendChild(temp);
         set_scroll_to_bottom(mess_bd);
@@ -1957,7 +1963,7 @@ socket.on("rec-message", (data) => {
         elem.children[0].textContent = message_list[data.user_id].length;
         elem.classList.remove("not-visible");
         //   elem.classList.add("not-visible"); 
-        console.log("stroing message ");;
+        // console.log("stroing message ");;
 
     }
 
@@ -1968,7 +1974,7 @@ socket.on("rec-message", (data) => {
 
 
 
-    console.log(message_list);
+    // console.log(message_list);
 
 
 });
@@ -1995,7 +2001,7 @@ socket.on("redirect", (data) => {
 
 
 socket.on("user-disconnected", (data) => {
-    console.log("new user in client ");
+    // console.log("new user in client ");
 
 
     let temp1 = document.createElement("div");
