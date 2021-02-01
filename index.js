@@ -511,7 +511,7 @@ app.post('/fetch_friend', (req, res) => {
     url: process.env.API_URL + "/fetch_friend",
     data: cookie_data
   }).then(function (response) {
-
+      // console.log(response.data); 
     res.send(response.data);
   }).catch(err => {
 
