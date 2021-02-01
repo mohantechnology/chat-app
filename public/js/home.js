@@ -1502,12 +1502,15 @@ function click_side_list_down_icon() {
         src_id.style.color = "red";
         // console.log(src_id.parentElement.parentElement);
         // console.log(src_id.parentElement.parentElement.offsetTop);
-        if (src_id.parentElement.parentElement.className == "message-file") {
+        let temp_class_name  = src_id.parentElement.parentElement.className; 
+        if (temp_class_name == "message-file") {
             mess_bd.scrollTop = src_id.parentElement.parentElement.offsetTop - 20;
-        } else {
+        }else if( temp_class_name =="message right" || temp_class_name =="message left" ){
+            mess_bd.scrollTop  = src_id.parentElement.parentElement.offsetTop-20 ;
+        }
+         else {
             mess_bd.scrollTop = src_id.offsetTop - 20;
         }
-
         selectElementText(src_id);
         // src_id.scrollIntoView();
 
@@ -1535,9 +1538,13 @@ side_list_up_icon.addEventListener("click", () => {
         // src_id.setPointerCapture();
         // src_id.selectionStart =5;
         // src_id.focus(); 
-        if (src_id.parentElement.parentElement.className == "message-file") {
+        let temp_class_name  = src_id.parentElement.parentElement.className; 
+        if (temp_class_name == "message-file") {
             mess_bd.scrollTop = src_id.parentElement.parentElement.offsetTop - 20;
-        } else {
+        }else if( temp_class_name =="message right" || temp_class_name =="message left" ){
+            mess_bd.scrollTop  = src_id.parentElement.parentElement.offsetTop-20 ;
+        }
+         else {
             mess_bd.scrollTop = src_id.offsetTop - 20;
         }
         selectElementText(src_id);
@@ -1688,6 +1695,7 @@ input_search_keyword.addEventListener("keyup", (e) => {
     let i = 0;
     let count = 0;
     let c_name;
+    let temp_curr_child ; 
     for (let i = 0; i < no_of_child; i++) {
         c_name = mess_bd.children[i].firstElementChild.className;
 
@@ -1701,22 +1709,22 @@ input_search_keyword.addEventListener("keyup", (e) => {
 
         }
 
-        else if (mess_bd.children[i].children[0] && mess_bd.children[i].children[0].children[0] && mess_bd.children[i].children[0].children[0].className == "message-file") {
-            if (mess_bd.children[i].children[0].children[0].children.length == 5) {
+        else if ((temp_curr_child = mess_bd.children[i].children[0]) && temp_curr_child.firstElementChild && temp_curr_child.firstElementChild.className == "message-file") {
+            if (temp_curr_child.firstElementChild.children.length == 5) {
                 //file mess    
-                mess_bd.children[i].children[0].children[0].children[1].innerHTML = set_color_to_text(mess_bd.children[i].children[0].children[0].children[1].textContent, search_value, mess_bd.children[i]);
+                temp_curr_child.firstElementChild.children[1].innerHTML = set_color_to_text(temp_curr_child.firstElementChild.children[1].textContent, search_value, mess_bd.children[i]);
                 //file name  
-                mess_bd.children[i].children[0].children[0].children[2].innerHTML = set_color_to_text(mess_bd.children[i].children[0].children[0].children[2].textContent, search_value, mess_bd.children[i]);
-            } else if (mess_bd.children[i].children[0].children[0].children.length == 4) {
+                temp_curr_child.firstElementChild.children[2].innerHTML = set_color_to_text(temp_curr_child.firstElementChild.children[2].textContent, search_value, mess_bd.children[i]);
+            } else if (temp_curr_child.firstElementChild.children.length == 4) {
                 //file name 
-                mess_bd.children[i].children[0].children[0].children[1].innerHTML = set_color_to_text(mess_bd.children[i].children[0].children[0].children[1].textContent, search_value, mess_bd.children[i]);
+                temp_curr_child.firstElementChild.children[1].innerHTML = set_color_to_text(temp_curr_child.firstElementChild.children[1].textContent, search_value, mess_bd.children[i]);
             }
 
         }
 
 
     }
-
+// ###
     // console.log(child_arr_pos.length);
     if (child_arr_pos.length > 0) {
         side_list_search_count.textContent = (side_list_curr_pos + 1) + "/" + child_arr_pos.length;
@@ -1726,13 +1734,16 @@ input_search_keyword.addEventListener("keyup", (e) => {
         side_list_up_icon.style.color = "rgb(255,255,255)";
         side_list_search_count.style.color = "rgb(255,255,255)";
         let src_id = document.getElementById(child_arr_pos[0]);
-        if (src_id && src_id.parentElement.parentElement.className == "message-file") {
+        let temp_class_name  = src_id.parentElement.parentElement.className; 
+        if (temp_class_name == "message-file") {
             mess_bd.scrollTop = src_id.parentElement.parentElement.offsetTop - 20;
-            // console.log("if with = ", src_id.parentElement.parentElement.offsetTop - 20)
-        } else {
-            mess_bd.scrollTop = src_id.offsetTop - 20;
-            // console.log("else with = ", src_id.offsetTop)
+        }else if( temp_class_name =="message right" || temp_class_name =="message left" ){
+            mess_bd.scrollTop  = src_id.parentElement.parentElement.offsetTop-20 ;
         }
+         else {
+            mess_bd.scrollTop = src_id.offsetTop - 20;
+        }
+        // selectElementText(src_id);
 
     }
     else {
@@ -1828,7 +1839,7 @@ message_input.addEventListener("focusout", () => {
 
 // 
 window.addEventListener('load', (e) => {
-    // console.log('page is fully loaded');
+    console.log('page is fully loaded');
 
     let data = document.cookie.split(";")
     let cookie_data = {};
@@ -1847,7 +1858,7 @@ window.addEventListener("beforeunload", function (e) {
 
     document.cookie = "date=" + (new Date().toLocaleDateString()) + "; path=/;";
     document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
-    // console.log('page is is unloading .. loaded');
+    console.log('page is is unloading .. loaded');
     let data = document.cookie.split(";")
     let cookie_data = {};
     let temp;

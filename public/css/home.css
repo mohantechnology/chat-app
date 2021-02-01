@@ -1043,10 +1043,11 @@ display:none;
    border-top-right-radius: 5px;
    /* min-height:200px; */
    margin:auto;
-   min-width:200px; 
+   /* min-width:200px;  */
     /* border-radius: 50%;; */
    background-position: center;
    background-size: 100%;
+   
    
  }
   .download-img-mess {
@@ -1297,6 +1298,9 @@ background-color: white;
     margin-left:18px; 
 }
 
+
+ 
+    
 @media only screen and (min-width:2050px) {
 
     body{
@@ -1304,8 +1308,9 @@ background-color: white;
         width: 1750px;
         position: relative;
      }
-    
+ 
 }
+
 
 @media only screen and (max-width:950px) {
   
