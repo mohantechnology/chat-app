@@ -195,7 +195,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         display: inline-block;
         max-width: 50%;
         font-size: 15px;
-        min-width: 100px;
+        min-width: 200px;
         /* color:hsl(160, 0, 185);   */
         /* color:rgb(197,197,197); */
         /* box-shadow: 1px 1px 5px 0.1px black; */
@@ -221,7 +221,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         max-width: 50%;
         font-size: 15px;
         text-align: left;
-        min-width: 100px;
+        min-width: 200px;
         min-height: 2px;
 
 
