@@ -747,7 +747,7 @@ function transfer_file_to_friend(e) {
         // let arr = [{name: "maggi",age:234},{name: "yes ",age:234}]
         // arr.search({name:"maggi",age:234}) 
         xhttp.send(form_data);
-        let upload_data = { file_name: encodeURIComponent(transfer_file.files[i].name), byte: "waiting...", upload_id: upload_id };
+        let upload_data = { file_name: (transfer_file.files[i].name), byte: "waiting...", upload_id: upload_id };
         let upload_detail = {};
         upload_detail[upload_id] = upload_data;
         let temp_child = make_file_upload_element(upload_data);
