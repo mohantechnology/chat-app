@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+
+
+
+int n, k;
+long long Total = 0;
+int Top;
+priority_queue<int> min_heap;
+int A[100000];
+
+void solve()
+{
+   
+   int i,j; 
+
+    for (i = 0; i < n; i++)
+    {
+        min_heap.push(A[i]);
+    }
+
+    for (i = 0; i < k; i++)
+    {
+        Top = min_heap.top();
+        min_heap.pop();
+        min_heap.push(Top / 2);
+    }
+
+    while(min_heap.size())
+    {
+        Total = Total + ((long long)min_heap.top());
+        min_heap.pop();
+    }
+    return; 
+}
+
+int main()
+{
+    int i,j;
+    cin >> n >> k;
+    for (i = 0; i < n; i++)
+    {
+        cin >> A[i];
+    }
+    solve(); 
+    cout << Total;
+
+    return 0;
+}
