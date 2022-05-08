@@ -41,8 +41,8 @@ app.use(fileUpload({
 console.log("socket url ="); 
 console.log( process.env.SOCKET_URL); 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/temp.html");
-  // return res.send("ok conneted sucess "); 
+  // res.sendFile(__dirname + "/temp.html");
+  return res.send(); 
 });
 
 
