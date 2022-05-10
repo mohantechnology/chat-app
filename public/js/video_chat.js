@@ -1,7 +1,8 @@
  
 var side_list_search_icon = document.getElementById("side-list-search-icon");
- 
- 
+var camera_icon = document.getElementById("camera_icon");
+var micropone_icon = document.getElementById("micropone_icon");
+
 // socket.emit("sending_from_client", JSON.stringify({ data:  `this message is sned from client`} ) );
 
 // // receive a message from the server
@@ -13,16 +14,17 @@ let remote_video = document.getElementById("remote_video");
 let local_video = document.getElementById("local_video"); 
 let localStream = null; 
 let peerConn ; 
-
-
+let mediaConstraints = {video : { width: 1280, height: 720 } , audio : true } ; 
+ 
 const config = {iceServers: [{urls: "stun:stun.l.google.com:19302"}]};
 
- async function startCall (e) { 
 
-    try { 
-     
-        let constraints = {video : { width: 1280, height: 720 } , audio : true} ; 
-        let stream = await navigator.mediaDevices.getUserMedia(constraints);  ; 
+async function getMedia(  ){
+
+    try{ 
+        //   constraints = mediaConstraints || {video : { width: 1280, height: 720 } , audio : true} ; 
+        // constraints = mediaConstraints ; 
+        let stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);  ; 
         // console.log (   local_video.srcObject); 
         // console.log (   local_video); 
         // console.log ( stream); 
@@ -34,6 +36,31 @@ const config = {iceServers: [{urls: "stun:stun.l.google.com:19302"}]};
             // console.log("onloadedmetadata" )
             local_video.play();
          };
+     
+
+    }
+    catch( err){
+        console.error( err) ; 
+    }
+}
+
+ async function startCall (e) { 
+
+    try { 
+     
+        // let constraints = {video : { width: 1280, height: 720 } , audio : true} ; 
+        // let stream = await navigator.mediaDevices.getUserMedia(constraints);  ; 
+        // // console.log (   local_video.srcObject); 
+        // // console.log (   local_video); 
+        // // console.log ( stream); 
+        // localStream = stream; 
+
+        // local_video.srcObject = null; 
+        // local_video.srcObject = stream; 
+        // local_video.onloadedmetadata = function(e) {
+        //     // console.log("onloadedmetadata" )
+        //     local_video.play();
+        //  };
      
 
 
@@ -226,3 +253,49 @@ const config = {iceServers: [{urls: "stun:stun.l.google.com:19302"}]};
   });
 
   
+
+
+
+
+
+  camera_icon.addEventListener("click", (e)=>{
+
+ 
+    let classList = camera_icon.firstElementChild.classList ; 
+    if( classList.contains("fa-video-slash")){ 
+        classList.remove("fa-video-slash"); 
+        classList.add("fa-video"); 
+         mediaConstraints.video = true; 
+        getMedia( ) ;  
+    }
+    else{ 
+        classList.remove("fa-video"); 
+        classList.add("fa-video-slash");
+           mediaConstraints.video = false; 
+        getMedia( ) ;   
+    }
+  })
+
+
+ 
+  micropone_icon.addEventListener("click", (e)=>{
+
+    
+    let classList = micropone_icon.firstElementChild.classList ; 
+    if( classList.contains("fa-microphone-slash")){ 
+        classList.remove("fa-microphone-slash"); 
+        classList.add("fa-microphone"); 
+        mediaConstraints.audio = false; 
+        getMedia( ) ; 
+    }
+    else{ 
+        classList.remove("fa-microphone"); 
+        classList.add("fa-microphone-slash");  
+        mediaConstraints.audio = true; 
+        getMedia( ) ;  
+    }
+  })
+
+
+
+//   getMedia( ) ; 

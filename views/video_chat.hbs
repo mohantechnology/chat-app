@@ -2,37 +2,73 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find Friend</title>
-        <link rel="icon" href="favicon.ico">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Friend</title>
+  <link rel="icon" href="favicon.ico">
+  <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
+    integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
+    crossorigin="anonymous"></script>
 </head>
 <link rel="stylesheet" href="./css/video_chat.css">
 
 <body>
 
-  <div class="local-vid-bx">
-    <video class="video-elem" muted autoplay id="local_video" controls > </video> 
+  <div class="container-bx">
+    <div>
+      <div class="local-vid-bx" id="local_video_par_bx">
+        <video class="video-elem" muted autoplay id="local_video"> </video>
 
-  </div> 
- 
- <div class="remote-vid-bx">
-       <video muted autoplay  id="remote_video" controls> </video> 
- </div>
+      </div>
+
+      <div class="remote-vid-bx" id="remote_video_par_bx" style="display:none; ">
+        <video class="video-elem" muted autoplay id="remote_video" controls> </video>
+      </div>
+
+
+      <br />
+
+      <div class="icon-par-bx">
+
+        <span class="phone-icon" id="camera_icon"> <i class="fas fa-video"></i> </span>
+        <span class="phone-icon" id="micropone_icon"> <i class="fas fa-microphone"></i> </span>
+      </div>
+      <br />
+    </div>
   
+      {{!-- call block --}}
+ 
 
-    <br/>
-    <button onclick="startCall()" >start</button> 
-    <button onclick="joinCall()" >Join</button> 
+        <div class="call-opt-bx">
+          <p class="prof-tl"> ryan Jognath </p>
 
-     
+          <div class="prof-img-par-bx">
+            <span class="prof-img" style="background-image: url('/img/default_img.png');"> </span>
+          </div>
 
+      <br />
+         <button class="call-but" onclick="getMedia()"> <i class="fas fa-phone-alt"
+              style="font-size:18px;padding-right:2px"></i> Call</button>
+
+   
+                        {{!-- <button class="call-but close-but" onclick="getMedia()"> <i class="fas fa-times"
+              style="font-size:21px;padding-right:2px"></i> Close</button>
+                <div>  --}}
+      
+
+  
+  
+    {{!-- <button onclick="startCall()">start</button>
+    <button onclick="joinCall()">Join</button> --}}
+    {{!-- <button onclick="joinCall()">Join</button> --}}
+
+  </div>
 </body>
-      <script src="{{SOCKET_FILE}}"></script>
-        <script> 
-        const socket = io("{{SOCKET_URL}}");
+<script src="{{SOCKET_FILE}}"></script>
+<script>
+  const socket = io("{{SOCKET_URL}}");
 
-    </script>
+</script>
 <script src="./js/utils.js"></script>
 <script src="./js/video_chat.js"></script>
 <script src="./js/common.js"></script>
