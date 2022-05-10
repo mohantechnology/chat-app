@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Friend</title>
+        <link rel="icon" href="favicon.ico">
+</head>
+<link rel="stylesheet" href="./css/video_chat.css">
+
+<body>
+
+  <div class="local-vid-bx">
+    <video class="video-elem" muted autoplay id="local_video" controls > </video> 
+
+  </div> 
+ 
+ <div class="remote-vid-bx">
+       <video muted autoplay  id="remote_video" controls> </video> 
+ </div>
+  
+
+    <br/>
+    <button onclick="startCall()" >start</button> 
+    <button onclick="joinCall()" >Join</button> 
+
+     
+
+</body>
+      <script src="{{SOCKET_FILE}}"></script>
+        <script> 
+        const socket = io("{{SOCKET_URL}}");
+
+    </script>
+<script src="./js/utils.js"></script>
+<script src="./js/video_chat.js"></script>
+<script src="./js/common.js"></script>
+
+</html>

@@ -150,6 +150,7 @@ app.post('/transfer_file/:curr_f_id/:file_mess?', function (req, res) {
         data: cookie_data
       }).then(function (response) {
 
+
         if (response.data.status == "ok") {
           res.send(response.data); 
           } else {
@@ -408,6 +409,15 @@ app.get('/profile', (req, res) => {
 app.get('/find_friend', (req, res) => {
 
   res.render("find_friend");
+});
+
+app.get('/video-chat', (req, res) => {
+  let r_data ={};
+  r_data.SOCKET_URL = process.env.SOCKET_URL;
+  r_data.SOCKET_FILE = process.env.SOCKET_FILE;
+ 
+  
+  res.render("video_chat" ,r_data);
 });
 
 app.post('/find_friend', (req, res) => {

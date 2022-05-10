@@ -1469,3 +1469,11 @@ width:100%;
     }
 
 }
+
+.side-list-video-icon {
+    border: 1px solid black ;
+    display: inline-block; 
+    top: -6px;
+    right: -50px;
+    position: relative;
+} 

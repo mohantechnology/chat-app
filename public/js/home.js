@@ -78,6 +78,7 @@ var m_q = window.matchMedia("(max-width: 950px)");
 var drop_file = document.getElementById("drop_file");
 var select_file = document.getElementById("select_file");
 var browse_file = document.getElementById("browse_file");
+var side_list_video_cam = document.getElementById("side-list-video-cam");
 
 var message_list = {};
 var d_img_url = "../default_img.png"
@@ -91,6 +92,8 @@ var is_recieved_noti = true;
 var is_recieved_reqest = true;
 var prev_f_id;
 var ping_audio = new Audio("ping.mp3");
+var is_redirecting = false; 
+
 
 if( localStorage.getItem("ln") !="1"  ){
     location = "./login"; 
@@ -189,6 +192,15 @@ close_search.addEventListener("click", () => {
 
 });
 
+
+side_list_video_cam.addEventListener("click", () => {
+ 
+    //  localStorage.setItem("curr_f_id",curr_f_id )
+    is_redirecting= true ; //set it true so that session data should not delete from server
+    window.location= "/video-chat?f_id="+curr_f_id; 
+    // window.location= "/video-chat"
+
+});
 {/* <div class="message right">
 <span class="message-right file-right">
   <div class="message-file">
@@ -1866,13 +1878,22 @@ window.addEventListener("beforeunload", function (e) {
         temp = data[i].split("=");
         cookie_data[temp[0].trim()] = temp[1];
     }
-    socket.emit("user-disconnect", cookie_data);
+    alert( is_redirecting); 
+    if( is_redirecting==false){ 
+        socket.emit("user-disconnect", cookie_data);
+    }
 
 }, false);
 
 
 
 
+col_2.style.display = "inline-block";
+// console.log("style is : " + col_2.style.display)
+if (m_q.matches) {
+    col_1.style.display = "inline-block";
+    col_2.style.display = "none";
+}
 
 
 
@@ -1992,7 +2013,8 @@ socket.on("rec-message", (data) => {
 
 
 socket.on("redirect", (data) => {
-    location = "./login";
+    // location = "./login";
+    alert( "login again")
 });
 
 // socket.on("user-disconnected", (data) => {
@@ -2026,13 +2048,6 @@ socket.on("user-disconnected", (data) => {
     set_scroll_to_bottom(mess_bd);
 });
 
-
-col_2.style.display = "inline-block";
-// console.log("style is : " + col_2.style.display)
-if (m_q.matches) {
-    col_1.style.display = "inline-block";
-    col_2.style.display = "none";
-}
 
 
 

@@ -1,0 +1,70 @@
+
+
+
+    body {
+        margin: 0px;
+        padding: 0px;
+        /* background-color: rgb(156, 156, 138); */
+        /* background-color: rgb(228, 223, 228); */
+
+
+        font-size: 20px;
+        font-family: 'Roboto', sans-serif;
+        /* background-color: white;
+        background-color: #4158D0;
+        background-color: #8EC5FC;
+        background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+        background-color: #4f7e8e;
+        background-image: linear-gradient(0deg, #8EC5FC 40%, #c3ebfc 70%); */
+        /* background-color: #FF9A8B;
+background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
+ */
+        background-color: #FF3CAC;
+        /* background-image: linear-gradient(225deg, #FF3CAC 10%, #784BA0 50%, #b6360e 10%); */
+
+         /* height:100px; */
+        overflow-y:hidden; 
+        /* border: 10px solid black; 
+        padding: 50px;  */
+
+    }
+
+
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: blue rgb(255, 255, 255);
+    }
+
+    *::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: rgb(255, 255, 255);
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background-color: rgb(207, 207, 211);
+
+
+    }
+
+
+    
+
+
+    #local_video , #remote_video { 
+        width : 300px; 
+        border: 1px solid black; 
+
+    }
+
+    .remote-vid-bx{ 
+        border: 1px solid black; 
+
+
+    }
+
+        .video-elem{ 
+        
+    }
