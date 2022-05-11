@@ -35,34 +35,34 @@
       </div>
       <br />
     </div>
-  
-      {{!-- call block --}}
- 
 
-        <div class="call-opt-bx">
-          <p class="prof-tl"> ryan Jognath </p>
+    {{!-- call block --}}
 
-          <div class="prof-img-par-bx">
-            <span class="prof-img" style="background-image: url('/img/default_img.png');"> </span>
-          </div>
+
+    <div class="call-opt-bx">
+      <p class="prof-tl"> ryan Jognath </p>
+
+      <div class="prof-img-par-bx">
+        <span class="prof-img" style="background-image: url('/img/default_img.png');"> </span>
+      </div>
 
       <br />
-         <button class="call-but" onclick="getMedia()"> <i class="fas fa-phone-alt"
-              style="font-size:18px;padding-right:2px"></i> Call</button>
+      <button class="call-but" onclick="handleCall()"> <i class="fas fa-phone-alt"
+          style="font-size:18px;padding-right:2px"></i> <span id="call_but_text">Call</span> </button>
 
-   
-                        {{!-- <button class="call-but close-but" onclick="getMedia()"> <i class="fas fa-times"
-              style="font-size:21px;padding-right:2px"></i> Close</button>
-                <div>  --}}
-      
 
-  
-  
-    {{!-- <button onclick="startCall()">start</button>
-    <button onclick="joinCall()">Join</button> --}}
-    {{!-- <button onclick="joinCall()">Join</button> --}}
+      {{!-- <button class="call-but close-but" onclick="getMedia()"> <i class="fas fa-times"
+          style="font-size:21px;padding-right:2px"></i> Close</button>
+      <div> --}}
 
-  </div>
+
+
+
+        {{!-- <button onclick="startCall()">start</button>
+        <button onclick="joinCall()">Join</button> --}}
+        {{!-- <button onclick="joinCall()">Join</button> --}}
+
+      </div>
 </body>
 <script src="{{SOCKET_FILE}}"></script>
 <script>
