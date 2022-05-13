@@ -2059,7 +2059,11 @@ function handleIncomingCall( data) {
 
 function handleDeclineCall( ) {
      
+    console.log( "rejecting ")
     incoming_call_bx.innerHTML =""; 
+    let li = getCookie("li");
+        let data = {  li } ; 
+    socket.emit("call-decline",data);
     
 }
 function handleAcceptCall( ) {

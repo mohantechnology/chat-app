@@ -215,6 +215,10 @@ function createAndSendAnswer() {
 
 
 function endCall() {
+
+    let  input = confirm("Are you Sure you want to Leave this Call" ) ; 
+    console.log( input)
+    if( input == false ){ return ; }
     hideRemoteVideo(); 
     let li = getCookie("li");
         let data = {  li } ; 
@@ -302,8 +306,16 @@ socket.on("not-friend", (data) => {
 
 });
 
-
-socket.on("call-ended",  (data) => {
+ 
+socket.on("call-decline",  () => {
+    console.log("call-decline")
+     alert( "Friend is Busy") ;
+     if (call_but_text.textContent !== "Call" ) { 
+            handleCall() 
+  }
+ 
+});
+socket.on("call-ended",  () => {
     console.log("call-ended")
      alert( "Call Ended") ; 
     hideRemoteVideo(); // for caller 
