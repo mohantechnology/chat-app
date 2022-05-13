@@ -183,9 +183,8 @@ async function joinCall(e) {
         // socket.emit("send_candidate", e.candidate );
         // console.log( peerConn); 
         let li = getCookie("li");
-            // let data = { f_id: f_id, offer: offer, li }
-            socket.emit("store_offer", ( {li }));
-        socket.emit('join_call', {});
+ 
+        socket.emit('join_call',{li  });
         // createAndSendAnswer ()
     }
     catch (err) {
