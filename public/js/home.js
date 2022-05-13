@@ -33,8 +33,11 @@ var search_keyword_alias = document.getElementById("search_keyword_alias");
 var loader = document.getElementById("loader");
 var add_file = document.getElementById("add_file");
 var setting = document.getElementById("setting");
+var incoming_call_bx = document.getElementById("incoming_call_bx");
+
 var all_id = {};
 var upload_list = {};
+var incoming_call_data ; 
 //-----------------first col 
 
 var col_1 = document.getElementById("col-1");
@@ -1850,21 +1853,21 @@ message_input.addEventListener("focusout", () => {
 
 
 // 
-window.addEventListener('load', (e) => {
-    console.log('page is fully loaded');
+// window.addEventListener('load', (e) => {
+//     console.log('page is fully loaded');
 
-    let data = document.cookie.split(";")
-    let cookie_data = {};
-    let temp;
-    for (let i = 0; i < data.length; i++) {
-        temp = data[i].split("=");
-        cookie_data[temp[0].trim()] = temp[1];
-    }
+//     let data = document.cookie.split(";")
+//     let cookie_data = {};
+//     let temp;
+//     for (let i = 0; i < data.length; i++) {
+//         temp = data[i].split("=");
+//         cookie_data[temp[0].trim()] = temp[1];
+//     }
 
-    // console.log(cookie_data);
-    socket.emit("user-connected", cookie_data);
+//     // console.log(cookie_data);
+//     socket.emit("user-connected", cookie_data);
 
-});
+// });
 
 window.addEventListener("beforeunload", function (e) {
 
@@ -2011,6 +2014,68 @@ socket.on("rec-message", (data) => {
 
 });
 
+ 
+
+function createIncomingCallElem( data) { 
+    let prof_img = data.profile_img ? "/img/profile/" + data.profile_img :d_img_url    ; 
+    let elem_str =`<div class="call-opt-bx">
+    <p class="prof-tl"> ${data.name}</p>
+
+    <div class="prof-img-par-bx">
+      <span class="prof-img" style="background-image: url('${prof_img}');"> </span>
+    </div>
+
+    <br />
+    <div style="display:flex">
+  <button class="call-but" onclick="handleAcceptCall()"> <i class="fas fa-phone-alt"
+        style="font-size:18px;padding-right:2px"></i> <span id="call_but_text">Accept</span> </button>
+
+  <button class="call-but decline-but" onclick="handleDeclineCall()">
+      <i class="fas fa-phone-slash"></i> 
+      
+      <span id="call_but_text">Decline</span> </button>
+
+    </div> 
+
+  </div> ` ; 
+      
+      let temp = document.createElement("div")
+   
+      temp.classList = "incoming-call-bx";
+  
+      temp.innerHTML = elem_str;
+      return temp ; 
+}
+
+
+function handleIncomingCall( data) {
+    
+    // let data ={ handleDeclineCall }
+    let call_elem  = createIncomingCallElem(data);  
+    incoming_call_bx.appendChild(call_elem);
+    console.log(call_elem)
+    
+}
+
+function handleDeclineCall( ) {
+     
+    incoming_call_bx.innerHTML =""; 
+    
+}
+function handleAcceptCall( ) {
+    //  console.log( incoming_call_data) ; 
+    //  console.log( `/video-chat?f_id=${ incoming_call_data.f_id}&type=rec`)
+    // incoming_call_bx.innerHTML =""; 
+          is_redirecting = true ; 
+     window.location =`/video-chat?f_id=${ incoming_call_data.f_id}&type=rec` ; 
+}
+// setTimeout( ()=>{
+//     handleIncomingCall(); 
+//     console.log(setTimeout )
+// }, 2000)
+// function declineCall
+
+// --------- Socket Events ------------------
 
 socket.on("redirect", (data) => {
     // location = "./login";
@@ -2048,7 +2113,13 @@ socket.on("user-disconnected", (data) => {
     set_scroll_to_bottom(mess_bd);
 });
 
-
+socket.on("calling", (data) => {
+    console.log("calling...");
+    console.log( data )
+     incoming_call_data = data ; 
+     handleIncomingCall(  data  )
+    // user_id = data.id;
+});
 
 
 // socket.on("recieved-pecific-client", (data) => {

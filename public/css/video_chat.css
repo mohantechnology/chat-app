@@ -59,16 +59,14 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
     
 
 
-    #local_video , #remote_video { 
-        /* width : 300px;  */
-        /* border: 1px solid black;  */
-
-    }
-
+  
     .local-vid-bx, .remote-vid-bx{ 
         /* border: 1px solid black;  */
         background-color: black;
              position: relative;
+             display:flex; 
+             justify-content: center;
+             align-items: center;
              /* display:inline-block; */
          
     }
@@ -81,6 +79,25 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
 
 
     }
+    .local-vid-bx-conn { 
+        position: fixed;
+        width : 70px; 
+        height:70px ; 
+        top: 0px; 
+        left: 0px; 
+        /* z-index: -100; */
+
+    }
+
+    .remote-vid-bx{ 
+        position: fixed;
+        width : 100vw; 
+        height:100vh ; 
+        top: 0px; 
+        left: 0px; 
+        z-index: -100;
+        display:none; 
+    }
 
         .video-elem{ 
         
@@ -88,7 +105,9 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
             height: 100%;
             object-fit: cover; 
     }
-
+#remote_video{ 
+    object-fit: contain; 
+}
 
 
     .container-bx{  
@@ -126,10 +145,12 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
     align-content: center;
     align-items: center;
     justify-content: center;
+      position: relative;
+    z-index: 1000;
     /* margin:10px; */
     }
     .phone-icon:hover{ 
-        cursor:pointer ;
+      
         /* color:yellow; 
         background-color: blue; */
         background-color: rgb(147, 136, 186);
@@ -137,7 +158,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
 
     }
 
-    .icon-par-bx{ 
+    .icon-par-bx,.remote-vid-ic-bx{ 
         display: flex;
         align-items: center;
         justify-content: center;
@@ -146,6 +167,18 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         margin-top: -100px;
         z-index: 100;
         position: relative;
+    }
+    .remote-vid-ic-bx{ 
+        /* border: 1px solid black ;  */
+        width: 100%; 
+    position:fixed; 
+    bottom: 10vh;
+    left: 0px;
+    display:none; 
+
+    }
+    #end_call_icon:hover{ 
+        background-color: red;
     }
     .call-but{ 
         text-decoration: none;
@@ -160,6 +193,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         background-color: transparent;
         /* border-radius: 4px; */
         cursor: pointer;
+        display:none; 
         
     }
 

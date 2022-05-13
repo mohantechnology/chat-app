@@ -6,9 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Find Friend</title>
   <link rel="icon" href="favicon.ico">
-  <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
-    integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
-    crossorigin="anonymous"></script>
+ 
 </head>
 <link rel="stylesheet" href="./css/video_chat.css">
 
@@ -21,14 +19,15 @@
 
       </div>
 
-      <div class="remote-vid-bx" id="remote_video_par_bx" style="display:none; ">
-        <video class="video-elem" muted autoplay id="remote_video" controls> </video>
+      <div class="remote-vid-bx" id="remote_video_par_bx"  >
+        <video class="video-elem"   muted autoplay id="remote_video" > </video>
+         
       </div>
 
 
       <br />
 
-      <div class="icon-par-bx">
+      <div class="icon-par-bx" id="local_vid_icon_bx" >
 
         <span class="phone-icon" id="camera_icon"> <i class="fas fa-video"></i> </span>
         <span class="phone-icon" id="micropone_icon"> <i class="fas fa-microphone"></i> </span>
@@ -36,10 +35,13 @@
       <br />
     </div>
 
+  <div class="remote-vid-ic-bx" id="remote_vid_icon_bx"> 
+          <span class="phone-icon"  onclick="endCall()" id="end_call_icon"> <i class="fas fa-phone-slash"></i> </span>
+  </div>
     {{!-- call block --}}
 
 
-    <div class="call-opt-bx">
+    <div class="call-opt-bx" id="call_opt_bx">
       <p class="prof-tl"> ryan Jognath </p>
 
       <div class="prof-img-par-bx">
@@ -47,22 +49,28 @@
       </div>
 
       <br />
-      <button class="call-but" onclick="handleCall()"> <i class="fas fa-phone-alt"
+      <button id="call_but" class="call-but" onclick="handleCall()"> <i class="fas fa-phone-alt"
           style="font-size:18px;padding-right:2px"></i> <span id="call_but_text">Call</span> </button>
 
+           <button  id="join_but" class="call-but" onclick="joinCall()"> <i class="fas fa-phone-alt"
+          style="font-size:18px;padding-right:2px"></i> <span id="join_but_text">Join</span> </button>
 
-      {{!-- <button class="call-but close-but" onclick="getMedia()"> <i class="fas fa-times"
-          style="font-size:21px;padding-right:2px"></i> Close</button>
-      <div> --}}
+    </div>
+
+      
+    </div>
+    {{!-- <button class="call-but close-but" onclick="getMedia()"> <i class="fas fa-times"
+        style="font-size:21px;padding-right:2px"></i> Close</button>
+    <div> --}}
 
 
 
 
-        {{!-- <button onclick="startCall()">start</button>
-        <button onclick="joinCall()">Join</button> --}}
-        {{!-- <button onclick="joinCall()">Join</button> --}}
+      {{!-- <button onclick="startCall()">start</button>
+      <button onclick="joinCall()">Join</button> --}}
+      {{!-- <button onclick="joinCall()">Join</button> --}}
 
-      </div>
+    </div>
 </body>
 <script src="{{SOCKET_FILE}}"></script>
 <script>
@@ -72,5 +80,7 @@
 <script src="./js/utils.js"></script>
 <script src="./js/video_chat.js"></script>
 <script src="./js/common.js"></script>
+ <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"  integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
+    crossorigin="anonymous"></script>
 
 </html>

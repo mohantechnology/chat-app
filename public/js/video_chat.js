@@ -3,6 +3,15 @@ var side_list_search_icon = document.getElementById("side-list-search-icon");
 var camera_icon = document.getElementById("camera_icon");
 var micropone_icon = document.getElementById("micropone_icon");
 var call_but_text = document.getElementById("call_but_text");
+var call_but = document.getElementById("call_but");
+var join_but_text = document.getElementById("join_but_text");
+var join_but = document.getElementById("join_but");
+var remote_video_par_bx = document.getElementById("remote_video_par_bx");
+var remote_vid_icon_bx = document.getElementById("remote_vid_icon_bx");
+
+var local_video_par_bx = document.getElementById("local_video_par_bx");
+var call_opt_bx = document.getElementById("call_opt_bx"); 
+
 
 // socket.emit("sending_from_client", JSON.stringify({ data:  `this message is sned from client`} ) );
 
@@ -72,6 +81,7 @@ async function startCall(e) {
             console.log("onaddStream");
             console.log(e);
             remote_video.srcObject = e.stream;
+            // alert("onaddStream")
         }
         peerConn.onicecandidate = (e) => {
             console.log("onicecandidate");
@@ -135,19 +145,19 @@ async function joinCall(e) {
     try {
 
         // let constraints = {video : false , audio : true} ; 
-        let constraints = { video: { width: 1280, height: 720 }, audio: true };
-        let stream = await navigator.mediaDevices.getUserMedia(constraints);;
-        // console.log (   local_video.srcObject); 
-        // console.log (   local_video); 
-        // console.log ( stream); 
-        localStream = stream;
+        // let constraints = { video: { width: 1280, height: 720 }, audio: true };
+        // let stream = await navigator.mediaDevices.getUserMedia(constraints);;
+        // // console.log (   local_video.srcObject); 
+        // // console.log (   local_video); 
+        // // console.log ( stream); 
+        // localStream = stream;
 
-        local_video.srcObject = null;
-        local_video.srcObject = stream;
-        local_video.onloadedmetadata = function (e) {
-            // console.log("onloadedmetadata" )
-            local_video.play();
-        };
+        // local_video.srcObject = null;
+        // local_video.srcObject = stream;
+        // local_video.onloadedmetadata = function (e) {
+        //     // console.log("onloadedmetadata" )
+        //     local_video.play();
+        // };
 
 
 
@@ -188,6 +198,7 @@ function createAndSendAnswer() {
         console.log(answer);
         peerConn.setLocalDescription(answer);
         socket.emit("send_answer", answer);
+        displayRemoteVideo() ; // for reciever
         // socket.emit("offer", id, peerConnection.localDescription);
 
     }
@@ -204,12 +215,47 @@ function createAndSendAnswer() {
 
 
 function endCall() {
-    socket.emit("end-call");
+    hideRemoteVideo(); 
+    let li = getCookie("li");
+        let data = {  li } ; 
+    socket.emit("end-call",data);
+    window.location="/profile" ; 
+    console.log( "end-call")
+
 }
 
 
 
+// remote_video_par_bx.style.display="flex" ; 
+
+function displayRemoteVideo ( ) { 
+     console.log(  local_video_par_bx ) ; 
+     console.log(  local_video_par_bx.classList ) ; 
+     
+    if( !local_video_par_bx.classList.contains("local-vid-bx-conn") ){ 
+        local_video_par_bx.classList.add("local-vid-bx-conn" ) ; 
+    }
+    call_opt_bx.style.display = "none"; 
+    local_vid_icon_bx.style.visibility = "hidden";  
+    remote_video_par_bx.style.display="flex" ; 
+        remote_vid_icon_bx.style.display="flex" ;
+}
+
+function hideRemoteVideo ( ) { 
+     console.log(  local_video_par_bx ) ; 
+     console.log(  local_video_par_bx.classList ) ; 
+     
+    if( local_video_par_bx.classList.contains("local-vid-bx-conn") ){ 
+        local_video_par_bx.classList.remove("local-vid-bx-conn" ) ; 
+    }
+    call_opt_bx.style.display = "flex"; 
+    local_vid_icon_bx.style.visibility = "visible";  
+    remote_video_par_bx.style.display="none" ; 
+    remote_vid_icon_bx.style.display="none" ; 
+}
+
 // ############### web socket  event ###################
+
 
 
 
@@ -217,7 +263,8 @@ socket.on("answer", (data) => {
     console.log("answer**")
     console.log(data)
 
-    peerConn.setRemoteDescription(data)
+    peerConn.setRemoteDescription(data); 
+    displayRemoteVideo(); // for caller
 
 });
 
@@ -225,6 +272,8 @@ socket.on("candidate", (data) => {
     console.log("candidate")
     console.log(data)
     peerConn.addIceCandidate(data)
+    // alert( "addIceCandidate")
+
 
 });
 
@@ -240,7 +289,7 @@ socket.on("take_offer", (offer) => {
 socket.on("friend-is-offline", (data) => {
 
     console.log("friend-is-offline");
-    alert("friend-is-offline");
+    alert("Friend is Offline");
 
 
 });
@@ -253,6 +302,14 @@ socket.on("not-friend", (data) => {
 
 });
 
+
+socket.on("call-ended",  (data) => {
+    console.log("call-ended")
+     alert( "Call Ended") ; 
+    hideRemoteVideo(); // for caller 
+     let f_id = getQueryVariable("f_id")
+    window.location= "/video-chat?f_id="+f_id; 
+});
 
 
 
@@ -303,10 +360,32 @@ function handleCall() {
         call_but_text.textContent = "Calling...";
         // history.pushState("/profile"); 
         // history.forward(); 
+        local_vid_icon_bx.style.visibility = "hidden"; 
+        startCall(); 
     }
     else {
         call_but_text.textContent = "Call";
+        local_vid_icon_bx.style.visibility = "visible"; 
     }
 
 }
-//   getMedia( ) ; 
+
+
+(async function () {
+
+ 
+    await   getMedia( ) ;  
+    console.log( getQueryVariable("type")) ; 
+    if( getQueryVariable("type") == "rec"){ 
+
+        join_but.style.display = "inline-block"; 
+        call_but.style.display = "none"; 
+
+    }
+    else{ 
+        call_but.style.display = "inline-block"; 
+        join_but.style.display = "none"; 
+    }
+
+
+  })();
