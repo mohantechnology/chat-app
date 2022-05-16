@@ -27,6 +27,11 @@ let peerConn;
 let mediaConstraints = { video: { width: 1280, height: 720 }, audio: true };
 
 const config = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
+function add_tract_in_peer( ){ 
+    console.log( localStream.getTracks( ) ) ; 
+    // localStream.getTracks().forEach(track => peerConn.addTrack(track, localStream));
+    peerConn.addStream( localStream);
+}
 
 
 async function getMedia() {
@@ -75,8 +80,8 @@ async function startCall(e) {
 
 
         peerConn = new RTCPeerConnection(config);
-
-        peerConn.addStream(localStream);
+        add_tract_in_peer()
+        // peerConn.addStream(localStream);
         peerConn.onaddstream = (e) => {
             console.log("onaddStream");
             console.log(e);
@@ -162,8 +167,8 @@ async function joinCall(e) {
 
 
         peerConn = new RTCPeerConnection(config);
-
-        peerConn.addStream(localStream);
+        add_tract_in_peer() ; 
+        // peerConn.addStream(localStream);
         peerConn.onaddstream = (e) => {
             console.log("onaddStream");
             console.log(e);
@@ -238,9 +243,9 @@ function displayRemoteVideo ( ) {
      console.log(  local_video_par_bx ) ; 
      console.log(  local_video_par_bx.classList ) ; 
      
-    if( !local_video_par_bx.classList.contains("local-vid-bx-conn") ){ 
-        local_video_par_bx.classList.add("local-vid-bx-conn" ) ; 
-    }
+    // if( !local_video_par_bx.classList.contains("local-vid-bx-conn") ){ 
+    //     local_video_par_bx.classList.add("local-vid-bx-conn" ) ; 
+    // }
     call_opt_bx.style.display = "none"; 
     local_vid_icon_bx.style.visibility = "hidden";  
     remote_video_par_bx.style.display="flex" ; 
