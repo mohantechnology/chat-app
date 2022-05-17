@@ -243,9 +243,9 @@ function displayRemoteVideo ( ) {
      console.log(  local_video_par_bx ) ; 
      console.log(  local_video_par_bx.classList ) ; 
      
-    // if( !local_video_par_bx.classList.contains("local-vid-bx-conn") ){ 
-    //     local_video_par_bx.classList.add("local-vid-bx-conn" ) ; 
-    // }
+    if( !local_video_par_bx.classList.contains("local-vid-bx-conn") ){ 
+        local_video_par_bx.classList.add("local-vid-bx-conn" ) ; 
+    }
     call_opt_bx.style.display = "none"; 
     local_vid_icon_bx.style.visibility = "hidden";  
     remote_video_par_bx.style.display="flex" ; 

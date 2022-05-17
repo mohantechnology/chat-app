@@ -2052,6 +2052,7 @@ function handleIncomingCall( data) {
     
     // let data ={ handleDeclineCall }
     let call_elem  = createIncomingCallElem(data);  
+     incoming_call_bx.innerHTML = ""; 
     incoming_call_bx.appendChild(call_elem);
     console.log(call_elem)
     
