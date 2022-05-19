@@ -412,6 +412,13 @@ app.get('/find_friend', (req, res) => {
 });
 
 app.get('/video-chat', (req, res) => {
+  // console.log(req.param.f_id)
+  // console.log( req.host)
+  // console.log( req.query)
+  let f_id  = req.query.f_id ; 
+  if( !f_id ){ 
+    res.redirect("/profile") ; 
+  }
   let r_data ={};
   r_data.SOCKET_URL = process.env.SOCKET_URL;
   r_data.SOCKET_FILE = process.env.SOCKET_FILE;
