@@ -1,20 +1,16 @@
 // 'use strict';
-require('dotenv').config();
-const { response } = require('express');
-const express = require('express');
-const axios = require('axios');
-const app = express();
+"use strict"
+const app = require('./Config/app');
+// const constant = require('./Utils/constant.js');
 const fs = require('fs');
-const jwt = require("jsonwebtoken");
-var view_dir_name = __dirname + "/views"
-const fileUpload = require('express-fileupload');
-var nodemailer = require('nodemailer');
-const cookieParser = require("cookie-parser");
-const cors = require('cors')
-const bodyParser = require('body-parser');
-const { strict } = require('assert');
-const { fips } = require('crypto');
-app.set('views', (__dirname, '/views/'))
+
+
+const database = require('./config/database');
+
+
+(async function  (){ 
+  database(); 
+})(); 
 
 
 
@@ -25,26 +21,6 @@ var port = process.env.PORT || 3000;
 // var cors_opt = {
 //   origin:"https://php-file-api.000webhostapp.com/transfer_file.php"
 // }
-
-
-app.use(cookieParser());
-app.use(express.static(__dirname + '/public'));
-// console.log(__dirname, '/views');
-app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cors( { credentials: true}));
-
-
-app.set("view engine", "hbs");
-app.set("views", "views")
-
-
-
-
-app.use(fileUpload({
-  limits: { fileSize: 10000000 * 100000 },
-}));
 
 
 
