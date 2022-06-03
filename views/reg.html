@@ -505,7 +505,7 @@
          
       async   function send_xhr(param,url){
         if(!is_rec_reqest){
-            return; 
+            // return; 
          }
           is_rec_reqest = false ; 
           reg_butt.textContent = "Processing..."; 
@@ -513,6 +513,7 @@
           xhttp.open("POST", url, true);
          xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
           xhttp.onreadystatechange = function(){
+              console.log( (this.response))
               if(this.readyState == 4 && this.status>=200 && this.status<300){
                    let data = JSON.parse(this.response); 
                    console.log(data); 
@@ -537,6 +538,7 @@
           xhttp.send( param );
         }
         function display_message(mess,color,time=8000){
+            console.log(mess)
             clearTimeout(timeout_id); 
             message.innerHTML = mess; 
             message.style.display="block";

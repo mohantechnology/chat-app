@@ -20,13 +20,49 @@ const init = (app) => {
     //    app.use('/pub', allowCORS , PublicRoutes);
 
     app.use((req, res, next) => {
+        console.log( "inside first use")
         const err = new Error("Page Not Found");
         err.status = 'fail';
         err.statusCode = 404;
         err.message = 'Page Not Found';
         // req.statu("new AppError(`Page Not Found`, 404)");
-        res.status(404).send({ "status": "error", message: "page not found from routes",error:err })
+        res.status(404).send({ "status": "error", message: "page not found",error:err , method: req.method })
     });
+
+    // catch error 
+    app.use((err, req, res, next) => {
+        console.log("inside second use") ; 
+        console.log("err ---------") ; 
+        console.log(err) ;
+
+           console.log("err.name ---------") ; 
+        console.log(err.name) ;
+        //      console.log("req ---------") ; 
+        // console.log(req) ; 
+        
+        // console.log("res ---------") ; 
+        // console.log(res) ; 
+
+        // console.log("next ---------") ; 
+        // console.log(next) ; 
+
+
+        // console.log(err.errors) ; 
+        // console.log("typeof err.errors") ; 
+        // console.log(typeof err.errors) ; 
+        // res.status(err.statusCode||500).json({
+        //     message : err.message, 
+        //     err: err
+        // })
+        // return err; 
+
+        // if(err.name === 'ValidationError'  ) { return   handle_mongoose_validation_error(err, res);}
+        // if(err.name === 'ValidationError') return err = handleValidationError(err, res);
+        // else if(err.code && err.code == 11000) return err = handleDuplicateKeyError(err, res);
+        // else res.status(err.statusCode||500).json({
+        //     message : err.message
+        // })
+    })
  
 }
 

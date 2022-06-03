@@ -11,6 +11,7 @@ accountRoutes.get("/login",  account.login);
 
 // accountRoutes.use(auth);
 accountRoutes.get("/logout",  account.logout);
+accountRoutes.post("/reg",  account.createUserAccount);
 
 
 
