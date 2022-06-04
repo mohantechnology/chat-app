@@ -3,7 +3,12 @@ const validator = require('validator');
 const validateField = require('../utils/validateField');
 
 const  userAccountSchema = mongoose.Schema({
-    uId: String,
+    uId:  { // user id 
+        type : String,
+        trim:true, 
+        required : true,
+        unique: true ,
+    },
     name: {
         type : String,
            trim:true, 
@@ -48,12 +53,12 @@ const  userAccountSchema = mongoose.Schema({
     // expire_time: Number,
 
     accountStatus: {   //account is active or not 
-        type : Boolean,
+        type : String,
         enum: {
-            values: [ true ,  false  ],
-            message: "must be  either 'true', 'false'."
+            values: [ 'active' ,  'unactivate'  ],
+            message: "must be  either 'active' ,  'unactivate'."
         } , 
-        default:  false,
+        default:  "active",
         trim:true, 
     },  
     currentStatus: {   // currently online or not 

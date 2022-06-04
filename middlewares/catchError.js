@@ -3,10 +3,11 @@
  
   
 const handleDuplicateKeyError = (err, res) => {
-    // console.log("ersdsdsr"); 
+    console.log("ersdsdsr"); 
+    // console.log(err); 
     // console.log(err); 
     try { 
-        const fieldNameList = Object.keys(err.keyValue);
+        const fieldNameList =  err && err.keyValue && Object.keys(err.keyValue) || [];
         // const error = `An account with that ${field} already exists.`;
     
         const error = `An account with given values ${fieldNameList.join(",")}  already exists.`;

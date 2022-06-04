@@ -7,7 +7,6 @@ const fs = require('fs');
 const jwt = require("jsonwebtoken");
 var view_dir_name = __dirname + "/views"
 const fileUpload = require('express-fileupload');
-var nodemailer = require('nodemailer');
 const cookieParser = require("cookie-parser");
 const cors = require('cors')
 const bodyParser = require('body-parser');

@@ -3,8 +3,6 @@
 const app = require('./Config/app');
 // const constant = require('./Utils/constant.js');
 const fs = require('fs');
-
-
 const database = require('./config/database');
 
 
