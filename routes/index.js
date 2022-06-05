@@ -1,7 +1,7 @@
 "use strict";
 const express = require('express');
-const accountRoutes = require("./accountRoutes");
-const chatRoutes = require("./chatRoutes");
+const userRoutes = require("./userRoutes");
+// const chatRoutes = require("./chatRoutes");
 
 const init = (app) => {
     // console.log ( app ) ; 
@@ -12,8 +12,8 @@ const init = (app) => {
     });
     app.set('trust proxy', true);  
        // Version 1 routes
-       app.use('/chat',chatRoutes);
-       app.use('/',accountRoutes);
+    //    app.use('/chat',chatRoutes);
+       app.use('/',userRoutes);
     //    app.use('/student',ClientUserRoutes);
     //    app.use('/instructor',InstructorRoutes);
     //    app.use('/client',ClientRoutes);

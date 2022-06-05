@@ -1,6 +1,6 @@
 const path = require('path'); 
 const catchError = require('../middlewares/catchError');
-const AppError  = require("./../utils/AppError");
+const AppError  = require("../utils/AppError");
 const crypto = require("crypto");
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
@@ -25,50 +25,6 @@ function cprint(  varObj ,dividerStr){
     console.log( Object.keys(varObj)[0] );
     console.log( Object.values(varObj)[0]);
 }
-
-module.exports.sendEmail =  async  (receiverAddresses, subject, html) =>{
-
-
-  return new Promise(async (resolve, reject) => {
-
-    try {
-
-
-      // Create the SMTP transport.
-      let  transporter = nodemailer.createTransport({
-        service: process.env.SERVICE || 'gmail',
-        host:process.env.HOST || 'smtp.gmail.com',
-        port: process.env.EMAIL_PORT || 465,
-        secure: true,
-        auth: {
-          user:process.env.EMAIL,
-          pass:process.env.EMAIL_PASS
-        }
-      });
-
-          // Specify the fields in the email.
-      let  mailOptions = {
-        from: process.env.EMAIL,
-        to:   receiverAddresses ,
-        subject: subject, 
-        html: html, 
-       
-      };
-
-  
-
-      // Send the email.
-      let info = await transporter.sendMail(mailOptions) 
-      console.log("Message sent! Message ID: ", info.messageId);
-      resolve(info)
-    }
-    catch (err) {
-      console.log(err);
-      reject(err)
-    }
-  });
-}
-
  
 
 
@@ -78,10 +34,18 @@ module.exports.sendEmail =  async  (receiverAddresses, subject, html) =>{
     
 }
 
-module.exports.register = (req, res,next)=>{ 
+module.exports.homePage = catchError ( async (req, res,next)=>{ 
     console.log( "register get ")
-    res.sendFile( VEIW_DIR+ "/reg.html");
-}
+    let result = await userAccount.findOne({ accessToken:req.user.accessToken,  email: req.user.email  }) ; 
+   if( result){ 
+    let r_data = (result);
+    r_data.SOCKET_URL = process.env.SOCKET_URL;
+    r_data.SOCKET_FILE = process.env.SOCKET_FILE;
+   
+    res.render("home", r_data);
+   }
+ 
+})
 
 module.exports.login = (req, res,next)=>{ 
     console.log( "login get ")

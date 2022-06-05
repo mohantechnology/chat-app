@@ -530,16 +530,13 @@ height:5vh;
  
           xhttp.onreadystatechange = function(){
               
-              if(this.readyState == 4 && this.status>=200 && this.status<300){
-                   let data = JSON.parse(this.response); 
-                   console.log(data); 
-                  if (data.status=="ok"){
-                    //  display_message("successful", "green"); 
-                      console.log("redirect");
-                      localStorage.setItem("ln","1");  
-                      
-                      location="./profile"; 
-                  }else{
+              if(this.readyState == 4  ){
+                let data = JSON.parse(this.response);
+                if( this.status>=200 && this.status<300 ){
+                    localStorage.setItem("ln","1");  
+                    location="./home"; 
+                }
+                else{
                       console.log("error occured"); 
                       console.log(data); 
                       display_message(data.message, "red"); 
@@ -548,9 +545,7 @@ height:5vh;
                   login_butt.textContent = "Login";
                   is_rec_reqest = true ;
               }
-              else if( this.readyState == 4) { 
-                console.log(this.response); 
-              }
+             
           }
     
           xhttp.send( param );
