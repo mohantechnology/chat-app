@@ -8,11 +8,15 @@ const auth = require('../middlewares/auth');
 
 accountRoutes.get("/reg",  account.register);
 accountRoutes.get("/login",  account.login);
-
-// accountRoutes.use(auth);
 // accountRoutes.get("/logout",  account.logout);
 accountRoutes.post("/reg",  account.createUserAccount);
 accountRoutes.post("/login",  account.loginUserAccount);
+
+   /*use authentication for below routes */
+accountRoutes.use(auth);
+accountRoutes.get("/home",  account.logout);
+
+
 
 
 

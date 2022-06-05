@@ -73,6 +73,8 @@ module.exports.sendEmail =  async  (receiverAddresses, subject, html) =>{
 
 
  module.exports.logout = (req, res,next)=>{
+  console.log( "req.user")
+    console.log( req.user)
     res.send("connected----------s**>") ; 
     
 }
