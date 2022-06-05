@@ -19,8 +19,8 @@ app.use(cookieParser());
 app.use(express.static(__dirname + '/../public'));
 // console.log(__dirname, '/views');
 app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors( { credentials: true}));
 
 app.set('views', (__dirname, '/../views/'))

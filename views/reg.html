@@ -579,7 +579,7 @@
                return; 
            }
              
-            param ="name="+user_name+ "&email="+user_email+ "&password=" + encodeURIComponent (user_password) +"&conformPassword="+encodeURIComponent(user_conform_pass) ; 
+            param ="name="+user_name+ "&email="+user_email+ "&password=" +  (user_password) +"&conformPassword="+(user_conform_pass) ; 
             console.log("param = "); 
             console.log(param); 
             send_xhr(param,"./reg"); 

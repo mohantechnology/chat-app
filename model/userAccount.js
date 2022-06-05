@@ -48,10 +48,12 @@ const  userAccountSchema = mongoose.Schema({
         // required : true, 
         // trim:true, 
     } , // account activation number 
-    // token: String,          //temporary token given to user every time changed during login 
-    // p_id: String, //public id  used for sending friend request
-    // expire_time: Number,
 
+    // p_id: String, //public id  used for sending friend request
+      lastVisitedAt: Date, 
+
+      accessToken: String,          //temporary token given to user every time changed during login 
+      tokenExpireAt: Number, //   
     accountStatus: {   //account is active or not 
         type : String,
         enum: {
