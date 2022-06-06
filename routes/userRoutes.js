@@ -22,6 +22,7 @@ userRoutes.get("/home",  homeController.homePage);
 
 userRoutes.get("/find_friend",  findFriendController.findFriendPage);
 userRoutes.get("/search_friend",  findFriendController.searchFriend);
+userRoutes.post("/send_friend_req",  findFriendController.sendFriendRequest);
 
 
 
