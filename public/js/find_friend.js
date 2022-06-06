@@ -71,15 +71,20 @@ message_body.addEventListener("click",(e)=>{
 
 function fetch_friend_list(param, url) {
 
-    if(is_recieved_reqest){
+    if(true || is_recieved_reqest){
         is_recieved_reqest= false;       
  
     console.log(param); 
+    url += "?"+ param; 
     let xhttp = new XMLHttpRequest();
-    xhttp.open("POST", url, true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.open("GET", url, true);
+    // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+        if (this.readyState == 4  ) {
+            console.log(this.response);
+          if( this.status >= 200 && this.status < 300){ 
+
+         
             let data = JSON.parse(this.response);
             console.log(data);
             loader.style.display="none"; 
@@ -113,8 +118,9 @@ function fetch_friend_list(param, url) {
             ;
         }
     }
+    }
 
-    xhttp.send(param);
+    xhttp.send();
     message_body.innerHTML =""
     loader.style.display="block";
    } 
@@ -136,8 +142,8 @@ input_search_keyword.addEventListener("keyup", (e) => {
         if(  e.key=="Enter" || e.keyCode ==13 ){
             
                 search_value = encodeURIComponent(input_search_keyword.value.trim());
-                param = "search_value=" + search_value;
-                fetch_friend_list(param, "./find_friend");
+                param = "searchQuery=" + search_value;
+                fetch_friend_list(param, "./search_friend");
 
             input_search_keyword.value=""; 
             side_list_close_icon.style.display = "none";

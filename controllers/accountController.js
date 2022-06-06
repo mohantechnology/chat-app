@@ -78,12 +78,12 @@ module.exports.sendEmail =  async  (receiverAddresses, subject, html) =>{
     
 }
 
-module.exports.register = (req, res,next)=>{ 
+module.exports.registerPage = (req, res,next)=>{ 
     console.log( "register get ")
     res.sendFile( VEIW_DIR+ "/reg.html");
 }
 
-module.exports.login = (req, res,next)=>{ 
+module.exports.loginPage = (req, res,next)=>{ 
     console.log( "login get ")
     res.sendFile( VEIW_DIR+ "/login.html");
 }
