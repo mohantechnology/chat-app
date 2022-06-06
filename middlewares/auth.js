@@ -7,10 +7,10 @@ module.exports = (req, res, next) => {
     if (!token) {
         return res.status(400).json({ message: "Please Login" })
     }
-    try { 
+    try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
         req.user = decoded;
-    } catch (err) { 
+    } catch (err) {
 
         return res.status(401).json({ message: "Authorization Failed. Please Loging Again" })
     }

@@ -1,22 +1,22 @@
 const express = require('express');
 const userRoutes = express.Router();
-const account = require('../controllers/account');
-const home = require('../controllers/home');
+const accountController = require('../controllers/accountController');
+const homeController = require('../controllers/homeController');
 
 const auth = require('../middlewares/auth');
 
 
 
-userRoutes.get("/reg",  account.register);
-userRoutes.get("/login",  account.login);
-// userRoutes.get("/logout",  account.logout);
-userRoutes.post("/reg",  account.createUserAccount);
-userRoutes.post("/login",  account.loginUserAccount);
+userRoutes.get("/reg",  accountController.register);
+userRoutes.get("/login",  accountController.login);
+// userRoutes.get("/logout",  accountController.logout);
+userRoutes.post("/reg",  accountController.createUserAccount);
+userRoutes.post("/login",  accountController.loginUserAccount);
 
    /*use authentication for below routes */
 userRoutes.use(auth);
-userRoutes.get("/logout",  account.logout);
-userRoutes.get("/home",  home.homePage);
+userRoutes.get("/logout",  accountController.logout);
+userRoutes.get("/home",  homeController.homePage);
 
 
 

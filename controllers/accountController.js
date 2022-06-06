@@ -1,6 +1,6 @@
 const path = require('path'); 
 const catchError = require('../middlewares/catchError');
-const AppError  = require("./../utils/AppError");
+const AppError  = require("../utils/AppError");
 const crypto = require("crypto");
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
@@ -109,7 +109,7 @@ module.exports.loginUserAccount = catchError( async(req, res,next)=>{
     if( await bcrypt.compare(req.body.password, result.password  ) ) {  
         // save  data to jwt token
         
-        let token = jwt.sign({ email: result.email,accessToken  }, process.env.JWT_SECRET_KEY);
+        let token = jwt.sign({ email: result.email,accessToken , _id: result._id  }, process.env.JWT_SECRET_KEY);
          res.cookie('sid', token,  { expires: new Date(Date.now() + 6000000), httpOnly: true });
          return res.status( 200). json({ message : "verfiy successfully"} )
     }
@@ -133,7 +133,7 @@ module.exports.createUserAccount = catchError(async (req, res,next)=>{
     // console.log( "createUserAccount")
     console.log( "req.body")
     console.log( req.body)
-    console.log(  await userAccount.deleteMany())
+    // console.log(  await userAccount.deleteMany())
     // throw new AppError( "my message",500, "validation")
 //   console.log( await userAccount.collection.drop() ) 
  
