@@ -57,3 +57,57 @@ module.exports.listMessage = catchError(async (req, res, next) => {
 
 
 });
+
+
+
+
+// ######## Save Message  ########
+module.exports.sendFriendRequest = catchError(async (req, res, next) => {
+
+    // console.log( "createUserAccount")
+    console.log("req.body")
+    console.log(req.body)
+    // console.log(  await userAccount.deleteMany())
+    // throw new AppError( "my message",500, "validation")
+    //   console.log( await userAccount.collection.drop() ) 
+            /*
+     {
+         receiver : { uId: ddfdskf, online: true},
+        message :"dfs",
+        messageType: "file"
+         
+     }
+
+            */
+    const friendUserId = req.body.friendUserId ? req.body.friendUserId.trim() : undefined;
+
+    if (!friendUserId) {
+        throw new AppError("Must have field 'friendUserId' ", 400)
+    }
+
+        /*   create message      */
+
+    let result =  await chatMessage.create(
+        {
+          message: req.body.message,
+          recUserId: friendUserId,
+          sendUserId: req.user.uId,
+          isReaded: false , 
+          createdBy: "server",
+          date: new Date().getTime(),
+      },
+ 
+  )
+ 
+
+ 
+ 
+
+    if (result[0].nModified == 1 && result[1].nModified == 1) {
+        return res.status(200).json({ message: "Friend Request Sended Successfully" })
+
+    }
+
+return res.status(500).json({ message: "Not Able to Update"  })
+
+});
