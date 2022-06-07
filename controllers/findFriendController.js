@@ -57,7 +57,7 @@ module.exports.searchFriend = catchError(async (req, res, next) => {
     //   console.log( await userAccount.collection.drop() ) 
 
     req.query.searchQuery = req.query.searchQuery ? req.query.searchQuery.trim() : undefined;
-    const limit = req.query.limit && req.query.limit < 5000 ? parseInt(req.query.limit) : 15;
+    const limit = req.query.limit && req.query.limit <= 5000 ? parseInt(req.query.limit) : 15;
     req.query.page = req.query.page && req.query.page > 0 ? parseInt(req.query.page) : 1;
     const skip = (req.query.page - 1) * req.query.limit
 
@@ -236,7 +236,7 @@ module.exports.listReceivedRequest = catchError(async (req, res, next) => {
     }
 
 
-    const limit = req.query.limit && req.query.limit < 5000 ? parseInt(req.query.limit) : 15;
+    const limit = req.query.limit && req.query.limit <= 5000 ? parseInt(req.query.limit) : 15;
     req.query.page = req.query.page && req.query.page > 0 ? parseInt(req.query.page) : 1;
     const skip = (req.query.page - 1) * req.query.limit;
 
@@ -338,14 +338,14 @@ module.exports.acceptFriendRequest = catchError(async (req, res, next) => {
     /*  */
        
         result = await Promise.all([
-            chatMessage.updateOne({ uId: friendUserId }, {
+            chatMessage.create({ uId: friendUserId }, {
                 message: "Friend Request Accepted",
                 uId: friendUserId,
                 date: new Date().getTime(),
             }),
-            chatMessage.updateOne({ _id: req.user._id }, {
+            chatMessage.create({ _id: req.user._id }, {
                 message: "Friend Request Accepted",
-                uId: req.user._id,
+                uId: req.user.uId,
                 date: new Date().getTime(),
             }),
         ])
