@@ -20,9 +20,12 @@ userRoutes.get("/logout",  accountController.logout);
 userRoutes.get("/home",  homeController.homePage);
 
 
+/* Manage friends  request */
 userRoutes.get("/find_friend",  findFriendController.findFriendPage);
 userRoutes.get("/search_friend",  findFriendController.searchFriend);
 userRoutes.post("/send_friend_req",  findFriendController.sendFriendRequest);
+
+userRoutes.get("/list_rec_request",  findFriendController.listReceivedRequest);
 
 
 

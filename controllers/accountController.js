@@ -100,10 +100,10 @@ module.exports.loginUserAccount = catchError( async(req, res,next)=>{
     }
    
     let accessToken =    "tk"  + crypto.randomBytes(10).toString('hex');
-    let tokenExpireAt =  new Date(Date.now() + 6000000) ; 
-    let result = await userAccount.findOneAndUpdate({ email: req.body.email}, {accessToken ,tokenExpireAt}) ; 
+    let tokenExpireAt = ( new Date(Date.now() + 6000000) ).getTime(); 
+    let result = await userAccount.findOneAndUpdate({ email: req.body.email}, {accessToken ,tokenExpireAt},{new:true} ) ; 
   
-    // cprint({result},  "") ; 
+    // cprint({tokenExpireAt},  "") ; 
  
     if( result){
     if( await bcrypt.compare(req.body.password, result.password  ) ) {  
@@ -111,7 +111,7 @@ module.exports.loginUserAccount = catchError( async(req, res,next)=>{
         
         let token = jwt.sign({ email: result.email,accessToken , _id: result._id  }, process.env.JWT_SECRET_KEY);
          res.cookie('sid', token,  { expires: new Date(Date.now() + 6000000), httpOnly: true });
-         return res.status( 200). json({ message : "verfiy successfully"} )
+         return res.status( 200). json({ message : "verfiy successfully" , data: result} , )
     }
     else { 
         return res.status( 400). json({ message : "Invalid Credentials"} )
