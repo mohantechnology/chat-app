@@ -29,32 +29,73 @@ function cprint(varObj, dividerStr) {
 
 
 
- 
+
 // ######## List Chat Message  ########
 module.exports.listMessage = catchError(async (req, res, next) => {
 
-  
-    // req.query.searchQuery = req.query.searchQuery ? req.query.searchQuery.trim() : undefined;
+
+
+    const friendUserId = req.query.friendUserId ? req.query.friendUserId.trim() : undefined;
+
+    if (!friendUserId) {
+        throw new AppError("Must have field 'friendUserId' ", 400)
+    }
+
     const limit = req.query.limit && req.query.limit <= 5000 ? parseInt(req.query.limit) : 15;
     req.query.page = req.query.page && req.query.page > 0 ? parseInt(req.query.page) : 1;
-    const skip = (req.query.page - 1) * req.query.limit ; 
+    const skip = (req.query.page - 1) * limit;
 
-    // let query = {
-    //     $and: [
-    //         { _id: req.user._id },
-    //         { accessToken: req.user.accessToken }
-    //     ]
-    // } {uId : req.user.uId}
+    /*   list message that are  
+          -  sended by  that friend and  received  to self 
+          -  sended by  self and received to  that friend 
+       */
 
-    let resultMessage = await chatMessage.find({uId : req.user.uId}, {}).skip(skip).limit(limit).sort({date: -1});
+    let query = {
+        $or: [
+            {
+                $and: [
+                    { sendUserId: friendUserId },
+                    { recUserId: req.user.uId },
+                ]
+            },
+            {
+                $and: [
+                    { sendUserId: req.user.uId },
+                    { recUserId: friendUserId },
 
-    // if (!resultAccount) {
-    //     throw new AppError("User Account Not Exist", 404);
-    // }
+                ]
+            }
+        ]
 
- 
-    return res.status(200).json({ message: "Messages are", data: resultMessage })
 
+    };
+
+    let response = { readed: [], unreaded: [] };
+    let unreadedMessageIdList = [];
+    let outFilter = { __v: 0, sendUserId: 0, recUserId: 0, __v: 0, __v: 0, }
+
+    let resultMessage = await chatMessage.find(query, outFilter).skip(skip).limit(limit).sort({ date: -1 }).lean();
+
+
+    /* reverse and extract id of  messages  that are recevied by self   and are not marked as readed   */
+    for (let i = resultMessage.length - 1; i >= 0; i--) {
+        if (resultMessage[i].recUserId == req.user.uId && resultMessage[i].isReaded == false) {
+            unreadedMessageIdList.push(resultMessage[i]._id);
+            response.unreaded.push(resultMessage[i]);
+        }
+        else {
+            response.readed.push(resultMessage[i]);
+        }
+        resultMessage[i].messageDate = new Date(resultMessage[i].date).toISOString();
+    }
+
+
+    res.status(200).json({ message: "Messages are", data: response });
+
+    /* marked  unreaded messages as readed   */
+    if (unreadedMessageIdList.length) {
+        await chatMessage.updateMany({ _id: { $in: unreadedMessageIdList } }, { $set: { isReaded: true } });
+    }
 
 });
 
@@ -62,7 +103,7 @@ module.exports.listMessage = catchError(async (req, res, next) => {
 
 
 // ######## Save Message  ########
-module.exports.sendFriendRequest = catchError(async (req, res, next) => {
+module.exports.saveMessage = catchError(async (req, res, next) => {
 
     // console.log( "createUserAccount")
     console.log("req.body")
@@ -70,44 +111,54 @@ module.exports.sendFriendRequest = catchError(async (req, res, next) => {
     // console.log(  await userAccount.deleteMany())
     // throw new AppError( "my message",500, "validation")
     //   console.log( await userAccount.collection.drop() ) 
-            /*
-     {
-         receiver : { uId: ddfdskf, online: true},
-        message :"dfs",
-        messageType: "file"
-         
-     }
 
-            */
-    const friendUserId = req.body.friendUserId ? req.body.friendUserId.trim() : undefined;
 
-    if (!friendUserId) {
-        throw new AppError("Must have field 'friendUserId' ", 400)
+    /*
+{
+"receiver": {
+"uId": "cz0d94f67a1ebe10f1578a",
+"currentStatus": false
+},
+"message": "my message is no message",
+"messageType": "text", 
+"result": true
+}
+    */
+
+    /*   create message      */
+
+    const body = req.body;
+
+    if (!body.receiver.uId || !body.receiver.currentStatus || !body.messageType || !body.message) {
+        throw new AppError("Must have field 'receiver.uId', 'receiver.currentStatus', 'messageType', 'message'   ", 400);
     }
 
-        /*   create message      */
 
-    let result =  await chatMessage.create(
+
+    let result = await chatMessage.create(
         {
-          message: req.body.message,
-          recUserId: friendUserId,
-          sendUserId: req.user.uId,
-          isReaded: false , 
-          createdBy: "server",
-          date: new Date().getTime(),
-      },
- 
-  )
- 
+            message: body.message,
+            recUserId: body.receiver.uId,
+            sendUserId: req.user.uId,
+            createdBy: "server",
+            isReaded: body.receiver.currentStatus == "online" ? true : false,
+            date: new Date().getTime(),
+            type: body.messageType,
+            createdBy: "user",
+        },
+    )
 
- 
- 
+    console.log(result);
+    console.log("result");
 
-    if (result[0].nModified == 1 && result[1].nModified == 1) {
-        return res.status(200).json({ message: "Friend Request Sended Successfully" })
+    res.status(201).json({
+        message: "Message Saved  Successfully",
+        data: body.result ? result : undefined, // include  result document  in response if result !== undefined
+    })
 
-    }
 
-return res.status(500).json({ message: "Not Able to Update"  })
+
+
+
 
 });

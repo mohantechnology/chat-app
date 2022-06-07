@@ -38,7 +38,7 @@ userRoutes.post("/remove_friend_from_list",  findFriendController.removeFriendFr
 
 /*  chat message  */
 userRoutes.get("/list_message",  chatController.listMessage);
-userRoutes.get("/save_message",  chatController.listMessage);
+userRoutes.post("/save_message",  chatController.saveMessage);
 
 
 

@@ -11,7 +11,7 @@ const chatMessageSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    isReaded: { // user id 
+    isReaded: { // is message readed by receiver
         type: Boolean,
         required: true,
     },
@@ -24,24 +24,29 @@ const chatMessageSchema = mongoose.Schema({
     createdBy: {   // message is created/sended by 
         type: String,
         enum: {
-            values: ['server', 'self', 'friend'],
-            message: "must be  either 'server', 'self', 'friend'."
+            values: ['server', 'self', 'friend', 'user'],
+            message: "must be  either 'server', 'self', 'friend' , 'user' ."
         },
         default: "self",
         // trim: true,
     },
-    type: {   // message type
-        type: String,
-        enum: {
-            values: ['file', 'text'],
-            message: "must be  either 'file', 'text'."
-        },
-        default: "text",
-    },
+
 
     date: {
         type: Number,
-    }
+    },
+
+    fileDetail: {   // if message contain file 
+        path: {
+            type: String,
+            trim: true,
+        },
+        mimeType: {
+            type: String,
+            trim: true,
+        },
+    },
+
     // folderName: String,
 },
     // {

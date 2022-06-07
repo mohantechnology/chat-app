@@ -59,7 +59,7 @@ module.exports.searchFriend = catchError(async (req, res, next) => {
     req.query.searchQuery = req.query.searchQuery ? req.query.searchQuery.trim() : undefined;
     const limit = req.query.limit && req.query.limit <= 5000 ? parseInt(req.query.limit) : 15;
     req.query.page = req.query.page && req.query.page > 0 ? parseInt(req.query.page) : 1;
-    const skip = (req.query.page - 1) * req.query.limit
+    const skip = (req.query.page - 1) * limit
 
     if (!req.query.searchQuery) {
         throw new AppError("Must have some character to search", 400)
@@ -238,7 +238,7 @@ module.exports.listReceivedRequest = catchError(async (req, res, next) => {
 
     const limit = req.query.limit && req.query.limit <= 5000 ? parseInt(req.query.limit) : 15;
     req.query.page = req.query.page && req.query.page > 0 ? parseInt(req.query.page) : 1;
-    const skip = (req.query.page - 1) * req.query.limit;
+    const skip = (req.query.page - 1) * limit;
 
 
     let result = await userAccount.find(
