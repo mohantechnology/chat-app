@@ -1,3 +1,4 @@
+"use strict"
 const path = require('path');
 const catchError = require('../middlewares/catchError');
 const AppError = require("../utils/AppError");
@@ -80,7 +81,8 @@ module.exports.searchFriend = catchError(async (req, res, next) => {
     let friendListSet = new Set(resultAccount.friendList);
 
     //  create  set  of userid   for those  users  whom friend request are already sended 
-    let sendedRequestSet = new Set(resultAccount.sendedRequestSet);
+    let sendedRequestSet = new Set(resultAccount.sendedRequest);
+
 
     let outFilter = { uId: 1, name: 1, email: 1 };
 
@@ -101,24 +103,20 @@ module.exports.searchFriend = catchError(async (req, res, next) => {
 
 
     for (let i = 0; i < resultSearch.length; i++) {
-        resultSearch[i].isFriend = friendListSet.has(resultSearch[i]._id) ? true : false;
-        resultSearch[i].sendedRequestSet = sendedRequestSet.has(resultSearch[i]._id) ? true : false;
+        resultSearch[i].isFriend = friendListSet.has(resultSearch[i].uId) ;
+        resultSearch[i].isSendedRequest = sendedRequestSet.has(resultSearch[i].uId) ;
     }
 
 
-    console.log("resultSearch")
-    console.log(resultSearch)
-    //    console.log( await userAccount.updateMany( {}, {$set :{
-    //       receivedRequest  : ['cz0d94f67a1ebe10f1578a']   ,
-    //       sendedRequest  : ['cz0d94f67a1ebe10f1578a']   ,
-    //      friendList  : ['cz0d94f67a1ebe10f1578a']   ,
-
-    //     }} ))
+    // console.log("resultSearch")
+    // console.log(resultSearch)
+ 
 
     return res.status(200).json({ message: "friend list are", list: resultSearch })
 
 
 });
+
 
 
 
@@ -167,9 +165,13 @@ module.exports.sendFriendRequest = catchError(async (req, res, next) => {
         throw new AppError("Users is already in  your  Friends List", 409);
     }
 
+ 
     /* 
-     add self uId to  friend's receivedRequest array 
-     add  friend's uId to self  sendedRequest array 
+    In friend's account  
+     - add self uId to  friend's receivedRequest array 
+    
+     In self  account  
+     - add  friend's uId to self  sendedRequest array 
     */
 
     let result = await Promise.all([
@@ -180,8 +182,13 @@ module.exports.sendFriendRequest = catchError(async (req, res, next) => {
     // console.log("result")
     // console.log(result)
 
-    return res.status(200).json({ message: "Friend Request Sended Successfully" })
 
+    if (result[0].nModified == 1 && result[1].nModified == 1) {
+        return res.status(200).json({ message: "Friend Request Sended Successfully" })
+
+    }
+
+return res.status(500).json({ message: "Not Able to Update"  })
 
 });
 
@@ -249,4 +256,75 @@ module.exports.listReceivedRequest = catchError(async (req, res, next) => {
 
 
 
+// ######## Accept  Received Friend Request ########
+module.exports.acceptFriendRequest = catchError(async (req, res, next) => {
 
+    // console.log( "createUserAccount")
+    console.log("req.body")
+    console.log(req.body)
+ 
+    const friendUserId = req.body.friendUserId ?req.body.friendUserId.trim(): undefined ; 
+  
+    if( !friendUserId   ){ 
+        throw new AppError("Must have field 'friendUserId' " ,400)
+    }
+   
+    /* check if friend invitation for self exist or not */
+    let query = {
+        $and: [
+           {_id: req.user._id} ,
+           { accessToken: req.user.accessToken } ,
+           { receivedRequest: friendUserId },
+        ]
+    }
+    let resultAccount = await userAccount.findOne(query ,{_id: 1 });
+    console.log("resultAccount")
+    console.log(resultAccount)
+    if( !resultAccount){
+           throw new AppError( "Friend Request Not Exist", 404) ;  
+    }
+
+  
+
+    /* 
+    In friend's account  
+     - add self uId to friendList array 
+     - remove self uId  from   sendedRequest array
+   
+    In self  account  
+     - add friend's uId  to friendList array 
+     - remove friend's uId   from   receivedRequest array 
+    */ 
+
+    let result = await Promise.all([
+        userAccount.updateOne({ uId: friendUserId }, {
+                '$addToSet': { friendList: req.user.uId },
+                '$pull': { sendedRequest: req.user.uId },
+        }),
+
+        userAccount.updateOne({ _id: req.user._id }, { 
+                '$addToSet': { friendList: friendUserId },
+                '$pull': { receivedRequest: friendUserId }, 
+        }),
+    ])
+// console.log("result")
+// console.log(result)
+
+ 
+   if( result[0].nModified == 1 &&  result[1].nModified == 1)
+{    return res.status(200).json({ message: "Accepted Friend Request Successfully"  })
+}
+
+return res.status(500).json({ message: "Not Able to Update"  })
+    });
+
+
+
+    // (async function (){
+    //     console.log( await userAccount.updateMany( {}, {$set :{
+    //         receivedRequest  : []   ,
+    //         sendedRequest  : []   ,
+    //        friendList  : []   ,
+  
+    //       }} ))
+    // })(); 

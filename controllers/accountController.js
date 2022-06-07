@@ -109,7 +109,7 @@ module.exports.loginUserAccount = catchError( async(req, res,next)=>{
     if( await bcrypt.compare(req.body.password, result.password  ) ) {  
         // save  data to jwt token
         
-        let token = jwt.sign({ email: result.email,accessToken , _id: result._id  }, process.env.JWT_SECRET_KEY);
+        let token = jwt.sign({ email: result.email,accessToken , _id: result._id , uId:result.uId }, process.env.JWT_SECRET_KEY);
          res.cookie('sid', token,  { expires: new Date(Date.now() + 6000000), httpOnly: true });
          return res.status( 200). json({ message : "verfiy successfully" , data: result} , )
     }

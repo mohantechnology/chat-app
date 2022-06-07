@@ -26,6 +26,8 @@ userRoutes.get("/search_friend",  findFriendController.searchFriend);
 userRoutes.post("/send_friend_req",  findFriendController.sendFriendRequest);
 
 userRoutes.get("/list_rec_request",  findFriendController.listReceivedRequest);
+userRoutes.post("/accept_friend_req",  findFriendController.acceptFriendRequest);
+
 
 
 
