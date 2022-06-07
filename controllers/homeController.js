@@ -55,3 +55,27 @@ module.exports.homePage = catchError(async (req, res, next) => {
 })
 
  
+
+// ######## List All Notification  ########
+module.exports.listNotification = catchError(async (req, res, next) => {
+
+  
+
+    let query = {
+        $and: [
+            { _id: req.user._id },
+            { accessToken: req.user.accessToken }
+        ]
+    }
+
+    let resultAccount = await userAccount.findOne(query, { notification: 1 });
+
+    if (!resultAccount) {
+        throw new AppError("User Account Not Exist", 404);
+    }
+
+ 
+    return res.status(200).json({ message: "Notifications are", data: resultAccount.notification })
+
+
+});

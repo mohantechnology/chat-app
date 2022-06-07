@@ -18,6 +18,7 @@ userRoutes.post("/login",  accountController.loginUserAccount);
 userRoutes.use(auth);
 userRoutes.get("/logout",  accountController.logout);
 userRoutes.get("/home",  homeController.homePage);
+userRoutes.get("/list_notifi",  homeController.listNotification);
 
 
 /* Manage friends  request */

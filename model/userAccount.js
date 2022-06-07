@@ -101,10 +101,30 @@ const userAccountSchema = mongoose.Schema({
     friendList: [{ // All those who accepted request
         type: String , 
     } ], 
-    notification: [],
+    notification: [{
+        message: {  
+             type: String, 
+            trim: true, 
+        },
+        date : {
+            type: String , 
+        },
+        name:  {
+            type: String , 
+        }, 
+        profileImg:  {
+            type: String , 
+        }, 
+        profMess:  {
+            type: String , 
+        },  
+    }],
     files: [],
 
     folderName: String,
+},
+{
+    timestamps: true,
 });
 
 module.exports = mongoose.model('userAccount', userAccountSchema);
