@@ -336,18 +336,24 @@ module.exports.acceptFriendRequest = catchError(async (req, res, next) => {
    - create chat message about accepted request
  
     /*  */
-       
-        result = await Promise.all([
-            chatMessage.create({ uId: friendUserId }, {
+ 
+        result =  await chatMessage.create([
+              {
                 message: "Friend Request Accepted",
-                uId: friendUserId,
+                recUserId: friendUserId,
+                sendUserId: req.user.uId,
+                isReaded: false , 
+                createdBy: "server",
                 date: new Date().getTime(),
-            }),
-            chatMessage.create({ _id: req.user._id }, {
-                message: "Friend Request Accepted",
-                uId: req.user.uId,
+            },
+            {
+                message: "You Accepted Friend Request",
+                recUserId: req.user.uId,
+                sendUserId: friendUserId,
+                isReaded: false , 
+                createdBy: "server",
                 date: new Date().getTime(),
-            }),
+            } 
         ])
         console.log("result")
         console.log(result)
@@ -358,6 +364,81 @@ module.exports.acceptFriendRequest = catchError(async (req, res, next) => {
 
 });
 
+
+// ######## Remove Friend from Friend List ########
+module.exports.removeFriendFromList = catchError(async (req, res, next) => {
+
+    // console.log( "createUserAccount")
+    console.log("req.body")
+    console.log(req.body)
+
+    const friendUserId = req.body.friendUserId ? req.body.friendUserId.trim() : undefined;
+
+    if (!friendUserId) {
+        throw new AppError("Must have field 'friendUserId' ", 400)
+    }
+ 
+
+    /* 
+    In friend's account  
+     - remove self uId  from   friendList array
+    In self  account   
+     - remove friend's uId   from   friendList array 
+    */
+
+ 
+
+    let result = await Promise.all([
+        userAccount.updateOne({ uId: friendUserId }, {
+            '$pull': { friendList: req.user.uId },
+        }),
+        userAccount.updateOne({ uId: req.user.uId  }, {
+            '$pull': { friendList: friendUserId },
+        })
+
+    ])
+    console.log("result")
+    console.log(result)
+
+
+    if (result[0].nModified == 1 && result[1].nModified == 1) {
+        res.status(200).json({ message: "Successfully Removed Friend  from Friend List" })
+
+        /* 
+    In friend's account   
+   - create chat message about Removed request
+ 
+  In self  account  
+   - create chat message about Removed request
+ 
+    /*  */
+ 
+        result =  await chatMessage.create([
+              {
+                message: "Friend removed You from Friend List",
+                recUserId: friendUserId,
+                sendUserId: req.user.uId,
+                isReaded: false , 
+                createdBy: "server",
+                date: new Date().getTime(),
+            },
+            {
+                message: "You Removed Friend  from Friend List",
+                recUserId: req.user.uId,
+                sendUserId: friendUserId,
+                isReaded: false , 
+                createdBy: "server",
+                date: new Date().getTime(),
+            } 
+        ])
+        console.log("result")
+        console.log(result)
+    }
+    else {
+        res.status(500).json({ message: "Not Able to Update" })
+    }
+
+});
 
 
     // (async function (){

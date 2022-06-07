@@ -29,13 +29,12 @@ function cprint(varObj, dividerStr) {
 
 
 
-
  
 // ######## List Chat Message  ########
 module.exports.listMessage = catchError(async (req, res, next) => {
 
   
-    req.query.searchQuery = req.query.searchQuery ? req.query.searchQuery.trim() : undefined;
+    // req.query.searchQuery = req.query.searchQuery ? req.query.searchQuery.trim() : undefined;
     const limit = req.query.limit && req.query.limit <= 5000 ? parseInt(req.query.limit) : 15;
     req.query.page = req.query.page && req.query.page > 0 ? parseInt(req.query.page) : 1;
     const skip = (req.query.page - 1) * req.query.limit ; 
@@ -47,7 +46,7 @@ module.exports.listMessage = catchError(async (req, res, next) => {
     //     ]
     // } {uId : req.user.uId}
 
-    let resultMessage = await chatMessage.find({uId : req.user.uId}, {}).skip(skip).limit(limit).sort({date: 1});
+    let resultMessage = await chatMessage.find({uId : req.user.uId}, {}).skip(skip).limit(limit).sort({date: -1});
 
     // if (!resultAccount) {
     //     throw new AppError("User Account Not Exist", 404);

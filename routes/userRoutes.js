@@ -33,6 +33,7 @@ userRoutes.post("/send_friend_req",  findFriendController.sendFriendRequest);
 
 userRoutes.get("/list_rec_request",  findFriendController.listReceivedRequest);
 userRoutes.post("/accept_friend_req",  findFriendController.acceptFriendRequest);
+userRoutes.post("/remove_friend_from_list",  findFriendController.removeFriendFromList);
 
 
 /*  chat message  */

@@ -107,7 +107,7 @@ const userAccountSchema = mongoose.Schema({
             trim: true, 
         },
         date : {
-            type: String , 
+            type: Number , 
         },
         name:  {
             type: String , 

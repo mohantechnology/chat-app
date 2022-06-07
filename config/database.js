@@ -9,6 +9,7 @@ const DatabaseSetup = () => {
         retryWrites: true,
         useNewUrlParser: true,
         useUnifiedTopology: true,
+        useFindAndModify: false, 
         w: "majority",
     };
 
