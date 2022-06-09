@@ -13,19 +13,23 @@ userRoutes.get("/reg",  accountController.registerPage);
 userRoutes.get("/login",  accountController.loginPage);
 userRoutes.get("/active",  accountController.activateAccountPage);
 userRoutes.get("/forgot",  accountController.forgotPasswordPage);
-userRoutes.get("/reset",  accountController.udpatePasswordPage);
+userRoutes.get("/update_pass",  accountController.updatePasswordPage);
 
 
 userRoutes.post("/reg",  accountController.createUserAccount);
 userRoutes.post("/login",  accountController.loginUserAccount);
 
-userRoutes.get("/activate",  accountController.activateAccount);
-userRoutes.post("/activate",  accountController.activateAccount);
+userRoutes.get("/activate",  accountController.activateAccount);  // for reset link 
+userRoutes.post("/activate",  accountController.activateAccount); // for otp
 
 userRoutes.post("/send_",  accountController.createUserAccount);
 userRoutes.post("/login",  accountController.loginUserAccount);
 
 userRoutes.post("/send_verfi_link",  accountController.sendResetPasswordEmail);
+userRoutes.get("/verify_token",  accountController.verifyToken);   // for reset link 
+userRoutes.post("/verify_token",  accountController.verifyToken); // for otp
+userRoutes.post("/verify_token",  accountController.verifyToken);
+userRoutes.post("/update_password",  accountController.updatePassword);
 
 
 
