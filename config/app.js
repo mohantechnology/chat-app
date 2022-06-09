@@ -13,7 +13,14 @@ const bodyParser = require('body-parser');
 const { strict } = require('assert');
 const { fips } = require('crypto');
 
-
+// app.use((req, res ,next)=>{
+//   console.log ( req.headers); 
+//   next(); 
+// });
+// app.all("/*", (req, res ,next)=>{
+//   console.log ( req.headers); 
+//   next(); 
+// })
 
 app.use(cookieParser());
 app.use(express.static(__dirname + '/../public'));

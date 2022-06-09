@@ -8,15 +8,30 @@ const chatController = require('../controllers/chatController');
 const auth = require('../middlewares/auth');
 
 
-
+userRoutes.get("/",  accountController.landingPage);
 userRoutes.get("/reg",  accountController.registerPage);
 userRoutes.get("/login",  accountController.loginPage);
-// userRoutes.get("/logout",  accountController.logout);
+userRoutes.get("/active",  accountController.activateAccountPage);
+userRoutes.get("/forgot",  accountController.forgotPasswordPage);
+userRoutes.get("/reset",  accountController.udpatePasswordPage);
+
+
 userRoutes.post("/reg",  accountController.createUserAccount);
 userRoutes.post("/login",  accountController.loginUserAccount);
 
+userRoutes.get("/activate",  accountController.activateAccount);
+userRoutes.post("/activate",  accountController.activateAccount);
+
+userRoutes.post("/send_",  accountController.createUserAccount);
+userRoutes.post("/login",  accountController.loginUserAccount);
+
+userRoutes.post("/send_verfi_link",  accountController.sendResetPasswordEmail);
+
+
+
    /*use authentication for below routes */
 userRoutes.use(auth);
+
 userRoutes.get("/logout",  accountController.logout);
 
 

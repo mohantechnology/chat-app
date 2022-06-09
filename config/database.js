@@ -21,8 +21,13 @@ const DatabaseSetup = () => {
         })
         .catch(err => {
 
-            console.log("Connection Failed ");
-            console.log(err);
+            // console.log("Failed to Connect with database");
+            // console.log(err);
+            setTimeout(()=>{
+            console.log("Retrying to connect with database.....");
+            DatabaseSetup()
+            },3000)
+          
         })
 }
 module.exports = DatabaseSetup;

@@ -38,17 +38,7 @@ const userAccountSchema = mongoose.Schema({
         required: true,
         trim: true,
     },
-    tokenStr: {
-        type: String,
-        // required : true, 
-        //    trim:true, 
-    }, // account activation string 
-    tokenNo: {
-        type: String,
-        // required : true, 
-        // trim:true, 
-    }, // account activation number 
-
+  
     // p_id: String, //public id  used for sending friend request
     lastVisitedAt: Date,
 
@@ -57,10 +47,10 @@ const userAccountSchema = mongoose.Schema({
     accountStatus: {   //account is active or not 
         type: String,
         enum: {
-            values: ['active', 'unactivate'],
-            message: "must be  either 'active' ,  'unactivate'."
+            values: ['active', 'inactive'],
+            message: "must be  either 'active' ,  'inactive'."
         },
-        default: "active",
+        default: "inactive",
         trim: true,
     },
     currentStatus: {   // currently online or not 

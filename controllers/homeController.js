@@ -36,19 +36,18 @@ module.exports.homePage = catchError(async (req, res, next) => {
     console.log(" req.user");
     console.log(req.user);
     let outFilter = { __v: 0, password: 0, files: 0 }
-    let result = await userAccount.findOne({ _id: req.user._id, accessToken: req.user.accessToken }).lean();
+    let result = await userAccount.findOne({ $and: [{ _id: req.user._id }, { accessToken: req.user.accessToken }] }).lean();
     if (result) {
         cprint({ result })
 
-        if (result.accountStatus !== 'active') {
-            return res.sendFile(VEIW_DIR + "/activate.html");
+        if (result.accountStatus !== 'active') { 
+            return res.redirect("/active");
         }
 
         result.SOCKET_URL = process.env.SOCKET_URL;
         result.SOCKET_FILE = process.env.SOCKET_FILE;
         return res.render("home", result);  
-    } else {
-
+    } else { 
         res.redirect("/login");
     }
 
