@@ -878,7 +878,11 @@ update_but.addEventListener("click", (e) => {
     let form_data = new FormData();
 
     if (update_but.innerText == "Update") {
-        form_data.append("myfile", up_file);
+        form_data.append("profileImg", up_file);
+        form_data.append("accountType", account_type_pub.checked == true ? "public" : "private");
+        form_data.append("profMess",encodeURIComponent(prof_mess.value));
+        form_data.append("messageTone", "on");
+        
         update_but.innerText = "Updating...";
 
         // console.log(form_data, up_file);
@@ -893,7 +897,9 @@ update_but.addEventListener("click", (e) => {
         }
 
         let xhttp = new XMLHttpRequest();
-        let url = `/update_prof/${account_type_pub.checked == true ? "public" : "private"}/${encodeURIComponent(prof_mess.value)}`;
+        // let url = `/update_prof/${account_type_pub.checked == true ? "public" : "private"}/${encodeURIComponent(prof_mess.value)}`;
+
+        let url = `/update_profile`;
         // let url = `${PROFILE_UPDATE_URL}?account_type_pub=${account_type_pub.checked == true ? "public" : "private"}${param}&prof_mess=${encodeURIComponent(prof_mess.value)}`;
 
         // console.log("url = ", url);

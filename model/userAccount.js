@@ -72,13 +72,26 @@ const userAccountSchema = mongoose.Schema({
             message: "must be  either 'public', 'private' ."
         },
     },
+      messageTone: {   // incoming message tone 
+        type: String,
+        // required : true , 
+        trim: true,
+        enum: {
+            values: ['on', 'off'],
+            message: "must be  either 'on', 'off'."
+        },
+        default: 'on'
+    },
     profileImg: {
         type: String,
         trim: true,
+        default: null,
+
     },
     profMess: {  // profile message
         type: String,
         trim: true,
+        default: null,
     },
     receivedRequest: [{  //All receive request are stored in this array 
         type: String , 
@@ -111,7 +124,12 @@ const userAccountSchema = mongoose.Schema({
     }],
     files: [],
 
-    folderName: String,
+    // folderName: { //  folder name for all files uploaded for this user including profile image
+    //     type: String,
+    //     trim: true,
+    //     required: true,
+    //     unique: true,
+    // },,
 },
 {
     timestamps: true,

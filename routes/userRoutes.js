@@ -33,6 +33,7 @@ userRoutes.post("/update_password",  accountController.updatePassword);
 
 
 
+
    /*use authentication for below routes */
 userRoutes.use(auth);
 
@@ -41,9 +42,8 @@ userRoutes.get("/logout",  accountController.logout);
 
 userRoutes.get("/home",  homeController.homePage);
 userRoutes.get("/list_notifi",  homeController.listNotification);
-
-
-
+userRoutes.get("/profile",  homeController.getProfileDetail);
+userRoutes.post("/update_profile",  homeController.updateProfileDetail);
 
 /* Manage friends  request */
 userRoutes.get("/find_friend",  findFriendController.findFriendPage);
@@ -53,7 +53,6 @@ userRoutes.post("/send_friend_req",  findFriendController.sendFriendRequest);
 userRoutes.get("/list_rec_request",  findFriendController.listReceivedRequest);
 userRoutes.post("/accept_friend_req",  findFriendController.acceptFriendRequest);
 userRoutes.post("/remove_friend_from_list",  findFriendController.removeFriendFromList);
-
 
 /*  chat message  */
 userRoutes.get("/list_message",  chatController.listMessage);

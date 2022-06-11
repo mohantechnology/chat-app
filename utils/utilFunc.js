@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer');
+const {randomBytes} = require('crypto');
+
 
 module.exports = {
     sendEmail: async (receiverAddresses, subject, html) => { 
@@ -41,6 +43,12 @@ module.exports = {
                 reject(err)
             }
         });
+    }
+    ,
+    generateRandomBytes:  ( length = 20  )=>{
+
+        return  randomBytes(length/2).toString("hex")
+ 
     }
     
 }

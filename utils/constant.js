@@ -1,6 +1,7 @@
 const constant = {
 
     ONE_DAY_IN_MILLISECOND: 86400000, 
+    ACCEPTABLE_IMAGE_EXT_lIST: [ 'jpg','jpeg','png','gif','tiff','dib','ico','cur','xbm','webp','psd','raw','bmp','svg','pcx' , ] , 
 
 }
 

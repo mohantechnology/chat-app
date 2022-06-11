@@ -7,7 +7,7 @@ temp.js
 temp.*
 temp.*
 .env
-upload/
+# upload/
 views/temp.html
 F:\nodejsproject\chat-app\chat\app\views\temp.html
 google.html
