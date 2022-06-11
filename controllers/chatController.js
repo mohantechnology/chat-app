@@ -1,6 +1,7 @@
 const path = require('path');
 const catchError = require('../middlewares/catchError');
 const AppError = require("../utils/AppError");
+const utilFunc = require('../utils/utilFunc');
 const crypto = require("crypto");
 const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
@@ -11,6 +12,9 @@ const jwt = require('jsonwebtoken');
 /* import models */
 const userAccount = require('../model/userAccount');
 const chatMessage = require('../model/chatMessage');
+
+
+
 
 const VEIW_DIR = path.resolve(__dirname + "/../views");
 
@@ -162,3 +166,92 @@ module.exports.saveMessage = catchError(async (req, res, next) => {
 
 
 });
+
+
+
+// ######## upload file   ########
+module.exports.uploadFile = catchError(async (req, res, next) => {
+
+    
+    console.log("req.body")
+    console.log(req.body)
+    console.log("req.files")
+    console.log(req.files)
+    
+        /* if request contain  profile image file then save the file   */
+        if (req.files &&  req.files.uploadFile ){
+    
+            let uploadFile = req.files.uploadFile  ; 
+            let extn = uploadFile.name.split(".").pop().toLocaleLowerCase() ; 
+     
+            // if (  uploadFile.mimetype.split("/")[0] != 'image'){ 
+            //     throw new AppError("File Not  Supported for Profile Image", 415 );
+            // }   
+            // else  if( !constant.ACCEPTABLE_IMAGE_EXT_lIST.includes(extn)   ) { 
+            //     throw new AppError("Invalid File extension of Profile Image. Valid Extension are "+ constant.ACCEPTABLE_IMAGE_EXT_lIST.join(", ") , 415 ); 
+            // }
+       
+               let fileName =  "tf_" +     utilFunc.generateRandomBytes(25) +"."+ extn ;  
+              await uploadFile.mv(  __dirname + '/../public/upload/transferFile/' + fileName) ; 
+       
+
+        res.status(200).json({
+            message: "File Uploaded Successfully",
+            data: {
+                fileName: fileName,
+                filePath : 'upload/transferFile/' + fileName,
+                   }   
+                  } ); 
+             
+              /* add  fileName to uploaded file list    */
+          
+              let resultAccount = await userAccount.updateOne(
+                {  $and: [    { _id: req.user._id },  { accessToken: req.user.accessToken }   ]}, 
+                { $push: { files: fileName} });
+                
+        }
+        else { 
+            throw new AppError("Must have file with keyName 'uploadFile' ", 400 );
+        }
+    
+     
+    
+       
+       
+     
+    });
+    
+
+
+// ######## download  File   ########
+module.exports.downloadFile = catchError(async (req, res, next) => { 
+    
+    req.query.fileName =  req.query.fileName ?  req.query.fileName.trim(): undefined ;  
+
+       if (!req.query.fileName) {
+        throw new AppError("Must have field 'fileName' ", 400)
+       }
+
+  
+      let filePath  = path.resolve (__dirname + `/../public/upload/transferFile/${req.query.fileName}`);
+        // let path_link =__dirname + `/transfer_file`;
+  
+        let uploadDirPath =  path.resolve(__dirname + "/../public/upload/transferFile/"); 
+        console.log("filePath" )
+        console.log(filePath )
+        console.log("uploadDirPath" )
+        console.log(uploadDirPath )
+      /* check if file path is of uploaded directory */
+        if (!filePath.startsWith(uploadDirPath)) {
+              throw new AppError("You  do not have access to download this  file", 403)   ;
+         }
+      
+        if (!fs.existsSync(filePath)) {
+            throw new AppError("File Not Exist", 404)   ;
+        }
+
+
+        res.download(filePath,req.query.fileName)
+       
+
+  });

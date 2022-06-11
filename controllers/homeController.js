@@ -107,11 +107,11 @@ module.exports.getProfileDetail = catchError(async (req, res, next) => {
 // ######## Update Profile Details  ########
 module.exports.updateProfileDetail = catchError(async (req, res, next) => {
 
-  console.log( req.body )
-  console.log( "req.body" )
+//   console.log( req.body )
+//   console.log( "req.body" )
 
-  console.log( req.files )
-  console.log( "req.files" )
+//   console.log( req.files )
+//   console.log( "req.files" )
 
 
 
@@ -127,11 +127,10 @@ module.exports.updateProfileDetail = catchError(async (req, res, next) => {
     if ( req.body.accountType ) inputData.accountType =   req.body.accountType ;   
     if ( req.body.messageTone ) inputData.messageTone =   req.body.messageTone ;   
  
- 
-    cprint({inputData})
+  
 
     /* if request contain  profile image file then save the file   */
-    if ( req.files.profileImg ){
+    if ( req.files && req.files.profileImg ){
 
         let profileImg = req.files.profileImg  ; 
         let extn = profileImg.name.split(".").pop().toLocaleLowerCase() ; 
@@ -144,16 +143,14 @@ module.exports.updateProfileDetail = catchError(async (req, res, next) => {
         }
    
          let fileName =  "pf_" +     utilFunc.generateRandomBytes(25) +"."+ extn ;  
-         let movedRes =    await profileImg.mv(  __dirname + '/../public/upload/' + fileName) ; 
-  
-         cprint({movedRes})
+            await profileImg.mv(  __dirname + '/../public/upload/' + fileName) ; 
+   
           /* add new file name to profile image   */
          inputData.profileImg = fileName ; 
 
     }
 
-    console.log( "inputData" )
-    console.log( inputData )
+ 
 
     /* update profile data     */
     let resultAccount = await userAccount.updateOne(query, { $set:inputData });
@@ -168,8 +165,7 @@ module.exports.updateProfileDetail = catchError(async (req, res, next) => {
         if( fs.existsSync(  __dirname + '/../public/upload/'+  prevProfileImg  ) ) { 
          fs.rm(  __dirname + '/../public/upload/'+  prevProfileImg ,  ()=>{}) ; 
         
-        }
-        
+        } 
      }
    
     if (resultAccount.nModified != 1 ) {

@@ -122,7 +122,9 @@ const userAccountSchema = mongoose.Schema({
             type: String , 
         },  
     }],
-    files: [],
+    files: [ {   //  contains all files name uploaded by this user
+        type: String,  
+   }],
 
     // folderName: { //  folder name for all files uploaded for this user including profile image
     //     type: String,

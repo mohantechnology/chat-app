@@ -58,6 +58,10 @@ userRoutes.post("/remove_friend_from_list",  findFriendController.removeFriendFr
 userRoutes.get("/list_message",  chatController.listMessage);
 userRoutes.post("/save_message",  chatController.saveMessage);
 
+userRoutes.post("/upload_file",  chatController.uploadFile);
+userRoutes.get("/download_file",  chatController.downloadFile);
+
+
 
 
 
