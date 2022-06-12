@@ -250,7 +250,6 @@ module.exports.downloadFile = catchError(async (req, res, next) => {
             throw new AppError("File Not Exist", 404)   ;
         }
 
-
         res.download(filePath,req.query.fileName)
        
 

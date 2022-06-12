@@ -40,7 +40,15 @@ module.exports.homePage = catchError(async (req, res, next) => {
     console.log(req.user);
     let outFilter = { __v: 0, password: 0, files: 0 }
     let result = await userAccount.findOne({ $and: [{ _id: req.user._id }, { accessToken: req.user.accessToken }] }).lean();
+    
     if (result) {
+          if( result.friendList.length ){
+            result.friendList =  await userAccount.find( 
+                {uId: {$in :result.friendList }} ,
+                {name:1, profileImg:1, profMess :1, uId:1 ,_id: 0  }
+                )
+          }
+         
         cprint({ result })
 
         if (result.accountStatus !== 'active') { 
@@ -49,7 +57,8 @@ module.exports.homePage = catchError(async (req, res, next) => {
 
         result.SOCKET_URL = process.env.SOCKET_URL;
         result.SOCKET_FILE = process.env.SOCKET_FILE;
-        return res.render("home", result);  
+        res.json(result)
+        // return res.render("home", result);  
     } else { 
         res.redirect("/login");
     }
