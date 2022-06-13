@@ -159,7 +159,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         display: inline-block;
         width: 100%;
         /* background-color: green; */
-        padding: 10px;
+        padding: 15px 10px;
         text-align: center;
 
     }

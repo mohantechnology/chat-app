@@ -1,7 +1,10 @@
 
 // const socket = io('http://localhost:8000');
 
+// const { json } = require("body-parser");
 
+// var sendRequest = require('./sendRequest.js');
+// import { sum, difference } from './functions.js'
 // var  name = prompt("enter your name");
 var name = ['maggi', 'mohan', 'manp', 'mango', 'splic', 'taste', 'bhatman'];
 // name = name[(Date.now()) % name.length];
@@ -434,18 +437,18 @@ function make_message_element(data) {
         data.message = "&nbsp;";
     }
 
-    if (data.direction == "in") {
+    if (data.createdBy == "friend") {
         temp.classList = "message right";
         temp.innerHTML = `    <span class="message-right">${data.message}</span>
-          <span class="message-time-right">${data.time}</span>  `;
+          <span class="message-time-right">${ new Date(data.date ).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }</span>  `;
 
     }
-    else if (data.direction == "out") {
+    else if (data.createdBy == "user") {
         temp.classList = "message left";
         temp.innerHTML = `
           <span class="message-left">${data.message}
           </span>
-          <span class="message-time-left">${data.time}</span>`
+          <span class="message-time-left">${ new Date(data.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }</span>`
 
     }
     else {
@@ -463,54 +466,64 @@ function make_message_element(data) {
 
 
 
-mess_bd.addEventListener("scroll", () => {
+mess_bd.addEventListener("scroll",async () => {
     // console.log("scrollling",mess_bd.scrollTop); 
 
     if (is_recieved && mess_bd.scrollTop < 800 && curr_no > 0 && curr_f_id) {
         is_recieved = false;
         loader.style.display = "block";
 
-        let xhttp = new XMLHttpRequest();
-
-        xhttp.open("POST", "./fetch_remain", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-
-                let data = JSON.parse(this.response);
-                // console.log(data);
-                is_recieved = true;
-                loader.style.display = "none";
-                if (data.status == "ok") {
-                    let len = data.data.length;
-
-                    for (let i = len - 1; i >= 0; i--) {
-                        mess_bd.prepend(make_message_element(data.data[i]));
-
-                    }
-                    if (data.no) {
-                        document.cookie = "no=" + (data.no) + "; path=/;";
-                        curr_no = data.no;
-                    } else {
-                        document.cookie = "no=0; path=/;";
-                        curr_no = 0;
-                    }
-                    mess_bd.scrollTop = mess_bd.children[len - 1].offsetTop;
-                    //      console.log("seting scroll ot len-1 ",mess_bd.children[len-1].offsetTop); 
-
-
-                    // console.log(data);
-                }
-
-
-            } else if (this.readyState == 4) {
-                is_recieved = true;
-                loader.style.display = "none";
-                // console.log("served creashed ");
-            }
+ 
+        let url = `./list_message?page=1&limit=20&friendUserId=${curr_f_id}` ; 
+        try{
+            let response = await sendRequest.get(url ) ; 
+            console.log( response ) ; 
         }
-        let param = "friend_u_id=" + curr_f_id + "&no=" + curr_no;
-        xhttp.send(param);
+        catch( err){
+            console.error( err) ; 
+        }
+     
+        // let xhttp = new XMLHttpRequest();
+
+        // xhttp.open("POST", "./list_message", true);
+        // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // xhttp.onreadystatechange = function () {
+        //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+
+        //         let data = JSON.parse(this.response);
+        //         // console.log(data);
+        //         is_recieved = true;
+        //         loader.style.display = "none";
+        //         if (data.status == "ok") {
+        //             let len = data.data.length;
+
+        //             for (let i = len - 1; i >= 0; i--) {
+        //                 mess_bd.prepend(make_message_element(data.data[i]));
+
+        //             }
+        //             if (data.no) {
+        //                 document.cookie = "no=" + (data.no) + "; path=/;";
+        //                 curr_no = data.no;
+        //             } else {
+        //                 document.cookie = "no=0; path=/;";
+        //                 curr_no = 0;
+        //             }
+        //             mess_bd.scrollTop = mess_bd.children[len - 1].offsetTop;
+        //             //      console.log("seting scroll ot len-1 ",mess_bd.children[len-1].offsetTop); 
+
+
+        //             // console.log(data);
+        //         }
+
+
+        //     } else if (this.readyState == 4) {
+        //         is_recieved = true;
+        //         loader.style.display = "none";
+        //         // console.log("served creashed ");
+        //     }
+        // }
+        // let param = "friend_u_id=" + curr_f_id + "&no=" + curr_no;
+        // xhttp.send(param);
         //connect to this friend ;
 
         // console.log("connected to  ",id); 
@@ -1019,7 +1032,7 @@ function selectElementText(el, win) {
     }
 }
 
-
+console.log( sendRequest)
 
 function make_element_for_friend_req(data) {
 
@@ -1071,9 +1084,12 @@ function make_element_for_noti(data) {
 
 
 
+// function get_friend_messages (friendUserId , page, limit,){ 
+    
+// }
 
 //fetch friend chat message 
-first_col_friend_list.addEventListener("click", (e) => {
+first_col_friend_list.addEventListener("click", async (e) => {
 
     select_file.style.display = "inline-block";
     send_file.style.display = "none";
@@ -1106,12 +1122,61 @@ first_col_friend_list.addEventListener("click", (e) => {
         curr_no = undefined;
         document.cookie = "curr_f_id=" + (id) + "; path=/;";
         mess_bd.innerHTML = "";
-        let xhttp = new XMLHttpRequest();
         menu_box.style.display = "none";
         let total_mess_len = message_list[id] ? message_list[id].length : 0;
         // console.log("id=" + id);
-        xhttp.open("POST", "./fetch_friend", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        let url = `./list_message?page=1&limit=20&friendUserId=${id}&friendProfile=yes` ; 
+        console.log(url) ; 
+        try{
+            let response = await sendRequest.get(url ) ; 
+            response = JSON.parse( response ); 
+            console.log( response ) ;
+            let data = response.data; 
+
+            /* handle unreaded message */  
+            if(data.unreaded && data.unreaded.length   ){ 
+                for (let i = data.unreaded.length - 1; i >= 0; i--) {
+                    if (data.unreaded[i].mess_type) {
+                        mess_bd.prepend(make_file_sent_element(data.unreaded[i]));
+                    } else {
+
+                        mess_bd.prepend(make_message_element(data.unreaded[i]));
+                    }
+
+                }
+            /* create one message of 'unreaded message'  */  
+            let curr_elem_data = { type: "server", message: "unreaded messages (" + data.unreaded.length  + ")" }
+            mess_bd.prepend(make_message_element(curr_elem_data)); 
+            
+            }
+
+              /* handle readed message */ 
+              if(data.readed && data.readed.length   ){ 
+                for (let i = data.readed.length - 1; i >= 0; i--) { 
+                    if (data.readed[i].type = "text") {
+                        mess_bd.prepend(make_message_element(data.readed[i]));
+                    } else { 
+                        mess_bd.prepend(make_file_sent_element(data.readed[i]));
+                    } 
+                }
+            }
+
+
+            header_name.children[0].children[0].style.backgroundImage = document.getElementById(id).children[0].children[0].style.backgroundImage;  // copy image from friend list column
+            header_name.children[1].children[0].textContent = data.friendProfile.name;
+            header_name.children[1].children[1].textContent = data.friendProfile.currentStatus;
+            loader.style.display="none"; 
+        }
+        catch( err){
+            console.error( err) ; 
+        }
+
+        return; 
+
+        xhttp.open("GET", "./list_message", true);
+        let xhttp = new XMLHttpRequest();
+        // xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
                 let data = JSON.parse(this.response);

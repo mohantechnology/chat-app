@@ -74,11 +74,13 @@ function cprint(varObj, dividerStr) {
 
 
 
-module.exports.logout = (req, res, next) => {
+module.exports.logout = catchError( async(req, res, next) => {
     res.cookie('sid', "", { expires: 0, httpOnly: true });
+    let query = {$and : [ { email: req.user.email ,accessToken : req.user.accessToken  }]}
+    let resultAccount  =    await userAccount.updateOne(query,   {  currentStatus:"offline" })  ; 
     return res.status(200).json({ message: "Logout Successfully" })
 
-}
+})
 
 module.exports.registerPage = (req, res, next) => {
     console.log("register get ")
@@ -119,7 +121,7 @@ module.exports.loginUserAccount = catchError(async (req, res, next) => {
 
     let accessToken = "tk" + crypto.randomBytes(10).toString('hex');
     let tokenExpireAt = (new Date(Date.now() + 6000000)).getTime();
-    let result = await userAccount.findOneAndUpdate({ email: req.body.email }, { accessToken, tokenExpireAt }, { new: true });
+    let result = await userAccount.findOneAndUpdate({ email: req.body.email }, { accessToken, tokenExpireAt , currentStatus:"online" }, { new: true });
 
     // cprint({tokenExpireAt},  "") ; 
 

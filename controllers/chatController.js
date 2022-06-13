@@ -76,7 +76,7 @@ module.exports.listMessage = catchError(async (req, res, next) => {
 
     let response = { readed: [], unreaded: [] };
     let unreadedMessageIdList = [];
-    let outFilter = { __v: 0, sendUserId: 0, recUserId: 0, __v: 0, __v: 0, }
+    let outFilter = { __v: 0, sendUserId: 0 , __v: 0, __v: 0, }
 
     let resultMessage = await chatMessage.find(query, outFilter).skip(skip).limit(limit).sort({ date: -1 }).lean();
 
@@ -90,9 +90,20 @@ module.exports.listMessage = catchError(async (req, res, next) => {
         else {
             response.readed.push(resultMessage[i]);
         }
+ 
+        /* if message is not created by server then add if message is created by user or his friend */
+        if( resultMessage[i].createdBy != "server" ){ 
+            resultMessage[i].createdBy   = resultMessage[i].recUserId == req.user.uId  ? "friend": "user" ; 
+        }
         resultMessage[i].messageDate = new Date(resultMessage[i].date).toISOString();
     }
 
+
+      /* if request containt 'friendProfile' == 'yes'  then send profile detail with response   */
+      if( req.query.friendProfile == 'yes'){ 
+        response.friendProfile =  await userAccount.findOne({uId : friendUserId},
+         { _id: 0,name: 1 , profileImg: 1  , profMess: 1 , currentStatus: 1 });
+      }
 
     res.status(200).json({ message: "Messages are", data: response });
 

@@ -37,7 +37,7 @@ userRoutes.post("/update_password",  accountController.updatePassword);
    /*use authentication for below routes */
 userRoutes.use(auth);
 
-userRoutes.get("/logout",  accountController.logout);
+userRoutes.post("/logout",  accountController.logout);
 
 
 userRoutes.get("/home",  homeController.homePage);
