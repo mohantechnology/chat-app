@@ -18,15 +18,16 @@
 
 
 
+{{!-- friend list  Column --}}
 
     <div id="col-1">
-
+       {{!-- self profile box  --}}
         <div class="friend-profile not-hover" id="self_prof">
             <div class="friend-image">
 
 
-                {{#if img }}
-                <span class="all_img" style="background-image: url('/img/profile/{{img}}');"> </span>
+                {{#if profileImg }}
+                <span class="all_img" style="background-image: url('/upload/{{profileImg}}');"> </span>
 
                 {{else}}
                 <span class="all_img" style="background-image: url('/img/profile/../default_img.png');"
@@ -43,8 +44,8 @@
                 <p class="user-name">{{name}}</p>
 
 
-                {{#if img }}
-                <p class="user-time">{{pro_mess}}&nbsp; </p>
+                {{#if profMess }}
+                <p class="user-time">{{profMess}}&nbsp; </p>
                 {{else}}
                 <p class="user-time">Hello, I am using chat app&nbsp; </p>
 
@@ -61,6 +62,7 @@
         </div>
 
         <hr>
+        {{!-- frind profile box  --}}
         <div class="search-friend" id="first-col-search-friend-box">
 
 
@@ -103,26 +105,26 @@
 
 
 
+        
+            {{#each friendList}}
 
-            {{#each data}}
+     
 
 
-
-
-            <div class="friend-profile" id="{{u_id}}">
+            <div class="friend-profile" id="{{uId}}">
                 <div class="friend-image">
 
 
-                    {{#if img }}
-                    <span class="all_img" style="background-image: url('/img/profile/{{img}}');"> </span>
+                    {{#if profileImg }}
+                    <span class="all_img" style="background-image: url('/img/profile/{{profileImg}}');"> </span>
                     {{else}}
                     <span class="all_img" style="background-image: url('/img/profile/../default_img.png');"> </span>
                     {{/if}}
                     </span>
-                    {{#if count }}
-                    <div class="message-count"> <span class="count-num">{{ count }} </span></div>
+                    {{#if recMessageCount }}
+                    <div class="message-count"> <span class="count-num">{{ recMessageCount }} </span></div>
                     {{else}}
-                    <div class="message-count not-visible"> <span class="count-num">{{ count }} </span></div>
+                    <div class="message-count not-visible"> <span class="count-num">{{ recMessageCount }} </span></div>
                     {{/if}}
 
                 </div>
@@ -131,8 +133,8 @@
 
                 <span class="profile">
                     <p class="user-name"> {{ name}} </p>
-                    {{#if pro_mess }}
-                    <p class="user-time">{{pro_mess}} </p>
+                    {{#if profMess }}
+                    <p class="user-time">{{profMess}} </p>
                     {{else}}
                     <p class="user-time ">Hello, I am using chat app&nbsp; </p>
                     {{/if}}
@@ -152,6 +154,8 @@
 
     </div>
 
+
+{{!-- right Column --}}
     <div id="col-2">
 
 
@@ -484,6 +488,9 @@
         }
         console.log(a_t);
         const socket = io("{{SOCKET_URL}}");
+        console.log("{{SOCKET_URL}}");
+        console.log("{sds{sdsfriendListsdsd}");
+
 
     </script>
     <script src="./js/utils.js"></script>

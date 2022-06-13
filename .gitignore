@@ -8,6 +8,7 @@ temp.*
 temp.*
 .env
 # upload/
+socket/
 views/temp.html
 F:\nodejsproject\chat-app\chat\app\views\temp.html
 google.html

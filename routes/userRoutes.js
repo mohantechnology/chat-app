@@ -22,8 +22,8 @@ userRoutes.post("/login",  accountController.loginUserAccount);
 userRoutes.get("/activate",  accountController.activateAccount);  // for reset link 
 userRoutes.post("/activate",  accountController.activateAccount); // for otp
 
-userRoutes.post("/send_",  accountController.createUserAccount);
-userRoutes.post("/login",  accountController.loginUserAccount);
+// userRoutes.post("/send_",  accountController.createUserAccount);
+// userRoutes.post("/login",  accountController.loginUserAccount);
 
 userRoutes.post("/send_verfi_link",  accountController.sendResetPasswordEmail);
 userRoutes.get("/verify_token",  accountController.verifyToken);   // for reset link 

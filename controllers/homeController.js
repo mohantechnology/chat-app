@@ -13,6 +13,7 @@ const constant = require("../utils/constant");
 /* import models */
 const userAccount = require('../model/userAccount');
 const utilFunc = require('../utils/utilFunc');
+const chatMessage = require('../model/chatMessage');
 
 const VEIW_DIR = path.resolve(__dirname + "/../views");
 
@@ -40,33 +41,61 @@ module.exports.homePage = catchError(async (req, res, next) => {
     console.log(req.user);
     let outFilter = { __v: 0, password: 0, files: 0 }
     let result = await userAccount.findOne({ $and: [{ _id: req.user._id }, { accessToken: req.user.accessToken }] }).lean();
-    
-    if (result) {
-          if( result.friendList.length ){
-            result.friendList =  await userAccount.find( 
-                {uId: {$in :result.friendList }} ,
-                {name:1, profileImg:1, profMess :1, uId:1 ,_id: 0  }
-                )
-          }
-         
-        cprint({ result })
 
-        if (result.accountStatus !== 'active') { 
+
+
+    if (result) {
+
+        if (result.accountStatus !== 'active') {
             return res.redirect("/active");
         }
 
+        
+
+        if (result.friendList.length) {
+            result.friendList = await userAccount.find(
+                { uId: { $in: result.friendList } },
+                { name: 1, profileImg: 1, profMess: 1, uId: 1, _id: 0 }
+            ).lean();
+
+
+
+            /*   find all  message count received by this user    */
+
+            let queryList = result.friendList.map((item, index) => {
+                return chatMessage.find({
+                    $and: [
+                        { sendUserId: item.uId },
+                        { recUserId: req.user.uId },
+                        { isReaded: false }
+                    ]
+                }).countDocuments();
+            })
+
+            let resultMessage = await Promise.all(queryList);
+            // cprint({ resultMessage });
+
+            result.friendList.map((item, index) => {
+                item.recMessageCount = resultMessage[index]; // attach message count recevied by current friend
+            })
+        }
+
+
+            cprint({ result });
+ 
+
         result.SOCKET_URL = process.env.SOCKET_URL;
         result.SOCKET_FILE = process.env.SOCKET_FILE;
-        res.json(result)
-        // return res.render("home", result);  
-    } else { 
+        // res.json(result)
+        return res.render("home", result);
+    } else {
         res.redirect("/login");
     }
 
 })
 
- 
 
+ 
 // ######## List All Notification  ########
 module.exports.listNotification = catchError(async (req, res, next) => {
 
@@ -176,7 +205,7 @@ module.exports.updateProfileDetail = catchError(async (req, res, next) => {
         
         } 
      }
-   
+
     if (resultAccount.nModified != 1 ) {
         throw new AppError("Not Able to Update", 404);
     }
