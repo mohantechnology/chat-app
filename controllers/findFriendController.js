@@ -85,7 +85,7 @@ module.exports.searchFriend = catchError(async (req, res, next) => {
     let sendedRequestSet = new Set(resultAccount.sendedRequest);
 
 
-    let outFilter = { uId: 1, name: 1, email: 1 };
+    let outFilter = { uId: 1, name: 1, email: 1 ,profileImg:1,profMess:1};
 
     query = {
         $and: [

@@ -19,51 +19,68 @@ function make_element(data) {
     return `   <div class="friend-profile" >
 <div class="friend-image">
     <span class="all_img"
-        style="background-image: url(./img/profile/${(data.profile_img ? data.profile_img : d_img_url)});">
+        style="background-image: url('${(data.profileImg ? "/upload/" +  data.profileImg : "./img/profile/"+  d_img_url)}');">
     </span>
 </div>
 <span class="profile">
     <p class="user-name"> ${data.name}</p>
-    <p class="user-time">${data.pro_mess ? data.pro_mess : d_mess}  </p>
+    <p class="user-time">${data.profMess ? data.profMess : d_mess}  </p>
 </span>
-<div  id="${data.p_id}" class="${data.p_id == 0 ? 'sended-request-but' : 'send-request-but'}"> 
-${data.p_id == 0 ? "Sended Request" : "Send Friend Request"}</div>
+<div  id="${data.uId}" class="${data.isFriend  || data.isSendedRequest ?  'sended-request-but' : 'send-request-but'}"> 
+${data.isFriend ? "Already Friend" : data.isSendedRequest ?  "Sended Request" : "Send Friend Request"}</div>
 </div>
 `;
 }
 
 
 
-message_body.addEventListener("click", (e) => {
+message_body.addEventListener("click", async (e) => {
     if (e.target.className == "send-request-but") {
         let id = e.target.id;
         console.log(id);
-        let xhttp = new XMLHttpRequest();
 
+        if( !id ) { return ; }
+        e.target.className = "sended-request-but";
+        try {
+            let param = JSON.stringify ({ friendUserId: id }) ; 
+            console.log(param ); 
+            let response = await sendRequest.post ( param , "/send_friend_req", "application/json"  );
+            response = JSON.parse(response);
+            console.log(response);
 
-        xhttp.open("POST", "./send_friend_request", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-                let data = JSON.parse(this.response);
-                console.log(data);
-                if (data.status == "ok") {
-
-
-                    // console.log(html_str);
-                    e.target.innerHTML = "Request Sended";
-                    //   console.log(e.target.className); 
-                    e.target.className = "sended-request-but";
-                } else {
-                    console.log("error occured");
-                    console.log(data);
-
-                }
-                ;
-            }
+            e.target.innerHTML = "Request Sended";
+            // e.target.className = "sended-request-but";
         }
-        let param = "p_id=" + id + "&date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
-        xhttp.send(param);
+        catch (err) {
+            console.error(err);
+        }
+
+        // let xhttp = new XMLHttpRequest();
+
+
+        // xhttp.open("POST", "./send_friend_req", true);
+        // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // xhttp.onreadystatechange = function () {
+        //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+        //         let data = JSON.parse(this.response);
+        //         console.log(data);
+        //         if (data.status == "ok") {
+
+
+        //             // console.log(html_str);
+        //             e.target.innerHTML = "Request Sended";
+        //             //   console.log(e.target.className); 
+        //             e.target.className = "sended-request-but";
+        //         } else {
+        //             console.log("error occured");
+        //             console.log(data);
+
+        //         }
+        //         ;
+        //     }
+        // }
+        // let param = "p_id=" + id + "&date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
+        // xhttp.send(param);
 
     }
 })

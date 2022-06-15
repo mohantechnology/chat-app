@@ -1041,16 +1041,16 @@ function make_element_for_friend_req(data) {
      <div class="friend-image">
 
      <span class="all_img"
-     style="background-image: url(./img/profile/${data.sender_img ? data.sender_img : d_img_url});">
+     style="background-image: url('${(data.profileImg ? "/upload/" +  data.profileImg : "./img/profile/"+  d_img_url)}');">
  </span>
      
      </div>
      <span class="profile  noti-profile">
-         <p class="user-name">${data.sender_name} </p>
-         <p class="user-time">${data.sender_pro_mess ? data.sender_pro_mess : d_mess} </p>
+         <p class="user-name">${data.name} </p>
+         <p class="user-time">${data.profMess ? data.profMess : d_mess} </p>
  
      </span>
-     <div id='${data.sender_p_id}' class="send-request-but">Accept Request</div>
+     <div id='${data.uId}' class="send-request-but">Accept Request</div>
  
  </div>`;
 
@@ -1409,8 +1409,10 @@ setting.addEventListener("click", () => {
     }
 
 });
+
+
 //display all recived request 
-rec_req.addEventListener("click", () => {
+rec_req.addEventListener("click", async  () => {
 
     if (is_recieved_reqest) {
         is_recieved_reqest = false;
@@ -1424,98 +1426,153 @@ rec_req.addEventListener("click", () => {
         // message_body.style.display="none"; 
         //TODO
 
-        let xhttp = new XMLHttpRequest();
         mess_bd.style.display = "none";
         noti_box.style.display = "none";
         req_box.style.display = "block";
         //  header_name.style.display="none"
         myform.style.display = "none";
-        xhttp.open("POST", "./accept_friend_request", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-                let data = JSON.parse(this.response);
-                // console.log(data);
-                if (data.status == "ok") {
-                    let len = data.data.length;
-                    let html_str = "";
-                    for (let i = 0; i < len; i++) {
-                        html_str += make_element_for_friend_req(data.data[i]);
+        
 
-                    }
-
-                    req_box.innerHTML = html_str;
-
-                    // console.log(data);
-                    // console.log(req_box.innerHTML);
-                    //     // console.log(html_str);
-                    //     e.target.innerHTML= "Added as Friend";
-                    //   //   console.log(e.target.className); 
-                    //     e.target.className="sended-request-but"; 
-                    // } else {
-                    //     console.log("error occured");
-                    //     console.log(data);
-
-                };
-                is_recieved_reqest = true;
-                loader.style.display = "none";
-
+             try {
+            let html_str = ""; 
+            let response = await sendRequest.get( "./list_rec_request") ;
+            response = JSON.parse(response);
+            console.log(response);
+            let rec_req_list  = response.receivedRequest ; 
+        
+            if (rec_req_list.length) {
+                rec_req_list.map((item) => {
+                    html_str += make_element_for_friend_req(item)
+                })
             }
-        }
-        let param = "signal=0&date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
+            else {
+                html_str = `<div class="friend-profile"><span class="profile">
+                <p class="user-time">&nbsp;</p>
+                <p class="user-name">"No Received Request Found"</p>
+                <p class="user-time">&nbsp;</p> </span></div>`
+            }
+            loader.style.display = "none"
+            req_box.innerHTML = html_str;
+            is_recieved_reqest = true;
 
-        //  let param = "p_id=" + id+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
-        xhttp.send(param);
+        }
+        catch (err) {
+            console.error(err);
+        }
+
+
+
+        
+        // let xhttp = new XMLHttpRequest();
+        // xhttp.open("POST", "./accept_friend_request", true);
+        // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // xhttp.onreadystatechange = function () {
+        //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+        //         let data = JSON.parse(this.response);
+        //         // console.log(data);
+        //         if (data.status == "ok") {
+        //             let len = data.data.length;
+        //             let html_str = "";
+        //             for (let i = 0; i < len; i++) {
+        //                 html_str += make_element_for_friend_req(data.data[i]);
+
+        //             }
+
+        //             req_box.innerHTML = html_str;
+
+        //             // console.log(data);
+        //             // console.log(req_box.innerHTML);
+        //             //     // console.log(html_str);
+        //             //     e.target.innerHTML= "Added as Friend";
+        //             //   //   console.log(e.target.className); 
+        //             //     e.target.className="sended-request-but"; 
+        //             // } else {
+        //             //     console.log("error occured");
+        //             //     console.log(data);
+
+        //         };
+        //         is_recieved_reqest = true;
+        //         loader.style.display = "none";
+
+        //     }
+        // }
+        // let param = "signal=0&date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
+
+        // //  let param = "p_id=" + id+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+        // xhttp.send(param);
 
     }
 })
 
-req_box.addEventListener("click", (e) => {
+req_box.addEventListener("click", async (e) => {
 
     // message_body.style.display="none"; 
-    //TODO
+
+    if(  e.target.className == "sended-request-but" ) { 
+        console.warn ( "Already Accept Request")
+        return  ; 
+    }
+ 
     noti_box.style.display = "none";
     req_box.style.display = "block";
+    e.target.className="sended-request-but"; 
 
     if (e.target.textContent == "Accept Request") {
+ 
 
-        let xhttp = new XMLHttpRequest();
-        let id = e.target.id;
+        try {
+              let id = e.target.id;
+             if( !id ) { return ; }
+            let param = JSON.stringify ({ friendUserId: id }) ; 
+            console.log(param ); 
+            let response = await sendRequest.post ( param , "/accept_friend_req", "application/json"  );
+            response = JSON.parse(response);
+            console.log(response);
+ 
+            e.target.innerHTML= "Added as Friend";
 
-        xhttp.open("POST", "./accept_friend_request", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-                let data = JSON.parse(this.response);
-                // console.log(data);
-                if (data.status == "ok") {
-                    let len = data.data.length;
-                    let html_str = "";
-                    for (let i = 0; i < len; i++) {
-                        html_str += make_element_for_friend_req(data.data[i]);
-
-                    }
-
-                    req_box.innerHTML = html_str;
-
-                    // console.log(data);
-                    // console.log(req_box.innerHTML);
-                    //     // console.log(html_str);
-                    //     e.target.innerHTML= "Added as Friend";
-                    //   //   console.log(e.target.className); 
-                    //     e.target.className="sended-request-but"; 
-                    // } else {
-                    //     console.log("error occured");
-                    //     console.log(data);
-
-                }
-                ;
-            }
         }
-        // let param = "signal=" + 0+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+        catch (err) {
+            console.error(err);
+        }
 
-        let param = "signal=1&p_id=" + id + "&date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
-        xhttp.send(param);
+        // let xhttp = new XMLHttpRequest();
+     
+
+        // xhttp.open("POST", "./accept_friend_req", true);
+        // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // xhttp.onreadystatechange = function () {
+        //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+        //         let data = JSON.parse(this.response);
+        //         // console.log(data);
+        //         if (data.status == "ok") {
+        //             let len = data.data.length;
+        //             let html_str = "";
+        //             for (let i = 0; i < len; i++) {
+        //                 html_str += make_element_for_friend_req(data.data[i]);
+
+        //             }
+
+        //             req_box.innerHTML = html_str;
+
+        //             // console.log(data);
+        //             // console.log(req_box.innerHTML);
+        //             //     // console.log(html_str);
+        //             //     e.target.innerHTML= "Added as Friend";
+        //             //   //   console.log(e.target.className); 
+        //             //     e.target.className="sended-request-but"; 
+        //             // } else {
+        //             //     console.log("error occured");
+        //             //     console.log(data);
+
+        //         }
+        //         ;
+        //     }
+        // }
+        // // let param = "signal=" + 0+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+
+        // let param = "signal=1&p_id=" + id + "&date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
+        // xhttp.send(param);
 
 
     }
