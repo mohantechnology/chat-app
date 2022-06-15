@@ -225,10 +225,11 @@ module.exports.createUserAccount = catchError(async (req, res, next) => {
 
 // ######## Activate Account with Code and Link  ########
 module.exports.activateAccount = catchError(async (req, res, next) => {
-    console.log("  req.query")
-    console.log(req.query)
+    // console.log("  req.query")
+    // console.log(req.query)
 
-
+    // console.log("  req.body")
+    // console.log(req.body)
     // req.params.tokenType = req.params.tokenType ? req.params.tokenType.trim() : undefined;
 
     let accessToken = "tk" + crypto.randomBytes(10).toString('hex');
@@ -255,7 +256,8 @@ module.exports.activateAccount = catchError(async (req, res, next) => {
         throw new AppError("Invalid Activation Method", 400);
     }
 
-    let result = await accountVerfication.findOne({ $and: filters }, { userId: 1, expireAt: 1 });
+    let result = await accountVerfication.findOne({  $and: filters}, { userId: 1, expireAt: 1}).limit(1).sort({createdAt : -1})
+    // /
 
     //    console.log ( "result")
     //    console.log ( result)
@@ -273,8 +275,9 @@ module.exports.activateAccount = catchError(async (req, res, next) => {
         res.redirect(req.user ? "/home" : "/login");
 
         /* delete  activate account  data  */
-        await accountVerfication.deleteOne({ _id: result._id });
-
+        resultAccount =   await accountVerfication.deleteOne({ _id: result._id });
+        // connsole.log("resultAccount delete")
+        // console.log(resultAccount)
     }
     else {
         return res.status(400).json({ message: "Invalid Verification Link" })

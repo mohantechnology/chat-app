@@ -33,21 +33,31 @@ const handleDuplicateKeyError = (err, res) => {
 }
 
 const handle_mongoose_validation_error = (err, res) => {
-       console.log( "START of handle_mongoose_validation_error")
-    let errorList = []; 
-    let error = Object.values(err.errors).map((el )=> {
-        errorList.push( { fieldName:el.path , message:el.message })
-        return el.path;
-    });
-    if(error.length > 1) {
-        error = error.join(',')
+    try{ 
+        
+        console.log( "START of handle_mongoose_validation_error")
+        let errorList = []; 
+        let error = Object.values(err.errors).map((el )=> {
+            errorList.push( { fieldName:el.path , message:el.message })
+            return el.path;
+        });
+        if(error.length > 1) {
+            error = error.join(',')
+        }
+        error = "Enter valid values for " + error;
+        res.status(err.statusCode || 400).json({
+            message : error ||  "Validation Error", 
+            errorList , 
+        })
+        console.log( "End of handle_mongoose_validation_error")
     }
-    error = "Enter valid values for " + error;
-    res.status(err.statusCode || 400).json({
-        message : error ||  "Validation Error", 
-        errorList , 
-    })
-    console.log( "End of handle_mongoose_validation_error")
+    catch ( err) { 
+        console.log( err)
+        // res.status(500).json({
+        //     message :err,  
+        // })
+    }
+    
 }
 
 
@@ -74,12 +84,21 @@ const handle_mongoose_validation_error = (err, res) => {
                   console.log( "err.statusCode  --> "); 
             console.log( err.statusCode) ; 
 
-            if(err.name === 'ValidationError'    ) { return   handle_mongoose_validation_error(err, res);}
-            if(err.name === 'MongoServerError') return err = handleDuplicateKeyError(err, res);
-            else if(err.code && err.code == 11000) return err = handleDuplicateKeyError(err, res);
-            else res.status(err.statusCode||500).json({
-                message : err.message
-            })
+            try{ 
+                if(err.name === 'ValidationError'    ) { return   handle_mongoose_validation_error(err, res);}
+                if(err.name === 'MongoServerError') return err = handleDuplicateKeyError(err, res);
+                else if(err.code && err.code == 11000) return err = handleDuplicateKeyError(err, res);
+                else res.status(err.statusCode||500).json({
+                    message : err.message
+                })
+            }
+            catch ( err) { 
+                console.log( err)
+                // res.status(500).json({
+                //     message :err,  
+                // })
+            }
+           
 
 
             // res.send( {error: error})

@@ -624,6 +624,7 @@ cursor:pointer;
     top:17px; 
     padding:20px 1px; 
     display: none;
+    box-shadow: 8px 10px 15px 0px #4c4c4c;
 }
 .menu-box-child{
     padding:2px ;

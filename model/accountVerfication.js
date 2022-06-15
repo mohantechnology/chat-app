@@ -9,13 +9,13 @@ const accountVerficationSchema = mongoose.Schema({
 
     verficationType: {   //  
         type: String,
-        // required : true , 
+        required : true , 
         trim: true,
         enum: {
             values: ['activateAccount', 'resetPassword'],
             message: "must be  either 'activateAccount', 'resetPassword'."
         },
-        default: 'offline'
+      
     },
 
     userId: { 

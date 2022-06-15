@@ -456,6 +456,10 @@ height:50vh;
 
     <div id="bottom" ></div>
 
+
+    <script  src="./js/sendRequest.js"></script>
+    <script src="./js/utils.js"></script>
+
     <script>
         var act_code = document.getElementById("act_code"); 
         var sub_but = document.getElementById("sub_but"); 
@@ -535,24 +539,48 @@ height:50vh;
           
         })
 
-        sub_but.addEventListener("click", ()=>{
-            let param ; 
-         
-            let user_act_code,user_email ;
-          
-             user_act_code = encodeURIComponent(act_code.value.trim());
-             user_email = (email.value.trim());
-             if( user_act_code=="" || user_email =="" ){
+            sub_but.addEventListener("click", async () => {
 
-                 display_message("Activation code  Required","red"); 
-                 return;
-             }
-            
-            param = `/activate/${user_email}/token_no/${user_act_code}`;
-           send_xhr("",param); 
-           
-        });
+                if (!is_rec_reqest) {
+                    return;
+                }
+                let user_act_code, user_email;
 
+                user_act_code = encodeURIComponent(act_code.value.trim());
+                user_email = (email.value.trim());
+                if (user_act_code == "" || user_email == "") {
+
+                    display_message("Activation code  Required", "red");
+                    return;
+                }
+
+
+                let param = JSON.stringify({ email: user_email, tokenType: "tkNumber", tokenValue: user_act_code, });
+
+                try {
+                    sub_but.textContent = "Processing...";
+                    let response = await sendRequest.post(param, "/activate", "application/json");
+                    // console.log( response) ; 
+             
+                    display_message("Account is Activated Successfully", "green",3000); 
+                    // console.log("redirect");
+                    setTimeout(() => {
+                        // location = "./login";
+                    }, 1000);
+
+                    act_code.value = email.value = "";
+                    //   
+
+                  
+                }
+                catch (err) {
+                     err = JSON.parse( err)
+                    console.error(err.message);
+                    display_message(err.message, "red",10000); 
+                }
+
+            });
+        
 
 
 
