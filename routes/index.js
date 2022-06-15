@@ -20,7 +20,7 @@ const init = (app) => {
     //    app.use('/pub', allowCORS , PublicRoutes);
 
     app.use((req, res, next) => {
-        console.log( "inside first use")
+        // console.log( "inside first use")
         const err = new Error("Page Not Found");
         err.status = 'fail';
         err.statusCode = 404;

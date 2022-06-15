@@ -337,7 +337,7 @@ module.exports.acceptFriendRequest = catchError(async (req, res, next) => {
  
     /*  */
  
-        result =  await chatMessage.create([
+        result =  await chatMessage.create(
               {
                 message: "Friend Request Accepted",
                 recUserId: friendUserId,
@@ -345,16 +345,8 @@ module.exports.acceptFriendRequest = catchError(async (req, res, next) => {
                 isReaded: false , 
                 createdBy: "server",
                 date: new Date().getTime(),
-            },
-            {
-                message: "You Accepted Friend Request",
-                recUserId: req.user.uId,
-                sendUserId: friendUserId,
-                isReaded: false , 
-                createdBy: "server",
-                date: new Date().getTime(),
             } 
-        ])
+        )
         console.log("result")
         console.log(result)
     }

@@ -1072,6 +1072,7 @@ function make_element_for_friend_req(data) {
  </div>`;
 
 }
+//##start here @########## fot notifcation 
 
 function make_element_for_noti(data) {
 
@@ -1079,13 +1080,13 @@ function make_element_for_noti(data) {
     return `    <div class="friend-profile">
                     <div class="friend-image">
                     <span class="all_img"
-                    style="background-image: url(./img/profile/${data.img ? data.img : d_img_url});">
+                    style="background-image: url('${(data.profileImg ? "/upload/" +  data.profileImg : "./img/profile/"+  d_img_url)}');">
                 </span>
                     
                     </div>
                     <span class="profile  noti-profile">
-                        <p class="user-name">${data.sender_name}</p>
-                        <p class="user-time">${data.pro_mess ? data.pro_mess : "Hello, I am using chat app"} </p>
+                        <p class="user-name">${data.name}</p>
+                        <p class="user-time">${data.profMess ? data.profMess : "Hello, I am using chat app"} </p>
 
                     </span>
                     <div class="noti-mess">${data.message}
@@ -1119,6 +1120,11 @@ first_col_friend_list.addEventListener("click", async (e) => {
     mess_bd.style.display = "block";
     header_name.style.display = "block";
    
+/* hide all other boxes */
+menu_box.style.display = "none";
+sett_box.style.display = "none";
+noti_box.style.display = "none"
+
     let id;
     if (e.target.id) { id = e.target.id; }
     else if (e.target.parentNode.id) { id = e.target.parentNode.id; }
@@ -1135,6 +1141,8 @@ first_col_friend_list.addEventListener("click", async (e) => {
             back.style.display = "inline-block";
 
         }
+       
+
         loader.style.display="inline-block"; 
         curr_no = undefined;
         document.cookie = "curr_f_id=" + (id) + "; path=/;";
@@ -1357,7 +1365,7 @@ find_new_friend.addEventListener("click", () => {
 
 
 
-noti.addEventListener("click", () => {
+noti.addEventListener("click", async () => {
 
     if (is_recieved_noti) {
         is_recieved_noti = false;
@@ -1371,40 +1379,68 @@ noti.addEventListener("click", () => {
         //TODO
 
 
+        
+        try { 
 
-
-        let xhttp = new XMLHttpRequest();
-
-
-        xhttp.open("POST", "./display_noti", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-                let data = JSON.parse(this.response);
-                // console.log(data);
-                if (data.status == "ok") {
-                    let len = data.data.length;
-                    let html_str = "";
-                    for (let i = 0; i < len; i++) {
-                        html_str += make_element_for_noti(data.data[i]);
-
-                    }
-
-                    noti_box.innerHTML = html_str;
-
-                    // console.log(data);
-                    //   console.log(req_box.innerHTML);  
-
-
-                };
-                is_recieved_noti = true;
-                loader.style.display = "none";
+            let response = await sendRequest.get( "./list_notifi") ;
+            response = JSON.parse(response);
+            console.log(response);
+            let notifi_list = response.data ; 
+    
+            let html_str = "";
+ 
+            if (notifi_list.length) {
+                notifi_list.map((item) => {
+                    html_str += make_element_for_noti(item)
+                })
             }
+            else {
+                html_str = `<div class="friend-profile"><span class="profile">
+                <p class="user-time">&nbsp;</p>
+                <p class="user-name">No New Notifications</p>
+                <p class="user-time">&nbsp;</p> </span></div>`
+            }
+      
+            loader.style.display = "none";
+            noti_box.innerHTML = html_str;
+            is_recieved_noti = true; 
         }
-        // let param = "signal=0&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+        catch (err) {
+            console.error(err);
+        }
+        
+        // let xhttp = new XMLHttpRequest();
 
-        let param = "date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
-        xhttp.send(param);
+
+        // xhttp.open("POST", "./display_noti", true);
+        // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        // xhttp.onreadystatechange = function () {
+        //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+        //         let data = JSON.parse(this.response);
+        //         // console.log(data);
+        //         if (data.status == "ok") {
+        //             let len = data.data.length;
+        //             let html_str = "";
+        //             for (let i = 0; i < len; i++) {
+        //                 html_str += make_element_for_noti(data.data[i]);
+
+        //             }
+
+        //             noti_box.innerHTML = html_str;
+
+        //             // console.log(data);
+        //             //   console.log(req_box.innerHTML);  
+
+
+        //         };
+        //         is_recieved_noti = true;
+        //         loader.style.display = "none";
+        //     }
+        // }
+        // // let param = "signal=0&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
+
+        // let param = "date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
+        // xhttp.send(param);
 
     }
 
@@ -1498,7 +1534,7 @@ rec_req.addEventListener("click", async  () => {
             else {
                 html_str = `<div class="friend-profile"><span class="profile">
                 <p class="user-time">&nbsp;</p>
-                <p class="user-name">"No Received Request Found"</p>
+                <p class="user-name">No Received Request Found</p>
                 <p class="user-time">&nbsp;</p> </span></div>`
             }
             loader.style.display = "none"
@@ -1558,14 +1594,14 @@ req_box.addEventListener("click", async (e) => {
 
     // message_body.style.display="none"; 
 
-    if(  e.target.className == "sended-request-but" ) { 
-        console.warn ( "Already Accept Request")
-        return  ; 
-    }
+    // if(  e.target.className == "sended-request-but" ) { 
+    //     console.warn ( "Already Accept Request")
+    //     return  ; 
+    // }
  
     noti_box.style.display = "none";
     req_box.style.display = "block";
-    e.target.className="sended-request-but"; 
+    // e.target.className="sended-request-but"; 
 
     if (e.target.textContent == "Accept Request") {
  
@@ -1574,7 +1610,8 @@ req_box.addEventListener("click", async (e) => {
               let id = e.target.id;
              if( !id ) { return ; }
             let param = JSON.stringify ({ friendUserId: id }) ; 
-            console.log(param ); 
+            console.log(param );  
+            e.target.innerHTML == "Processing..." ; 
             let response = await sendRequest.post ( param , "/accept_friend_req", "application/json"  );
             response = JSON.parse(response);
             console.log(response);

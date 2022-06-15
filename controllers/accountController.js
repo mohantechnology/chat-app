@@ -130,7 +130,7 @@ module.exports.loginUserAccount = catchError(async (req, res, next) => {
             // save  data to jwt token
 
             let token = jwt.sign(
-                { email: result.email, accessToken, _id: result._id, uId: result.uId, name: result.name, profMess: result.profMess, profileImg: result.profMess },
+                { email: result.email, accessToken, _id: result._id, uId: result.uId, name: result.name, profMess: result.profMess, profileImg: result.profileImg },
                 process.env.JWT_SECRET_KEY);
 
             res.cookie('sid', token, { expires: new Date(Date.now() + 6000000), httpOnly: true });
