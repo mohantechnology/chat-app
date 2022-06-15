@@ -3,6 +3,8 @@
 
 // const { json } = require("body-parser");
 
+// const { json } = require("body-parser");
+
 // var sendRequest = require('./sendRequest.js');
 // import { sum, difference } from './functions.js'
 // var  name = prompt("enter your name");
@@ -99,7 +101,7 @@ var is_recieved_reqest = true;
 var prev_f_id;
 var ping_audio = new Audio("ping.mp3");
 var is_redirecting = false; 
-
+var current_message_page = undefined; // store last index till message listed  
 
 if( localStorage.getItem("ln") !="1"  ){
     location = "./login"; 
@@ -440,7 +442,7 @@ function make_message_element(data) {
     if (data.createdBy == "friend") {
         temp.classList = "message right";
         temp.innerHTML = `    <span class="message-right">${data.message}</span>
-          <span class="message-time-right">${ new Date(data.date ).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }</span>  `;
+          <span class="message-time-right">${ new Date(data.date ).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'  }) }</span>  `;
 
     }
     else if (data.createdBy == "user") {
@@ -469,15 +471,21 @@ function make_message_element(data) {
 mess_bd.addEventListener("scroll",async () => {
     // console.log("scrollling",mess_bd.scrollTop); 
 
-    if (is_recieved && mess_bd.scrollTop < 800 && curr_no > 0 && curr_f_id) {
+    console.log( is_recieved , mess_bd.scrollTop < 800 , current_message_page  , curr_f_id)
+    if (is_recieved && mess_bd.scrollTop < 800 && current_message_page  && curr_f_id) {
         is_recieved = false;
         loader.style.display = "block";
 
  
-        let url = `./list_message?page=1&limit=20&friendUserId=${curr_f_id}` ; 
+        let url = `./list_message?page=${current_message_page ++ }&limit=20&friendUserId=${curr_f_id}` ; 
+    
         try{
             let response = await sendRequest.get(url ) ; 
+            response = JSON.parse( response ) ; 
             console.log( response ) ; 
+            display_message_data( response.data); 
+            is_recieved = true; 
+            loader.style.display = "none"; 
         }
         catch( err){
             console.error( err) ; 
@@ -630,7 +638,7 @@ function byte_to_unit(size) {
 
 }
 
-log_out.addEventListener("click", () => {
+log_out.addEventListener("click", async() => {
     // console.log("clieked logout ")
     let cookie_arr = document.cookie.split(";");
     for (let i = 0; i < cookie_arr.length; i++) {
@@ -639,6 +647,16 @@ log_out.addEventListener("click", () => {
         document.cookie = temp;
 
     }
+    try {
+  
+        let response = await sendRequest.post ( "" , "/logout", "application/json"  );
+        response = JSON.parse(response);
+        console.log(response); 
+    }
+    catch (err) {
+        console.error(err);
+    }
+
     localStorage.removeItem("ln"); 
    
     location = "./login";
@@ -1102,9 +1120,43 @@ function make_element_for_noti(data) {
 
 
 
-// function get_friend_messages (friendUserId , page, limit,){ 
+function display_message_data (data){ 
+    try{ 
+
+              /* handle unreaded message */  
+              if(data.unreaded && data.unreaded.length   ){ 
+                for (let i = data.unreaded.length - 1; i >= 0; i--) {
+                    if (data.unreaded[i].mess_type) {
+                        mess_bd.prepend(make_file_sent_element(data.unreaded[i]));
+                    } else {
     
-// }
+                        mess_bd.prepend(make_message_element(data.unreaded[i]));
+                    }
+    
+                }
+            /* create one message of 'unreaded message'  */  
+            let curr_elem_data = { type: "server", message: "unreaded messages (" + data.unreaded.length  + ")" }
+            mess_bd.prepend(make_message_element(curr_elem_data)); 
+            
+            }
+    
+              /* handle readed message */ 
+              if(data.readed && data.readed.length   ){ 
+                for (let i = data.readed.length - 1; i >= 0; i--) { 
+                    if (data.readed[i].type = "text") {
+                        mess_bd.prepend(make_message_element(data.readed[i]));
+                    } else { 
+                        mess_bd.prepend(make_file_sent_element(data.readed[i]));
+                    } 
+                }
+            }
+    }
+    catch (err){
+        console.error( err) ; 
+    }
+  
+
+}
 
 //fetch friend chat message 
 first_col_friend_list.addEventListener("click", async (e) => {
@@ -1144,14 +1196,20 @@ noti_box.style.display = "none"
        
 
         loader.style.display="inline-block"; 
-        curr_no = undefined;
+        current_message_page = 1;
         document.cookie = "curr_f_id=" + (id) + "; path=/;";
         mess_bd.innerHTML = "";
         menu_box.style.display = "none";
+
+        prev_f_id = curr_f_id;
+        socket.emit("connected-to", { prev_f_id: prev_f_id, curr_f_id: id, u_id: user_id });
+        curr_f_id = id;
+
+
         let total_mess_len = message_list[id] ? message_list[id].length : 0;
         // console.log("id=" + id);
 
-        let url = `./list_message?page=1&limit=20&friendUserId=${id}&friendProfile=yes` ; 
+        let url = `./list_message?page=${current_message_page++}&limit=20&friendUserId=${id}&friendProfile=yes` ; 
         console.log(url) ; 
         try{
             let response = await sendRequest.get(url ) ; 
@@ -1159,39 +1217,19 @@ noti_box.style.display = "none"
             console.log( response ) ;
             let data = response.data; 
 
-            /* handle unreaded message */  
-            if(data.unreaded && data.unreaded.length   ){ 
-                for (let i = data.unreaded.length - 1; i >= 0; i--) {
-                    if (data.unreaded[i].mess_type) {
-                        mess_bd.prepend(make_file_sent_element(data.unreaded[i]));
-                    } else {
-
-                        mess_bd.prepend(make_message_element(data.unreaded[i]));
-                    }
-
-                }
-            /* create one message of 'unreaded message'  */  
-            let curr_elem_data = { type: "server", message: "unreaded messages (" + data.unreaded.length  + ")" }
-            mess_bd.prepend(make_message_element(curr_elem_data)); 
-            
-            }
-
-              /* handle readed message */ 
-              if(data.readed && data.readed.length   ){ 
-                for (let i = data.readed.length - 1; i >= 0; i--) { 
-                    if (data.readed[i].type = "text") {
-                        mess_bd.prepend(make_message_element(data.readed[i]));
-                    } else { 
-                        mess_bd.prepend(make_file_sent_element(data.readed[i]));
-                    } 
-                }
-            }
-
+            display_message_data( data)
 
             header_name.children[0].children[0].style.backgroundImage = document.getElementById(id).children[0].children[0].style.backgroundImage;  // copy image from friend list column
             header_name.children[1].children[0].textContent = data.friendProfile.name;
             header_name.children[1].children[1].textContent = data.friendProfile.currentStatus;
             loader.style.display="none"; 
+            is_recieved = true; 
+
+            document.getElementById(id).children[0].children[1].classList.add("not-visible"); // hide message count ; 
+    
+            mess_bd.scrollTop = mess_bd.scrollHeight;
+       
+    
         }
         catch( err){
             console.error( err) ; 
@@ -1304,7 +1342,7 @@ noti_box.style.display = "none"
         document.getElementById(id).children[0].children[1].classList.add("not-visible");
     } else if (id && m_q.matches) {
         // console.log("else  executed ");
-        // for smaller width update the incoming stored messages
+        // for smaller width  update the incoming stored messages
         col_1.style.display = "none";
         col_2.style.display = "inline-block";
         back.style.display = "inline-block";

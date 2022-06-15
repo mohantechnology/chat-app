@@ -49,6 +49,9 @@ module.exports = {
 
         return  randomBytes(length/2).toString("hex")
  
+    },
+    sleep  : (milliseconds) =>  {
+        return new Promise(resolve => setTimeout(resolve, milliseconds));
     }
     
 }

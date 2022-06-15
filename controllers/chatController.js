@@ -155,7 +155,7 @@ module.exports.saveMessage = catchError(async (req, res, next) => {
             message: body.message,
             recUserId: body.receiver.uId,
             sendUserId: req.user.uId,
-            createdBy: "server",
+            // createdBy: "server",
             isReaded: body.receiver.currentStatus == "online" ? true : false,
             date: new Date().getTime(),
             type: body.messageType,
@@ -265,3 +265,23 @@ module.exports.downloadFile = catchError(async (req, res, next) => {
        
 
   });
+
+
+  /*
+  
+    for( let i =0 ; i< 100; i++){ 
+        let data = {
+            "recUserId": "cz0d94f67a1ebe10f1578a",
+            
+            sendUserId: "cz29faf720c6b3e9670988", 
+            isReaded: false,
+            "message": "sended offline message mohna last "+ ( 100000+i),
+            "messageType": "text", 
+            date: new Date().getTime()
+         
+        }
+        let result =  await chatMessage.create (data);
+        console.log( result)
+        await utilFunc.sleep(100) ; 
+    }
+    */
