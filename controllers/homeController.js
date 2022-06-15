@@ -36,9 +36,9 @@ function cprint(varObj, dividerStr) {
 
 
 module.exports.homePage = catchError(async (req, res, next) => {
-    console.log("register get ")
-    console.log(" req.user");
-    console.log(req.user);
+    // console.log("register get ")
+    // console.log(" req.user");
+    // console.log(req.user);
     let outFilter = { __v: 0, password: 0, files: 0 }
     let result = await userAccount.findOne({ $and: [{ _id: req.user._id }, { accessToken: req.user.accessToken }] }).lean();
 
@@ -81,7 +81,7 @@ module.exports.homePage = catchError(async (req, res, next) => {
         }
 
 
-            cprint({ result });
+            // cprint({ result });
  
 
         result.SOCKET_URL = process.env.SOCKET_URL;
@@ -145,13 +145,15 @@ module.exports.getProfileDetail = catchError(async (req, res, next) => {
 // ######## Update Profile Details  ########
 module.exports.updateProfileDetail = catchError(async (req, res, next) => {
 
+//     console.log( "req.body" )
 //   console.log( req.body )
-//   console.log( "req.body" )
 
-//   console.log( req.files )
 //   console.log( "req.files" )
+//   console.log( req.files )
 
 
+//     console.log( "req.headers" )
+//   console.log( req.headers )
 
     let query = {
         $and: [
@@ -191,7 +193,7 @@ module.exports.updateProfileDetail = catchError(async (req, res, next) => {
  
 
     /* update profile data     */
-    let resultAccount = await userAccount.updateOne(query, { $set:inputData });
+    let resultAccount = await userAccount.updateOne(query, { $set:inputData } ,{runValidators:true});
  
     /* if profile image is updated then remove previous profile image file and update profile image in cookie   */
      if(inputData.profileImg )  { 

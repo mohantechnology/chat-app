@@ -858,7 +858,7 @@ drop_file.addEventListener("dragleave", (e) => {
 
 
 
-drop_file.addEventListener("drop", (e) => {
+drop_file.addEventListener("drop",  (e) => {
     e.preventDefault();
     drop_file.style.display = "none";
 
@@ -879,7 +879,7 @@ drop_file.addEventListener("drop", (e) => {
 });
 
 //profile image file 
-update_but.addEventListener("click", (e) => {
+update_but.addEventListener("click", async (e) => {
     let up_file = upload_file.files[0];
     // console.log(up_file);
 
@@ -891,64 +891,81 @@ update_but.addEventListener("click", (e) => {
     let form_data = new FormData();
 
     if (update_but.innerText == "Update") {
-        form_data.append("profileImg", up_file);
+        if( up_file){ 
+            form_data.append("profileImg", up_file); 
+        }
         form_data.append("accountType", account_type_pub.checked == true ? "public" : "private");
-        form_data.append("profMess",encodeURIComponent(prof_mess.value));
-        form_data.append("messageTone", "on");
+        form_data.append("profMess",(prof_mess.value));
+        form_data.append("messageTone", mess_tone_off.checked ? "off": "on");
         
         update_but.innerText = "Updating...";
 
         // console.log(form_data, up_file);
         //read   cookie 
-        let temp_data = document.cookie.split(";")
-        let temp_cookie;
-        let param = "";
-        for (let i = 0; i < temp_data.length; i++) {
-            temp_cookie = temp_data[i].split("=");
-            param += "&" + temp_cookie[0].trim() + "=" + encodeURIComponent(temp_cookie[1]);
+        // let temp_data = document.cookie.split(";")
+        // let temp_cookie;
 
+        
+        // let param = "";
+        // for (let i = 0; i < temp_data.length; i++) {
+        //     temp_cookie = temp_data[i].split("=");
+        //     param += "&" + temp_cookie[0].trim() + "=" + encodeURIComponent(temp_cookie[1]);
+
+        // }
+
+        try {
+           
+            // let param =  ({ friendUserId: id }) ; 
+            console.log(form_data ); 
+            let response = await sendRequest.post ( form_data , "/update_profile", null, {isSetHeader : false}  ); 
+            response = JSON.parse(response);
+            console.log(response);
+            // update_but.innerText = "Updated";
+            update_but.innerText = "Update";
+            window.location.reload()  ; 
+            // e.target.className = "sended-request-but";
+        }
+        catch (err) {
+            update_but.innerText = "Not Updated";
+           
+
+            console.error(err);
         }
 
-        let xhttp = new XMLHttpRequest();
+        // let xhttp = new XMLHttpRequest();
         // let url = `/update_prof/${account_type_pub.checked == true ? "public" : "private"}/${encodeURIComponent(prof_mess.value)}`;
 
-        let url = `/update_profile`;
+  
         // let url = `${PROFILE_UPDATE_URL}?account_type_pub=${account_type_pub.checked == true ? "public" : "private"}${param}&prof_mess=${encodeURIComponent(prof_mess.value)}`;
 
         // console.log("url = ", url);
-        xhttp.open("POST", url, true);
+        // xhttp.open("POST", url, true);
 
-        // xhttp.setRequestHeader("Content-type", "ap");
-        xhttp.upload.onprogress = function (e) {
-            console.log("progress");
-            console.log(Math.round(e.loaded / e.total * 100) + "%");
-        }
+        // // xhttp.setRequestHeader("Content-type", "ap");
+        // xhttp.upload.onprogress = function (e) {
+        //     console.log("progress");
+        //     console.log(Math.round(e.loaded / e.total * 100) + "%");
+        // }
 
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-                // console.log("resrpn->", this.response);
-                let res_data = JSON.parse(this.response)
-                if (res_data.status == "ok") {
-                    update_but.innerText = "Updated";
-                    location = "./profile";
-                }
-                else {
-                    update_but.innerText = "Not Updated";
-                }
+        // xhttp.onreadystatechange = function () {
+        //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
+        //         // console.log("resrpn->", this.response);
+        //         let res_data = JSON.parse(this.response)
+        //         if (res_data.status == "ok") {
+        //             update_but.innerText = "Updated";
+        //             location = "./profile";
+        //         }
+        //         else {
+        //             update_but.innerText = "Not Updated";
+        //         }
 
-            }
-        }
-        xhttp.send(form_data);
+        //     }
+        // }
+        // xhttp.send(form_data);
 
     }
 
-    if (mess_tone_on.checked) {
-        localStorage.setItem("mess_tone", "on");
-    } else {
-
-        localStorage.setItem("mess_tone", "off");
-    }
-
+   
 
 });
 
@@ -1032,7 +1049,7 @@ function selectElementText(el, win) {
     }
 }
 
-console.log( sendRequest)
+ 
 
 function make_element_for_friend_req(data) {
 
@@ -1393,20 +1410,53 @@ noti.addEventListener("click", () => {
 
 })
 
-//display setting 
-setting.addEventListener("click", () => {
+//display  profile setting 
+setting.addEventListener("click", async() => {
+
+    console.log( "display profile ")
     menu_box.style.display = "none";
     mess_bd.style.display = "none";
     sett_box.style.display = "block";
     close_sett.parentNode.style.display = "block";
     header_name.style.display = "none";
     myform.style.display = "none";
+    loader.style.display = "inline-block";
+    try {
+        let html_str = ""; 
+        let response = await sendRequest.get( "./profile") ;
+        response = JSON.parse(response);
+        console.log(response);
+        let data = response.data ; 
+// accountType: "public"
+// messageTone: "on"
+// profMess: "I am busy somewhere"
+// profileImg: "p
+        loader.style.display = "none"
+        if( data.accountType ==  "public"  ){ 
+            account_type_pub.checked = true;  
+        }else{ 
+            account_type_pri.checked = true; 
+        } 
 
-    if ((!localStorage.getItem("mess_tone")) || localStorage.getItem("mess_tone") == "on") {
-        mess_tone_on.checked = true;
-    } else {
-        mess_tone_off.checked = true;
+        if (data.messageTone ==  "on" ) {
+            mess_tone_on.checked = true;
+        } else {
+            mess_tone_off.checked = true;
+        }
+        prof_mess.value = data.profMess ; 
+        // form_data.append("profileImg", up_file);
+        // form_data.append("accountType",);
+        // form_data.append("profMess",encodeURIComponent(prof_mess.value));
+        // form_data.append("messageTone", "on");
+      
+         
+
     }
+    catch (err) {
+        console.error(err);
+    }
+    
+ 
 
 });
 

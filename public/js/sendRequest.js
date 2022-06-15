@@ -263,11 +263,18 @@ file_post_form_data: ( url,file ) => {
 
 
 
-    post: (param, url , content_type) => {
+    post: (param, url , content_type, options={}) => {
+
 
         return new Promise((resolve, reject) => {
             // createCORSRequest( )
             // createCORSRequest()
+            let defaultOpitons ={
+                isSetHeader : true , 
+                defaultContentType: "application/x-www-form-urlencoded",
+                ...options,
+            }
+
             var xhttp = new XMLHttpRequest();
 
             xhttp.onreadystatechange = function () {
@@ -284,8 +291,11 @@ file_post_form_data: ( url,file ) => {
                 }
             };
             xhttp.open("POST", url, true);
-            xhttp.setRequestHeader("Content-type", content_type || "application/x-www-form-urlencoded");
-        xhttp.setRequestHeader(  'Access-Control-Allow-Origin', "*"  );
+            if (defaultOpitons.isSetHeader) {
+                xhttp.setRequestHeader("Content-type", content_type || defaultOpitons.defaultContentType );
+            }
+
+        // xhttp.setRequestHeader(  'Access-Control-Allow-Origin', "*"  );
            
             // xhttp.setRequestHeader("Content-type", "application/json");
 

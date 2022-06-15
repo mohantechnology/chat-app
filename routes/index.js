@@ -1,7 +1,7 @@
 "use strict";
 const express = require('express');
 const userRoutes = require("./userRoutes");
-// const chatRoutes = require("./chatRoutes");
+const catchError = require("../middlewares/catchError.js");
 
 const init = (app) => {
     // console.log ( app ) ; 
@@ -30,39 +30,41 @@ const init = (app) => {
     });
 
     // catch error 
-    app.use((err, req, res, next) => {
-        console.log("inside second use") ; 
-        console.log("err ---------") ; 
-        console.log(err) ;
+    // app.use(catchError)
+    // app.use((err, req, res, next) => {
 
-           console.log("err.name ---------") ; 
-        console.log(err.name) ;
-        //      console.log("req ---------") ; 
-        // console.log(req) ; 
+    //     console.log("inside second use") ; 
+    //     console.log("err ---------") ; 
+    //     console.log(err) ;
+
+    //        console.log("err.name ---------") ; 
+    //     console.log(err.name) ;
+    //     //      console.log("req ---------") ; 
+    //     // console.log(req) ; 
         
-        // console.log("res ---------") ; 
-        // console.log(res) ; 
+    //     // console.log("res ---------") ; 
+    //     // console.log(res) ; 
 
-        // console.log("next ---------") ; 
-        // console.log(next) ; 
+    //     // console.log("next ---------") ; 
+    //     // console.log(next) ; 
 
 
-        // console.log(err.errors) ; 
-        // console.log("typeof err.errors") ; 
-        // console.log(typeof err.errors) ; 
-        // res.status(err.statusCode||500).json({
-        //     message : err.message, 
-        //     err: err
-        // })
-        // return err; 
+    //     // console.log(err.errors) ; 
+    //     // console.log("typeof err.errors") ; 
+    //     // console.log(typeof err.errors) ; 
+    //     // res.status(err.statusCode||500).json({
+    //     //     message : err.message, 
+    //     //     err: err
+    //     // })
+    //     // return err; 
 
-        // if(err.name === 'ValidationError'  ) { return   handle_mongoose_validation_error(err, res);}
-        // if(err.name === 'ValidationError') return err = handleValidationError(err, res);
-        // else if(err.code && err.code == 11000) return err = handleDuplicateKeyError(err, res);
-        // else res.status(err.statusCode||500).json({
-        //     message : err.message
-        // })
-    })
+    //     // if(err.name === 'ValidationError'  ) { return   handle_mongoose_validation_error(err, res);}
+    //     // if(err.name === 'ValidationError') return err = handleValidationError(err, res);
+    //     // else if(err.code && err.code == 11000) return err = handleDuplicateKeyError(err, res);
+    //     // else res.status(err.statusCode||500).json({
+    //     //     message : err.message
+    //     // })
+    // })
  
 }
 
