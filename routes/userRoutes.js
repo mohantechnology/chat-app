@@ -13,6 +13,7 @@ userRoutes.get("/reg",  accountController.registerPage);
 userRoutes.get("/login",  accountController.loginPage);
 userRoutes.get("/active",  accountController.activateAccountPage);
 userRoutes.get("/forgot",  accountController.forgotPasswordPage);
+userRoutes.get("/res_pass_num",  accountController.verifyOTPPage); // reset password with otp 
 userRoutes.get("/update_pass",  accountController.updatePasswordPage);
 
 

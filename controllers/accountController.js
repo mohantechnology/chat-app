@@ -99,6 +99,9 @@ module.exports.activateAccountPage = (req, res, next) => {
     res.sendFile(VEIW_DIR + "/activate.html");
 }
 
+module.exports.verifyOTPPage = (req, res, next) => {
+    res.sendFile(VEIW_DIR + "/reset_pass_with_num.html");
+}
 module.exports.forgotPasswordPage = (req, res, next) => {
     res.sendFile(VEIW_DIR + "/forgot.html");
 }
