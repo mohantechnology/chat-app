@@ -223,6 +223,78 @@ module.exports.createUserAccount = catchError(async (req, res, next) => {
 });
 
 
+
+module.exports.resendActivationLink = catchError(async (req, res, next) => {
+
+    // console.log( "createUserAccount")
+    // console.log("req.body")
+    // console.log(req.body)
+    // console.log(  await userAccount.deleteMany())
+    // throw new AppError( "my message",500, "validation")
+    //   console.log( await userAccount.collection.drop() ) 
+
+    req.body.email  = req.body.email ? req.body.email.trim() : undefined; 
+    req.body.password  = req.body.password ? req.body.password.trim() : undefined; 
+
+    if (!req.body.email || !req.body.password) {
+        throw new AppError("Must have field  'email'  , 'password' ", 400)
+    }
+ 
+
+ 
+ 
+    
+    let resultAccount = await userAccount.findOne({    email: req.body.email } , { uId: 1 , password: 1});
+
+ 
+   
+    if(!resultAccount ){ 
+       throw new AppError("Account Not Exist", 404)
+     }
+
+     if( !bcrypt.compareSync( req.body.password , resultAccount.password) ){ 
+        throw new AppError("Invalid Credentials", 400)
+      }
+ 
+
+    /* create  activation account data  */
+    let activateAccountdata = {
+        verficationType: "activateAccount",
+        tokenStr: crypto.randomBytes(24).toString('hex'),
+        tokenNo: Math.round((Math.random() * 1000000)).toString(),
+        email: req.body.email,
+        expireAt: Date.now() + constant.ACTIVATE_ACCOUNT_EXPIRE_TIME,
+        userId: resultAccount.uId,
+    };
+
+    let result = await accountVerfication.create(activateAccountdata);
+
+    let activateUrl = `${process.env.SELF_URL}/activate?email=${encodeURIComponent(result.email)}&tokenType=tkString&tokenValue=${result.tokenStr}`;
+    let emailTemplate = fs.readFileSync(__dirname + "/../views/act_acc_email.html", "utf-8");
+
+    emailTemplate = emailTemplate.replace("{{$activate_code}}", result.tokenNo);
+    emailTemplate = emailTemplate.replace("{{$activate_url}}", activateUrl);
+    emailTemplate = emailTemplate.replace("{{$activate_url}}", activateUrl);
+    emailTemplate = emailTemplate.replace("{{$email}}", process.env.EMAIL);
+
+ 
+
+    try {
+        await utilFunc.sendEmail(result.email, "Activate Account", emailTemplate);
+
+    }
+    catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Not Able  to Send Activation Link" });
+    }
+
+
+    return res.status(200).json({ message: "Link Sent Successfully. Please Check your Email to Activate Account." })
+
+
+});
+
+
 // ######## Activate Account with Code and Link  ########
 module.exports.activateAccount = catchError(async (req, res, next) => {
     // console.log("  req.query")
