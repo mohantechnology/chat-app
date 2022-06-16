@@ -30,7 +30,6 @@ userRoutes.post("/resend_activate_link",  accountController.resendActivationLink
 userRoutes.post("/send_verfi_link",  accountController.sendResetPasswordEmail);
 userRoutes.get("/verify_token",  accountController.verifyToken);   // for reset link 
 userRoutes.post("/verify_token",  accountController.verifyToken); // for otp
-userRoutes.post("/verify_token",  accountController.verifyToken);
 userRoutes.post("/update_password",  accountController.updatePassword);
 
 

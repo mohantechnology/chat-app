@@ -24,7 +24,7 @@ function getCookie(cname) {
 
 
 function getQueryVariable(variable) {
-    console.log( window.location.search);
+    // console.log( window.location.search);
     var query = window.location.search.substring(1);
     var vars = query.split('&');
     for (var i = 0; i < vars.length; i++) {
