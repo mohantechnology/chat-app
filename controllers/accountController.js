@@ -75,7 +75,7 @@ function cprint(varObj, dividerStr) {
 
 
 module.exports.logout = catchError( async(req, res, next) => {
-    res.cookie('sid', "", { expires: 0, httpOnly: true });
+    res.cookie('sid', "", { expires: 0,  });
     let query = {$and : [ { email: req.user.email ,accessToken : req.user.accessToken  }]}
     let resultAccount  =    await userAccount.updateOne(query,   {  currentStatus:"offline" })  ; 
     return res.status(200).json({ message: "Logout Successfully" })
@@ -123,7 +123,7 @@ module.exports.loginUserAccount = catchError(async (req, res, next) => {
     }
 
     let accessToken = "tk" + crypto.randomBytes(10).toString('hex');
-    let tokenExpireAt = (new Date(Date.now() + 6000000)).getTime();
+    let tokenExpireAt = (new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME )).getTime();
     let result = await userAccount.findOneAndUpdate({ email: req.body.email }, { accessToken, tokenExpireAt , currentStatus:"online" }, { new: true });
 
     // cprint({tokenExpireAt},  "") ; 
@@ -136,7 +136,7 @@ module.exports.loginUserAccount = catchError(async (req, res, next) => {
                 { email: result.email, accessToken, _id: result._id, uId: result.uId, name: result.name, profMess: result.profMess, profileImg: result.profileImg },
                 process.env.JWT_SECRET_KEY);
 
-            res.cookie('sid', token, { expires: new Date(Date.now() + 6000000), httpOnly: true });
+            res.cookie('sid', token, { expires: new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME), httpOnly: false  ,sameSite: 'none', secure: true} );
             return res.status(200).json({ message: "verfiy successfully", data: result },)
         }
         else {
