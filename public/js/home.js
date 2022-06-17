@@ -249,16 +249,17 @@ side_list_video_cam.addEventListener("click", () => {
 
 function make_file_sent_element(data) {
 
+  console.log( "inside make_file_sent_element")
     let temp = document.createElement("div")
     let mime_type = "";
     if (!data.message) {
         data.message = "";
     }
-    if (data.mime_type) {
-        mime_type = data.mime_type.split("/")[0];
+    if (data.mimeType) {
+        mime_type = data.mimeType.split("/")[0];
         // console.log(mime_type);
         if (mime_type == "image") {
-            mime_type = `background-image:url('../transfer_file/${data.folder_name}/${data.file_link}');min-height: 200px;`;
+            mime_type = `background-image:url('/upload/transferFile/${data.fileName}');min-height: 200px;`;
             // mime_type = `background-image:url('${FILE_D_N}/transfer_file/transfer_file/${data.folder_name}/${data.file_link}');min-height: 200px;`;
             // console.log("file is image ", mime_type); 
             // mime_type = `background-image:url('../chat_image.png')`; 
@@ -273,15 +274,15 @@ function make_file_sent_element(data) {
     //   let download_link = `./download/${data.folder_name}/${data.file_link}`
     //   console.log("file mime type ---> ",); 
     //   console.log(mime_type,"=>end"); 
-    if (data.direction == "in") {
+    if (data.createdBy == "friend") {
         temp.classList = "message right";
         temp.innerHTML = `   
            <span class="message-right file-right">
           <div class="message-file">
             <div class="download-img-display" style="${mime_type}" ></div>
             ${data.message} 
-</span><div class="file-name"> ${data.file_name}</div> 
-              <span class="download-img" id="${data.folder_name}-${data.file_link}"> </span>
+</span><div class="file-name"> ${data.fileName}</div> 
+              <span class="download-img" id="${data.fileName}"> </span>
               <span class="share-img"> </span>
          
           </div>
@@ -290,15 +291,15 @@ function make_file_sent_element(data) {
 
     }
 
-    else if (data.direction == "out") {
+    else if (data.createdBy == "self") {
         temp.classList = "message left";
         temp.innerHTML = `
           <span class="message-left file-left">
           <div class="message-file">
             <div class="download-img-display"  style="${mime_type}" > </div>
             ${data.message} 
-            <div class="file-name">  ${data.file_name}</div> 
-              <span class="download-img" id="${data.folder_name}-${data.file_link}" > </span>
+            <div class="file-name">  ${data.fileName}</div> 
+              <span class="download-img" id="${data.fileName}" > </span>
               <span class="share-img"> </span>
          
           </div>
@@ -445,7 +446,7 @@ function make_message_element(data) {
           <span class="message-time-right">${ new Date(data.date ).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'  }) }</span>  `;
 
     }
-    else if (data.createdBy == "user") {
+    else if (data.createdBy == "self") {
         temp.classList = "message left";
         temp.innerHTML = `
           <span class="message-left">${data.message}
@@ -545,8 +546,8 @@ mess_bd.addEventListener("scroll",async () => {
 mess_bd.addEventListener("click", (e) => {
     if (e.target.className == "download-img") {
         //   console.log(e.target.previousElementSibling.innerText); 
-        let path = e.target.id.split("-");
-        let url = "./download/" + path[0] + "/" + path[1] + "/" + encodeURIComponent(e.target.previousElementSibling.innerText);
+        let path = e.target.id;
+        let url = "./download_file?fileName=" +path ;
 
         // let url = "./transfer_file/" + path[0] + "/" + path[1] + "/" + e.target.previousElementSibling.innerText;
         // ownload/:folder/:file/:file_name
@@ -706,12 +707,12 @@ function transfer_file_to_friend(e) {
         size_detail.size = transfer_file.files[i].size;
         size_detail.final_size = Math.round(size_detail.size * 100 / size_detail.divi) / 100 + " " + size_detail.unit;
         let form_data = new FormData();
-        form_data.append("transfer_file", transfer_file.files[i]);
+        form_data.append("uploadFile", transfer_file.files[i]);
 
         let xhttp = new XMLHttpRequest();
-        let url = `/transfer_file/${f_id}/${encodeURIComponent(file_mess)}`;
+        // let url = `/transfer_file/${f_id}/${encodeURIComponent(file_mess)}`;
         // let url = `${FILE_TRANSFER_URL}?f_id=${f_id}&file_mess=${encodeURIComponent(file_mess)} ${param}`;
-
+        let url = '/upload_file'
         // console.log("url = ", url);
         xhttp.open("POST", url, true);
         // console.log(size_detail);
@@ -742,25 +743,28 @@ function transfer_file_to_friend(e) {
         }
 
         xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-                // console.log("resrpn->", this.response);
+            if (this.readyState == 4  ) {
+                console.log("resrpn->", this.response);
                 let res_data = JSON.parse(this.response)
-                if (res_data.status == "ok") {
-                    res_data.message = file_mess;
-                    res_data.time = (new Date()).toLocaleTimeString();
-                    res_data.curr_f_id = f_id;
-                    res_data.mess_type = "file";
-                    res_data.user_id = user_id;
-                    res_data.direction = "out";
+                
+                if (this.status >= 200 && this.status < 300) {
+                    let data = res_data.data ; 
+                    data.message = file_mess;
+                    data.time = (new Date()).toLocaleTimeString();
+                    data.date = Date.now() ; 
+                    data.curr_f_id = f_id;
+                    data.messageType = "file";
+                    // data.user_id = user_id;
+                    data.createdBy = "self";
 
-                    //    res_data.mess_type="file";
+                    //    res_data.messageType="file";
 
-                    socket.emit('sent-file', res_data);
+                    socket.emit('send-message', data);
                     // console.log("successly sended file ", res_data);
 
                     if (curr_f_id == f_id) {
                         document.getElementById(upload_id).parentNode.parentNode.parentNode.parentNode.remove();
-                        mess_bd.append(make_file_sent_element(res_data));
+                        mess_bd.append(make_file_sent_element(data));
                         set_scroll_to_bottom(mess_bd);
                     } else {
 
@@ -1126,16 +1130,17 @@ function display_message_data (data){
               /* handle unreaded message */  
               if(data.unreaded && data.unreaded.length   ){ 
                 for (let i = data.unreaded.length - 1; i >= 0; i--) {
-                    if (data.unreaded[i].mess_type) {
-                        mess_bd.prepend(make_file_sent_element(data.unreaded[i]));
+                    // console.log( "inside un="+(data.unreaded[i].messageType ) ) ; 
+                    if (data.unreaded[i].messageType == "text") {
+                        mess_bd.prepend(make_message_element(data.unreaded[i]));
                     } else {
     
-                        mess_bd.prepend(make_message_element(data.unreaded[i]));
+                        mess_bd.prepend(make_file_sent_element(data.unreaded[i]));
                     }
     
                 }
             /* create one message of 'unreaded message'  */  
-            let curr_elem_data = { type: "server", message: "unreaded messages (" + data.unreaded.length  + ")" }
+            let curr_elem_data = { messageType: "server", message: "unreaded messages (" + data.unreaded.length  + ")" }
             mess_bd.prepend(make_message_element(curr_elem_data)); 
             
             }
@@ -1143,7 +1148,7 @@ function display_message_data (data){
               /* handle readed message */ 
               if(data.readed && data.readed.length   ){ 
                 for (let i = data.readed.length - 1; i >= 0; i--) { 
-                    if (data.readed[i].type = "text") {
+                    if (data.readed[i].messageType == "text") {
                         mess_bd.prepend(make_message_element(data.readed[i]));
                     } else { 
                         mess_bd.prepend(make_file_sent_element(data.readed[i]));
@@ -1248,7 +1253,7 @@ noti_box.style.display = "none"
                     let len = data.data.length;
 
                     for (let i = len - 1; i >= 0; i--) {
-                        if (data.data[i].mess_type) {
+                        if (data.data[i].messageType) {
                             mess_bd.prepend(make_file_sent_element(data.data[i]));
                         } else {
 
@@ -1318,7 +1323,7 @@ noti_box.style.display = "none"
             let elem = { direction: "ser", message: "unreaded messages (" + total_mess_len + ")" }
             mess_bd.append(make_message_element(elem));
 
-            if (temp_messages[0].mess_type) {
+            if (temp_messages[0].messageType) {
                 mess_bd.append(make_file_sent_element(temp_messages[0]));
             } else {
                 mess_bd.append(make_message_element(temp_messages[0]));
@@ -1328,7 +1333,7 @@ noti_box.style.display = "none"
         // console.log("setting scroll to bottom ");
         for (i = 1; i < total_mess_len; i++) {
             // console.log( "  i = "  + i  ); 
-            if (temp_messages[i].mess_type) {
+            if (temp_messages[i].messageType) {
                 // console.log( " typeis = file  "  )
                 mess_bd.append(make_file_sent_element(temp_messages[i]));
             } else {
@@ -1357,7 +1362,7 @@ noti_box.style.display = "none"
             let elem = { direction: "ser", message: "unreaded messages (" + total_mess_len + ")" }
             mess_bd.append(make_message_element(elem));
 
-            if (temp_messages[0].mess_type) {
+            if (temp_messages[0].messageType) {
                 mess_bd.append(make_file_sent_element(temp_messages[0]));
             } else {
                 mess_bd.append(make_message_element(temp_messages[0]));
@@ -1367,7 +1372,7 @@ noti_box.style.display = "none"
         // console.log("setting scroll to bottom ");
         for (i = 1; i < total_mess_len; i++) {
             // console.log( "  i = "  + i  ); 
-            if (temp_messages[i].mess_type) {
+            if (temp_messages[i].messageType) {
                 // console.log( " typeis = file  "  )
                 mess_bd.append(make_file_sent_element(temp_messages[i]));
             } else {
@@ -2043,7 +2048,7 @@ myform.addEventListener("submit", (e) => {
         return;
     }
     let curr_time = (new Date()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    socket.emit('send-message', { "message": message_input.value, "time": curr_time, date: (new Date()).toLocaleDateString, curr_f_id: curr_f_id, user_id: user_id });
+    socket.emit('send-message', { "message": message_input.value, date: Date.now(), curr_f_id: curr_f_id, user_id: user_id });
 
     let temp1 = document.createElement("div");
     temp1.classList = "message left";
@@ -2216,7 +2221,7 @@ socket.on("setid", (data) => {
 
 socket.on("rec-message", (data) => {
     // console.log("data recied  ");
-    // console.log(data);
+    console.log(data);
 
     // if()
     data.direction = "in";
@@ -2226,7 +2231,7 @@ socket.on("rec-message", (data) => {
 
         // console.log("recived data is: ", data);
         //if recieved message is file 
-        if (data.mess_type == "file") {
+        if (data.messageType == "file") {
             // console.log("fmessage type is file make in file element ")
             temp = make_file_sent_element(data);
         } else {

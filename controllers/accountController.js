@@ -137,6 +137,8 @@ module.exports.loginUserAccount = catchError(async (req, res, next) => {
                 process.env.JWT_SECRET_KEY);
 
             res.cookie('sid', token, { expires: new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME), httpOnly: false  ,sameSite: 'none', secure: true} );
+            res.cookie('lid', token, { expires: new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME), httpOnly: true } );
+            
             return res.status(200).json({ message: "verfiy successfully", data: result },)
         }
         else {

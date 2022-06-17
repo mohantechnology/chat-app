@@ -17,10 +17,18 @@ const chatMessageSchema = mongoose.Schema({
     },
     message: {
         type: String,
-        trim: true,
+        // trim: true,
         required: true
     },
-
+    messageType: {
+        type: String,
+        enum: {
+            values: ['text' , 'file'],
+            message: "must be  either text' , 'file' ."
+        },
+        default: "text",
+        // trim: true,
+    },
     createdBy: {   // message is created/sended by 
         type: String,
         enum: {
@@ -36,8 +44,8 @@ const chatMessageSchema = mongoose.Schema({
         type: Number,
     },
 
-    fileDetail: {   // if message contain file 
-        path: {
+   // if message contain file 
+        fileName: {
             type: String,
             trim: true,
         },
@@ -45,7 +53,7 @@ const chatMessageSchema = mongoose.Schema({
             type: String,
             trim: true,
         },
-    },
+  
 
     // folderName: String,
 },

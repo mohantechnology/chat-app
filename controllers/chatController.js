@@ -91,9 +91,9 @@ module.exports.listMessage = catchError(async (req, res, next) => {
             response.readed.push(resultMessage[i]);
         }
  
-        /* if message is not created by server then add if message is created by user or his friend */
+        /* if message is not created by server then add if message is created by self or his friend */
         if( resultMessage[i].createdBy != "server" ){ 
-            resultMessage[i].createdBy   = resultMessage[i].recUserId == req.user.uId  ? "friend": "user" ; 
+            resultMessage[i].createdBy   = resultMessage[i].recUserId == req.user.uId  ? "friend": "self" ; 
         }
         resultMessage[i].messageDate = new Date(resultMessage[i].date).toISOString();
     }
@@ -148,20 +148,31 @@ module.exports.saveMessage = catchError(async (req, res, next) => {
         throw new AppError("Must have field 'receiver.uId', 'receiver.currentStatus', 'messageType', 'message'   ", 400);
     }
 
-
-
-    let result = await chatMessage.create(
-        {
+ 
+    let messageData =    {
             message: body.message,
             recUserId: body.receiver.uId,
             sendUserId: req.user.uId,
             // createdBy: "server",
             isReaded: body.receiver.currentStatus == "online" ? true : false,
             date: new Date().getTime(),
-            type: body.messageType,
+            messageType: body.messageType,
             createdBy: "user",
-        },
-    )
+        }
+
+
+        /* if file then add file detail */
+        if (body.messageType == "file") {
+            if (!body.fileName || !body.mimeType) {
+                throw new AppError("Must have field 'fileName' , 'mimeType' ", 400);
+            }
+     
+                messageData.fileName =  body.fileName ; 
+                messageData.mimeType =  body.mimeType ; 
+     
+        }
+
+    let result = await chatMessage.create( messageData )
 
     console.log(result);
     console.log("result");
@@ -210,6 +221,7 @@ module.exports.uploadFile = catchError(async (req, res, next) => {
             message: "File Uploaded Successfully",
             data: {
                 fileName: fileName,
+                mimeType: uploadFile.mimetype,
                 filePath : 'upload/transferFile/' + fileName,
                    }   
                   } ); 

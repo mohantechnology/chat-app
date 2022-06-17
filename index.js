@@ -3,12 +3,13 @@
 const app = require('./Config/app');
 // const constant = require('./Utils/constant.js');
 const fs = require('fs');
-const database = require('./config/database');
+require('./config/database')();
+require('./config/socket')();
 
 
-(async function  (){ 
-  database(); 
-})(); 
+// (async function  (){ 
+//   database(); 
+// })(); 
 
 
 
