@@ -4,6 +4,7 @@ const accountController = require('../controllers/accountController');
 const homeController = require('../controllers/homeController');
 const findFriendController = require('../controllers/findFriendController');
 const chatController = require('../controllers/chatController');
+const videoChatController = require('../controllers/videoChatController');
 
 const auth = require('../middlewares/auth');
 
@@ -63,7 +64,9 @@ userRoutes.post("/upload_file",  chatController.uploadFile);
 userRoutes.get("/download_file",  chatController.downloadFile);
 
 
+/*  video chat   */
 
+userRoutes.get("/video-chat",  videoChatController.videoPage);
 
 
 

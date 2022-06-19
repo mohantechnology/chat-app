@@ -40,12 +40,20 @@
   </div>
     {{!-- call block --}}
 
-
+ 
     <div class="call-opt-bx" id="call_opt_bx">
-      <p class="prof-tl"> ryan Jognath </p>
+      <p class="prof-tl"> {{name}} </p>
 
       <div class="prof-img-par-bx">
-        <span class="prof-img" style="background-image: url('/img/default_img.png');"> </span>
+         {{#if profileImg }}  
+                 <span class="prof-img" style="background-image: url('/upload/{{profileImg}}');"> </span>
+
+
+                {{else}}
+               <span class="prof-img" style="background-image: url('/img/default_img.png');"> </span>
+
+                {{/if}}
+       
       </div>
 
       <br />

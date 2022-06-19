@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 module.exports = (req, res, next) => {
 
     const token = req.cookies.sid || req.cookies.lid || req.headers["x-access-token"];
-    console.log( token)
+    // console.log( token)
     if (!token) {
         return res.status(400).json({ message: "Please Login" })
     }
