@@ -1166,6 +1166,11 @@ function display_message_data (data){
 //fetch friend chat message 
 first_col_friend_list.addEventListener("click", async (e) => {
 
+
+    if( e.target.className == "side-list"){ 
+        return; 
+    }
+
     select_file.style.display = "inline-block";
     send_file.style.display = "none";
     drop_box.style.display = "none";
@@ -1176,16 +1181,21 @@ first_col_friend_list.addEventListener("click", async (e) => {
     myform.style.display = "block";
     mess_bd.style.display = "block";
     header_name.style.display = "block";
-   
+    side_list_video_cam.style.display = "inline-block"; 
 /* hide all other boxes */
 menu_box.style.display = "none";
 sett_box.style.display = "none";
 noti_box.style.display = "none"
 
+  
+
     let id;
     if (e.target.id) { id = e.target.id; }
     else if (e.target.parentNode.id) { id = e.target.parentNode.id; }
     else if (e.target.parentNode.parentNode.id) { id = e.target.parentNode.parentNode.id; }
+    // console.log("id->",e.target.id); 
+    // console.log("classList->",e.target.classList); 
+    console.log("className->",e.target.className); 
     // console.log("id->",id); 
     document.cookie = "date=" + (new Date().toLocaleDateString()) + "; path=/;";
     document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
