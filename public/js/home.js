@@ -311,7 +311,7 @@ function make_file_sent_element(data) {
     else {
 
         temp.classList = "message middle";
-        temp.innerHTML = `       <span class="message-middle">  ${data.message}  </span> `
+        temp.innerHTML = `       <span class="message-middle">  ${data.message}   </span> `
     }
 
     return temp;
@@ -1131,7 +1131,7 @@ function display_message_data (data){
               if(data.unreaded && data.unreaded.length   ){ 
                 for (let i = data.unreaded.length - 1; i >= 0; i--) {
                     // console.log( "inside un="+(data.unreaded[i].messageType ) ) ; 
-                    if (data.unreaded[i].messageType == "text") {
+                    if (data.unreaded[i].messageType == "text" || data.readed[i].messageType == undefined) {
                         mess_bd.prepend(make_message_element(data.unreaded[i]));
                     } else {
     
@@ -1148,7 +1148,7 @@ function display_message_data (data){
               /* handle readed message */ 
               if(data.readed && data.readed.length   ){ 
                 for (let i = data.readed.length - 1; i >= 0; i--) { 
-                    if (data.readed[i].messageType == "text") {
+                    if (data.readed[i].messageType == "text" || data.readed[i].messageType == undefined ) {
                         mess_bd.prepend(make_message_element(data.readed[i]));
                     } else { 
                         mess_bd.prepend(make_file_sent_element(data.readed[i]));
@@ -2285,7 +2285,7 @@ socket.on("rec-message", (data) => {
  
 
 function createIncomingCallElem( data) { 
-    let prof_img = data.profile_img ? "/img/profile/" + data.profile_img :d_img_url    ; 
+    let prof_img = data.profileImg ? "/upload/" + data.profileImg : "/img/profile/" + d_img_url    ; 
     let elem_str =`<div class="call-opt-bx">
     <p class="prof-tl"> ${data.name}</p>
 

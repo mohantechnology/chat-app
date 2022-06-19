@@ -1486,8 +1486,8 @@ width:100%;
     /* border-radius: 50%; */
 } 
 .side-list-video-icon:hover{ 
-    background-color: rgb(147, 136, 186);
-       color: #ffffffec;
+    /* background-color: rgb(147, 136, 186); */
+       color: white;
 }
 /* #side-list-video-cam{ 
 

@@ -45,8 +45,7 @@
       <p class="prof-tl"> {{name}} </p>
 
       <div class="prof-img-par-bx">
-         {{#if profileImg }} 
-                <span class="all_img" style="background-image: url('/upload/{{profileImg}}');"> </span>
+         {{#if profileImg }}  
                  <span class="prof-img" style="background-image: url('/upload/{{profileImg}}');"> </span>
 
 
@@ -80,6 +79,9 @@
       {{!-- <button onclick="joinCall()">Join</button> --}}
 
     </div>
+     <div id="incoming_call_bx">  </div>
+
+
 </body>
 <script src="{{SOCKET_FILE}}"></script>
 <script>
