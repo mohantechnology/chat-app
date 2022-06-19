@@ -1,6 +1,6 @@
 // 'use strict';
 "use strict"
-const app = require('./Config/app');
+const app = require('./config/app');
 // const constant = require('./Utils/constant.js');
 const fs = require('fs');
 require('./config/database')();
