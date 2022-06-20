@@ -2207,6 +2207,10 @@ socket.on("friend-status", (data) => {
 
 
 socket.on("typing", (data) => {
+    console.log("typing..")
+    console.log(data)
+    console.log(curr_f_id)
+
     if (curr_f_id == data.u_id) {
 
         header_name.children[1].children[1].textContent = "typing...";
@@ -2350,10 +2354,10 @@ function handleAcceptCall( ) {
 
 // --------- Socket Events ------------------
 
-socket.on("redirect", (data) => {
-    // location = "./login";
-    alert( "login again")
-});
+// socket.on("redirect", (data) => {
+//     // location = "./login";
+//     alert( "login again")
+// });
 
 // socket.on("user-disconnected", (data) => {
 //     console.log("new user in client ");

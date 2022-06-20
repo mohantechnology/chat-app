@@ -10,7 +10,7 @@ socket.on("calling", (data) => {
 socket.on("redirect", ( data) => {
      
     console.log( "redirect") ;
-    alert( "redirect") ; 
+    // alert( "redirect") ; 
 
    
   });
@@ -59,7 +59,8 @@ function make_session_with_socket ( ){
        if( !sid) { 
            console.warn ( "sid not found ")
        }
-       let cookie_data = { sid };  socket.emit("user-connected", cookie_data);
+       let cookie_data = { sid }; 
+        socket.emit("user-connected", cookie_data);
     
 }
 
