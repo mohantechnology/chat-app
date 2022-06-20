@@ -126,7 +126,7 @@ function createAndSendOffer() {
     peerConn.createOffer(handleSuccess, handleError);
     function handleSuccess(offer) {
         console.log(offer);
-        let data = { f_id: f_id, offer: offer, li }
+        let data = { f_id: f_id, offer: offer, li:accessToken }
         socket.emit("store_offer", (data));
         peerConn.setLocalDescription(offer);
         // socket.emit("offer", id, peerConnection.localDescription);
@@ -189,7 +189,7 @@ async function joinCall(e) {
         // console.log( peerConn); 
         let li = getCookie("li");
  
-        socket.emit('join_call',{li  });
+        socket.emit('join_call',{ li :accessToken   });
         // createAndSendAnswer ()
     }
     catch (err) {
@@ -228,9 +228,9 @@ function endCall() {
     if( input == false ){ return ; }
     hideRemoteVideo(); 
     let li = getCookie("li");
-        let data = {  li } ; 
+        let data = {  li : accessToken } ; 
     socket.emit("end-call",data);
-    window.location="/profile" ; 
+    window.location="/home" ; 
     console.log( "end-call")
 
 }
