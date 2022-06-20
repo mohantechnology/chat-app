@@ -71,7 +71,7 @@ module.exports.videoPage = catchError(async (req, res, next) => {
  
         result.SOCKET_URL = process.env.SOCKET_URL;
         result.SOCKET_FILE = process.env.SOCKET_FILE;
-        result.accessToken = req.user.accessToken;
+        result.accessToken = req.cookies.sid;
         
         // // res.json(result)
         // console.log( result);  
