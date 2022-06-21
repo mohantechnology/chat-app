@@ -251,20 +251,31 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
 @media only screen and (max-width:950px) {
 
     .container-bx{ 
+        /* border: 1px solid black;  */
         flex-direction:column;
         row-gap:50px; 
-        padding: 20px 5px;
+        padding: 20px 0px;
+        width: 93%;
+        margin: auto; 
+        align-items:stretch; 
+        
     }
 
     .call-opt-bx {
         
-    width: 100%;
-        max-width: 430px;
+        width: 100%; 
+        max-width :unset ; 
+        border: 1px solid green; 
+
 
     }
     .local-vid-bx{ 
         width: 100%; 
+        max-width :unset ;  
+    height: unset; 
         /* margin:10px;  */
+        border: 1px solid red;  
+
     }
     .local-vid-bx-conn{ 
         width : 70px; 
