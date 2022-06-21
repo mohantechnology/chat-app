@@ -266,7 +266,9 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         width: 100%; 
         /* margin:10px;  */
     }
-    
+    .local-vid-bx-conn{ 
+        width : 70px; 
+    }
     .video-elem{
         /* height: unset;  */
         /* width: unset ;  */
