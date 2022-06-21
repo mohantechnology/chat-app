@@ -255,7 +255,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         flex-direction:column;
         row-gap:50px; 
         padding: 20px 0px;
-        width: 93%;
+        width: 65%;
         margin: auto; 
         align-items:stretch; 
         
@@ -265,7 +265,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         
         width: 100%; 
         max-width :unset ; 
-        border: 1px solid green; 
+        /* border: 1px solid green;  */
 
 
     }
@@ -274,7 +274,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         max-width :unset ;  
     height: unset; 
         /* margin:10px;  */
-        border: 1px solid red;  
+        /* border: 1px solid red;   */
 
     }
     .local-vid-bx-conn{ 

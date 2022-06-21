@@ -24,7 +24,7 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
 
          /* height:100px; */
         overflow-y:hidden; 
-
+   position :relative ; 
     }
 
 
@@ -811,11 +811,15 @@ border-bottom:1px solid rgb(255, 255, 255);
 }
 #myform{
     display:none; 
-    position:absolute;
-    bottom:0px; 
+    /* position:absolute;
+    bottom:0px;  */
     width:100%; 
     /* overflow-x:hidden;   */
     padding: 10px 0px;
+    position:fixed;
+    bottom:20px; 
+
+
 
 
 }
