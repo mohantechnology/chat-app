@@ -29,10 +29,8 @@ let mediaConstraints = { video: { width: 1280, height: 720 }, audio: true };
 const config = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
 function add_tract_in_peer( ){ 
     console.log( localStream.getTracks( ) ) ; 
-    localStream.getTracks().forEach(track => peerConn.addTrack(track, localStream));
-//    peerConn.addTrack(localStream.getTracks()[0], localStream);
-
-    // peerConn.addStream( localStream);
+    // localStream.getTracks().forEach(track => peerConn.addTrack(track, localStream));
+    peerConn.addStream( localStream);
 }
 
 
