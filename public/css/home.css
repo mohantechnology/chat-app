@@ -809,15 +809,15 @@ border-bottom:1px solid rgb(255, 255, 255);
 #header_logo{
     display:block; 
 }
-#myform{
+#myform{ 
     display:none; 
-    /* position:absolute;
-    bottom:0px;  */
+    position:absolute;
+   /*  bottom:0px;  */
     width:100%; 
     /* overflow-x:hidden;   */
     padding: 10px 0px;
-    position:fixed;
-    bottom:20px; 
+    /* position:fixed; */
+    bottom:4px; 
 
 
 
@@ -1319,6 +1319,9 @@ background-color: white;
 
 @media only screen and (max-width:950px) {
   
+    #myform{  
+         position:fixed;
+    }
   #forward,#back{
       display: inline-block;
   }
