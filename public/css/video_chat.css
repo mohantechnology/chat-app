@@ -247,3 +247,29 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
          border: 1px solid #c3ebfc6b;
 }
 
+
+@media only screen and (max-width:950px) {
+
+    .container-bx{ 
+        flex-direction:column;
+        row-gap:50px; 
+        
+    }
+
+    .call-opt-bx {
+        
+    width: 100%;
+        max-width: 430px;
+
+    }
+    .local-vid-bx{ 
+        width: 100%; 
+        /* margin:10px;  */
+    }
+    
+    .video-elem{
+        /* height: unset;  */
+        /* width: unset ;  */
+    }
+
+}
