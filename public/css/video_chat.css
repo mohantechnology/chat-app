@@ -95,8 +95,8 @@ background-image: linear-gradient(90deg, #FF9A8B 0%, #FF6A88 55%, #FF99AC 100%);
         height:100vh ; 
         top: 0px; 
         left: 0px; 
-        /* z-index: -100; */
-        /* display:none;  */
+        z-index: -100;
+        display:none; 
     }
 
         .video-elem{ 

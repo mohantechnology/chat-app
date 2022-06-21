@@ -246,9 +246,12 @@ function displayRemoteVideo ( ) {
     if( !local_video_par_bx.classList.contains("local-vid-bx-conn") ){ 
         local_video_par_bx.classList.add("local-vid-bx-conn" ) ; 
     }
+    local_video_par_bx.style.zIndex = "200" ; 
     call_opt_bx.style.display = "none"; 
     local_vid_icon_bx.style.visibility = "hidden";  
-    remote_video_par_bx.style.display="flex" ; 
+    remote_video_par_bx.style.display="flex" ;
+    remote_video_par_bx.style.zIndex="100" ;
+     
         remote_vid_icon_bx.style.display="flex" ;
 }
 
