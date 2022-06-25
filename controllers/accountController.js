@@ -116,6 +116,7 @@ module.exports.updatePasswordPage = (req, res, next) => {
 
 //  function to set credentiaals in cookie
 function setCredentialsToCookies(res,accountDetail){
+
     let token = jwt.sign(
         {
             email: accountDetail.email,
@@ -126,7 +127,6 @@ function setCredentialsToCookies(res,accountDetail){
             name: accountDetail.name,
             profMess: accountDetail.profMess,
              profileImg: accountDetail.profileImg, 
-             accountStatus: accountDetail.accountStatus, 
             
         },
         process.env.JWT_SECRET_KEY);
@@ -149,7 +149,7 @@ module.exports.loginUserAccount = catchError(async (req, res, next) => {
 
     let accessToken = "tk" + crypto.randomBytes(10).toString('hex');
     let tokenExpireAt = (new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME )).getTime();
-    let result = await userAccount.findOneAndUpdate({ email: req.body.email }, { accessToken, tokenExpireAt , currentStatus:"online" }, { new: true });
+    let result = await userAccount.findOneAndUpdate({ email: req.body.email }, { accessToken, tokenExpireAt , currentStatus:"online" }, { new: true }).lean();
 
     // cprint({tokenExpireAt},  "") ; 
 
@@ -157,13 +157,9 @@ module.exports.loginUserAccount = catchError(async (req, res, next) => {
         if (await bcrypt.compare(req.body.password, result.password)) {
             // save  data to jwt token
 
-            let token = jwt.sign(
-                { email: result.email, accessToken, _id: result._id, uId: result.uId, name: result.name, profMess: result.profMess, profileImg: result.profileImg , accountStatus : result.accountStatus },
-                process.env.JWT_SECRET_KEY);
+            result.accessToken  = accessToken ;  
 
-            res.cookie('sid', token, { expires: new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME), httpOnly: false  ,sameSite: 'none', secure: true} );
-            res.cookie('lid', token, { expires: new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME), httpOnly: true } );
-            
+            setCredentialsToCookies( res,result ) ; 
             return res.status(200).json({ message: "verfiy successfully", data: result },)
         }
         else {
@@ -179,6 +175,8 @@ module.exports.loginUserAccount = catchError(async (req, res, next) => {
 module.exports.loginWithGoogleAccount = catchError(async (req, res, next) => {
     // console.log( "req.body")
     // console.log( req.body)
+        console.log( "req.cookies")
+    console.log( req.cookies)
     // https://oauth2.googleapis.com/tokeninfo?id_token={{your_token}}
 
     req.body.credential = req.body.credential ? req.body.credential.trim() : undefined;
