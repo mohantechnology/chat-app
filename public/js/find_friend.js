@@ -15,11 +15,13 @@ if (localStorage.getItem("ln") != "1") {
 
 
 function make_element(data) {
-
+    let profileImgPath =  data.profileImg ? 
+    data.profileImg.startsWith("https://") ?  data.profileImg : "/upload/" +  data.profileImg 
+   : "./img/profile/"+  d_img_url  ; 
     return `   <div class="friend-profile" >
 <div class="friend-image">
     <span class="all_img"
-        style="background-image: url('${(data.profileImg ? "/upload/" +  data.profileImg : "./img/profile/"+  d_img_url)}');">
+        style="background-image: url('${profileImgPath}');">
     </span>
 </div>
 <span class="profile">

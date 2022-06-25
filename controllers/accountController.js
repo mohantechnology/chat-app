@@ -365,7 +365,7 @@ module.exports.resendActivationLink = catchError(async (req, res, next) => {
 
     let activateUrl = `${process.env.SELF_URL}/activate?email=${encodeURIComponent(result.email)}&tokenType=tkString&tokenValue=${result.tokenStr}`;
     let emailTemplate = fs.readFileSync(__dirname + "/../views/act_acc_email.html", "utf-8");
-
+console.log( activateUrl); 
     emailTemplate = emailTemplate.replace("{{$activate_code}}", result.tokenNo);
     emailTemplate = emailTemplate.replace("{{$activate_url}}", activateUrl);
     emailTemplate = emailTemplate.replace("{{$activate_url}}", activateUrl);

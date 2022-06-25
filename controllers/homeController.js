@@ -77,13 +77,18 @@ module.exports.homePage = catchError(async (req, res, next) => {
 
             result.friendList.map((item, index) => {
                 item.recMessageCount = resultMessage[index]; // attach message count recevied by current friend
+                if (item.profileImg && !item.profileImg.startsWith("https://")) {
+                    item.profileImg = "/upload/" + item.profileImg;
+                }
             })
         }
 
 
             // cprint({ result });
- 
-
+  
+         if(  result.profileImg && !result.profileImg.startsWith("https://")){ 
+              result.profileImg =      "/upload/"  +  result.profileImg
+           }
         result.SOCKET_URL = process.env.SOCKET_URL;
         result.SOCKET_FILE = process.env.SOCKET_FILE;
         // res.json(result)
@@ -115,7 +120,7 @@ module.exports.listNotification = catchError(async (req, res, next) => {
     }
 
  
-    return res.status(200).json({ message: "Notifications are", data: resultAccount.notification })
+    return res.status(200).json({ message: "Notifications are", data: resultAccount.notification.reverse() })
 
 
 });

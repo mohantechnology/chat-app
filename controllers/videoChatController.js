@@ -72,7 +72,9 @@ module.exports.videoPage = catchError(async (req, res, next) => {
         result.SOCKET_URL = process.env.SOCKET_URL;
         result.SOCKET_FILE = process.env.SOCKET_FILE;
         result.accessToken = req.cookies.sid;
-        
+        if (result.profileImg && !result.profileImg.startsWith("https://")) {
+            result.profileImg = "/upload/" + result.profileImg;
+        }
         // // res.json(result)
         // console.log( result);  
         // console.log( "result");  

@@ -1075,12 +1075,16 @@ function selectElementText(el, win) {
 
 function make_element_for_friend_req(data) {
 
+  // check if profile image exists and if start with https or not 
+  let profileImgPath =  data.profileImg ? 
+    data.profileImg.startsWith("https://") ?  data.profileImg : "/upload/" +  data.profileImg 
+   : "./img/profile/"+  d_img_url  ; 
 
     return `<div class="friend-profile">
      <div class="friend-image">
 
      <span class="all_img"
-     style="background-image: url('${(data.profileImg ? "/upload/" +  data.profileImg : "./img/profile/"+  d_img_url)}');">
+     style="background-image: url('${profileImgPath}');">
  </span>
      
      </div>
@@ -1097,12 +1101,15 @@ function make_element_for_friend_req(data) {
 //##start here @########## fot notifcation 
 
 function make_element_for_noti(data) {
-
+  // check if profile image exists and if start with https or not 
+  let profileImgPath =  data.profileImg ? 
+    data.profileImg.startsWith("https://") ?  data.profileImg : "/upload/" +  data.profileImg 
+   : "./img/profile/"+  d_img_url  ; 
 
     return `    <div class="friend-profile">
                     <div class="friend-image">
                     <span class="all_img"
-                    style="background-image: url('${(data.profileImg ? "/upload/" +  data.profileImg : "./img/profile/"+  d_img_url)}');">
+                    style="background-image: url('${profileImgPath}');">
                 </span>
                     
                     </div>
@@ -2289,12 +2296,16 @@ socket.on("rec-message", (data) => {
  
 
 function createIncomingCallElem( data) { 
-    let prof_img = data.profileImg ? "/upload/" + data.profileImg : "/img/profile/" + d_img_url    ; 
+      // check if profile image exists and if start with https or not 
+  let profileImgPath =  data.profileImg ? 
+  data.profileImg.startsWith("https://") ?  data.profileImg : "/upload/" +  data.profileImg 
+ : "./img/profile/"+  d_img_url  ; 
+    // let prof_img = data.profileImg ? "/upload/" + data.profileImg : "/img/profile/" + d_img_url    ; 
     let elem_str =`<div class="call-opt-bx">
     <p class="prof-tl"> ${data.name}</p>
 
     <div class="prof-img-par-bx">
-      <span class="prof-img" style="background-image: url('${prof_img}');"> </span>
+      <span class="prof-img" style="background-image: url('${profileImgPath}');"> </span>
     </div>
 
     <br />

@@ -25,10 +25,11 @@
         <div class="friend-profile not-hover" id="self_prof">
             <div class="friend-image">
 
-
-                {{#if profileImg }}
-                <span class="all_img" style="background-image: url('/upload/{{profileImg}}');"> </span>
-
+ 
+ 
+            {{#if profileImg   }}
+                <span class="all_img" style="background-image: url('{{profileImg}}');"> </span>
+ 
                 {{else}}
                 <span class="all_img" style="background-image: url('/img/profile/../default_img.png');"
                     class="selectDisable"> </span>
@@ -116,7 +117,7 @@
 
 
                     {{#if profileImg }}
-                    <span class="all_img" style="background-image: url('/upload/{{profileImg}}');"> </span>
+                    <span class="all_img" style="background-image: url('{{profileImg}}');"> </span>
                     {{else}}
                     <span class="all_img" style="background-image: url('/img/profile/../default_img.png');"> </span>
                     {{/if}}
@@ -403,7 +404,7 @@
 
                         {{#if profileImg }}
                         <span id="prof_img" class="all_img"
-                            style="position:relative; left:30px; border:1px solid rgba(43, 39, 39, 0.411);width:110px;height:110px;background-image: url('/upload/{{profileImg}}');"></span>
+                            style="position:relative; left:30px; border:1px solid rgba(43, 39, 39, 0.411);width:110px;height:110px;background-image: url('{{profileImg}}');"></span>
 
                         {{else}}
                         <span id="prof_img" class="all_img"
