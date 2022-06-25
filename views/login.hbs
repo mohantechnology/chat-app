@@ -4,22 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id"
+        content="966933362903-jgjr72epvhl0e1drsbil0smiq3h8ubee.apps.googleusercontent.com">
     <title>Login</title>
     <link rel="icon" href="favicon.ico">
+
 </head>
 <style>
     body {
- 
+
         /* background-color: rgb(233, 233, 231); */
         /* background-color: hsl(40, 10, 218); */
         font-family: 'Roboto', sans-serif;
         /* background: white; */
         /* background-color: blue; */
-        background:linear-gradient(62deg,#4158D0 5%,#556de7 40%, #E0C3FC 100%);
+        background: linear-gradient(62deg, #4158D0 5%, #556de7 40%, #E0C3FC 100%);
         min-height: 100vh;
-    
 
-        
+
+
     }
 
 
@@ -28,19 +31,21 @@
 height:5vh;
 
 } */
-#person_img {
-    display: inline-block;
-    /* position: relative; */
-    
-    width: 45px;
-}
-#or-head{
-      
-      text-align: center;
-      position: relative;
-      top: 17px;
-      display: none;
-     }     
+    #person_img {
+        display: inline-block;
+        /* position: relative; */
+
+        width: 45px;
+    }
+
+    #or-head {
+
+        text-align: center;
+        position: relative;
+        top: 17px;
+        display: none;
+    }
+
     input {
         background-color: rgb(255, 255, 255);
         /* background-color: hsl(160, 0, 240); */
@@ -60,15 +65,15 @@ height:5vh;
         outline-style: none;
         ;
     }
-  
+
     .login-box {
-        background-color:white;
+        background-color: white;
         /* background-color: hsl(40, 22, 230); */
         width: 60%;
         /* height: 400px; */
         /* border: 1px solid rgb(0, 0, 0); */
         margin: auto;
-        padding:25px 0px;
+        padding: 25px 0px;
         z-index: 2;
         margin-top: 35px;
         /* background-color: blue; */
@@ -154,7 +159,8 @@ height:5vh;
         background-color: rgb(248, 81, 51);
     }
 
-    #login-butt ,#reg-butt{
+    #login-butt,
+    #reg-butt {
         /* background-color: hsl(131, 240, 45); */
         background-color: rgb(0, 70, 96);
     }
@@ -209,22 +215,29 @@ height:5vh;
         display: none;
 
     }
-    .rember-me{
-          position: relative;  
+
+    .rember-me {
+        position: relative;
     }
-    #forgot-pass{
+
+    #forgot-pass {
 
         font-size: 12px;
-    position: absolute;
-    top: -15px;
-    right: 0px;
+        position: absolute;
+        top: -15px;
+        right: 0px;
 
-    margin-bottom: 10x;
-     
+        margin-bottom: 10x;
+
     }
+
+
+/* .goog-but-par{ 
+    border: 1px solid blue; 
+    display:inline-block ; 
+    margin:7px ; 
     
-
-
+} */
 
 
 
@@ -245,7 +258,7 @@ height:5vh;
             /* background-color: hsl(160, 0, 232); */
             padding: 30px;
         }
- 
+
         #chat_img {
             width: 450px;
             display: inline-block;
@@ -253,7 +266,7 @@ height:5vh;
             z-index: 1;
             /* padding:100px; */
             position: absolute;
-            right:0px;
+            right: 0px;
             top: 60px;
         }
 
@@ -266,7 +279,7 @@ height:5vh;
             margin-top: 35px;
             /* background-color: hsl(160, 0, 232); */
         }
-      
+
         #head-message {
 
             margin-bottom: 2px;
@@ -287,16 +300,31 @@ height:5vh;
 
     }
 
-    #message{
+    #message {
         border-radius: 1px solid blue;
-        background-color:green ;
-        color:white; 
+        background-color: green;
+        color: white;
         text-align: center;
-        width:80%; 
-        margin:auto; 
-        padding:5px; 
+        width: 80%;
+        margin: auto;
+        padding: 5px;
         display: none;
     }
+
+    .g_id_signin{ 
+    width: 315px;
+    margin: auto;
+    position: relative;
+    right: 4px;
+    min-height: 34px;
+    margin-top: 4px;
+    display: flex;
+    /* flex-direction: row; */
+    justify-content: center;
+    /* border: 1px solid black; */
+    /* border: 1px solid #dadce0; */
+}
+
 
 
     @media screen and (min-width:401px) and (max-width:950px) {
@@ -327,6 +355,9 @@ height:5vh;
         #bottom-rule {
 
             display: block;
+        }
+         .g_id_signin{ 
+        width: 396px ; 
         }
 
     }
@@ -370,60 +401,72 @@ height:5vh;
         }
 
     }
-        @media screen and (max-width:250px) {
 
-            .button {
-                width: 95%;
-                left: 0px;
+    @media screen and (max-width:250px) {
 
-            }
+        .button {
+            width: 95%;
+            left: 0px;
 
-            .svg-icon {
-                display: none;
-            }
+        }
 
-            .rember-me {
+        .svg-icon {
+            display: none;
+        }
 
-                width: 95%;
-                font-size: 15px;
+        .rember-me {
 
-            }
+            width: 95%;
+            font-size: 15px;
 
-            #remem-me {
-                margin: 5px;
-            }
+        }
 
-            .button {
-                padding-left: 0px;
-                padding-right: 0px;
-            }
+        #remem-me {
+            margin: 5px;
+        }
+
+        .button {
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+    }
+
+
+    @media screen and (max-width:950px) {
+        .login-box {
+            background-color: white;
+            border: none;
+            margin-top: 35px;
+        }
+
+        #or-head {
+
+            display: block;
         }
 
 
-        @media screen and (max-width:950px) {
-            .login-box {
-                background-color: white;
-                border: none;
-                margin-top: 35px;
-            }
+    }
 
-            #or-head {
+ 
 
-                display: block;
-            }
+    /* #g_id_onload{
+            border: 1px solid black; 
+        } */
 
-
-        }
+        /* .nsm7Bb-HzV7m-LgbsSe-MJoBVe  , .haAclf , .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb , .nsm7Bb-HzV7m-LgbsSe-BPrWId {
+            border: 10px solid black !important;
+        } */
 </style>
 
 <body>
 
     <div id="box">
-        
+
         <div class="login-box">
             <div id="or-head">
-                <hr class="hr-line"> <img id="person_img" src="person.png" alt="">    <hr class="hr-line">
-   
+                <hr class="hr-line"> <img id="person_img" src="person.png" alt="">
+                <hr class="hr-line">
+
             </div>
             <p id="head-message"> Login </p>
 
@@ -436,7 +479,7 @@ height:5vh;
                         <path fill-rule="evenodd"
                             d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z">
                         </path>
-                    </svg><input type="text" id="email"  name="email" placeholder="Your Email" > </span>
+                    </svg><input type="text" id="email" name="email" placeholder="Your Email"> </span>
                 <span class="input-field"> <svg class="svg-icon" width="1em" height="1em" viewBox="0 0 16 16"
                         class="bi bi-key-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                         data-darkreader-inline-fill="" style="--darkreader-inline-fill:currentColor;">
@@ -444,19 +487,19 @@ height:5vh;
                             d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z">
                         </path>
                     </svg> <input type="password" id="user-pass" name="pass" placeholder="Password"> </span>
-                    <span class="rember-me"> <a href="forgot" id="forgot-pass">Forgot password?</a> </span>
-  
+                <span class="rember-me"> <a href="forgot" id="forgot-pass">Forgot password?</a> </span>
+
                 <span class="rember-me"> <input type="checkbox" name="remem_me" id="remem-me"> Remember Me</span>
 
 
-              
-            
+
+
                 <button type="button" id="login-butt" class="button"> Login </button>
-                             <div id="or">
+                <div id="or">
                     <hr class="hr-line"> OR
                     <hr class="hr-line">
                 </div>
-                
+
                 <button id="reg-butt" class="button"> Register Account </button>
                 <button id="fb-butt" class="button"> <svg id="fb-icon" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 48 48" width="1rem" height="1rem">
@@ -474,16 +517,17 @@ height:5vh;
 
 
 
-                <button id="gm-butt" class="button"> <svg id="gm-icon" xmlns="http://www.w3.org/2000/svg" fill="white"
+                <!-- <button    onclick="clickSignInWithGoolge()" id="gm-butt" class="button"> <svg id="gm-icon" xmlns="http://www.w3.org/2000/svg" fill="white"
                         viewBox="0 0 24 24" width="1rem" height="1rem" data-darkreader-inline-fill=""
                         style="--darkreader-inline-fill:#382810;">
                         <path
                             d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032 s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2 C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z">
                         </path>
-                    </svg> Login via Gmail</button>
+                    </svg> Login via Gmail</button> -->
 
-
-
+                 
+                     <div    class="g_id_signin" data-type="standard" data-shape="pill" data-width="315" data-size="medium" data-text="signup_with" data-logo_alignment="center" ></div>
+              
 
             </div>
 
@@ -492,109 +536,158 @@ height:5vh;
             <hr id="bottom-rule">
 
         </div>
-   
+
 
         <img id="chat_img" src="chat_image.png" alt="">
     </div>
+    <div id="bottom"></div>
 
-    <div id="bottom" ></div>
+
+
+    <!-- <button >sign in with google </button>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+     <div class="g-signin2" data-onsuccess="handleCredentialResponse"></div> 
+    <a href="#" onclick="signOut();">Sign out</a>  -->
+
+    <!-- </script><script src="https://apis.google.com/js/platform.js" async defer></script> -->
+
+    <!-- <a href="youtube.com" target="_parent"  >Sign out</a> -->
+
+ 
+    <div id="g_id_onload" data-client_id="{{GOOGLE_CLIENT_Id}}"     data-callback="handleCredentialResponse">
+    </div>
+  
+ 
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script  src="./js/sendRequest.js"></script>
+
     <script>
-        var email = document.getElementById("email"); 
+        var email = document.getElementById("email");
         var user_pass = document.getElementById("user-pass");
         var login_butt = document.getElementById("login-butt");
         var reg_butt = document.getElementById("reg-butt");
         var remem_me = document.getElementById("remem-me");
         var message = document.getElementById("message");
-        var is_rec_reqest=true;  
-        var timeout_id ; 
+        // var gm_butt = document.getElementById("gm-butt");
+        // var container = document.getElementById("container");
+        
+        var is_rec_reqest = true;
+        var timeout_id;
 
 
-         if(localStorage.getItem("rem")){
-               
-      email.value=  localStorage.getItem("email"); 
-      user_pass.value =      localStorage.getItem("pass");
-      remem_me.checked=true;  
-         }
-       
-         
-     function send_xhr(param,url){
-         if(!is_rec_reqest){
-            // return; 
-         }
-          is_rec_reqest = false ; 
-         login_butt.textContent = "Processing..."
-          let xhttp = new XMLHttpRequest(); 
-          xhttp.open("POST", url, true);
-         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        if (localStorage.getItem("rem")) {
 
- 
-          xhttp.onreadystatechange = function(){
-              
-              if(this.readyState == 4  ){
-                let data = JSON.parse(this.response);
-                if( this.status>=200 && this.status<300 ){
-                    localStorage.setItem("ln","1");  
-                    location="./home"; 
-                }
-                else{
-                      console.log("error occured"); 
-                      console.log(data); 
-                      display_message(data.message, "red"); 
-                  }
-                  ; 
-                  login_butt.textContent = "Login";
-                  is_rec_reqest = true ;
-              }
-             
-          }
-    
-          xhttp.send( param );
+            email.value = localStorage.getItem("email");
+            user_pass.value = localStorage.getItem("pass");
+            remem_me.checked = true;
         }
-        function display_message(mess,color){
-            clearTimeout(timeout_id); 
-            message.innerHTML = mess; 
-            message.style.display="block";
-            message.style.backgroundColor= color; 
-          timeout_id =   setTimeout(() => {
-            message.innerHTML = ""; 
-            message.style.display="none"; 
+
+       
+        function send_xhr(param, url) {
+            if (!is_rec_reqest) {
+                // return; 
+            }
+            is_rec_reqest = false;
+            login_butt.textContent = "Processing..."
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("POST", url, true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+
+            xhttp.onreadystatechange = function () {
+
+                if (this.readyState == 4) {
+                    let data = JSON.parse(this.response);
+                    if (this.status >= 200 && this.status < 300) {
+                        localStorage.setItem("ln", "1");
+                        location = "./home";
+                    }
+                    else {
+                        console.log("error occured");
+                        console.log(data);
+                        display_message(data.message, "red");
+                    }
+                    ;
+                    login_butt.textContent = "Login";
+                    is_rec_reqest = true;
+                }
+
+            }
+
+            xhttp.send(param);
+        }
+        function display_message(mess, color) {
+            clearTimeout(timeout_id);
+            message.innerHTML = mess;
+            message.style.display = "block";
+            message.style.backgroundColor = color;
+            timeout_id = setTimeout(() => {
+                message.innerHTML = "";
+                message.style.display = "none";
             }, 5000);
 
         }
 
-        login_butt.addEventListener("click", ()=>{
-            let param ; 
-            if(remem_me.checked){
-              localStorage.setItem("email",email.value); 
-              localStorage.setItem("pass",user_pass.value);
-              localStorage.setItem("rem",true); 
+        login_butt.addEventListener("click", () => {
+            let param;
+            if (remem_me.checked) {
+                localStorage.setItem("email", email.value);
+                localStorage.setItem("pass", user_pass.value);
+                localStorage.setItem("rem", true);
 
-              
-              console.log("seteed'); ") ; 
-              
-            }else{
-                localStorage.removeItem("email"); 
+
+                console.log("seteed'); ");
+
+            } else {
+                localStorage.removeItem("email");
                 localStorage.removeItem("pass");
                 localStorage.removeItem("rem");
             }
-            let user_email ,user_password; 
-          
-             user_email = encodeURIComponent(email.value.trim()); 
-             user_password = encodeURIComponent( user_pass.value.trim());
-             if(user_password=="" || user_email==""){
+            let user_email, user_password;
 
-                 display_message("All Fields are Required","red"); 
-                 return
-             }
-            param = "email="+user_email+ "&password=" + user_password; 
-           send_xhr(param,"./login"); 
-           
+            user_email = encodeURIComponent(email.value.trim());
+            user_password = encodeURIComponent(user_pass.value.trim());
+            if (user_password == "" || user_email == "") {
+
+                display_message("All Fields are Required", "red");
+                return
+            }
+            param = "email=" + user_email + "&password=" + user_password;
+            send_xhr(param, "./login");
+
         });
 
-        reg_butt.addEventListener("click",()=>{
-            email.value=user_pass.value= "";
-            location="./reg"; 
+        reg_butt.addEventListener("click", () => {
+            email.value = user_pass.value = "";
+            location = "./reg";
         })
+
+ 
+ // sign in with goolge 
+    async function handleCredentialResponse(googleUser) {
+       // console.log(googleUser);
+  
+        try {
+
+            let response = await sendRequest.post(JSON.stringify(googleUser), "/google_signin", "application/json");
+            response = JSON.parse(response);
+            console.log(response);
+            localStorage.setItem("ln", "1");
+            location = "./home"; 
+        }
+        catch (err) {
+            console.error(err);
+            let error = JSON.parse(err);
+            display_message(error.message, "red");
+
+        }
+ 
+    }
+
+ 
+
+
+ 
     </script>
 
 </body>

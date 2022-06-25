@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
+const {OAuth2Client} = require('google-auth-library');
 
 /* import models */
 const userAccount = require('../model/userAccount');
@@ -88,7 +89,10 @@ module.exports.registerPage = (req, res, next) => {
 }
 
 module.exports.loginPage = (req, res, next) => {
-    res.sendFile(VEIW_DIR + "/login.html");
+    let  data ={
+        GOOGLE_CLIENT_Id : process.env.GOOGLE_CLIENT_Id 
+    }
+    res.render("login.hbs" ,data );
 }
 module.exports.landingPage = (req, res, next) => {
     res.redirect("/login")
@@ -110,7 +114,28 @@ module.exports.updatePasswordPage = (req, res, next) => {
     res.sendFile(VEIW_DIR + "/reset.html");
 }
 
+//  function to set credentiaals in cookie
+function setCredentialsToCookies(res,accountDetail){
+    let token = jwt.sign(
+        {
+            email: accountDetail.email,
+            accessToken: accountDetail.accessToken,
+            accountStatus: accountDetail.accountStatus, 
+            _id: accountDetail._id,
+            uId: accountDetail.uId,
+            name: accountDetail.name,
+            profMess: accountDetail.profMess,
+             profileImg: accountDetail.profileImg, 
+             accountStatus: accountDetail.accountStatus, 
+            
+        },
+        process.env.JWT_SECRET_KEY);
 
+    res.cookie('sid', token, { expires: new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME), httpOnly: false  ,sameSite: 'none', secure: true} );
+    res.cookie('lid', token, { expires: new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME), httpOnly: true } );
+    return token ; 
+    
+}
 module.exports.loginUserAccount = catchError(async (req, res, next) => {
     // console.log( "req.body")
     // console.log( req.body)
@@ -150,6 +175,72 @@ module.exports.loginUserAccount = catchError(async (req, res, next) => {
 
 })
 
+
+module.exports.loginWithGoogleAccount = catchError(async (req, res, next) => {
+    // console.log( "req.body")
+    // console.log( req.body)
+    // https://oauth2.googleapis.com/tokeninfo?id_token={{your_token}}
+
+    req.body.credential = req.body.credential ? req.body.credential.trim() : undefined;
+
+    if (!req.body.credential) {
+        throw new AppError("Must have field 'credential'", 400)
+    }
+// verfiy token and get user details
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_Id);
+    let ticket;
+    try {
+        ticket = await client.verifyIdToken({
+            idToken: req.body.credential,
+            audience: process.env.GOOGLE_CLIENT_Id,  // Specify the CLIENT_ID of the app that accesses the backend
+            // Or, if multiple clients access the backend:
+            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+        });
+    }
+    catch (err) {
+        console.log(err);
+        throw new AppError("Verfication Failed", 400);
+    }
+
+    // find if any account already exist matching this email  
+    let resultAccount = await userAccount.findOne({ email: ticket.payload.email }).lean();;
+    if (!resultAccount) {
+        // if account  not exist then create it 
+        let userData = {
+            name: ticket.payload.name,
+            profileImg: ticket.payload.picture,
+            email: ticket.payload.email,
+            accountType: "public",
+            accountStatus: "active",
+            uId: "cz" + crypto.randomBytes(10).toString('hex'),
+            password: crypto.randomBytes(20).toString('hex'),
+            accessToken: "tk" + crypto.randomBytes(10).toString('hex'),
+            tokenExpireAt: (new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME)).getTime(),
+            currentStatus: "online",
+        }
+        resultAccount = await userAccount.create(userData);
+
+    }
+    else {
+        // else use already created account to login 
+        let accessToken = "tk" + crypto.randomBytes(10).toString('hex');
+        let tokenExpireAt = (new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME)).getTime();
+        let result = await userAccount.updateOne({ email: ticket.payload.email }, { accessToken, tokenExpireAt, currentStatus: "online" });
+ 
+        if (result.nModified != 1) {
+            throw new AppError("Something Went Wrong", 500);
+        }
+        resultAccount.accessToken = accessToken;
+        resultAccount.tokenExpireAt = tokenExpireAt;
+
+
+    }
+    setCredentialsToCookies(res, resultAccount);
+
+    return res.status(200).json({ message: "verfiy successfully", data: resultAccount });
+
+
+})
 
 
 
