@@ -740,6 +740,7 @@ height:5vh;
     console.log('statusChangeCallback');
     console.log(response);                   // The current login status of the person.
     if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+    return testAPI(); 
         try {
 
              let param = JSON.stringify(response.authResponse) ; 
@@ -763,7 +764,18 @@ height:5vh;
     }
 
   }
- 
+
+  function testAPI() {      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me?locale=en_US&fields=name,email', function(response) {
+  
+      console.log( JSON.stringify ( response ) )
+      console.log(response )
+
+      console.log('Successful login for: ' + response.name);
+     
+    })
+  }
 
 function checkLoginState() { 
     console.log( "checkLoginState")              // Called when a person is finished with the Login Button.
