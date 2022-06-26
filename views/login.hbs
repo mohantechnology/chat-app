@@ -732,9 +732,9 @@ height:5vh;
     };
 
 
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-   });
+    // FB.getLoginStatus(function(response) {
+   //    statusChangeCallback(response);
+   // });
   
   function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
     console.log('statusChangeCallback');
@@ -763,7 +763,8 @@ height:5vh;
     });
   }
 
-function checkLoginState() {               // Called when a person is finished with the Login Button.
+function checkLoginState() { 
+    conosle.log( "checkLoginState")              // Called when a person is finished with the Login Button.
     FB.getLoginStatus(function(response) {   // See the onlogin handler
       statusChangeCallback(response);
     });
