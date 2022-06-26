@@ -725,20 +725,20 @@ height:5vh;
     };
 
 
-     FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  
-});
+ //   FB.getLoginStatus(function(response) {
+   //   statusChangeCallback(response);
+ //  });
   
   function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
     console.log('statusChangeCallback');
     console.log(response);                   // The current login status of the person.
     if (response.status === 'connected') {   // Logged into your webpage and Facebook.
       testAPI();  
-    } else {                                 // Not logged into your webpage or we are unable to tell.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this webpage.';
-    }
+    } 
+   // else {                                 // Not logged into your webpage or we are unable to tell.
+      //  document.getElementById('status').innerHTML = 'Please log ' +
+    //      'into this webpage.';
+    //  }
   }
 
   
@@ -746,12 +746,10 @@ height:5vh;
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me?locale=en_US&fields=name,email', function(response) {
   
-      console.log( JSON.stringify ( response ) )
       console.log(response )
 
       console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
+ 
     });
   }
 
