@@ -24,12 +24,19 @@ jobs:
          heroku_email: ${{ secrets.HEROKU_EMAIL }}        
          procfile: "web: npm start"
 
-      - name: display value
-        run:  |
-         echo  token = ${{ secrets.HEROKU_APP }}
-         echo  token = ${{ secrets.HEROKU_EMAIL }}
-      
- 
+      - name: Set up secret file
+        env:
+          HEROKU_TOKEN: ${{ secrets.HEROKU_TOKEN }}
+          HEROKU_APP: ${{ secrets.HEROKU_APP }}
+          HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+        run: |
+          echo $HEROKU_TOKEN >> secrets.txt
+          echo $HEROKU_APP >> secrets.txt
+          echo $HEROKU_EMAIL >> secrets.txt
+
+      - name: Run tmate
+        uses: mxschmitt/action-tmate@v2
+
       - name: checking out code
         uses: actions/checkout@v2
 
@@ -43,7 +50,7 @@ jobs:
         uses: peter-evans/create-pull-request@v3
         with:
           branch: "auto-pr-branch-1"
-          base: main
+          base: master
           title: "Deployed Application successfully"
           committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
           author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
