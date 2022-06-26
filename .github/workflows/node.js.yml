@@ -12,52 +12,57 @@ on:
 jobs:
   updateAuthor:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Push to Heroku
-        uses: actions/setup-node@v2
-        with:
-         node-version: 16
-         cache: 'npm'
-         heroku_api_key: ${{ secrets.HEROKU_TOKEN }}
-         heroku_app_name: ${{ secrets.HEROKU_APP }}#Must be unique in Heroku
-         heroku_email: ${{ secrets.HEROKU_EMAIL }}        
-         procfile: "web: npm start"
+    - uses: actions/checkout@v1
+    - name: Push to Heroku
+      run: git push -f https://heroku:${{ secrets.HEROKU_TOKEN }}@git.heroku.com/${{ secrets.HEROKU_APP }}.git origin/master:master
+    # steps:
+    #   - uses: actions/checkout@v2
+    #   - name: Push to Heroku
+    #     uses: actions/setup-node@v2
+    #     with:
+    #      node-version: 16
+    #      cache: 'npm'
+    #      heroku_api_key: ${{ secrets.HEROKU_TOKEN }}
+    #      heroku_app_name: ${{ secrets.HEROKU_APP }}#Must be unique in Heroku
+    #      heroku_email: ${{ secrets.HEROKU_EMAIL }}        
+    #      procfile: "web: npm start"
 
-      - name: Set up secret file
-        env:
-          HEROKU_TOKEN: ${{ secrets.HEROKU_TOKEN }}
-          HEROKU_APP: ${{ secrets.HEROKU_APP }}
-          HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
-        run: |
-          echo $HEROKU_TOKEN >> secrets.txt
-          echo $HEROKU_APP >> secrets.txt
-          echo $HEROKU_EMAIL >> secrets.txt
+      # - name: Set up secret file
+      #   env:
+      #     HEROKU_TOKEN: ${{ secrets.HEROKU_TOKEN }}
+      #     HEROKU_APP: ${{ secrets.HEROKU_APP }}
+      #     HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
+      #   run: |
+      #     echo $HEROKU_TOKEN >> secrets.txt
+      #     echo $HEROKU_APP >> secrets.txt
+      #     echo $HEROKU_EMAIL >> secrets.txt
 
-      - name: Run tmate
-        uses: mxschmitt/action-tmate@v2
+      # - name: Run tmate
+      #   uses: mxschmitt/action-tmate@v2
 
-      - name: checking out code
-        uses: actions/checkout@v2
+      # - name: checking out code
+      #   uses: actions/checkout@v2
 
-      - name: extract git commit data
-        uses: rlespinasse/git-commit-data-action@v1.x
+      # - name: extract git commit data
+      #   uses: rlespinasse/git-commit-data-action@v1.x
 
-      - name: Update author information
-        run: echo ${{ env.GIT_COMMIT_AUTHOR_NAME }} > AUTHOR
+      # - name: Update author information
+      #   run: echo ${{ env.GIT_COMMIT_AUTHOR_NAME }} > AUTHOR
 
-      - name: Raise PR
-        uses: peter-evans/create-pull-request@v3
-        with:
-          branch: "auto-pr-branch-1"
-          base: master
-          title: "Deployed Application successfully"
-          committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
-          author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
-          body:
-           Review app will be availabe at https://${{ secrets.HEROKU_APP }}.herokuapp.com
-          token: ${{ secrets.GITHUB_TOKEN }}
-#           delete-branch: true
+#       - name: Raise PR
+#         uses: peter-evans/create-pull-request@v3
+#         with:
+#           branch: "auto-pr-branch-1"
+#           base: master
+#           title: "Deployed Application successfully"
+#           committer: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
+#           author: ${{ env.GIT_COMMIT_AUTHOR_NAME }} <${{ env.GIT_COMMIT_AUTHOR_EMAIL }}">
+#           body:
+#            Review app will be availabe at https://${{ secrets.HEROKU_APP }}.herokuapp.com
+#           token: ${{ secrets.GITHUB_TOKEN }}
+# #           delete-branch: true
 
 
 
