@@ -515,7 +515,10 @@ height:5vh;
 
                 <button id="reg-butt" class="button"> Register Account </button>
 
-     
+        <div id="or">
+                    <hr class="hr-line"> OR
+                    <hr class="hr-line">
+                </div>
              
 <div class="but-bx-par">
 
@@ -523,7 +526,7 @@ height:5vh;
         data-text="signup_with" data-logo_alignment="left"></div>
 
     <div class="fb-login-button" data-width="315" data-size="medium" data-button-type="login_with" data-layout="rounded"
-        data-auto-logout-link="false" data-use-continue-as="false" data-logo_alignment="center"></div>
+        data-auto-logout-link="false" data-use-continue-as="false" data-logo_alignment="center" ></div>
  
 </div>
                 <!--
@@ -735,6 +738,9 @@ height:5vh;
     if (response.status === 'connected') {   // Logged into your webpage and Facebook.
       testAPI();  
     } 
+    else{
+        console.log( "else")
+    }
    // else {                                 // Not logged into your webpage or we are unable to tell.
       //  document.getElementById('status').innerHTML = 'Please log ' +
     //      'into this webpage.';
