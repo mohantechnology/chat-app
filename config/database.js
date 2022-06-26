@@ -9,7 +9,7 @@ const DatabaseSetup = () => {
         retryWrites: true,
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useFindAndModify: false, 
+        useFindAndModify: false,
         w: "majority",
     };
 
@@ -23,11 +23,11 @@ const DatabaseSetup = () => {
 
             // console.log("Failed to Connect with database");
             // console.log(err);
-            setTimeout(()=>{
-            console.log("Retrying to connect with database.....");
-            DatabaseSetup()
-            },3000)
-          
+            setTimeout(() => {
+                console.log("Retrying to connect with database.....");
+                DatabaseSetup()
+            }, 3000)
+
         })
 }
 module.exports = DatabaseSetup;
