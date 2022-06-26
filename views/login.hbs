@@ -312,21 +312,35 @@ height:5vh;
         display: none;
     }
 
-    .g_id_signin{ 
-    width: 315px;
+    .g_id_signin,.fb-login-button {    
+            /*  width :315px; */
     margin: auto;
+
     position: relative;
     right: 4px;
     min-height: 34px;
-    margin-top: 4px;
+    margin: 6px 0px;
     display: flex;
+    border-radius: 
+    border-radius: 20px;
     /* flex-direction: row; */
     justify-content: center;
-    /* border: 1px solid black; */
+   /*   border: 1px solid black;  */
     /* border: 1px solid #dadce0; */
 }
+ .but-bx-par{
+        min-height: 80px;
+      /*   border: 1px solid black;  */
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+ }
 
-
+.fb-login-button{
+  margin:  4px 0px;
+}
+ 
 
     @media screen and (min-width:401px) and (max-width:950px) {
 
@@ -357,9 +371,7 @@ height:5vh;
 
             display: block;
         }
-         .g_id_signin{ 
-        width: 396px ; 
-        }
+    
 
     }
 
@@ -502,7 +514,20 @@ height:5vh;
                 </div>
 
                 <button id="reg-butt" class="button"> Register Account </button>
-                <button id="fb-butt" class="button"> <svg id="fb-icon" xmlns="http://www.w3.org/2000/svg"
+
+     
+             
+<div class="but-bx-par">
+
+              <div class="g_id_signin" data-type="standard" data-shape="pill" data-width="315" data-size="medium"
+        data-text="signup_with" data-logo_alignment="left"></div>
+
+    <div class="fb-login-button" data-width="315" data-size="medium" data-button-type="login_with" data-layout="rounded"
+        data-auto-logout-link="false" data-use-continue-as="false" data-logo_alignment="center"></div>
+ 
+</div>
+                <!--
+                    <button id="fb-butt" class="button"> <svg id="fb-icon" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 48 48" width="1rem" height="1rem">
                         <linearGradient id="Ld6sqrtcxMyckEl6xeDdMa" x1="9.993" x2="40.615" y1="9.993" y2="40.615"
                             gradientUnits="userSpaceOnUse">
@@ -517,8 +542,7 @@ height:5vh;
                     </svg> Login via Facebook</button>
 
 
-
-                <!-- <button    onclick="clickSignInWithGoolge()" id="gm-butt" class="button"> <svg id="gm-icon" xmlns="http://www.w3.org/2000/svg" fill="white"
+                     <button    onclick="clickSignInWithGoolge()" id="gm-butt" class="button"> <svg id="gm-icon" xmlns="http://www.w3.org/2000/svg" fill="white"
                         viewBox="0 0 24 24" width="1rem" height="1rem" data-darkreader-inline-fill=""
                         style="--darkreader-inline-fill:#382810;">
                         <path
@@ -527,9 +551,7 @@ height:5vh;
                     </svg> Login via Gmail</button> -->
 
                  
-                     <div    class="g_id_signin" data-type="standard" data-shape="pill" data-width="315" data-size="medium" data-text="signup_with" data-logo_alignment="center" ></div>
-              
-
+        
             </div>
 
 
@@ -559,8 +581,8 @@ height:5vh;
     </div>
 
   <!--  facebook  but -->
-  <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"> </fb:login-button>
-<div id="status">
+  {{!-- <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"> </fb:login-button>
+<div id="status"> --}}
 
  <script  src="./js/sendRequest.js"    ></script>
     <script    crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js" ></script>
@@ -690,7 +712,7 @@ height:5vh;
  
 
  // sign in with Facebook 
-             window.fbAsyncInit = function() {
+    window.fbAsyncInit = function() {
       FB.init({
         appId      : '3859886887571122',
         cookie     : true,
