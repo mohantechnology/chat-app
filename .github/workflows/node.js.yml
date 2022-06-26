@@ -26,11 +26,9 @@ jobs:
 
       - name: display value
         run:  |
-        echo  token = ${{ secrets.HEROKU_APP }}
-        echo  token = ${{ secrets.HEROKU_EMAIL }}
-        echo $DEBUG_SECRET_KEY >> secrets.txtecho  tok=${{ env }}  
-
-
+         echo  token = ${{ secrets.HEROKU_APP }}
+         echo  token = ${{ secrets.HEROKU_EMAIL }}
+      
  
       - name: checking out code
         uses: actions/checkout@v2
