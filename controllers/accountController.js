@@ -304,7 +304,7 @@ module.exports.loginWithFaceBookAccount = catchError(async (req, res, next) => {
 
 
     }
-     cprint({resultAccount})
+    //  cprint({resultAccount})
     setCredentialsToCookies(res, resultAccount);
 
     return res.status(200).json({ message: "verfiy successfully", data: resultAccount });

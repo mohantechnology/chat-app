@@ -702,7 +702,7 @@ height:5vh;
 
             let response = await sendRequest.post(JSON.stringify(googleUser), "/google_signin", "application/json");
             response = JSON.parse(response);
-            console.log(response);
+       
             localStorage.setItem("ln", "1");
             location = "./home"; 
         }
@@ -736,16 +736,15 @@ height:5vh;
    // });
 
   async function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
-    console.log('statusChangeCallback');
-    console.log(response);                   // The current login status of the person.
+ 
+   // console.log(response);                   // The current login status of the person.
     if (response.status === 'connected') {   // Logged into your webpage and Facebook.
         try {
 
-             let param = JSON.stringify(response.authResponse) ; 
-             console.log( param )
+             let param = JSON.stringify(response.authResponse) ;  
             let responseData = await sendRequest.post(param, "/facebook_signin", "application/json");
             responseData = JSON.parse(responseData);
-            console.log(responseData);
+  
             localStorage.setItem("ln", "1");
             location = "./home"; 
         }
@@ -766,7 +765,7 @@ height:5vh;
 
 
 function checkLoginState() { 
-    console.log( "checkLoginState")              // Called when a person is finished with the Login Button.
+        // Called when a person is finished with the Login Button.
     FB.getLoginStatus(function(response) {   // See the onlogin handler
       statusChangeCallback(response);
     });

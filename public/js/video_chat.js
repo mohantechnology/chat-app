@@ -51,11 +51,12 @@ async function getMedia() {
             // console.log("onloadedmetadata" )
             local_video.play();
         };
-
+     return stream ; 
 
     }
     catch (err) {
         console.error(err);
+        return false ; 
     }
 }
 
@@ -396,18 +397,26 @@ function handleCall() {
 (async function () {
 
  
-    await   getMedia( ) ;  
-    console.log( getQueryVariable("type")) ; 
-    if( getQueryVariable("type") == "rec"){ 
-
-        join_but.style.display = "inline-block"; 
-        call_but.style.display = "none"; 
-
+  
+    if(  await getMedia( ) ){
+        console.log( getQueryVariable("type")) ; 
+        if( getQueryVariable("type") == "rec"){ 
+    
+            join_but.style.display = "inline-block"; 
+            call_but.style.display = "none"; 
+    
+        }
+        else{ 
+            call_but.style.display = "inline-block"; 
+            join_but.style.display = "none"; 
+        }
+    
+    }else { 
+        alert("Failed to get Media Access") ; 
+        return; 
     }
-    else{ 
-        call_but.style.display = "inline-block"; 
-        join_but.style.display = "none"; 
-    }
+     
+    
 
 
   })();
