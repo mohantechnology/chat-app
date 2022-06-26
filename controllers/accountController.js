@@ -253,16 +253,15 @@ module.exports.loginWithFaceBookAccount = catchError(async (req, res, next) => {
         throw new AppError("Must have field 'accessToken'", 400)
     }
 // verfiy token and get user details
-    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_Id);
+ 
     let ticket;
     try {
-    console.log( "https://graph.facebook.com/me?access_token="+req.body.accessToken)
+
        let response = await axios({
             method: 'GET',
             url: "https://graph.facebook.com/me?access_token="+req.body.accessToken  , 
-           });   
-          
-           console.log( response.data)
+           });    
+           ticket = response.data ; 
         // ticket  
     }
     catch (err) {
@@ -271,13 +270,15 @@ module.exports.loginWithFaceBookAccount = catchError(async (req, res, next) => {
     }
 
     // find if any account already exist matching this email  
-    let resultAccount = await userAccount.findOne({ email: ticket.payload.email }).lean();;
+    let resultAccount = await userAccount.findOne({ facebookId: ticket.id }).lean();;
+    // cprint({resultAccount})
     if (!resultAccount) {
         // if account  not exist then create it 
         let userData = {
-            name: ticket.payload.name,
-            profileImg: ticket.payload.picture,
-            email: ticket.payload.email,
+            name: ticket.name,
+            profileImg: `https://graph.facebook.com/${ticket.id}/picture?type=large`,
+            email: "fb_" + crypto.randomBytes(5).toString('hex')+ "@fb.com",  //  add any  random email  
+            facebookId: ticket.id,                     // store facebook Id
             accountType: "public",
             accountStatus: "active",
             uId: "cz" + crypto.randomBytes(10).toString('hex'),
@@ -293,7 +294,7 @@ module.exports.loginWithFaceBookAccount = catchError(async (req, res, next) => {
         // else use already created account to login 
         let accessToken = "tk" + crypto.randomBytes(10).toString('hex');
         let tokenExpireAt = (new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME)).getTime();
-        let result = await userAccount.updateOne({ email: ticket.payload.email }, { accessToken, tokenExpireAt, currentStatus: "online" });
+        let result = await userAccount.updateOne({ facebookId: ticket.id}, { accessToken, tokenExpireAt, currentStatus: "online" });
  
         if (result.nModified != 1) {
             throw new AppError("Something Went Wrong", 500);
@@ -303,6 +304,7 @@ module.exports.loginWithFaceBookAccount = catchError(async (req, res, next) => {
 
 
     }
+     cprint({resultAccount})
     setCredentialsToCookies(res, resultAccount);
 
     return res.status(200).json({ message: "verfiy successfully", data: resultAccount });

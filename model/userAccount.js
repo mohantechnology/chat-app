@@ -38,6 +38,7 @@ const userAccountSchema = mongoose.Schema({
         required: true,
         trim: true,
     },
+    facebookId: String,          //facebook id if signup with facebook 
   
     // p_id: String, //public id  used for sending friend request
     lastVisitedAt: Date,
