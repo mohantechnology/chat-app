@@ -90,7 +90,9 @@ module.exports.registerPage = (req, res, next) => {
 
 module.exports.loginPage = (req, res, next) => {
     let  data ={
-        GOOGLE_CLIENT_Id : process.env.GOOGLE_CLIENT_Id 
+        GOOGLE_CLIENT_Id : process.env.GOOGLE_CLIENT_Id ,
+        FACEBOOK_APP_Id : process.env.FACEBOOK_APP_Id ,
+        
     }
     res.render("login.hbs" ,data );
 }
@@ -240,7 +242,73 @@ module.exports.loginWithGoogleAccount = catchError(async (req, res, next) => {
 
 })
 
+module.exports.loginWithFaceBookAccount = catchError(async (req, res, next) => {
+    console.log( "req.body")
+    console.log( req.body)
+        console.log( "req.cookies")
+    console.log( req.cookies)
+    // https://oauth2.googleapis.com/tokeninfo?id_token={{your_token}}
 
+    req.body.credential = req.body.credential ? req.body.credential.trim() : undefined;
+
+    if (!req.body.credential) {
+        throw new AppError("Must have field 'credential'", 400)
+    }
+// verfiy token and get user details
+    const client = new OAuth2Client(process.env.GOOGLE_CLIENT_Id);
+    let ticket;
+    try {
+        ticket = await client.verifyIdToken({
+            idToken: req.body.credential,
+            audience: process.env.GOOGLE_CLIENT_Id,  // Specify the CLIENT_ID of the app that accesses the backend
+            // Or, if multiple clients access the backend:
+            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+        });
+    }
+    catch (err) {
+        console.log(err);
+        throw new AppError("Verfication Failed", 400);
+    }
+
+    // find if any account already exist matching this email  
+    let resultAccount = await userAccount.findOne({ email: ticket.payload.email }).lean();;
+    if (!resultAccount) {
+        // if account  not exist then create it 
+        let userData = {
+            name: ticket.payload.name,
+            profileImg: ticket.payload.picture,
+            email: ticket.payload.email,
+            accountType: "public",
+            accountStatus: "active",
+            uId: "cz" + crypto.randomBytes(10).toString('hex'),
+            password: crypto.randomBytes(20).toString('hex'),
+            accessToken: "tk" + crypto.randomBytes(10).toString('hex'),
+            tokenExpireAt: (new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME)).getTime(),
+            currentStatus: "online",
+        }
+        resultAccount = await userAccount.create(userData);
+
+    }
+    else {
+        // else use already created account to login 
+        let accessToken = "tk" + crypto.randomBytes(10).toString('hex');
+        let tokenExpireAt = (new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME)).getTime();
+        let result = await userAccount.updateOne({ email: ticket.payload.email }, { accessToken, tokenExpireAt, currentStatus: "online" });
+ 
+        if (result.nModified != 1) {
+            throw new AppError("Something Went Wrong", 500);
+        }
+        resultAccount.accessToken = accessToken;
+        resultAccount.tokenExpireAt = tokenExpireAt;
+
+
+    }
+    setCredentialsToCookies(res, resultAccount);
+
+    return res.status(200).json({ message: "verfiy successfully", data: resultAccount });
+
+
+})
 
 module.exports.createUserAccount = catchError(async (req, res, next) => {
 

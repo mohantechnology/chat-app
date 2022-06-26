@@ -13,6 +13,8 @@ userRoutes.get("/",  accountController.landingPage);
 userRoutes.get("/reg",  accountController.registerPage);
 userRoutes.get("/login",  accountController.loginPage);
 userRoutes.post("/google_signin",  accountController.loginWithGoogleAccount);
+userRoutes.post("/facebook_signin",  accountController.loginWithFaceBookAccount);
+
 userRoutes.get("/active",  accountController.activateAccountPage);
 userRoutes.get("/forgot",  accountController.forgotPasswordPage);
 userRoutes.get("/res_pass_num",  accountController.verifyOTPPage); // reset password with otp 

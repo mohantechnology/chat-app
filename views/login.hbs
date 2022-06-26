@@ -721,7 +721,7 @@ height:5vh;
  // sign in with Facebook 
     window.fbAsyncInit = function() {
       FB.init({
-        appId      : '3859886887571122',
+        appId      : '{{FACEBOOK_APP_Id}}',
         cookie     : true,
         xfbml      : true,
         version    : 'v14.0'
@@ -735,36 +735,36 @@ height:5vh;
     // FB.getLoginStatus(function(response) {
    //    statusChangeCallback(response);
    // });
-  
-  function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
+  "Gi-wRmZN_rOclRcjFZwOLZqbwkgTI4xAdEg8pbF5n2M.eyJ1c2VyX2lkIjoiMTE5NTgwMzE0NDUxOTg2MiIsImNvZGUiOiJBUUMwZm1ES2VZOTZCTk5YdzdJNVRsckcxY1M0VDlxQnZ3ek00WGY0WkZ4VWMzaWVRMzZCYzVtcGxlNVdrd2t6OFNVNUNleGcwdmdNOG91SmlQTzFvU3FBa2s5bFdXcElfQUZtN2Joa2xhTHozdEp5Nm5LZVpGdTdiTmU1cnFOdk9mNnlZOFlXOXl4R3VjZVJyRmMzTmZScEsycS1YNW8wMkllWWw3YktUSUN6X0JRRndvWnY4bTVIbnZTREhDZDk1MWZXODcwdGN3V09EXzR1elhJZlZmNEtXNThvTHA3enpEaUNESkJVQXJaX0YtR1ZNNmpJOWc4ZTV5T3ZjNGhxUm5CZ1hBWGJpLWZJTllpYjd5a3VtYjFJcU90bjJlQVdjQWVDMXg4R2pXUTVRTGJJUy1pSjluZmVRWXlTQWpMOHY0bms4VmFOaEl6Z2F3TW5ZZmljbWNxaF83dEtZSFpWc2FhVi0zNzBOYnl4Z1N6ZzRzQXBnUFhSQVJTdmZaM2hpRFEiLCJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImlzc3VlZF9hdCI6MTY1NjIwNjQ4NH0"
+  async function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
     console.log('statusChangeCallback');
     console.log(response);                   // The current login status of the person.
     if (response.status === 'connected') {   // Logged into your webpage and Facebook.
-      testAPI();  
+        try {
+
+            let responseData = await sendRequest.post(JSON.stringify(response.authResponse), "/facebook_signin", "application/json");
+            responseData = JSON.parse(responseData);
+            console.log(responseData);
+            localStorage.setItem("ln", "1");
+            location = "./home"; 
+        }
+        catch (err) {
+            console.error(err);
+            let error = JSON.parse(err);
+            display_message(error.message, "red");
+
+        }
+ 
     } 
     else{
-        console.log( "else")
+         display_message("Failed to Log in with Facebook", "red");
     }
-   // else {                                 // Not logged into your webpage or we are unable to tell.
-      //  document.getElementById('status').innerHTML = 'Please log ' +
-    //      'into this webpage.';
-    //  }
+
   }
-
-  
-  function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me?locale=en_US&fields=name,email', function(response) {
-  
-      console.log(response )
-
-      console.log('Successful login for: ' + response.name);
  
-    });
-  }
 
 function checkLoginState() { 
-    conosle.log( "checkLoginState")              // Called when a person is finished with the Login Button.
+    console.log( "checkLoginState")              // Called when a person is finished with the Login Button.
     FB.getLoginStatus(function(response) {   // See the onlogin handler
       statusChangeCallback(response);
     });
