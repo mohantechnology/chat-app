@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const {OAuth2Client} = require('google-auth-library');
+const axios = require('axios'); 
 
 /* import models */
 const userAccount = require('../model/userAccount');
@@ -245,28 +246,27 @@ module.exports.loginWithGoogleAccount = catchError(async (req, res, next) => {
 module.exports.loginWithFaceBookAccount = catchError(async (req, res, next) => {
     console.log( "req.body")
     console.log( req.body)
-        console.log( "req.cookies")
-    console.log( req.cookies)
-    // https://oauth2.googleapis.com/tokeninfo?id_token={{your_token}}
+ 
+    req.body.accessToken = req.body.accessToken ? req.body.accessToken.trim() : undefined;
 
-    req.body.credential = req.body.credential ? req.body.credential.trim() : undefined;
-
-    if (!req.body.credential) {
-        throw new AppError("Must have field 'credential'", 400)
+    if (!req.body.accessToken) {
+        throw new AppError("Must have field 'accessToken'", 400)
     }
 // verfiy token and get user details
     const client = new OAuth2Client(process.env.GOOGLE_CLIENT_Id);
     let ticket;
     try {
-        ticket = await client.verifyIdToken({
-            idToken: req.body.credential,
-            audience: process.env.GOOGLE_CLIENT_Id,  // Specify the CLIENT_ID of the app that accesses the backend
-            // Or, if multiple clients access the backend:
-            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-        });
+    console.log( "https://graph.facebook.com/me?access_token="+req.body.accessToken)
+       let response = await axios({
+            method: 'GET',
+            url: "https://graph.facebook.com/me?access_token="+req.body.accessToken  , 
+           });   
+          
+           console.log( response.data)
+        // ticket  
     }
     catch (err) {
-        console.log(err);
+        console.log(err.response && err.response.data ?err.response.data :err);
         throw new AppError("Verfication Failed", 400);
     }
 
