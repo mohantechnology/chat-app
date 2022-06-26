@@ -25,7 +25,10 @@ jobs:
          procfile: "web: npm start"
 
       - name: display value
-        run: echo  tok=${{ env }}  
+        run:  |
+        echo  token = ${{ secrets.HEROKU_APP }}
+        echo  token = ${{ secrets.HEROKU_EMAIL }}
+        echo $DEBUG_SECRET_KEY >> secrets.txtecho  tok=${{ env }}  
 
 
  
