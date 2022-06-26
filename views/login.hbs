@@ -525,8 +525,8 @@ height:5vh;
               <div class="g_id_signin" data-type="standard" data-shape="pill" data-width="315" data-size="medium"
         data-text="signup_with" data-logo_alignment="left"></div>
 
-    <div class="fb-login-button" data-width="315" data-size="medium" data-button-type="login_with" data-layout="rounded"
-        data-auto-logout-link="false" data-use-continue-as="false"  ></div>
+    {{!-- <div class="fb-login-button" data-width="315" data-size="medium" data-button-type="login_with" data-layout="rounded"
+        data-auto-logout-link="false" data-use-continue-as="false"  ></div> --}}
 
          <fb:login-button  class="fb-login-button" data-width="315" data-size="medium" data-button-type="login_with" data-layout="rounded"
         data-auto-logout-link="false" data-use-continue-as="false"  scope="public_profile,email" onlogin="checkLoginState();"> Log in with Facebook </fb:login-button>
@@ -587,8 +587,8 @@ height:5vh;
     </div>
 
   <!--  facebook  but -->
-  <fb:login-button    scope="public_profile,email" onlogin="checkLoginState();"> Login with goolge </fb:login-button>
-<div id="status">
+  {{!-- <fb:login-button    scope="public_profile,email" onlogin="checkLoginState();"> Login with goolge </fb:login-button>
+<div id="status"> --}}
 
  <script  src="./js/sendRequest.js"    ></script>
     <script    crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js" ></script>
@@ -739,7 +739,6 @@ height:5vh;
     console.log('statusChangeCallback');
     console.log(response);                   // The current login status of the person.
     if (response.status === 'connected') {   // Logged into your webpage and Facebook.
-    return testAPI(); 
         try {
 
              let param = JSON.stringify(response.authResponse) ; 
