@@ -587,8 +587,7 @@ height:5vh;
     </div>
 
   <!--  facebook  but -->
-  {{!-- <fb:login-button  class="fb-login-button" data-width="315" data-size="medium" data-button-type="login_with" data-layout="rounded"
-        data-auto-logout-link="false" data-use-continue-as="false"  scope="public_profile,email" onlogin="checkLoginState();"> Login with goolge </fb:login-button> --}}
+  <fb:login-button    scope="public_profile,email" onlogin="checkLoginState();"> Login with goolge </fb:login-button>
 <div id="status">
 
  <script  src="./js/sendRequest.js"    ></script>
@@ -784,12 +783,7 @@ function checkLoginState() {
     });
   }
 
-statusChangeCallback({
-    status : 'connected' , 
-    authResponse:{
-        accessToken :"EAA22iZCLOjrIBAMqwh3SJkGhymSP78nPVKKY3xH2ZCBk5TKwG4yLgAiLUi6WLvOrdUPF6MSMYTyWSyIrY17SxFYTSGvWbqMgDZClZAgXNZCxDrLPHXN6bXUONyabdxHc9p4kNRZAWhko0eweuo9Bk3vJ9dfcdc9I8lvZCdLStv0GX8c0byVe4KVZCZBgZC52Fm5wOri8HKI1WpZBuA0YQxZAaOZA6"
-    }
-})
+
     
     </script>
   
