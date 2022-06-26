@@ -30,10 +30,12 @@
     "multer": "^1.4.2",
     "node-mailjet": "^3.3.1",
     "nodemailer": "^6.4.17",
-    "nodemon": "^2.0.6",
     "socket.io": "^4.5.1",
     "socket.io-client": "^4.5.1",
     "socket.io-cookie-parser": "^1.0.0",
     "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.18"
   }
 }
