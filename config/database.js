@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 
 const DatabaseSetup = () => {
-    const { DB_LINK } = process.env;
-
+    const  DB_LINK   = process.env.NODE_ENV === "test" ? process.env.TEST_DB_LINK : process.env.DB_LINK 
     const options = {
         retryWrites: true,
         useNewUrlParser: true,

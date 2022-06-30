@@ -24,10 +24,10 @@ function cprint(varObj, dividerStr) {
         for (i = 0; i < 4; i++) {
             myStr += myStr
         }
-        console.log(myStr)
+        // console.log(myStr)
     }
-    console.log(Object.keys(varObj)[0]);
-    console.log(Object.values(varObj)[0]);
+    // console.log(Object.keys(varObj)[0]);
+    // console.log(Object.values(varObj)[0]);
 }
 
 // module.exports.sendEmail =  async  (receiverAddresses, subject, html) =>{
@@ -63,11 +63,11 @@ function cprint(varObj, dividerStr) {
 
 //       // Send the email.
 //       let info = await transporter.sendMail(mailOptions) 
-//       console.log("Message sent! Message ID: ", info.messageId);
+    //   console.log("Message sent! Message ID: ", info.messageId);
 //       resolve(info)
 //     }
 //     catch (err) {
-//       console.log(err);
+    //   console.log(err);
 //       reject(err)
 //     }
 //   });
@@ -85,7 +85,7 @@ module.exports.logout = catchError( async(req, res, next) => {
 })
 
 module.exports.registerPage = (req, res, next) => {
-    console.log("register get ")
+    // console.log("register get ")
     res.sendFile(VEIW_DIR + "/reg.html");
 }
 
@@ -178,8 +178,8 @@ module.exports.loginUserAccount = catchError(async (req, res, next) => {
 module.exports.loginWithGoogleAccount = catchError(async (req, res, next) => {
     // console.log( "req.body")
     // console.log( req.body)
-        console.log( "req.cookies")
-    console.log( req.cookies)
+        // console.log( "req.cookies")
+    // console.log( req.cookies)
     // https://oauth2.googleapis.com/tokeninfo?id_token={{your_token}}
 
     req.body.credential = req.body.credential ? req.body.credential.trim() : undefined;
@@ -199,7 +199,7 @@ module.exports.loginWithGoogleAccount = catchError(async (req, res, next) => {
         });
     }
     catch (err) {
-        console.log(err);
+        // console.log(err);
         throw new AppError("Verfication Failed", 400);
     }
 
@@ -244,8 +244,8 @@ module.exports.loginWithGoogleAccount = catchError(async (req, res, next) => {
 })
 
 module.exports.loginWithFaceBookAccount = catchError(async (req, res, next) => {
-    console.log( "req.body")
-    console.log( req.body)
+    // console.log( "req.body")
+    // console.log( req.body)
  
     req.body.accessToken = req.body.accessToken ? req.body.accessToken.trim() : undefined;
 
@@ -265,7 +265,7 @@ module.exports.loginWithFaceBookAccount = catchError(async (req, res, next) => {
         // ticket  
     }
     catch (err) {
-        console.log(err.response && err.response.data ?err.response.data :err);
+        // console.log(err.response && err.response.data ?err.response.data :err);
         throw new AppError("Verfication Failed", 400);
     }
 
@@ -315,8 +315,8 @@ module.exports.loginWithFaceBookAccount = catchError(async (req, res, next) => {
 module.exports.createUserAccount = catchError(async (req, res, next) => {
 
     // console.log( "createUserAccount")
-    console.log("req.body")
-    console.log(req.body)
+    // console.log("req.body")
+    // console.log(req.body)
     // console.log(  await userAccount.deleteMany())
     // throw new AppError( "my message",500, "validation")
     //   console.log( await userAccount.collection.drop() ) 
@@ -335,8 +335,8 @@ module.exports.createUserAccount = catchError(async (req, res, next) => {
     req.body.tokenStr = crypto.randomBytes(24).toString('hex');
     req.body.accountType = "public";
     req.body.uId = "cz" + crypto.randomBytes(10).toString('hex');
-    console.log("req.body")
-    console.log(req.body)
+    // console.log("req.body")
+    // console.log(req.body)
 
 
     let resultAccount = await userAccount.create(req.body);
@@ -365,18 +365,18 @@ module.exports.createUserAccount = catchError(async (req, res, next) => {
     emailTemplate = emailTemplate.replace("{{$activate_url}}", activateUrl);
     emailTemplate = emailTemplate.replace("{{$email}}", process.env.EMAIL);
 
-    console.log("result")
-    console.log(result)
+    // console.log("result")
+    // console.log(result)
 
-    console.log("activateUrl")
-    console.log(activateUrl)
+    // console.log("activateUrl")
+    // console.log(activateUrl)
 
     try {
         await utilFunc.sendEmail(result.email, "Activate Account", emailTemplate);
 
     }
     catch (err) {
-        console.log(err);
+        // console.log(err);
         return res.status(500).json({ message: "Not Able  to Send Activation Link" });
     }
 
@@ -448,7 +448,7 @@ console.log( activateUrl);
 
     }
     catch (err) {
-        console.log(err);
+        // console.log(err);
         return res.status(500).json({ message: "Not Able  to Send Activation Link" });
     }
 
@@ -526,8 +526,8 @@ module.exports.activateAccount = catchError(async (req, res, next) => {
 
 // ######## Send Reset Password Link ########
 module.exports.sendResetPasswordEmail = catchError(async (req, res, next) => {
-    console.log("  req.query")
-    console.log(req.query)
+    // console.log("  req.query")
+    // console.log(req.query)
     // console.log(   await accountVerfication.collection.drop()); 
 
     req.body.email = req.body.email ? req.body.email.trim() : undefined;
@@ -567,18 +567,18 @@ module.exports.sendResetPasswordEmail = catchError(async (req, res, next) => {
     emailTemplate = emailTemplate.replace("{{$activate_url}}", activateUrl);
     emailTemplate = emailTemplate.replace("{{$email}}", process.env.EMAIL);
 
-    console.log("result")
-    console.log(result)
+    // console.log("result")
+    // console.log(result)
 
-    console.log("activateUrl")
-    console.log(activateUrl)
+    // console.log("activateUrl")
+    // console.log(activateUrl)
 
     try {
         await utilFunc.sendEmail(result.email, "Reset Account Password", emailTemplate);
 
     }
     catch (err) {
-        console.log(err);
+        // console.log(err);
         return res.status(500).json({ message: "Not Able  to Send Reset Password Link" });
     }
 
@@ -591,8 +591,8 @@ module.exports.sendResetPasswordEmail = catchError(async (req, res, next) => {
 
 // ######## Verify token  for reset password  ########
 module.exports.verifyToken = catchError(async (req, res, next) => {
-    console.log("  req.query")
-    console.log(req.query)
+    // console.log("  req.query")
+    // console.log(req.query)
     // console.log("  req.headers")
     // console.log(req.headers)
 
@@ -661,8 +661,8 @@ module.exports.verifyToken = catchError(async (req, res, next) => {
 
 // ########   Update password   ########
 module.exports.updatePassword = catchError(async (req, res, next) => {
-    console.log("  req.query")
-    console.log(req.query)
+    // console.log("  req.query")
+    // console.log(req.query)
 
 
     req.body.email = req.body.email ? req.body.email.trim() : undefined;
