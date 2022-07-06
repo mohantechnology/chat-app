@@ -161,19 +161,39 @@ module.exports.loginUserAccount = catchError(async (req, res, next) => {
             // save  data to jwt token
 
             result.accessToken  = accessToken ;  
-
-            setCredentialsToCookies( res,result ) ; 
-            return res.status(200).json({ message: "verfiy successfully", data: result },)
+ 
+            
+        // console.log( accessToken)
+        let token  =  setCredentialsToCookies( res,result ) ; 
+            return res.status(200).json({ message:  "verfiy successfully", accessToken:token})
         }
         else {
-            return res.status(400).json({ message: "Invalid Credentials" })
+            return res.status(401 ).json({ message: "Invalid Credentials" })
         }
 
     }
-    return res.status(400).json({ message: "Account Not Exists" })
+    return res.status(401 ).json({ message: "Invalid Credentials" })
 
 })
 
+
+module.exports.deleteUserAccount = catchError(async (req, res, next) => {
+    // console.log( "req.body")
+    // console.log( req.body)
+
+    req.body.email = req.body.email ? req.body.email.trim() : undefined;
+ 
+    if (!req.body.email ) {
+        throw new AppError("Must have field 'email' ", 400)
+    }
+
+ 
+    let result = await userAccount.deleteMany({ email: req.body.email });
+
+
+    return res.status(200).json({ message: "Account Delete Successfully" })
+
+})
 
 module.exports.loginWithGoogleAccount = catchError(async (req, res, next) => {
     // console.log( "req.body")

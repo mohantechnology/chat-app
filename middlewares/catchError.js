@@ -3,7 +3,7 @@
  
   
 const handleDuplicateKeyError = (err, res) => {
-    console.log("ersdsdsr"); 
+    // console.log("ersdsdsr"); 
     // console.log(err); 
     // console.log(err); 
     try { 
@@ -35,7 +35,7 @@ const handleDuplicateKeyError = (err, res) => {
 const handle_mongoose_validation_error = (err, res) => {
     try{ 
         
-        console.log( "START of handle_mongoose_validation_error")
+        // console.log( "START of handle_mongoose_validation_error")
         let errorList = []; 
         let error = Object.values(err.errors).map((el )=> {
             errorList.push( { fieldName:el.path , message:el.message })
@@ -49,7 +49,7 @@ const handle_mongoose_validation_error = (err, res) => {
             message : error ||  "Validation Error", 
             errorList , 
         })
-        console.log( "End of handle_mongoose_validation_error")
+        // console.log( "End of handle_mongoose_validation_error")
     }
     catch ( err) { 
         console.log( err)
@@ -75,14 +75,14 @@ const handle_mongoose_validation_error = (err, res) => {
             // console.log( err) ; 
        
             
-            console.log( "err.name  --> "); 
-            console.log( err.name) ; 
+            // console.log( "err.name  --> "); 
+            // console.log( err.name) ; 
             
-            console.log( "err.code  --> "); 
-            console.log( err.code) ; 
+            // console.log( "err.code  --> "); 
+            // console.log( err.code) ; 
 
-                  console.log( "err.statusCode  --> "); 
-            console.log( err.statusCode) ; 
+            //       console.log( "err.statusCode  --> "); 
+            // console.log( err.statusCode) ; 
 
             try{ 
                 if(err.name === 'ValidationError'    ) { return   handle_mongoose_validation_error(err, res);}

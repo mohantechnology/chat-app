@@ -40,8 +40,9 @@ userRoutes.get("/verify_token",  accountController.verifyToken);   // for reset 
 userRoutes.post("/verify_token",  accountController.verifyToken); // for otp
 userRoutes.post("/update_password",  accountController.updatePassword);
 
-
-
+if(  process.env.NODE_ENV === "test"){
+   userRoutes.delete("/del_account",  accountController.deleteUserAccount);
+}
 
    /*use authentication for below routes */
 userRoutes.use(auth);

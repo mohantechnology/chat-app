@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest ",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watch --detectOpenHandles  --testTimeout=60000",
     "start": "node index.js",
     "forever": "node index.js",
     "socket": "nodemon ./socket/index.js",
@@ -42,6 +42,7 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
     "jest": "^28.1.1",
+    "mongodb-memory-server": "^8.7.2",
     "nodemon": "^2.0.18",
     "supertest": "^6.2.3"
   }

@@ -13,7 +13,7 @@ const bodyParser = require('body-parser');
 const { strict } = require('assert');
 const { fips } = require('crypto');
 
-require('./database')();
+// require('./database')();
 // require('./socket')();
 
 // app.use((req, res ,next)=>{

@@ -1,7 +1,7 @@
 const app = require('./config/app');
 // const constant = require('./Utils/constant.js');
-// require('./config/database')();
-// require('./config/socket')();
+require('./config/database')();
+require('./config/socket')();
 
 const port = process.env.PORT || 3000;
 
