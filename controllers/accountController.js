@@ -433,11 +433,11 @@ module.exports.resendActivationLink = catchError(async (req, res, next) => {
  
    
     if(!resultAccount ){ 
-       throw new AppError("Account Not Exist", 404)
+       throw new AppError("Invalid Credentials", 401)
      }
 
      if( !bcrypt.compareSync( req.body.password , resultAccount.password) ){ 
-        throw new AppError("Invalid Credentials", 400)
+        throw new AppError("Invalid Credentials", 401)
       }
  
 

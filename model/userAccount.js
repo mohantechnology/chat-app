@@ -51,7 +51,7 @@ const userAccountSchema = mongoose.Schema({
             values: ['active', 'inactive'],
             message: "must be  either 'active' ,  'inactive'."
         },
-        default: "inactive",
+        default:  process.env.NODE_ENV === "test" ? "active" :  "inactive",
         trim: true,
     },
     currentStatus: {   // currently online or not 

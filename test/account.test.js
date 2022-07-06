@@ -186,8 +186,9 @@ describe('POST /login', function() {
         expect( body).toMatchObject({
           "message": "verfiy successfully",
         }); 
-        expect( body).toHaveProperty("accessToken")
-        
+        expect( body).toHaveProperty("accessToken") ; 
+
+        data.accessToken = body.accessToken ; // store accesstoken for future use 
       
     });
   
@@ -197,3 +198,121 @@ describe('POST /login', function() {
   });
   
   
+  describe('GET /active', function() {
+    it('should return  Activate Account page', function(done) {
+      supertest(app)
+        .get('/active')
+        .expect('Content-Type', /text\/html/)
+        .expect(200, done);
+    });
+  });
+
+
+  describe('POST /resend_activate_link', function() {
+
+      it(`should  return Invalid credentials`, async  function() {
+        const {body } = await   supertest(app)
+        .post('/resend_activate_link')
+        .send({  
+            email :  data.email,  
+            password :  data.password +"23",  
+        })
+        .set(commonHeaders)
+        .expect('Content-Type', /application\/json/)
+        .expect(401) 
+
+        expect( body).toStrictEqual({
+          message: "Invalid Credentials"
+        }); 
+  
+      });
+
+
+      it(`should send Activate Account mail at'${data.email}'`, async  function() {
+        const {body } = await   supertest(app)
+        .post('/resend_activate_link')
+        .send({  
+            email :  data.email,  
+            password :  data.password,  
+        })
+        .set(commonHeaders)
+        .expect('Content-Type', /application\/json/)
+        .expect(200) 
+
+        expect( body).toStrictEqual({
+          message: "Link Sent Successfully. Please Check your Email to Activate Account.",
+        }); 
+  
+      });
+})
+
+  
+
+  describe('GET /forgot', function() {
+    it('should return  Forgot Password page', function(done) {
+      supertest(app)
+        .get('/forgot')
+        .expect('Content-Type', /text\/html/)
+        .expect(200, done);
+    });
+  });
+
+
+
+  describe('POST /send_verfi_link', function() {
+
+   
+    it(`should send Reset Password Link  at'${data.email}'`, async  function() {
+      const {body } = await   supertest(app)
+      .post('/send_verfi_link')
+      .send({  
+          email :  data.email,    
+      })
+      .set(commonHeaders)
+      .expect('Content-Type', /application\/json/)
+      .expect(200) 
+
+      expect( body).toStrictEqual({
+        message:  "Reset Password Link seneded Successfully. Please Check your Email.",
+      }); 
+
+    });
+})
+
+
+
+
+
+describe('POST /logout', function() {
+
+   
+  it(`should logout from account`, async  function() {
+    const {body } = await   supertest(app)
+    .post('/logout')
+    .set(commonHeaders)
+    .set("x-access-token", data.accessToken)
+    .expect('Content-Type', /application\/json/)
+    .expect(200) 
+
+    expect( body).toStrictEqual({
+      message:  "Logout Successfully" 
+    }); 
+
+    console.log(  data.accessToken)
+  });
+
+
+  it(`should show unauthenticated`, async  function() {
+    const {body } = await   supertest(app)
+    .post('/logout')
+ 
+    .set(commonHeaders)
+    .expect('Content-Type', /application\/json/)
+    .expect(400) 
+
+    expect( body).toStrictEqual({
+      message: "Please Login"
+    }); 
+
+  });
+})
