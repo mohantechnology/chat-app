@@ -102,10 +102,12 @@ module.exports.searchFriend = catchError(async (req, res, next) => {
 
     let resultSearch = await userAccount.find(query, outFilter).skip(skip).limit(limit).lean();
 
-
+ 
     for (let i = 0; i < resultSearch.length; i++) {
         resultSearch[i].isFriend = friendListSet.has(resultSearch[i].uId) ;
         resultSearch[i].isSendedRequest = sendedRequestSet.has(resultSearch[i].uId) ;
+        resultSearch[i].profMess  =    resultSearch[i].profMess || null ; 
+        resultSearch[i].profileImg  =    resultSearch[i].profileImg || null ; 
     }
 
 

@@ -79,7 +79,8 @@ function cprint(varObj, dividerStr) {
 module.exports.logout = catchError( async(req, res, next) => {
     res.cookie('sid', "", { expires: 0,  });
     let query = {$and : [ { email: req.user.email ,accessToken : req.user.accessToken  }]}
-    let resultAccount  =    await userAccount.updateOne(query,   {  currentStatus:"offline" })  ; 
+  
+    let resultAccount  =    await userAccount.updateOne(query,   {  currentStatus:"offline" , accessToken: "tk" + crypto.randomBytes(10).toString('hex') })  ; 
     return res.status(200).json({ message: "Logout Successfully" })
 
 })
@@ -165,7 +166,11 @@ module.exports.loginUserAccount = catchError(async (req, res, next) => {
             
         // console.log( accessToken)
         let token  =  setCredentialsToCookies( res,result ) ; 
-            return res.status(200).json({ message:  "verfiy successfully", accessToken:token})
+        let resData = { message:  "verfiy successfully", accessToken:token} ; 
+        if( req.body.data== "yes"){
+            resData.data = result
+        }
+            return res.status(200).json(resData) ; 
         }
         else {
             return res.status(401 ).json({ message: "Invalid Credentials" })
@@ -401,7 +406,11 @@ module.exports.createUserAccount = catchError(async (req, res, next) => {
     }
 
 
-    return res.status(201).json({ message: "Account Registered Successfully. Please Check your Email to Activate Account." })
+    let resData = { message: "Account Registered Successfully. Please Check your Email to Activate Account." }
+    if( req.body.data = "yes") { 
+        resData.data = resultAccount
+    }
+    return res.status(201).json(resData) ; 
 
 
 });
