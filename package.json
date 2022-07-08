@@ -2,6 +2,7 @@
   "name": "chat-app",
   "version": "1.0.0",
   "description": "",
+
   "main": "index.js",
   "scripts": {
     "test": "jest   -i test/index.test.js  --runInBand --testTimeout=60000",
@@ -10,7 +11,9 @@
     "forever": "node index.js",
     "socket": "nodemon ./socket/index.js",
     "server": "nodemon index.js",
-    "lint": "eslint \"./routes/**/*.js\" --fix "
+    "lint": "eslint \"./routes/**/*.js\" --fix " ,
+    "tlint" : "eslint \"test/*.test.js\" --fix "
+  
   },
   "keywords": [],
   "author": "",
@@ -45,5 +48,5 @@
     "mongodb-memory-server": "^8.7.2",
     "nodemon": "^2.0.18",
     "supertest": "^6.2.3"
-  }
+  }   
 }

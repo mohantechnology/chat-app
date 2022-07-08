@@ -2,18 +2,38 @@
     "env": {
         "browser": true,
         "commonjs": true,
-        "es2021": true
+        "es2021": true,
+        "jest": true , 
+        "node": true
     },
-    "extends": [
-        "airbnb-base"
-    ],
+    "extends": "eslint:recommended",
     "parserOptions": {
         "ecmaVersion": "latest"
     },
     "rules": {
-        "indent":[
+        "indent": [
             "error",
-            4
+            2
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-multiple-empty-lines": [
+            2,
+            {
+                "max": 1,
+                "maxEOF": 0
+            }
+        ],
+        "no-console": [
+            "error",
+            {
+                "allow": [
+                    "warn",
+                    "error"
+                ]
+            }
         ]
     }
 }
