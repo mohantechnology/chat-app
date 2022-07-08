@@ -17,12 +17,7 @@ const  commonHeaders = {
 
 
 beforeAll( async ()=>{
-  jest.setTimeout(30 * 1000)
-//   const mongoServer = await MongoMemoryServer.create();
-//   console.log( "before all ----->" ,mongoServer.getUri())
-
-
-// await mongoose.connect(mongoServer.getUri(), { dbName: "testDB" });
+ 
 database(); 
 })
 
@@ -298,7 +293,7 @@ describe('POST /logout', function() {
       message:  "Logout Successfully" 
     }); 
 
-    console.log(  data.accessToken)
+ 
   });
 
 

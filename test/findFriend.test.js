@@ -38,7 +38,7 @@ const commonHeaders = {
 
 
 beforeAll(async () => {
-  jest.setTimeout(30 * 1000)
+ 
   database();
 
 

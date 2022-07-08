@@ -63,7 +63,7 @@ afterAll( async ()=>{
       message:  "Logout Successfully" 
     }); 
 
-  //   console.log(  data.accessToken)
+ 
   // });
 
 
