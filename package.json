@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest ",
-    "test:watch": "jest  -i test/findFriend.test.js --watch --detectOpenHandles  --testTimeout=60000",
+    "test": "jest   -i test/index.test.js  --runInBand --testTimeout=60000",
+    "test:watch": "jest  -i test/chat.test.js  --watch  --runInBand  --detectOpenHandles  --testTimeout=60000",
     "start": "node index.js",
     "forever": "node index.js",
     "socket": "nodemon ./socket/index.js",
