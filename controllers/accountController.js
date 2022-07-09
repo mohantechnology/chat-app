@@ -90,9 +90,7 @@ module.exports.loginUserAccount = catchError(async (req, res) => {
   let accessToken = "tk" + crypto.randomBytes(10).toString('hex');
   let tokenExpireAt = (new Date(Date.now() + constant.USER_SESSION_EXPIRE_TIME )).getTime();
   let result = await userAccount.findOneAndUpdate({ email: req.body.email }, { accessToken, tokenExpireAt , currentStatus:"online" }, { new: true }).lean();
-
-  // cprint({tokenExpireAt},  "") ; 
-
+ 
   if (result) {
     if (await bcrypt.compare(req.body.password, result.password)) {
       // save  data to jwt token
@@ -215,7 +213,7 @@ module.exports.loginWithFaceBookAccount = catchError(async (req, res) => {
 
   // find if any account already exist matching this email  
   let resultAccount = await userAccount.findOne({ facebookId: ticket.id }).lean();
-  // cprint({resultAccount})
+ 
   if (!resultAccount) {
     // if account  not exist then create it 
     let userData = {

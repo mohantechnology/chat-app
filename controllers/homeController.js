@@ -13,9 +13,6 @@ const utilFunc = require('../utils/utilFunc');
 const chatMessage = require('../model/chatMessage');
 
 module.exports.homePage = catchError(async (req, res) => {
-  // console.log("register get ")
-  // console.log(" req.user");
-  // console.log(req.user);
  
   let result = await userAccount.findOne({ $and: [{ _id: req.user._id }, { accessToken: req.user.accessToken }] }).lean();
 
@@ -44,8 +41,7 @@ module.exports.homePage = catchError(async (req, res) => {
       });
 
       let resultMessage = await Promise.all(queryList);
-      // cprint({ resultMessage });
-
+     
       result.friendList.map((item, index) => {
         item.recMessageCount = resultMessage[index]; // attach message count recevied by current friend
         if (item.profileImg && !item.profileImg.startsWith("https://")) {
@@ -53,15 +49,13 @@ module.exports.homePage = catchError(async (req, res) => {
         }
       });
     }
-
-    // cprint({ result });
   
     if(  result.profileImg && !result.profileImg.startsWith("https://")){ 
       result.profileImg =      "/upload/"  +  result.profileImg;
     }
     result.SOCKET_URL = process.env.SOCKET_URL;
     result.SOCKET_FILE = process.env.SOCKET_FILE;
-    // res.json(result)
+ 
     return res.render("home", result);
   } else {
     res.redirect("/login");
@@ -110,24 +104,14 @@ module.exports.getProfileDetail = catchError(async (req, res) => {
 
 // ######## Update Profile Details  ########
 module.exports.updateProfileDetail = catchError(async (req, res) => {
-
-  //     console.log( "req.body" )
-  //   console.log( req.body )
-
-  //   console.log( "req.files" )
-  //   console.log( req.files )
-
-  //     console.log( "req.headers" )
-  //   console.log( req.headers )
-
+ 
   let query = {
     $and: [
       { _id: req.user._id },
       { accessToken: req.user.accessToken }
     ]
   } ; 
-  let inputData ={  } ; 
-  // if ( req.body.profileImg ) inputData.profileImg =   req.body.profileImg ;   
+  let inputData ={  } ;   
   if ( req.body.profMess ) inputData.profMess =   req.body.profMess ;   
   if ( req.body.accountType ) inputData.accountType =   req.body.accountType ;   
   if ( req.body.messageTone ) inputData.messageTone =   req.body.messageTone ;   
