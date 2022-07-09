@@ -35,8 +35,8 @@
                     "info",
                     "error",
                     "dir",
-                    "trace",
-                    "log"
+                    "trace"
+                    
                 ]
             }
         ]
