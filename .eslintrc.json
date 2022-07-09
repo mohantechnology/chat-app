@@ -3,7 +3,7 @@
         "browser": true,
         "commonjs": true,
         "es2021": true,
-        "jest": true , 
+        "jest": true,
         "node": true
     },
     "extends": "eslint:recommended",
@@ -19,6 +19,7 @@
             "error",
             "always"
         ],
+        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }] ,
         "no-multiple-empty-lines": [
             2,
             {
@@ -27,11 +28,15 @@
             }
         ],
         "no-console": [
-            "error",
+            "warn",
             {
                 "allow": [
-                    "warn",
-                    "error"
+                    "clear",
+                    "info",
+                    "error",
+                    "dir",
+                    "trace",
+                    "log"
                 ]
             }
         ]

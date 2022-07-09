@@ -2,7 +2,6 @@
   "name": "chat-app",
   "version": "1.0.0",
   "description": "",
-
   "main": "index.js",
   "scripts": {
     "test": "jest   -i test/index.test.js  --runInBand --testTimeout=60000",
@@ -11,9 +10,8 @@
     "forever": "node index.js",
     "socket": "nodemon ./socket/index.js",
     "server": "nodemon index.js",
-    "lint": "eslint \"./routes/**/*.js\" --fix " ,
-    "tlint" : "eslint \"test/*.test.js\" --fix "
-  
+    "lint": "eslint \"./routes/**/*.js\" --fix ",
+    "tlint": "eslint \"controllers/accountController.js\" --fix "
   },
   "keywords": [],
   "author": "",
@@ -41,12 +39,12 @@
     "validator": "^13.7.0"
   },
   "devDependencies": {
-    "eslint": "^8.18.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "jest": "^28.1.1",
     "mongodb-memory-server": "^8.7.2",
     "nodemon": "^2.0.18",
     "supertest": "^6.2.3"
-  }   
+  }
 }
