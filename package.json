@@ -11,7 +11,7 @@
     "socket": "nodemon ./socket/index.js",
     "server": "nodemon index.js",
     "lint": "eslint \"./routes/**/*.js\" --fix ",
-    "tlint": "eslint \"controllers/accountController.js\" --fix "
+    "tlint": "eslint \"controllers/videoChatController.js\" --fix "
   },
   "keywords": [],
   "author": "",

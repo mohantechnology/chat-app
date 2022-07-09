@@ -16,43 +16,6 @@ const accountVerfication = require('../model/accountVerfication');
 
 const VEIW_DIR = path.resolve(__dirname + "/../views");
 
-// module.exports.sendEmail =  async  (receiverAddresses, subject, html) =>{
-
-//   return new Promise(async (resolve, reject) => {
-
-//     try {
-
-//       // Create the SMTP transport.
-//       let  transporter = nodemailer.createTransport({
-//         service: process.env.SERVICE || 'gmail',
-//         host:process.env.HOST || 'smtp.gmail.com',
-//         port: process.env.EMAIL_PORT || 465,
-//         secure: true,
-//         auth: {
-//           user:process.env.EMAIL,
-//           pass:process.env.EMAIL_PASS
-//         }
-//       });
-
-//           // Specify the fields in the email.
-//       let  mailOptions = {
-//         from: process.env.EMAIL,
-//         to:   receiverAddresses ,
-//         subject: subject, 
-//         html: html, 
-
-//       };
-
-//       // Send the email.
-//       let info = await transporter.sendMail(mailOptions) 
-//       resolve(info)
-//     }
-//     catch (err) {
-//       reject(err)
-//     }
-//   });
-// }
-
 module.exports.logout = catchError( async(req, res) => {
   res.cookie('sid', "", { expires: 0,  });
   let query = {$and : [ { email: req.user.email ,accessToken : req.user.accessToken  }]};
@@ -284,7 +247,7 @@ module.exports.loginWithFaceBookAccount = catchError(async (req, res) => {
     resultAccount.tokenExpireAt = tokenExpireAt;
 
   }
-  //  cprint({resultAccount})
+ 
   setCredentialsToCookies(res, resultAccount);
 
   return res.status(200).json({ message: "verfiy successfully", data: resultAccount });
@@ -292,9 +255,7 @@ module.exports.loginWithFaceBookAccount = catchError(async (req, res) => {
 });
 
 module.exports.createUserAccount = catchError(async (req, res) => {
-
-  // throw new AppError( "my message",500, "validation")
-
+ 
   if (!req.body.password || !req.body.conformPassword) {
     throw new AppError("Must have field 'password', 'conformPassword' ", 400);
   }
@@ -346,9 +307,7 @@ module.exports.createUserAccount = catchError(async (req, res) => {
 });
 
 module.exports.resendActivationLink = catchError(async (req, res) => {
-
-  // throw new AppError( "my message",500, "validation")
-
+ 
   req.body.email  = req.body.email ? req.body.email.trim() : undefined; 
   req.body.password  = req.body.password ? req.body.password.trim() : undefined; 
 
@@ -399,8 +358,6 @@ module.exports.resendActivationLink = catchError(async (req, res) => {
 
 // ######## Activate Account with Code and Link  ########
 module.exports.activateAccount = catchError(async (req, res) => {
-
-  // req.params.tokenType = req.params.tokenType ? req.params.tokenType.trim() : undefined;
  
   let filters = [{ verficationType: "activateAccount" }];
   if (req.query.tokenType == "tkString") {
@@ -438,7 +395,7 @@ module.exports.activateAccount = catchError(async (req, res) => {
 
     /* delete  activate account  data  */
     await accountVerfication.deleteOne({ _id: result._id });
-    // connsole.log("resultAccount delete")
+    
   }
   else {
     return res.status(400).json({ message: "Invalid Verification Link" });
