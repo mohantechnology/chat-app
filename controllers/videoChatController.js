@@ -1,5 +1,4 @@
-const path = require('path');
-
+ 
 const catchError = require('../middlewares/catchError');
 const AppError = require("../utils/AppError");
 
@@ -8,14 +7,7 @@ const userAccount = require('../model/userAccount');
 
 // ######## Get Video Page   ########
 module.exports.videoPage = catchError(async (req, res) => {
-  // console.log("register get ")
-  // console.log(" req.user");
-  // console.log(req.user);
-
-  // console.log(" req.query")
-  // ;
-  // console.log(req.query);
-    
+  
   if( req.user.accountStatus != "active"){ 
     res.redirect("/active");
   }
@@ -32,7 +24,7 @@ module.exports.videoPage = catchError(async (req, res) => {
       { friendList:  req.user.uId }
     ]
   };
-  let result = await userAccount.findOne(query, { name: 1, profileImg:1,profMess:1,profileImg:1,uId:1  } );
+  let result = await userAccount.findOne(query, { name: 1, profileImg:1,profMess:1 ,uId:1  } );
 
   if (result) {
  
@@ -42,9 +34,7 @@ module.exports.videoPage = catchError(async (req, res) => {
     if (result.profileImg && !result.profileImg.startsWith("https://")) {
       result.profileImg = "/upload/" + result.profileImg;
     }
-    // // res.json(result)
-    // console.log( result);  
-    // console.log( "result");  
+ 
     return res.render("video_chat", result);
   } else {
     throw new AppError("Invalid details of Friend ", 400);

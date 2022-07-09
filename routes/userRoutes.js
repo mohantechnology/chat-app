@@ -8,7 +8,6 @@ const videoChatController = require('../controllers/videoChatController');
 
 const auth = require('../middlewares/auth');
 
-
 userRoutes.get("/",  accountController.landingPage);
 userRoutes.get("/reg",  accountController.registerPage);
 userRoutes.get("/login",  accountController.loginPage);
@@ -23,11 +22,6 @@ userRoutes.post("/login",  accountController.loginUserAccount);
 userRoutes.post("/google_signin",  accountController.loginWithGoogleAccount);
 userRoutes.post("/facebook_signin",  accountController.loginWithFaceBookAccount);
 
-
-
-
-
-
 userRoutes.get("/activate",  accountController.activateAccount);  // for reset link 
 userRoutes.post("/activate",  accountController.activateAccount); // for otp
 userRoutes.post("/resend_activate_link",  accountController.resendActivationLink) ; 
@@ -41,14 +35,13 @@ userRoutes.post("/verify_token",  accountController.verifyToken); // for otp
 userRoutes.post("/update_password",  accountController.updatePassword);
 
 if(  process.env.NODE_ENV === "test"){
-   userRoutes.delete("/del_account",  accountController.deleteUserAccount);
+  userRoutes.delete("/del_account",  accountController.deleteUserAccount);
 }
 
-   /*use authentication for below routes */
+/*use authentication for below routes */
 userRoutes.use(auth);
 
 userRoutes.post("/logout",  accountController.logout);
-
 
 userRoutes.get("/home",  homeController.homePage);
 userRoutes.get("/list_notifi",  homeController.listNotification);
@@ -71,12 +64,8 @@ userRoutes.post("/save_message",  chatController.saveMessage);
 userRoutes.post("/upload_file",  chatController.uploadFile);
 userRoutes.get("/download_file",  chatController.downloadFile);
 
-
 /*  video chat   */
 
 userRoutes.get("/video-chat",  videoChatController.videoPage);
-
-
-
 
 module.exports = userRoutes;
