@@ -287,7 +287,8 @@ module.exports.createUserAccount = catchError(async (req, res) => {
   emailTemplate = emailTemplate.replace("{{$activate_url}}", activateUrl);
   emailTemplate = emailTemplate.replace("{{$activate_url}}", activateUrl);
   emailTemplate = emailTemplate.replace("{{$email}}", process.env.EMAIL);
-
+  // console.log( "{{$activate_url}}", activateUrl)
+  // console.log( "{{$activate_code}}", result.tokenNo)
   try {
     await utilFunc.sendEmail(result.email, "Activate Account", emailTemplate);
 

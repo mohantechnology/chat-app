@@ -1530,9 +1530,12 @@ socket.on("rec-message", (data) => {
     } else {
       message_list[data.user_id] = [data];
     }
-    let elem = document.getElementById(data.user_id).children[0].children[1];
-    elem.children[0].textContent = message_list[data.user_id].length;
-    elem.classList.remove("not-visible");
+    let elem = document.getElementById(data.user_id);
+    if( elem && elem.children && elem.children[0]){ 
+      elem = elem.children[0].children[1];
+      elem.children[0].textContent = message_list[data.user_id].length;
+      elem.classList.remove("not-visible");
+    }
 
   }
 
