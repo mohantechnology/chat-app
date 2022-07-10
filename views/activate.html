@@ -497,11 +497,11 @@
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-                    console.log(this.response);
+                 
                     let data = JSON.parse(this.response);
                     if (data.status == "ok") {
                         display_message("Account is Activated Successfully", "green", 3000);
-                        console.log("redirect");
+                      
                         setTimeout(() => {
                             location = "./login";
                         }, 1000);
@@ -509,8 +509,7 @@
                         act_code.value = email.value = "";
 
                     } else {
-                        console.log("error occured");
-                        console.log(data);
+               
                         display_message(data.message, "red");
                     }
                     ;
@@ -578,10 +577,10 @@
 
             try {
                 let response = await sendRequest.post(param, "/activate", "application/json");
-                // console.log( response) ; 
+           
 
                 display_message("Account is Activated Successfully", "green", 3000);
-                // console.log("redirect");
+          
                 setTimeout(() => {
                     // location = "./login";
                 }, 1000);
@@ -649,7 +648,7 @@
 
             try {
                 let response = await sendRequest.post(param, "/resend_activate_link", "application/json");
-                // console.log( response) ; 
+                
                 response = JSON.parse( response)
                 display_message(response.message, "green", 3000);
  
@@ -661,29 +660,7 @@
             }
            
 
-            // let xhttp = new XMLHttpRequest();
-            // xhttp.open("POST", "/resend_activate_link", true);
-            // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            // xhttp.onreadystatechange = function () {
-            //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-            //         console.log(this.response);
-            //         let data = JSON.parse(this.response);
-            //         if (data.status == "ok") {
-            //             display_message(data.message, "green", 3000);
-            //             act_code.value = "";
-
-            //         } else {
-            //             console.log("error occured");
-            //             console.log(data);
-            //             display_message(data.message, "red");
-            //         }
-            //         ;
-            //         resend_act_link_but.textContent = "Resend Activation Link";
-            //         is_rec_reqest = true;
-            //     }
-            // }
-
-            // xhttp.send(param);
+           
 
         });
     </script>
