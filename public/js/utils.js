@@ -22,8 +22,7 @@ function setCookie(cname, cvalue, exdays) {
   document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
-function getQueryVariable(variable) {
-  // console.log( window.location.search);
+function getQueryVariable(variable) { 
   var query = window.location.search.substring(1);
   var vars = query.split('&');
   for (var i = 0; i < vars.length; i++) {
@@ -37,6 +36,7 @@ function getQueryVariable(variable) {
 }
 
 function getQueryParameterByName(name, url = window.location.href) {
+  // eslint-disable-next-line no-useless-escape
   name = name.replace(/[\[\]]/g, '\\$&');
   var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
     results = regex.exec(url);
