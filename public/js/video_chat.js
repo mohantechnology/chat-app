@@ -10,15 +10,9 @@ var join_but = document.getElementById("join_but");
 var remote_video_par_bx = document.getElementById("remote_video_par_bx");
 var remote_vid_icon_bx = document.getElementById("remote_vid_icon_bx");
 
+var local_vid_icon_bx = document.getElementById("local_vid_icon_bx");
 var local_video_par_bx = document.getElementById("local_video_par_bx");
 var call_opt_bx = document.getElementById("call_opt_bx"); 
-
-// socket.emit("sending_from_client", JSON.stringify({ data:  `this message is sned from client`} ) );
-
-// // receive a message from the server
-// socket.on("rec_from_server", ( data) => {
-//   console.log(data )
-// });
 
 let remote_video = document.getElementById("remote_video");
 let local_video = document.getElementById("local_video");
@@ -27,8 +21,8 @@ let peerConn;
 let mediaConstraints = { video: { width: 1280, height: 720 }, audio: true };
 
 const config = { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] };
-function add_tract_in_peer( ){ 
-  console.log( localStream.getTracks( ) ) ; 
+function addTrackInPeer( ){ 
+  // console.log( localStream.getTracks( ) ) ; 
   // localStream.getTracks().forEach(track => peerConn.addTrack(track, localStream));
   peerConn.addStream( localStream);
 }
@@ -36,18 +30,15 @@ function add_tract_in_peer( ){
 async function getMedia() {
 
   try {
-    //   constraints = mediaConstraints || {video : { width: 1280, height: 720 } , audio : true} ; 
-    // constraints = mediaConstraints ; 
+    
     let stream = await navigator.mediaDevices.getUserMedia(mediaConstraints);
-    // console.log (   local_video.srcObject); 
-    // console.log (   local_video); 
-    // console.log ( stream); 
+  
     localStream = stream;
 
     local_video.srcObject = null;
     local_video.srcObject = stream;
     local_video.onloadedmetadata = function (e) {
-      // console.log("onloadedmetadata" )
+     
       local_video.play();
     };
     return stream ; 
@@ -63,45 +54,25 @@ async function startCall(e) {
 
   try {
 
-    // let constraints = {video : { width: 1280, height: 720 } , audio : true} ; 
-    // let stream = await navigator.mediaDevices.getUserMedia(constraints);  ; 
-    // // console.log (   local_video.srcObject); 
-    // // console.log (   local_video); 
-    // // console.log ( stream); 
-    // localStream = stream; 
-
-    // local_video.srcObject = null; 
-    // local_video.srcObject = stream; 
-    // local_video.onloadedmetadata = function(e) {
-    //     // console.log("onloadedmetadata" )
-    //     local_video.play();
-    //  };
-
     peerConn = new RTCPeerConnection(config);
-    add_tract_in_peer();
+    addTrackInPeer();
     // peerConn.addStream(localStream);
     peerConn.onaddstream = (e) => {
-      console.log("onaddStream");
-      console.log(e);
+      
       remote_video.srcObject = e.stream;
-      // alert("onaddStream")
+      
     };
     peerConn.onicecandidate = (e) => {
-      console.log("onicecandidate");
-      // console.log( e.candidate ); 
+      
       if (e.candidate == null) {
-        console.log("retunrning ");
+      
         return;
-      }
-      console.log(" not retunrning ");
+      } 
       socket.emit("store_candidate", e.candidate);
-      // remote_video.srcObject= e.stream; 
-      // socket.emit('signal', socketListId, JSON.stringify({ 'ice': e.candidate }))
+     
     };
 
     createAndSendOffer();
-
-    // console.log( peerConn); 
 
   }
   catch (err) {
@@ -109,18 +80,17 @@ async function startCall(e) {
   }
 }
 
-function createAndSendOffer() {
-  console.log("createAndSendOffer");
+function createAndSendOffer() { 
 
   let f_id = getQueryVariable("f_id");
   if (!f_id) {
-    console.log("friend not found.please reload the page ");
+    console.warn("friend not found.please reload the page ");
     return;
   }
   let li = getCookie("li");
   peerConn.createOffer(handleSuccess, handleError);
   function handleSuccess(offer) {
-    console.log(offer);
+    
     let data = { f_id: f_id, offer: offer, li:accessToken };
     socket.emit("store_offer", (data));
     peerConn.setLocalDescription(offer);
@@ -129,7 +99,7 @@ function createAndSendOffer() {
   }
 
   function handleError(err) {
-    console.log(err);
+    console.error(err);
 
   }
 }
@@ -139,44 +109,22 @@ function createAndSendOffer() {
 async function joinCall(e) {
 
   try {
-
-    // let constraints = {video : false , audio : true} ; 
-    // let constraints = { video: { width: 1280, height: 720 }, audio: true };
-    // let stream = await navigator.mediaDevices.getUserMedia(constraints);;
-    // // console.log (   local_video.srcObject); 
-    // // console.log (   local_video); 
-    // // console.log ( stream); 
-    // localStream = stream;
-
-    // local_video.srcObject = null;
-    // local_video.srcObject = stream;
-    // local_video.onloadedmetadata = function (e) {
-    //     // console.log("onloadedmetadata" )
-    //     local_video.play();
-    // };
-
+  
     peerConn = new RTCPeerConnection(config);
-    add_tract_in_peer() ; 
+    addTrackInPeer() ; 
     // peerConn.addStream(localStream);
     peerConn.onaddstream = (e) => {
-      console.log("onaddStream");
-      console.log(e);
+   
       remote_video.srcObject = e.stream;
     };
     peerConn.onicecandidate = (e) => {
-      console.log("onicecandidate");
-      // console.log( e); 
-      if (e.candidate == null) {
-        console.log("retunrning ");
+  
+      if (e.candidate == null) { 
         return;
       }
       socket.emit("send_candidate", e.candidate);
-      // remote_video.srcObject= e.stream; 
-      // socket.emit('signal', socketListId, JSON.stringify({ 'ice': e.candidate }))
+     
     };
-    // socket.emit("send_candidate", e.candidate );
-    // console.log( peerConn); 
-    let li = getCookie("li");
  
     socket.emit('join_call',{ li :accessToken   });
     // createAndSendAnswer ()
@@ -187,10 +135,10 @@ async function joinCall(e) {
 }
 
 function createAndSendAnswer() {
-  console.log("createAndSendAnswer");
+   
   peerConn.createAnswer(handleSuccess, handleError);
   function handleSuccess(answer) {
-    console.log(answer);
+ 
     peerConn.setLocalDescription(answer);
     socket.emit("send_answer", answer);
     displayRemoteVideo() ; // for reciever
@@ -199,30 +147,26 @@ function createAndSendAnswer() {
   }
 
   function handleError(err) {
-    console.log(err);
-
+   
   }
 }
 
 function endCall() {
 
   let  input = confirm("Are you Sure you want to Leave this Call" ) ; 
-  console.log( input);
+  
   if( input == false ){ return ; }
   hideRemoteVideo(); 
-  let li = getCookie("li");
+   
   let data = {  li : accessToken } ; 
   socket.emit("end-call",data);
   window.location="/home" ; 
-  console.log( "end-call");
 
 }
 
 // remote_video_par_bx.style.display="flex" ; 
 
 function displayRemoteVideo ( ) { 
-  console.log(  local_video_par_bx ) ; 
-  console.log(  local_video_par_bx.classList ) ; 
      
   if( !local_video_par_bx.classList.contains("local-vid-bx-conn") ){ 
     local_video_par_bx.classList.add("local-vid-bx-conn" ) ; 
@@ -237,9 +181,7 @@ function displayRemoteVideo ( ) {
 }
 
 function hideRemoteVideo ( ) { 
-  console.log(  local_video_par_bx ) ; 
-  console.log(  local_video_par_bx.classList ) ; 
-     
+ 
   if( local_video_par_bx.classList.contains("local-vid-bx-conn") ){ 
     local_video_par_bx.classList.remove("local-vid-bx-conn" ) ; 
   }
@@ -252,8 +194,6 @@ function hideRemoteVideo ( ) {
 // ############### web socket  event ###################
 
 socket.on("answer", (data) => {
-  console.log("answer**");
-  console.log(data);
 
   peerConn.setRemoteDescription(data); 
   displayRemoteVideo(); // for caller
@@ -261,45 +201,39 @@ socket.on("answer", (data) => {
 });
 
 socket.on("candidate", (data) => {
-  console.log("candidate");
-  console.log(data);
+ 
   peerConn.addIceCandidate(data);
   // alert( "addIceCandidate")
 
 });
 
 socket.on("take_offer", (offer) => {
-  console.log("take_offer");
-  console.log(offer);
+ 
   peerConn.setRemoteDescription(offer);
   createAndSendAnswer();
 
 });
 
 socket.on("friend-is-offline", (data) => {
-
-  console.log("friend-is-offline");
+ 
   alert("Friend is Offline");
 
 });
 
-socket.on("not-friend", (data) => {
-
-  console.log("not-friend");
+socket.on("not-friend", (data) => { 
+ 
   alert("this user is not in your friend list");
 
 });
  
-socket.on("call-decline",  () => {
-  console.log("call-decline");
+socket.on("call-decline",  () => { 
   alert( "Friend is Busy") ;
   if (call_but_text.textContent !== "Call" ) { 
     handleCall(); 
   }
  
 });
-socket.on("call-ended",  () => {
-  console.log("call-ended");
+socket.on("call-ended",  () => { 
   alert( "Call Ended") ; 
   hideRemoteVideo(); // for caller 
   let f_id = getQueryVariable("f_id");
@@ -343,8 +277,7 @@ micropone_icon.addEventListener("click", (e) => {
 function handleCall() {
   if (call_but_text.textContent == "Call") {
     call_but_text.textContent = "Calling...";
-    // history.pushState("/profile"); 
-    // history.forward(); 
+ 
     local_vid_icon_bx.style.visibility = "hidden"; 
     startCall(); 
   }
@@ -357,8 +290,7 @@ function handleCall() {
 
 (async function () {
   
-  if(  await getMedia( ) ){
-    console.log( getQueryVariable("type")) ; 
+  if(  await getMedia( ) ){ 
     if( getQueryVariable("type") == "rec"){ 
     
       join_but.style.display = "inline-block"; 
