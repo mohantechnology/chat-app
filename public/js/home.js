@@ -1,15 +1,4 @@
-"use strict" ;
-// const socket = io('http://localhost:8000');
-
-// const { json } = require("body-parser");
-
-// const { json } = require("body-parser");
-
-// var sendRequest = require('./sendRequest.js');
-// import { sum, difference } from './functions.js'
-// var  name = prompt("enter your name");
-var name = ['maggi', 'mohan', 'manp', 'mango', 'splic', 'taste', 'bhatman'];
-// name = name[(Date.now()) % name.length];
+// "use strict" ;
 
 var mess_bd = document.getElementById("message-body");
 var side_list_search_icon = document.getElementById("side-list-search-icon");
@@ -18,7 +7,7 @@ var side_list_down_icon = document.getElementById("side-list-down-icon");
 var side_list_close_icon = document.getElementById("side-list-close-icon");
 
 var side_list_search_count = document.getElementById("side-list-search-count");
-//  var  name = prompt("enter your name ");
+ 
 var myform = document.getElementById("myform");
 
 var message_input = document.getElementById("message_input");
@@ -34,8 +23,7 @@ var rec_req = document.getElementById("rec_req");
 var req_box = document.getElementById("req_box");
 var sett_box = document.getElementById("sett_box");
 var search_keyword_alias = document.getElementById("search_keyword_alias");
-var loader = document.getElementById("loader");
-var add_file = document.getElementById("add_file");
+var loader = document.getElementById("loader"); 
 var setting = document.getElementById("setting");
 var incoming_call_bx = document.getElementById("incoming_call_bx");
 
@@ -49,8 +37,7 @@ var col_2 = document.getElementById("col-2");
 var first_col_friend_list = document.getElementById("first-col-friend-list");
 var first_col_input_box = document.getElementById("first-col-input-box");
 var first_col_close_icon = document.getElementById("first-col-close-icon");
-var first_col_search_icon = document.getElementById("first-col-search-icon");
-var first_col_search_friend_box = document.getElementById("first-col-search-friend-box");
+var first_col_search_icon = document.getElementById("first-col-search-icon"); 
 var header_name = document.getElementById("header_name");
 
 var close_search = document.getElementById("close_search");
@@ -91,7 +78,6 @@ var d_mess = "Hello, I am using chat app";
 
 var user_id;
 var curr_f_id;
-var curr_no;
 var is_recieved = true;
 var is_recieved_noti = true;
 var is_recieved_reqest = true;
@@ -124,16 +110,13 @@ m_q.addEventListener("change", () => {
     }
     search_keyword_alias.style.display = "block";
     input_search_keyword.parentNode.style.display = "none";
-    console.log("width = ", document.querySelector("body").offsetWidth);
-    console.log("yellow");
+   
   } else {
 
     col_1.style.display = "inline-block";
     col_2.style.display = "inline-block";
     forward.style.display = "none";
     back.style.display = "none";
-    console.log("width = ", document.querySelector("body").offsetWidth);
-    console.log("pink for greater");
 
     if (close_search.style.display == "inline-block") {
       // input_search_keyword.parentNode.style.display = "none";
@@ -195,45 +178,9 @@ side_list_video_cam.addEventListener("click", () => {
   // window.location= "/video-chat"
 
 });
-{/* <div class="message right">
-<span class="message-right file-right">
-  <div class="message-file">
-    <div class="download-img-display" > </div>
-    <span class="download-img-mess download-img-mess-send"> Downlaod loerj lorem
-     aliquam ex ullam reiciendis autem mollitia asperiores quisquam a delectus libero quidem, architecto cumque? file message </span>
-      <span class="download-img"> </span>
-      <span class="share-img"> </span>
- 
-  </div>
-</span>
-
-<span class="message-time-left">12:34:33 pm </span>
-</div>
-<hr>   
-<hr>
-
-<div class="message left ">
-<span class="message-left file-left">
-  <div class="message-file">
-    <div class="download-img-display" > </div>
-    <span class="download-img-mess download-img-mess-send"> Downlaod loerj lorem
-     aliquam ex ullam reiciendis autem mollitia asperiores quisquam a delectus libero quidem, architecto cumque? file message </span>
-      <span class="download-img"> </span>
-      <span class="share-img"> </span>
- 
-  </div>
-</span>
-
-<span class="message-time-left">12:34:33 pm </span>
-</div>
-<hr>
-
-<hr>
- */}
 
 function make_file_sent_element(data) {
-
-  console.log( "inside make_file_sent_element");
+   
   let temp = document.createElement("div");
   let mime_type = "";
   if (!data.message) {
@@ -241,12 +188,9 @@ function make_file_sent_element(data) {
   }
   if (data.mimeType) {
     mime_type = data.mimeType.split("/")[0];
-    // console.log(mime_type);
+ 
     if (mime_type == "image") {
       mime_type = `background-image:url('/upload/transferFile/${data.fileName}');min-height: 200px;`;
-      // mime_type = `background-image:url('${FILE_D_N}/transfer_file/transfer_file/${data.folder_name}/${data.file_link}');min-height: 200px;`;
-      // console.log("file is image ", mime_type); 
-      // mime_type = `background-image:url('../chat_image.png')`; 
 
     }
   }
@@ -256,8 +200,7 @@ function make_file_sent_element(data) {
     data.message = "";
   }
   //   let download_link = `./download/${data.folder_name}/${data.file_link}`
-  //   console.log("file mime type ---> ",); 
-  //   console.log(mime_type,"=>end"); 
+ 
   if (data.createdBy == "friend") {
     temp.classList = "message right";
     temp.innerHTML = `   
@@ -333,74 +276,6 @@ function make_file_upload_element(data) {
   return temp;
 }
 
-{/*
-    upload 1
-<div class="message left">
-  <span class="message-left file-left">file shareng
-    <div class="message-file">
-      <span class="download-img-mess"> fifb3eb0e5ee50598fc839.pdf
-     
-        <hr>   Uploading... <br>
-      <div class="load_box" id="box1">
-      
-        <span class="percent">100%</span>
-        <span class="byte">20.23/40.23 MB</span>
-        <div class="loading-body"> </div>
-        <div class="loading"></div>
-      </div>
-    </div>
-  </span>
-
-</div>
-
-<hr>
-    
-    <div class="message right ">
-  <span class="message-right file-right">file shareng
-    <div class="message-file">
-      <span class="download-img-mess"> fifb3eb0e5ee50598fc839.pdf
-     
-        <hr>   Uploading... <br>
-      <div class="load_box" id="box2">
-      
-        <span class="percent">100%</span>
-        <span class="byte">20.23/40.23 MB</span>
-        <div class="loading-body"> </div>
-        <div class="loading"></div>
-      </div>
-    </div>
-  </span>
-
-</div> */}
-
-// function make_file_load_element(data) {
-
-//  let temp = document.createElement("div") 
-//  data.message = data.message.trim()
-//  if (data.message== "") {
-//    data.message = "&nbsp;";
-// } 
-
-//        temp.classList ="message left"; 
-//        temp.innerHTML = `
-//         <span class="message-left file-left">file shareng
-//          <div class="message-file">
-//            <span class="download-img-mess"> fifb3eb0e5ee50598fc839.pdf
-
-//              <hr>   Uploading... <br>
-//            <div class="load_box" id="box1">
-
-//              <span class="percent">100%</span>
-//              <span class="byte">20.23/40.23 MB</span>
-//              <div class="loading-body"> </div>
-//              <div class="loading"></div>
-//            </div>
-//          </div>
-//        </span>`;
-
-//    return temp;         
-// }
-
 function make_message_element(data) {
 
   let temp = document.createElement("div");
@@ -431,10 +306,8 @@ function make_message_element(data) {
   return temp;
 }
 
-mess_bd.addEventListener("scroll",async () => {
-  // console.log("scrollling",mess_bd.scrollTop); 
+mess_bd.addEventListener("scroll",async () => { 
 
-  console.log( is_recieved , mess_bd.scrollTop < 800 , current_message_page  , curr_f_id);
   if (is_recieved && mess_bd.scrollTop < 800 && current_message_page  && curr_f_id) {
     is_recieved = false;
     loader.style.display = "block";
@@ -444,7 +317,7 @@ mess_bd.addEventListener("scroll",async () => {
     try{
       let response = await sendRequest.get(url ) ; 
       response = JSON.parse( response ) ; 
-      console.log( response ) ; 
+      
       display_message_data( response.data); 
       is_recieved = true; 
       loader.style.display = "none"; 
@@ -452,88 +325,22 @@ mess_bd.addEventListener("scroll",async () => {
     catch( err){
       console.error( err) ; 
     }
-     
-    // let xhttp = new XMLHttpRequest();
-
-    // xhttp.open("POST", "./list_message", true);
-    // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    // xhttp.onreadystatechange = function () {
-    //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-
-    //         let data = JSON.parse(this.response);
-    //         // console.log(data);
-    //         is_recieved = true;
-    //         loader.style.display = "none";
-    //         if (data.status == "ok") {
-    //             let len = data.data.length;
-
-    //             for (let i = len - 1; i >= 0; i--) {
-    //                 mess_bd.prepend(make_message_element(data.data[i]));
-
-    //             }
-    //             if (data.no) {
-    //                 document.cookie = "no=" + (data.no) + "; path=/;";
-    //                 curr_no = data.no;
-    //             } else {
-    //                 document.cookie = "no=0; path=/;";
-    //                 curr_no = 0;
-    //             }
-    //             mess_bd.scrollTop = mess_bd.children[len - 1].offsetTop;
-    //             //      console.log("seting scroll ot len-1 ",mess_bd.children[len-1].offsetTop); 
-
-    //             // console.log(data);
-    //         }
-
-    //     } else if (this.readyState == 4) {
-    //         is_recieved = true;
-    //         loader.style.display = "none";
-    //         // console.log("served creashed ");
-    //     }
-    // }
-    // let param = "friend_u_id=" + curr_f_id + "&no=" + curr_no;
-    // xhttp.send(param);
-    //connect to this friend ;
-
-    // console.log("connected to  ",id); 
 
   }
 
 });
 
 mess_bd.addEventListener("click", (e) => {
-  if (e.target.className == "download-img") {
-    //   console.log(e.target.previousElementSibling.innerText); 
+  if (e.target.className == "download-img") { 
     let path = e.target.id;
     let url = "./download_file?fileName=" +path ;
-
-    // let url = "./transfer_file/" + path[0] + "/" + path[1] + "/" + e.target.previousElementSibling.innerText;
-    // ownload/:folder/:file/:file_name
-    // let url = FILE_DOWNLOAD_URL + "?folder_name=" + path[0] + "&file_name=" + path[1] + "&file_org_name=" +encodeURIComponent (e.target.previousElementSibling.innerText);
-    // 
-    //    location = url; 
-    // let url =FILE_D_N + "/transfer_file/transfer_file/" + path[0] + "/" + path[1] ;
-    // console.log(url); 
+    
     var elel = document.createElement("a");
     elel.setAttribute("href", url);
     // elel.setAttribute("download", "true");
     elel.setAttribute("target", "_blank");
     elel.click();
-
-    // let xhttp = new XMLHttpRequest();
-    // xhttp.open("POST", url, true);
-
-    // xhttp.addEventListener("progress", function (evt) {
-    //     if(evt.lengthComputable) {
-    //         var percentComplete = evt.loaded   + " " + evt.total;
-    //         console.log(percentComplete);
-    //     }
-    // }, false);
-
-    //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-    //          console.log(this.response)
-    //     }
-
-    // xhttp.send();
+     
   }
 
 });
@@ -576,8 +383,7 @@ function preview_img() {
 
   prof_img.onload = function () {
     URL.revokeObjectURL(prof_img.src); // free memory
-    URL.revokeObjectURL(self_prof.src);
-    console.log("loaded");
+    URL.revokeObjectURL(self_prof.src); 
   };
 
 }
@@ -590,20 +396,19 @@ function byte_to_unit(size) {
 
 }
 
-log_out.addEventListener("click", async() => {
-  // console.log("clieked logout ")
+log_out.addEventListener("click", async() => { 
   let cookie_arr = document.cookie.split(";");
   for (let i = 0; i < cookie_arr.length; i++) {
     let temp = `${cookie_arr[i].split("=")[0]}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; `;
-    // console.log(temp); 
+ 
     document.cookie = temp;
 
   }
   try {
   
-    let response = await sendRequest.post ( "" , "/logout", "application/json"  );
-    response = JSON.parse(response);
-    console.log(response); 
+    await sendRequest.post ( "" , "/logout", "application/json"  );
+    // response = JSON.parse(response);
+     
   }
   catch (err) {
     console.error(err);
@@ -617,18 +422,16 @@ log_out.addEventListener("click", async() => {
 function transfer_file_to_friend(e) {
 
   let total_file;
-
-  // console.log("files aare ", transfer_file);
+ 
   if (transfer_file.files && transfer_file.files.length > 0) {
     total_file = transfer_file.files.length;
   } else {
-    console.log("no file ");
+    console.error("no file ");
     select_file.style.display = "inline-block";
     send_file.style.display = "none";
     return;
 
-  }
-  // console.log(transfer_file.files)
+  } 
   //    stack overflow
   let f_id = curr_f_id;
   let file_mess = message_input.value;
@@ -662,38 +465,26 @@ function transfer_file_to_friend(e) {
     let xhttp = new XMLHttpRequest();
     // let url = `/transfer_file/${f_id}/${encodeURIComponent(file_mess)}`;
     // let url = `${FILE_TRANSFER_URL}?f_id=${f_id}&file_mess=${encodeURIComponent(file_mess)} ${param}`;
-    let url = '/upload_file';
-    // console.log("url = ", url);
+    let url = '/upload_file'; 
     xhttp.open("POST", url, true);
-    // console.log(size_detail);
-    // console.log(transfer_file.files[i].size);
-
-    // xhttp.setRequestHeader("Content-type", "ap");\
+ 
     xhttp.upload.onprogress = function (e) {
       let element = document.getElementById(upload_id);
       if (element) {
         let frac = e.loaded / e.total;
-        console.log(e.loaded);
+      
         element.children[0].innerText = Math.round(frac * 100) + "%";
         element.children[1].innerText = Math.round(e.loaded * 100 / size_detail.divi) / 100 + "/" + Math.round(e.total * 100 / size_detail.divi) / 100 + size_detail.unit;
         element.children[2].style.width = Math.round(frac * 100) + "%";
         element.children[3].style.width = Math.round(frac * 95) + "%";
-        //    console.log( Math.round(e.loaded/e.total*100)+ "%" ); 
-
-        // 
-        // <div class="load_box" id="">
-
-        // <span class="percent">0%</span>
-        // <span class="byte">20.23/40.23 MB</span>
-        // <div class="loading-body"> </div>
-        // <div class="loading"></div>
+     
       }
 
     };
 
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4  ) {
-        console.log("resrpn->", this.response);
+        
         let res_data = JSON.parse(this.response);
                 
         if (this.status >= 200 && this.status < 300) {
@@ -706,10 +497,7 @@ function transfer_file_to_friend(e) {
           // data.user_id = user_id;
           data.createdBy = "self";
 
-          //    res_data.messageType="file";
-
           socket.emit('send-message', data);
-          // console.log("successly sended file ", res_data);
 
           if (curr_f_id == f_id) {
             document.getElementById(upload_id).parentNode.parentNode.parentNode.parentNode.remove();
@@ -733,11 +521,10 @@ function transfer_file_to_friend(e) {
 
           // }
           delete upload_list[f_id][upload_id];
-          // console.log(upload_list);
-          // console.log("detedted ");
+        
         }
         else {
-          console.log(res_data.error);
+          console.error(res_data.error);
         }
 
       }
@@ -750,8 +537,7 @@ function transfer_file_to_friend(e) {
     let upload_detail = {};
     upload_detail[upload_id] = upload_data;
     let temp_child = make_file_upload_element(upload_data);
-    // console.log("temp upload child ");
-    // console.log(temp_child);
+   
     mess_bd.append(temp_child);
 
     if (upload_list[f_id]) {
@@ -801,24 +587,23 @@ transfer_file.addEventListener("change", () => {
   // drop_box.style.display="none";
   display_file.innerHTML = "";
   drop_file.style.display = "none";
-  // console.log("tranfer ifle is ", transfer_file)
+ 
   for (let i = 0; i < transfer_file.files.length; i++) {
     display_file.append(make_element_for_display_file(transfer_file.files[i].name));
-    // console.log("apending ", transfer_file.files[i].name);
+   
   }
 
 });
 drop_file.addEventListener("dragover", (e) => {
   e.preventDefault();
-
-  // console.log("drage voer ");
+  
   drop_file.parentElement.style.backgroundColor = "rgba(212, 175, 204, 0.719)";
   drop_file.lastElementChild.style.transform = "scale(1.3)";
 
 });
 
 drop_file.addEventListener("dragleave", (e) => {
-  // console.log("leave");
+ 
   drop_file.parentElement.style.backgroundColor = "rgb(216, 175, 207)";
   drop_file.lastElementChild.style.transform = "scale(1)";
 
@@ -833,21 +618,16 @@ drop_file.addEventListener("drop",  (e) => {
     transfer_file.files = e.dataTransfer.files;
     for (let i = 0; i < transfer_file.files.length; i++) {
       display_file.append(make_element_for_display_file(transfer_file.files[i].name));
-      // console.log("apending ", transfer_file.files[i].name);
+     
     }
     // transfer_file_to_friend(e); 
   }
-
-  // console.log("droped");
-  // console.log(e.dataTransfer.files);
-  // drop_file.parentElement.style.backgroundColor="rgb(216, 175, 207)"; 
-  // drop_file.firstElementChild.style.transform="scale(1)"
+  
 });
 
 //profile image file 
 update_but.addEventListener("click", async (e) => {
   let up_file = upload_file.files[0];
-  // console.log(up_file);
 
   //    stack overflow
 
@@ -863,25 +643,13 @@ update_but.addEventListener("click", async (e) => {
         
     update_but.innerText = "Updating...";
 
-    // console.log(form_data, up_file);
-    //read   cookie 
-    // let temp_data = document.cookie.split(";")
-    // let temp_cookie;
-        
-    // let param = "";
-    // for (let i = 0; i < temp_data.length; i++) {
-    //     temp_cookie = temp_data[i].split("=");
-    //     param += "&" + temp_cookie[0].trim() + "=" + encodeURIComponent(temp_cookie[1]);
-
-    // }
-
     try {
            
       // let param =  ({ friendUserId: id }) ; 
-      console.log(form_data ); 
+     
       let response = await sendRequest.post ( form_data , "/update_profile", null, {isSetHeader : false}  ); 
-      response = JSON.parse(response);
-      console.log(response);
+      JSON.parse(response);
+      
       // update_but.innerText = "Updated";
       update_but.innerText = "Update";
       window.location.reload()  ; 
@@ -892,36 +660,6 @@ update_but.addEventListener("click", async (e) => {
 
       console.error(err);
     }
-
-    // let xhttp = new XMLHttpRequest();
-    // let url = `/update_prof/${account_type_pub.checked == true ? "public" : "private"}/${encodeURIComponent(prof_mess.value)}`;
-  
-    // let url = `${PROFILE_UPDATE_URL}?account_type_pub=${account_type_pub.checked == true ? "public" : "private"}${param}&prof_mess=${encodeURIComponent(prof_mess.value)}`;
-
-    // console.log("url = ", url);
-    // xhttp.open("POST", url, true);
-
-    // // xhttp.setRequestHeader("Content-type", "ap");
-    // xhttp.upload.onprogress = function (e) {
-    //     console.log("progress");
-    //     console.log(Math.round(e.loaded / e.total * 100) + "%");
-    // }
-
-    // xhttp.onreadystatechange = function () {
-    //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-    //         // console.log("resrpn->", this.response);
-    //         let res_data = JSON.parse(this.response)
-    //         if (res_data.status == "ok") {
-    //             update_but.innerText = "Updated";
-    //             location = "./profile";
-    //         }
-    //         else {
-    //             update_but.innerText = "Not Updated";
-    //         }
-
-    //     }
-    // }
-    // xhttp.send(form_data);
 
   }
 
@@ -1056,8 +794,7 @@ function display_message_data (data){
 
     /* handle unreaded message */  
     if(data.unreaded && data.unreaded.length   ){ 
-      for (let i = data.unreaded.length - 1; i >= 0; i--) {
-        // console.log( "inside un="+(data.unreaded[i].messageType ) ) ; 
+      for (let i = data.unreaded.length - 1; i >= 0; i--) { 
         if (data.unreaded[i].messageType == "text" || data.readed[i].messageType == undefined) {
           mess_bd.prepend(make_message_element(data.unreaded[i]));
         } else {
@@ -1116,15 +853,11 @@ first_col_friend_list.addEventListener("click", async (e) => {
   if (e.target.id) { id = e.target.id; }
   else if (e.target.parentNode.id) { id = e.target.parentNode.id; }
   else if (e.target.parentNode.parentNode.id) { id = e.target.parentNode.parentNode.id; }
-  // console.log("id->",e.target.id); 
-  // console.log("classList->",e.target.classList); 
-  console.log("className->",e.target.className); 
-  // console.log("id->",id); 
+ 
   document.cookie = "date=" + (new Date().toLocaleDateString()) + "; path=/;";
   document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
 
-  if (id && curr_f_id != id) {
-    console.log("if executed");
+  if (id && curr_f_id != id) { 
     if (m_q.matches) {
       col_1.style.display = "none";
       col_2.style.display = "inline-block";
@@ -1143,14 +876,13 @@ first_col_friend_list.addEventListener("click", async (e) => {
     curr_f_id = id;
 
     let total_mess_len = message_list[id] ? message_list[id].length : 0;
-    // console.log("id=" + id);
 
     let url = `./list_message?page=${current_message_page++}&limit=20&friendUserId=${id}&friendProfile=yes` ; 
-    console.log(url) ; 
+  
     try{
       let response = await sendRequest.get(url ) ; 
       response = JSON.parse( response ); 
-      console.log( response ) ;
+     
       let data = response.data; 
 
       display_message_data( data);
@@ -1169,119 +901,14 @@ first_col_friend_list.addEventListener("click", async (e) => {
     catch( err){
       console.error( err) ; 
     }
-
-    return; 
-
-    xhttp.open("GET", "./list_message", true);
-    let xhttp = new XMLHttpRequest();
-    // xhttp.setRequestHeader("Content-type", "application/json");
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-        let data = JSON.parse(this.response);
-        console.log(data);
-        if (data.status == "ok") {
-          let len = data.data.length;
-
-          for (let i = len - 1; i >= 0; i--) {
-            if (data.data[i].messageType) {
-              mess_bd.prepend(make_file_sent_element(data.data[i]));
-            } else {
-
-              mess_bd.prepend(make_message_element(data.data[i]));
-            }
-
-          }
-          if (data.no) {
-            document.cookie = "no=" + (data.no) + "; path=/;";
-            curr_no = data.no;
-          } else {
-            document.cookie = "no=0; path=/;";
-            curr_no = 0;
-          }
-          if(mess_bd.children[len>0 ?len - 1:0]){
-            mess_bd.scrollTop = mess_bd.children[len>0 ?len - 1:0].offsetTop;
-          }
-            
-          // console.log("seting scroll ot len-1 ", mess_bd.children[len - 1].offsetTop);
-
-          // console.log(data);
-        } else {
-          // console.log("error ");
-          // location  = "./login";     
-        }
-        // console.log("setted img");
-        // header_name.children[0].src = data.img ? data.img : "racoon.jpg";
-
-        header_name.children[0].children[0].style.backgroundImage = document.getElementById(id).children[0].children[0].style.backgroundImage;
-        header_name.children[1].children[0].textContent = data.name;
-        header_name.children[1].children[1].textContent = data.current_status;
-        loader.style.display="none"; 
-      }
-    };
-    // let param = "signal=" + 0+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
-
-    let param = "friend_u_id=" + id + "&date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString()) + "&len=" + total_mess_len;
-    xhttp.send(param);
-    //connect to this friend ;
-
-    // console.log("connected to  ",id); 
-    prev_f_id = curr_f_id;
-    socket.emit("connected-to", { prev_f_id: prev_f_id, curr_f_id: id, u_id: user_id });
-    curr_f_id = id;
-
-    // console.log(" message = > "); 
-    // message_list[id].forEach(element => {
-    //           console.log(element) ;
-    // });
-       
-    // console.log("<= end  message = > "); 
-
-    //    append the uploading files  list to mess_bd 
-    let upload_obj = upload_list[curr_f_id];
-    if (upload_obj) {
-      let upload_arr = Object.values(upload_obj);
-      for (let i = 0; i < upload_arr.length; i++) {
-        mess_bd.append(make_file_upload_element(upload_arr[i]));
-      }
-       
-    }
   
-    if (total_mess_len != 0) {
-      temp_messages = message_list[id]; 
-      message_list[id] = []; 
-      let elem = { direction: "ser", message: "unreaded messages (" + total_mess_len + ")" };
-      mess_bd.append(make_message_element(elem));
-
-      if (temp_messages[0].messageType) {
-        mess_bd.append(make_file_sent_element(temp_messages[0]));
-      } else {
-        mess_bd.append(make_message_element(temp_messages[0]));
-      }
-      // set_scroll_to_bottom(mess_bd);
-        
-      // console.log("setting scroll to bottom ");
-      for (i = 1; i < total_mess_len; i++) {
-        // console.log( "  i = "  + i  ); 
-        if (temp_messages[i].messageType) {
-          // console.log( " typeis = file  "  )
-          mess_bd.append(make_file_sent_element(temp_messages[i]));
-        } else {
-          // console.log( " typeis = message  "  )
-          mess_bd.append(make_message_element(temp_messages[i]));
-        }
-
-      }
-      loader.style.display="none"; 
-    }
-    document.getElementById(id).children[0].children[1].classList.add("not-visible");
-  } else if (id && m_q.matches) {
-    // console.log("else  executed ");
+  } else if (id && m_q.matches) { 
     // for smaller width  update the incoming stored messages
     col_1.style.display = "none";
     col_2.style.display = "inline-block";
     back.style.display = "inline-block";
     let total_mess_len = message_list[id] ? message_list[id].length : 0;
-  
+    let temp_messages ;
     if (total_mess_len != 0) {
       temp_messages = message_list[id]; 
       message_list[id] = []; 
@@ -1293,16 +920,14 @@ first_col_friend_list.addEventListener("click", async (e) => {
       } else {
         mess_bd.append(make_message_element(temp_messages[0]));
       }
-      // set_scroll_to_bottom(mess_bd);
-        
-      // console.log("setting scroll to bottom ");
-      for (i = 1; i < total_mess_len; i++) {
-        // console.log( "  i = "  + i  ); 
+     
+      for (let i = 1; i < total_mess_len; i++) {
+       
         if (temp_messages[i].messageType) {
-          // console.log( " typeis = file  "  )
+        
           mess_bd.append(make_file_sent_element(temp_messages[i]));
         } else {
-          // console.log( " typeis = message  "  )
+         
           mess_bd.append(make_message_element(temp_messages[i]));
         }
 
@@ -1317,8 +942,7 @@ first_col_friend_list.addEventListener("click", async (e) => {
       let upload_arr = Object.values(upload_obj);
       for (let i = 0; i < upload_arr.length; i++) {
         mess_bd.append(make_file_upload_element(upload_arr[i]));
-        // console.log("*** upload arr i ")
-        // console.log(upload_arr[i]);
+        
       }
 
     }
@@ -1348,7 +972,7 @@ noti.addEventListener("click", async () => {
 
       let response = await sendRequest.get( "./list_notifi") ;
       response = JSON.parse(response);
-      console.log(response);
+      
       let notifi_list = response.data ; 
     
       let html_str = "";
@@ -1372,37 +996,6 @@ noti.addEventListener("click", async () => {
     catch (err) {
       console.error(err);
     }
-        
-    // let xhttp = new XMLHttpRequest();
-
-    // xhttp.open("POST", "./display_noti", true);
-    // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    // xhttp.onreadystatechange = function () {
-    //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-    //         let data = JSON.parse(this.response);
-    //         // console.log(data);
-    //         if (data.status == "ok") {
-    //             let len = data.data.length;
-    //             let html_str = "";
-    //             for (let i = 0; i < len; i++) {
-    //                 html_str += make_element_for_noti(data.data[i]);
-
-    //             }
-
-    //             noti_box.innerHTML = html_str;
-
-    //             // console.log(data);
-    //             //   console.log(req_box.innerHTML);  
-
-    //         };
-    //         is_recieved_noti = true;
-    //         loader.style.display = "none";
-    //     }
-    // }
-    // // let param = "signal=0&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
-
-    // let param = "date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
-    // xhttp.send(param);
 
   }
 
@@ -1410,8 +1003,7 @@ noti.addEventListener("click", async () => {
 
 //display  profile setting 
 setting.addEventListener("click", async() => {
-
-  console.log( "display profile ");
+ 
   menu_box.style.display = "none";
   mess_bd.style.display = "none";
   sett_box.style.display = "block";
@@ -1420,15 +1012,12 @@ setting.addEventListener("click", async() => {
   myform.style.display = "none";
   loader.style.display = "inline-block";
   try {
-    let html_str = ""; 
+    // let html_str = ""; 
     let response = await sendRequest.get( "./profile") ;
     response = JSON.parse(response);
-    console.log(response);
+    
     let data = response.data ; 
-    // accountType: "public"
-    // messageTone: "on"
-    // profMess: "I am busy somewhere"
-    // profileImg: "p
+ 
     loader.style.display = "none";
     if( data.accountType ==  "public"  ){ 
       account_type_pub.checked = true;  
@@ -1442,10 +1031,6 @@ setting.addEventListener("click", async() => {
       mess_tone_off.checked = true;
     }
     prof_mess.value = data.profMess ; 
-    // form_data.append("profileImg", up_file);
-    // form_data.append("accountType",);
-    // form_data.append("profMess",encodeURIComponent(prof_mess.value));
-    // form_data.append("messageTone", "on");
 
   }
   catch (err) {
@@ -1479,7 +1064,7 @@ rec_req.addEventListener("click", async  () => {
       let html_str = ""; 
       let response = await sendRequest.get( "./list_rec_request") ;
       response = JSON.parse(response);
-      console.log(response);
+     
       let rec_req_list  = response.receivedRequest ; 
         
       if (rec_req_list.length) {
@@ -1501,116 +1086,31 @@ rec_req.addEventListener("click", async  () => {
     catch (err) {
       console.error(err);
     }
-        
-    // let xhttp = new XMLHttpRequest();
-    // xhttp.open("POST", "./accept_friend_request", true);
-    // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    // xhttp.onreadystatechange = function () {
-    //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-    //         let data = JSON.parse(this.response);
-    //         // console.log(data);
-    //         if (data.status == "ok") {
-    //             let len = data.data.length;
-    //             let html_str = "";
-    //             for (let i = 0; i < len; i++) {
-    //                 html_str += make_element_for_friend_req(data.data[i]);
-
-    //             }
-
-    //             req_box.innerHTML = html_str;
-
-    //             // console.log(data);
-    //             // console.log(req_box.innerHTML);
-    //             //     // console.log(html_str);
-    //             //     e.target.innerHTML= "Added as Friend";
-    //             //   //   console.log(e.target.className); 
-    //             //     e.target.className="sended-request-but"; 
-    //             // } else {
-    //             //     console.log("error occured");
-    //             //     console.log(data);
-
-    //         };
-    //         is_recieved_reqest = true;
-    //         loader.style.display = "none";
-
-    //     }
-    // }
-    // let param = "signal=0&date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
-
-    // //  let param = "p_id=" + id+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
-    // xhttp.send(param);
 
   }
 });
 
 req_box.addEventListener("click", async (e) => {
-
-  // message_body.style.display="none"; 
-
-  // if(  e.target.className == "sended-request-but" ) { 
-  //     console.warn ( "Already Accept Request")
-  //     return  ; 
-  // }
  
   noti_box.style.display = "none";
   req_box.style.display = "block";
-  // e.target.className="sended-request-but"; 
-
+  
   if (e.target.textContent == "Accept Request") {
 
     try {
       let id = e.target.id;
       if( !id ) { return ; }
       let param = JSON.stringify ({ friendUserId: id }) ; 
-      console.log(param );  
+     
       e.target.innerHTML == "Processing..." ; 
       let response = await sendRequest.post ( param , "/accept_friend_req", "application/json"  );
-      response = JSON.parse(response);
-      console.log(response);
- 
+      response = JSON.parse(response); 
       e.target.innerHTML= "Added as Friend";
 
     }
     catch (err) {
       console.error(err);
     }
-
-    // let xhttp = new XMLHttpRequest();
-
-    // xhttp.open("POST", "./accept_friend_req", true);
-    // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    // xhttp.onreadystatechange = function () {
-    //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-    //         let data = JSON.parse(this.response);
-    //         // console.log(data);
-    //         if (data.status == "ok") {
-    //             let len = data.data.length;
-    //             let html_str = "";
-    //             for (let i = 0; i < len; i++) {
-    //                 html_str += make_element_for_friend_req(data.data[i]);
-
-    //             }
-
-    //             req_box.innerHTML = html_str;
-
-    //             // console.log(data);
-    //             // console.log(req_box.innerHTML);
-    //             //     // console.log(html_str);
-    //             //     e.target.innerHTML= "Added as Friend";
-    //             //   //   console.log(e.target.className); 
-    //             //     e.target.className="sended-request-but"; 
-    //             // } else {
-    //             //     console.log("error occured");
-    //             //     console.log(data);
-
-    //         }
-    //         ;
-    //     }
-    // }
-    // // let param = "signal=" + 0+ "&date="+ (new Date().toLocaleDateString())+"&time="+(new Date().toLocaleTimeString());
-
-    // let param = "signal=1&p_id=" + id + "&date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
-    // xhttp.send(param);
 
   }
 
@@ -1622,8 +1122,7 @@ noti_box.addEventListener("click", (e) => {
   noti_box.style.display = "block";
   req_box.style.display = "none";
   if (e.target.className == "send-request-but") {
-    let id = e.target.id;
-    // console.log(id);
+    let id = e.target.id; 
     let xhttp = new XMLHttpRequest();
 
     xhttp.open("POST", "./accept_friend_request", true);
@@ -1631,16 +1130,15 @@ noti_box.addEventListener("click", (e) => {
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
         let data = JSON.parse(this.response);
-        // console.log(data);
+        
         if (data.status == "ok") {
-
-          // console.log(html_str);
+ 
           e.target.innerHTML = "Added as Friend";
-          //   console.log(e.target.className); 
+         
           e.target.className = "sended-request-but";
-        } else {
-          // console.log("error occured");
-          // console.log(data);
+        }
+        else {
+          console.error("error occured");
 
         }
         
@@ -1664,11 +1162,9 @@ function click_side_list_down_icon() {
     side_list_curr_pos = (side_list_curr_pos + 1) % child_arr_pos.length;
     let src_id = document.getElementById(child_arr_pos[side_list_curr_pos]);
     side_list_search_count.textContent = (side_list_curr_pos + 1) + "/" + child_arr_pos.length;
-    // src_id.focus();
-
+     
     src_id.style.color = "red";
-    // console.log(src_id.parentElement.parentElement);
-    // console.log(src_id.parentElement.parentElement.offsetTop);
+  
     let temp_class_name  = src_id.parentElement.parentElement.className; 
     if (temp_class_name == "message-file") {
       mess_bd.scrollTop = src_id.parentElement.parentElement.offsetTop - 20;
@@ -1679,29 +1175,23 @@ function click_side_list_down_icon() {
       mess_bd.scrollTop = src_id.offsetTop - 20;
     }
     selectElementText(src_id);
-    // src_id.scrollIntoView();
 
   }
 }
 
 side_list_down_icon.addEventListener("click", () => {
   click_side_list_down_icon();
-  // console.log("clickde");
 
 });
 
 side_list_up_icon.addEventListener("click", () => {
   if (child_arr_pos.length > 0) {
-
-    // console.log(src_id.style.color=="");
-    // if(side_list_curr_pos ==0 && )
+ 
     side_list_curr_pos = (side_list_curr_pos + child_arr_pos.length - 1) % child_arr_pos.length;
     let src_id = document.getElementById(child_arr_pos[side_list_curr_pos]);
     side_list_search_count.textContent = (side_list_curr_pos + 1) + "/" + child_arr_pos.length;
     src_id.style.color = "red";
-    // src_id.setPointerCapture();
-    // src_id.selectionStart =5;
-    // src_id.focus(); 
+ 
     let temp_class_name  = src_id.parentElement.parentElement.className; 
     if (temp_class_name == "message-file") {
       mess_bd.scrollTop = src_id.parentElement.parentElement.offsetTop - 20;
@@ -1714,7 +1204,6 @@ side_list_up_icon.addEventListener("click", () => {
     selectElementText(src_id);
 
   }
-  // console.log("clickde");
 
 });
 side_list_search_icon.addEventListener("click", () => {
@@ -1736,17 +1225,12 @@ side_list_close_icon.addEventListener("click", () => {
   for (let i = 0; i < child_arr_pos.length; i++) {
     src_id = document.getElementById(child_arr_pos[i]);
     if (src_id != null) {
-
-      // console.log(src_id);
-      // if(src_id != ) 
+ 
       src_id.parentNode.innerHTML = src_id.parentNode.textContent;
     }
 
   }
-  // console.log(document.getElementById(child_arr_pos[i]).parentNode.textContent);
-  // src_elem.parentNode.textContent = ;
-  //    mess_bd.children[i].firstElementChild.innerHTML = set_color_to_text(mess_bd.children[i].firstElementChild.textContent, search_value, mess_bd.children[i]);
-
+  
   child_arr_pos = [];
   side_list_curr_pos = 0;
   input_search_keyword.textContent = "";
@@ -1772,6 +1256,7 @@ function set_color_to_text(text, patt_str = "", element_id = null) {
   result = "";
   last = index = 0;
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     index = text_str.indexOf(patt_str, last);
 
@@ -1789,40 +1274,12 @@ function set_color_to_text(text, patt_str = "", element_id = null) {
 
   result += text.slice(last, len1);
   return result;
-
-  //         str1 = str1.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-  //         search_value = search_value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-  //         console.log("initia string filter "); 
-  //         console.log(search_value); 
-  //         let  reg_ex = new RegExp(search_value, "ig");
-
-  //         console.log("reg x is: "); 
-  //         console.log(reg_ex); 
-  //         str1 = str1.replace(reg_ex, '<span class="search-item-bg">' + search_value + '</span>');
-  //         console.log("strng 1 is: "); 
-  //         console.log(str1); 
-
-  //        let  len = str1.length;
-  //        let  str2 = "";
-  //        let  count = 0;
-  //        let j =0; 
-  //         for ( j = 0; j < len; j++) {
-  //             if (str1[j] == "\\") {
-  //                 j++;
-
-  //             }
-  //             str2+= str1[j];
-  //         }
-
-  //         console.log("ans  2 is: "); 
-  //         console.log(str2); 
-  //         console.log("-----------------"); 
-  //    return str2; 
+   
 }
 
 input_search_keyword.addEventListener("keyup", (e) => {
 
-  if (e.key == "Enter" || e.keyCode == 13) {
+  if (e.key == "Enter" || e.keyCode == 13) { 
     click_side_list_down_icon();
     return;
   }
@@ -1838,11 +1295,11 @@ input_search_keyword.addEventListener("keyup", (e) => {
   let search_value = input_search_keyword.value;
   // string.charCodeAt(0);
   let no_of_child = mess_bd.children.length;
-  let str1 = "";
-  let str2 = "";
-  let len = 0;
-  let i = 0;
-  let count = 0;
+  // let str1 = "";
+  // let str2 = "";
+  // let len = 0;
+  // let i = 0;
+  // let count = 0;
   let c_name;
   let temp_curr_child ; 
   for (let i = 0; i < no_of_child; i++) {
@@ -1870,8 +1327,7 @@ input_search_keyword.addEventListener("keyup", (e) => {
     }
 
   }
-  // ###
-  // console.log(child_arr_pos.length);
+  // ### 
   if (child_arr_pos.length > 0) {
     side_list_search_count.textContent = (side_list_curr_pos + 1) + "/" + child_arr_pos.length;
 
@@ -1912,9 +1368,11 @@ function set_scroll_to_bottom(id) {
 myform.addEventListener("submit", (e) => {
   e.preventDefault();
   // return if input message is for file
-  if (drop_box.style.display == "block") {
-    // console.log("reutnrign");
+  if (drop_box.style.display == "block") { 
     return;
+  }
+  if( message_input.value ==""){
+    return ; 
   }
   let curr_time = (new Date()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   socket.emit('send-message', { "message": message_input.value, date: Date.now(), curr_f_id: curr_f_id, user_id: user_id });
@@ -1936,8 +1394,7 @@ myform.addEventListener("submit", (e) => {
   temp2.classList = "message-time-left";
   temp1.appendChild(temp2);
   mess_bd.appendChild(temp1);
-
-  // console.log(message_input.value);
+ 
   message_input.value = "";
 
   set_scroll_to_bottom(mess_bd);
@@ -1958,11 +1415,7 @@ message_input.addEventListener("focusout", () => {
 //     document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
 
 // }
-
-// socket.on("close", (data) => {
-//     console.log("close ",data); 
-//     });
-
+ 
 // ----- socket --------------
 
 // 
@@ -1985,8 +1438,7 @@ message_input.addEventListener("focusout", () => {
 window.addEventListener("beforeunload", function (e) {
 
   document.cookie = "date=" + (new Date().toLocaleDateString()) + "; path=/;";
-  document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;";
-  console.log('page is is unloading .. loaded');
+  document.cookie = "time=" + (new Date().toLocaleTimeString()) + "; path=/;"; 
   let data = document.cookie.split(";");
   let cookie_data = {};
   let temp;
@@ -2001,8 +1453,7 @@ window.addEventListener("beforeunload", function (e) {
 
 }, false);
 
-col_2.style.display = "inline-block";
-// console.log("style is : " + col_2.style.display)
+col_2.style.display = "inline-block"; 
 if (m_q.matches) {
   col_1.style.display = "inline-block";
   col_2.style.display = "none";
@@ -2028,17 +1479,13 @@ if (m_q.matches) {
 // set_scroll_to_bottom(mess_bd);
 // });
 
-socket.on("friend-status", (data) => {
-  // console.log("frined  status is  to", data);
+socket.on("friend-status", (data) => { 
   if (curr_f_id == data.id) {
     header_name.children[1].children[1].textContent = data.current_status;
   }
 });
 
 socket.on("typing", (data) => {
-  console.log("typing..");
-  console.log(data);
-  console.log(curr_f_id);
 
   if (curr_f_id == data.u_id) {
 
@@ -2053,32 +1500,25 @@ socket.on("not-typing", (data) => {
   }
 
 });
-socket.on("setid", (data) => {
-  // console.log("setting id to", data);
+socket.on("setid", (data) => { 
   user_id = data.id;
 });
 
 socket.on("rec-message", (data) => {
-  // console.log("data recied  ");
-  console.log(data);
-
-  // if()
+ 
+  let temp ; 
   data.direction = "in";
   if (data.user_id == curr_f_id && col_2.style.display == "inline-block") {
 
     //m_q.matches && col_2.style.display == "block" && m_q.matches==false 
-
-    // console.log("recived data is: ", data);
+ 
     //if recieved message is file 
-    if (data.messageType == "file") {
-      // console.log("fmessage type is file make in file element ")
+    if (data.messageType == "file") { 
       temp = make_file_sent_element(data);
     } else {
       temp = make_message_element(data);
     }
-
-    // console.log(" appending data  ");
-    // console.log(temp);
+   
     mess_bd.appendChild(temp);
     set_scroll_to_bottom(mess_bd);
   }
@@ -2093,8 +1533,6 @@ socket.on("rec-message", (data) => {
     let elem = document.getElementById(data.user_id).children[0].children[1];
     elem.children[0].textContent = message_list[data.user_id].length;
     elem.classList.remove("not-visible");
-    //   elem.classList.add("not-visible"); 
-    // console.log("stroing message ");;
 
   }
 
@@ -2102,8 +1540,6 @@ socket.on("rec-message", (data) => {
     ping_audio.currentTime = 0;
     ping_audio.play();
   }
-
-  // console.log(message_list);
 
 });
 
@@ -2148,13 +1584,11 @@ function handleIncomingCall( data) {
   let call_elem  = createIncomingCallElem(data);  
   incoming_call_bx.innerHTML = ""; 
   incoming_call_bx.appendChild(call_elem);
-  console.log(call_elem);
     
 }
 
 function handleDeclineCall( ) {
-     
-  console.log( "rejecting ");
+  
   incoming_call_bx.innerHTML =""; 
   let li = getCookie("li");
   let data = {  li } ; 
@@ -2162,9 +1596,7 @@ function handleDeclineCall( ) {
     
 }
 function handleAcceptCall( ) {
-  //  console.log( incoming_call_data) ; 
-  //  console.log( `/video-chat?f_id=${ incoming_call_data.f_id}&type=rec`)
-  // incoming_call_bx.innerHTML =""; 
+ 
   is_redirecting = true ; 
   window.location =`/video-chat?f_id=${ incoming_call_data.f_id}&type=rec` ; 
 }
@@ -2196,8 +1628,7 @@ function handleAcceptCall( ) {
 //     });
 
 socket.on("user-disconnected", (data) => {
-  // console.log("new user in client ");
-
+ 
   let temp1 = document.createElement("div");
   temp1.classList = "message middle";
   let temp2 = document.createElement("span");
@@ -2210,19 +1641,7 @@ socket.on("user-disconnected", (data) => {
 });
 
 socket.on("calling", (data) => {
-  console.log("calling...");
-  console.log( data );
+ 
   incoming_call_data = data ; 
-  handleIncomingCall(  data  );
-  // user_id = data.id;
+  handleIncomingCall(  data  ); 
 });
-
-// socket.on("recieved-pecific-client", (data) => {
-
-// console.log(data);
-// set_scroll_to_bottom(mess_bd);
-
-// });
-
-// console.log("data is: ); "); 
-// console.log({{status}}); 
