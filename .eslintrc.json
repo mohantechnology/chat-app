@@ -8,7 +8,8 @@
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "ecmaVersion": "latest"
+        "ecmaVersion": "latest",
+        "impliedStrict": true
     },
     "rules": {
         "indent": [
@@ -19,7 +20,14 @@
             "error",
             "always"
         ],
-        "no-unused-vars": ["error", { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }] ,
+        "no-unused-vars": [
+            "error",
+            {
+                "vars": "all",
+                "args": "after-used",
+                "ignoreRestSiblings": false
+            }
+        ],
         "no-multiple-empty-lines": [
             1,
             {
@@ -36,9 +44,37 @@
                     "error",
                     "dir",
                     "trace"
-                    
                 ]
             }
         ]
-    }
+    },
+    "overrides": [
+        { 
+            "files": [
+                "public/js/*.js"
+            ], // Or *.test.js
+            "rules": {
+                "no-console": [
+                    "warn",
+                    {
+                        "allow": [
+                            "clear",
+                            "info",
+                            "error",
+                            "dir",
+                            "trace",
+                            "warn"
+                        ]
+                    }
+                ]  , 
+                "no-undef": "off"
+                // "no-unused-vars": "off"
+            }, 
+             
+              "env": {
+                "es6": true
+               
+            }
+        }
+    ]
 }
