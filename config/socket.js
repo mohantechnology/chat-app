@@ -2,24 +2,23 @@
 const axios = require('axios'); 
 
 const socketSetup = async () => {
- 
 
-    try{ 
+  try{ 
 
-        let response = await axios({
-          method: 'GET',
-          url: process.env.SOCKET_URL , 
-         });   
-         console.log("Successful Connected to Socket Server"); 
+    await axios({
+      method: 'GET',
+      url: process.env.SOCKET_URL , 
+    });   
+    // eslint-disable-next-line no-console
+    console.log("Successful Connected to Socket Server"); 
     
-      }
-      catch (err){ 
-        setTimeout(()=>{
-            console.log("Retrying to connect with Socket Server.....");
-            socketSetup()
-            },3000)
-      }
-
+  }
+  catch (err){ 
+    setTimeout(()=>{
+      console.error("Retrying to connect with Socket Server.....");
+      socketSetup();
+    },3000);
+  }
  
-}
+};
 module.exports = socketSetup;
