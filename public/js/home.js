@@ -1,4 +1,4 @@
-// "use strict" ;
+"use strict" ;
 
 var mess_bd = document.getElementById("message-body");
 var side_list_search_icon = document.getElementById("side-list-search-icon");

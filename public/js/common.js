@@ -1,4 +1,4 @@
-// "use strict";
+"use strict";
 // var is_user_connected  = false ; // store if user has successfully created session with socket server or not 
 var set_interval_timeid;
 

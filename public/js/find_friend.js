@@ -35,55 +35,29 @@ ${data.isFriend ? "Already Friend" : data.isSendedRequest ?  "Sended Request" : 
 message_body.addEventListener("click", async (e) => {
   if (e.target.className == "send-request-but") {
     let id = e.target.id;
-    console.log(id);
 
     if( !id ) { return ; }
     e.target.className = "sended-request-but";
     try {
       let param = JSON.stringify ({ friendUserId: id }) ; 
-      console.log(param ); 
+   
       let response = await sendRequest.post ( param , "/send_friend_req", "application/json"  );
       response = JSON.parse(response);
-      console.log(response);
 
       e.target.innerHTML = "Request Sended";
-      // e.target.className = "sended-request-but";
+     
     }
     catch (err) {
       console.error(err);
     }
-
-    // let xhttp = new XMLHttpRequest();
-
-    // xhttp.open("POST", "./send_friend_req", true);
-    // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    // xhttp.onreadystatechange = function () {
-    //     if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-    //         let data = JSON.parse(this.response);
-    //         console.log(data);
-    //         if (data.status == "ok") {
-
-    //             // console.log(html_str);
-    //             e.target.innerHTML = "Request Sended";
-    //             //   console.log(e.target.className); 
-    //             e.target.className = "sended-request-but";
-    //         } else {
-    //             console.log("error occured");
-    //             console.log(data);
-
-    //         }
-    //         ;
-    //     }
-    // }
-    // let param = "p_id=" + id + "&date=" + (new Date().toLocaleDateString()) + "&time=" + (new Date().toLocaleTimeString());
-    // xhttp.send(param);
 
   }
 });
 
 async function fetch_friend_list(query) {
 
-  if (true || is_recieved_reqest) {
+  // eslint-disable-next-line no-constant-condition
+  if (true  ) {
     is_recieved_reqest = false;
 
     let param = "searchQuery=" + query;
@@ -99,8 +73,7 @@ async function fetch_friend_list(query) {
       let response = await sendRequest.get(url + "?" + param);
       response = JSON.parse(response);
       let html_str = "";
-
-      console.log(response);
+ 
       let friend_list = response.list;
       if (friend_list.length) {
         friend_list.map((item) => {
@@ -122,59 +95,13 @@ async function fetch_friend_list(query) {
     catch (err) {
       console.error(err);
     }
-
-    // let xhttp = new XMLHttpRequest();
-    // xhttp.open("GET", url, true);
-    // // xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    // xhttp.onreadystatechange = function () {
-    //     if (this.readyState == 4  ) {
-    //         console.log(this.response);
-    //       if( this.status >= 200 && this.status < 300){ 
-
-    //         let data = JSON.parse(this.response);
-    //         console.log(data);
-    //         loader.style.display="none"; 
-    //         is_recieved_reqest= true;
-    //         if (data.status == "ok") {
-
-    //             let len = data.list.length ?data.list.length:0; 
-    //             let html_str =""; 
-    //             for(let i=0 ; i<len; i++){
-    //                 html_str+= make_element(data.list[i])
-
-    //             }
-    //             if(len==0){
-    //                 html_str = `<div class="friend-profile"><span class="profile">
-    //                     <p class="user-time">&nbsp;</p>
-    //                     <p class="user-name">"No Result Found"</p>
-    //                     <p class="user-time">&nbsp;</p> </span></div>`
-    //             }
-
-    //             // console.log(html_str);
-    //             message_body.innerHTML = html_str; 
-
-    //         } else {
-    //             console.log("error occured");
-    //             console.log(data);
-    //             if(data.message=="Not a valid user"){
-    //                 // windows.location("./login"); 
-    //                 window.location = "./login"; 
-    //             }
-    //         }
-    //         ;
-    //     }
-    // }
-    // }
-
-    // xhttp.send();
-    // message_body.innerHTML = ""
-    // loader.style.display = "block";
+    
   }
 }
 
 /* event occured  at  history  back/forward button navigation:*/
 window.onpopstate = function (e) {
-  console.log("e.state.html");
+  
   if (e.state) {
     message_body.innerHTML = e.state.html;
     input_search_keyword.value = decodeURIComponent(e.state.query);
@@ -192,7 +119,7 @@ window.onload = () => {
 };
 
 function display_error(error) {
-  console.log(error);
+  console.error(error);
 }
 
 input_search_keyword.addEventListener("keyup", (e) => {
@@ -204,16 +131,13 @@ input_search_keyword.addEventListener("keyup", (e) => {
 
   side_list_close_icon.style.display = "inline-block";
   side_list_search_icon.style.display = "none";
-
-  // console.log(e.keyCode==13)
+ 
   if (e.key == "Enter" || e.keyCode == 13) {
 
     search_value = encodeURIComponent(input_search_keyword.value.trim());
-    // param = "searchQuery=" + search_value;
-
+   
     fetch_friend_list(search_value);
-
-    // input_search_keyword.value=""; 
+ 
     side_list_close_icon.style.display = "none";
     side_list_search_icon.style.display = "inline-block";
 
