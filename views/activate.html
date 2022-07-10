@@ -9,7 +9,6 @@
 </head>
 <style>
     body {
-
         /* background-color: rgb(233, 233, 231); */
         /* background-color: hsl(40, 10, 218); */
         font-family: 'Roboto', sans-serif;
@@ -18,22 +17,17 @@
         background: linear-gradient(62deg, #4158D0 5%, #556de7 40%, #E0C3FC 100%);
     }
 
-
     #bottom {
-
         height: 50vh;
-
     }
 
     #person_img {
         display: inline-block;
         /* position: relative; */
-
         width: 45px;
     }
 
     #or-head {
-
         text-align: center;
         position: relative;
         top: 17px;
@@ -45,14 +39,11 @@
         /* background-color: hsl(160, 0, 240); */
         /* background-color: blue; */
         width: 250px;
-
         /* height: 30px; */
         border: none;
         /* margin:auto; */
         margin: 10px;
         /* border-radius:10px; */
-
-
     }
 
     input:focus {
@@ -70,7 +61,6 @@
         padding: 25px 0px;
         z-index: 2;
         margin-top: 35px;
-
         /* background-color: blue; */
     }
 
@@ -88,7 +78,6 @@
         margin: 20px;
         background-color: rgb(255, 255, 255);
         box-shadow: 2px 2px 4px -3px black;
-
         padding-left: 5px;
         padding-right: 10px;
     }
@@ -107,14 +96,12 @@
         position: relative;
         top: 3px;
         left: 3px;
-
     }
 
     #fb-icon {
         color: blue;
         font-size: 100px;
     }
-
 
     .button {
         background-color: blue;
@@ -127,14 +114,12 @@
         left: -5px;
         border-radius: 20px;
         margin: 5px;
-
     }
 
     .button:hover {
         cursor: pointer;
         border-radius: 10px;
         transition: 500ms;
-
     }
 
     .button:focus {
@@ -147,10 +132,7 @@
         height: 10px;
         /* background-color: hsl(146, 108, 99); */
         background-color: rgb(58, 91, 153);
-
-
     }
-
 
     #gm-butt {
         /* background-color: hsl(6, 224, 141); */
@@ -166,7 +148,6 @@
     #fb-icon {
         position: relative;
         top: 2px;
-
     }
 
     #gm-icon {
@@ -179,11 +160,8 @@
     .hr-line {
         width: 18%;
         display: inline-block;
-
-
         position: relative;
         top: 4px;
-
     }
 
     #remem-me {
@@ -211,7 +189,6 @@
         background-color: rgb(0, 70, 96);
         margin: 16px auto;
         display: none;
-
     }
 
     #box {
@@ -229,20 +206,17 @@
         display: none;
     }
 
-
     #resend_act_link_but {
         background-color: #2d2d5cc4;
     }
 
     @media screen and (min-width:951px) {
-
         #box {
             /* border: 1px solid black; */
             position: relative;
             width: 900px;
             margin: auto;
             margin-top: 30px;
-
             background-color: rgb(247, 247, 247);
             /* background-color: hsl(160, 0, 232); */
             padding: 50px;
@@ -251,7 +225,6 @@
         #chat_img {
             width: 450px;
             display: inline-block;
-
             z-index: 1;
             /* padding:100px; */
             position: absolute;
@@ -271,13 +244,11 @@
         }
 
         #head-message {
-
             margin-bottom: 2px;
         }
 
         .input-field {
             width: 70%;
-
         }
 
         .rember-me {
@@ -287,15 +258,10 @@
         .button {
             width: 70%;
         }
-
     }
 
-
-
     @media screen and (min-width:401px) and (max-width:950px) {
-
         .input-field {
-
             width: 76%;
         }
 
@@ -304,7 +270,6 @@
         }
 
         .rember-me {
-
             width: 78%;
             text-align: left;
         }
@@ -318,10 +283,8 @@
         }
 
         #bottom-rule {
-
             display: block;
         }
-
     }
 
     @media screen and (max-width:400px) {
@@ -331,7 +294,6 @@
         }
 
         .input-field {
-
             width: 76%;
         }
 
@@ -340,7 +302,6 @@
         }
 
         .rember-me {
-
             width: 78%;
             text-align: left;
         }
@@ -354,22 +315,18 @@
         }
 
         #bottom-rule {
-
             display: block;
         }
 
         body {
             background-color: rgb(168, 168, 230);
         }
-
     }
 
     @media screen and (max-width:250px) {
-
         .button {
             width: 95%;
             left: 0px;
-
         }
 
         .svg-icon {
@@ -377,10 +334,8 @@
         }
 
         .rember-me {
-
             width: 95%;
             font-size: 15px;
-
         }
 
         #remem-me {
@@ -393,7 +348,6 @@
         }
     }
 
-
     @media screen and (max-width:950px) {
         .login-box {
             background-color: white;
@@ -402,26 +356,19 @@
         }
 
         #or-head {
-
             display: block;
         }
-
-
     }
 </style>
 
 <body>
-
     <div id="box">
-
         <div class="login-box">
             <div id="or-head">
                 <hr class="hr-line"> <img id="person_img" src="person.png" alt="">
                 <hr class="hr-line">
-
             </div>
             <p id="head-message"> Activation Account </p>
-
             <hr style="width: 80%;">
             <div id="message"></div>
             <div class="login-body">
@@ -439,36 +386,17 @@
                             d="M3.5 11.5a3.5 3.5 0 1 1 3.163-5H14L15.5 8 14 9.5l-1-1-1 1-1-1-1 1-1-1-1 1H6.663a3.5 3.5 0 0 1-3.163 2zM2.5 9a1 1 0 1 0 0-2 1 1 0 0 0 0 2z">
                         </path>
                     </svg> <input type="number" id="act_code" placeholder="Activation Code"> </span>
-
-
-
-
                 <button id="sub_but" class="button"> Submit </button>
                 <button id="resend_act_link_but" class="button">Not Recieved Activation Link</button>
                 <button id="back-butt" class="button"> Back </button>
-
-
-
-
-
-
             </div>
-
-
-
             <hr id="bottom-rule">
-
         </div>
-
         <img id="chat_img" src="chat_image.png" alt="">
     </div>
-
     <div id="bottom"></div>
-
-
     <script src="./js/sendRequest.js"></script>
     <script src="./js/utils.js"></script>
-
     <script>
         var act_code = document.getElementById("act_code");
         var sub_but = document.getElementById("sub_but");
@@ -497,11 +425,11 @@
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
-                 
+
                     let data = JSON.parse(this.response);
                     if (data.status == "ok") {
                         display_message("Account is Activated Successfully", "green", 3000);
-                      
+
                         setTimeout(() => {
                             location = "./login";
                         }, 1000);
@@ -509,7 +437,7 @@
                         act_code.value = email.value = "";
 
                     } else {
-               
+
                         display_message(data.message, "red");
                     }
                     ;
@@ -577,10 +505,10 @@
 
             try {
                 let response = await sendRequest.post(param, "/activate", "application/json");
-           
+
 
                 display_message("Account is Activated Successfully", "green", 3000);
-          
+
                 setTimeout(() => {
                     // location = "./login";
                 }, 1000);
@@ -602,7 +530,7 @@
 
 
 
-        resend_act_link_but.addEventListener("click", async() => {
+        resend_act_link_but.addEventListener("click", async () => {
 
             // if(!is_rec_reqest){
             //     return; 
@@ -628,7 +556,7 @@
 
 
 
-        
+
 
             let user_act_code, user_email;
 
@@ -642,30 +570,28 @@
             // param = `email=${user_email}&password=${user_act_code}`;
             email.value = act_code.value = "";
 
-            let param = JSON.stringify({ email: user_email, password:user_act_code, });
+            let param = JSON.stringify({ email: user_email, password: user_act_code, });
 
-  
+
 
             try {
                 let response = await sendRequest.post(param, "/resend_activate_link", "application/json");
-                
-                response = JSON.parse( response)
+
+                response = JSON.parse(response)
                 display_message(response.message, "green", 3000);
- 
+
             }
             catch (err) {
                 err = JSON.parse(err)
                 console.error(err.message);
                 display_message(err.message, "red", 10000);
             }
-           
 
-           
+
+
 
         });
     </script>
-
-
 </body>
 
 </html>

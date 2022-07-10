@@ -6,14 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="icon" href="favicon.ico">
- 
-      <script src="https://accounts.google.com/gsi/client" async defer></script>
-  
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-
 <style>
     body {
-
         /* background-color: rgb(233, 233, 231); */
         /* background-color: hsl(40, 10, 218); */
         font-family: 'Roboto', sans-serif;
@@ -21,11 +17,7 @@
         /* background-color: blue; */
         background: linear-gradient(62deg, #4158D0 5%, #556de7 40%, #E0C3FC 100%);
         min-height: 100vh;
-
-
-
     }
-
 
     /* #bottom{
 
@@ -35,12 +27,10 @@ height:5vh;
     #person_img {
         display: inline-block;
         /* position: relative; */
-
         width: 45px;
     }
 
     #or-head {
-
         text-align: center;
         position: relative;
         top: 17px;
@@ -52,14 +42,11 @@ height:5vh;
         /* background-color: hsl(160, 0, 240); */
         /* background-color: blue; */
         width: 250px;
-
         /* height: 30px; */
         border: none;
         /* margin:auto; */
         margin: 10px;
         /* border-radius:10px; */
-
-
     }
 
     input:focus {
@@ -87,12 +74,10 @@ height:5vh;
         /* margin:auto;  */
         border-radius: 40px;
         margin: 10px;
-
         /* border:2px solid green; */
         background-color: rgb(255, 255, 255);
         /* background-color: hsl(160, 0, 240); */
         box-shadow: 2px 2px 4px -3px black;
-
         padding-left: 5px;
         padding-right: 10px;
     }
@@ -110,14 +95,12 @@ height:5vh;
         position: relative;
         top: 3px;
         left: 3px;
-
     }
 
     #fb-icon {
         color: blue;
         font-size: 100px;
     }
-
 
     .button {
         background-color: blue;
@@ -130,14 +113,12 @@ height:5vh;
         left: -5px;
         border-radius: 20px;
         margin: 5px;
-
     }
 
     .button:hover {
         cursor: pointer;
         border-radius: 10px;
         transition: 500ms;
-
     }
 
     .button:focus {
@@ -150,10 +131,7 @@ height:5vh;
         height: 10px;
         /* background-color: hsl(146, 108, 99); */
         background-color: rgb(58, 91, 153);
-
-
     }
-
 
     #gm-butt {
         /* background-color: hsl(6, 224, 141); */
@@ -169,7 +147,6 @@ height:5vh;
     #fb-icon {
         position: relative;
         top: 2px;
-
     }
 
     #gm-icon {
@@ -182,11 +159,8 @@ height:5vh;
     .hr-line {
         width: 18%;
         display: inline-block;
-
-
         position: relative;
         top: 4px;
-
     }
 
     #remem-me {
@@ -214,7 +188,6 @@ height:5vh;
         background-color: rgb(0, 70, 96);
         margin: 16px auto;
         display: none;
-
     }
 
     .rember-me {
@@ -222,39 +195,26 @@ height:5vh;
     }
 
     #forgot-pass {
-
         font-size: 12px;
         position: absolute;
         top: -15px;
         right: 0px;
-
         margin-bottom: 10x;
-
     }
 
-
-/* .goog-but-par{ 
+    /* .goog-but-par{ 
     border: 1px solid blue; 
     display:inline-block ; 
     margin:7px ; 
     
 } */
-
-
-
-
-
-
-
     @media screen and (min-width:951px) {
-
         #box {
             /* border: 1px solid black; */
             position: relative;
             width: 900px;
             margin: auto;
             margin-top: 30px;
-
             background-color: rgb(247, 247, 247);
             /* background-color: hsl(160, 0, 232); */
             padding: 30px;
@@ -263,7 +223,6 @@ height:5vh;
         #chat_img {
             width: 450px;
             display: inline-block;
-
             z-index: 1;
             /* padding:100px; */
             position: absolute;
@@ -282,13 +241,11 @@ height:5vh;
         }
 
         #head-message {
-
             margin-bottom: 2px;
         }
 
         .input-field {
             width: 70%;
-
         }
 
         .rember-me {
@@ -298,7 +255,6 @@ height:5vh;
         .button {
             width: 70%;
         }
-
     }
 
     #message {
@@ -312,40 +268,38 @@ height:5vh;
         display: none;
     }
 
-    .g_id_signin,.fb-login-button {    
-            /*  width :315px; */
-    margin: auto;
+    .g_id_signin,
+    .fb-login-button {
+        /*  width :315px; */
+        margin: auto;
+        position: relative;
+        right: 4px;
+        min-height: 34px;
+        margin: 6px 0px;
+        display: flex;
+        border-radius:
+            border-radius: 20px;
+        /* flex-direction: row; */
+        justify-content: center;
+        /*   border: 1px solid black;  */
+        /* border: 1px solid #dadce0; */
+    }
 
-    position: relative;
-    right: 4px;
-    min-height: 34px;
-    margin: 6px 0px;
-    display: flex;
-    border-radius: 
-    border-radius: 20px;
-    /* flex-direction: row; */
-    justify-content: center;
-   /*   border: 1px solid black;  */
-    /* border: 1px solid #dadce0; */
-}
- .but-bx-par{
+    .but-bx-par {
         min-height: 80px;
-      /*   border: 1px solid black;  */
-    flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
-    flex-wrap: wrap;
- }
+        /*   border: 1px solid black;  */
+        flex-direction: column;
+        justify-content: center;
+        align-items: stretch;
+        flex-wrap: wrap;
+    }
 
-.fb-login-button{
-  margin:  4px 0px;
-}
- 
+    .fb-login-button {
+        margin: 4px 0px;
+    }
 
     @media screen and (min-width:401px) and (max-width:950px) {
-
         .input-field {
-
             width: 76%;
         }
 
@@ -354,7 +308,6 @@ height:5vh;
         }
 
         .rember-me {
-
             width: 78%;
             text-align: left;
         }
@@ -368,11 +321,8 @@ height:5vh;
         }
 
         #bottom-rule {
-
             display: block;
         }
-    
-
     }
 
     @media screen and (max-width:400px) {
@@ -382,7 +332,6 @@ height:5vh;
         }
 
         .input-field {
-
             width: 76%;
         }
 
@@ -391,7 +340,6 @@ height:5vh;
         }
 
         .rember-me {
-
             width: 78%;
             text-align: left;
         }
@@ -405,22 +353,18 @@ height:5vh;
         }
 
         #bottom-rule {
-
             display: block;
         }
 
         body {
             background-color: rgb(168, 168, 230);
         }
-
     }
 
     @media screen and (max-width:250px) {
-
         .button {
             width: 95%;
             left: 0px;
-
         }
 
         .svg-icon {
@@ -428,10 +372,8 @@ height:5vh;
         }
 
         .rember-me {
-
             width: 95%;
             font-size: 15px;
-
         }
 
         #remem-me {
@@ -444,7 +386,6 @@ height:5vh;
         }
     }
 
-
     @media screen and (max-width:950px) {
         .login-box {
             background-color: white;
@@ -453,36 +394,26 @@ height:5vh;
         }
 
         #or-head {
-
             display: block;
         }
-
-
     }
-
- 
 
     /* #g_id_onload{
             border: 1px solid black; 
         } */
-
-        /* .nsm7Bb-HzV7m-LgbsSe-MJoBVe  , .haAclf , .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb , .nsm7Bb-HzV7m-LgbsSe-BPrWId {
+    /* .nsm7Bb-HzV7m-LgbsSe-MJoBVe  , .haAclf , .nsm7Bb-HzV7m-LgbsSe-bN97Pc-sM5MNb , .nsm7Bb-HzV7m-LgbsSe-BPrWId {
             border: 10px solid black !important;
         } */
 </style>
 
 <body>
-
     <div id="box">
-
         <div class="login-box">
             <div id="or-head">
                 <hr class="hr-line"> <img id="person_img" src="person.png" alt="">
                 <hr class="hr-line">
-
             </div>
             <p id="head-message"> Login </p>
-
             <hr style="width: 80%;">
             <div id="message"></div>
             <div class="login-body">
@@ -501,97 +432,39 @@ height:5vh;
                         </path>
                     </svg> <input type="password" id="user-pass" name="pass" placeholder="Password"> </span>
                 <span class="rember-me"> <a href="forgot" id="forgot-pass">Forgot password?</a> </span>
-
                 <span class="rember-me"> <input type="checkbox" name="remem_me" id="remem-me"> Remember Me</span>
-
-
-
-
                 <button type="button" id="login-butt" class="button"> Login </button>
                 <div id="or">
                     <hr class="hr-line"> OR
                     <hr class="hr-line">
                 </div>
-
                 <button id="reg-butt" class="button"> Register Account </button>
-
-        <div id="or">
+                <div id="or">
                     <hr class="hr-line"> OR
                     <hr class="hr-line">
                 </div>
-             
-<div class="but-bx-par">
-
-              <div class="g_id_signin" data-type="standard" data-shape="pill" data-width="315" data-size="medium"
-        data-text="signup_with" data-logo_alignment="left"></div>
-
-    {{!-- <div class="fb-login-button" data-width="315" data-size="medium" data-button-type="login_with" data-layout="rounded"
-        data-auto-logout-link="false" data-use-continue-as="false"  ></div> --}}
-
-         <fb:login-button  class="fb-login-button" data-width="315" data-size="medium" data-button-type="login_with" data-layout="rounded"
-        data-auto-logout-link="false" data-use-continue-as="false"  scope="public_profile,email" onlogin="checkLoginState();"> Log in with Facebook </fb:login-button>
- 
-</div>
-                <!--
-                    <button id="fb-butt" class="button"> <svg id="fb-icon" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 48 48" width="1rem" height="1rem">
-                        <linearGradient id="Ld6sqrtcxMyckEl6xeDdMa" x1="9.993" x2="40.615" y1="9.993" y2="40.615"
-                            gradientUnits="userSpaceOnUse">
-                            <stop offset="0" stop-color="#2aa4f4" data-darkreader-inline-stopcolor=""
-                                style="--darkreader-inline-stopcolor:#08639e;"></stop>
-                            <stop offset="1" stop-color="#007ad9" data-darkreader-inline-stopcolor=""
-                                style="--darkreader-inline-stopcolor:#00589d;"></stop>
-                        </linearGradient>
-                        <path fill="#fff"
-                            d="M26.707,29.301h5.176l0.813-5.258h-5.989v-2.874c0-2.184,0.714-4.121,2.757-4.121h3.283V12.46 c-0.577-0.078-1.797-0.248-4.102-0.248c-4.814,0-7.636,2.542-7.636,8.334v3.498H16.06v5.258h4.948v14.452 C21.988,43.9,22.981,44,24,44c0.921,0,1.82-0.084,2.707-0.204V29.301z"
-                            data-darkreader-inline-fill="" style="--darkreader-inline-fill:#d1cfcc;"></path>
-                    </svg> Login via Facebook</button>
-
-
-                     <button    onclick="clickSignInWithGoolge()" id="gm-butt" class="button"> <svg id="gm-icon" xmlns="http://www.w3.org/2000/svg" fill="white"
-                        viewBox="0 0 24 24" width="1rem" height="1rem" data-darkreader-inline-fill=""
-                        style="--darkreader-inline-fill:#382810;">
-                        <path
-                            d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032 s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2 C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z">
-                        </path>
-                    </svg> Login via Gmail</button> -->
-
-                 
-        
+                <div class="but-bx-par">
+                    <div class="g_id_signin" data-type="standard" data-shape="pill" data-width="315" data-size="medium"
+                        data-text="signup_with" data-logo_alignment="left"></div>
+                    <fb:login-button class="fb-login-button" data-width="315" data-size="medium"
+                        data-button-type="login_with" data-layout="rounded" data-auto-logout-link="false"
+                        data-use-continue-as="false" scope="public_profile,email" onlogin="checkLoginState();"> Log in
+                        with Facebook </fb:login-button>
+                </div>
             </div>
-
-
-
             <hr id="bottom-rule">
-
         </div>
-
-
         <img id="chat_img" src="chat_image.png" alt="">
     </div>
     <div id="bottom"></div>
-
-
-
-    <!-- <button >sign in with google </button>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
-     <div class="g-signin2" data-onsuccess="handleCredentialResponse"></div> 
-    <a href="#" onclick="signOut();">Sign out</a>  -->
-
-    <!-- </script><script src="https://apis.google.com/js/platform.js" async defer></script> -->
-
-    <!-- <a href="youtube.com" target="_parent"  >Sign out</a> -->
-
-  <!--  google data but -->
-    <div id="g_id_onload" data-client_id="{{GOOGLE_CLIENT_Id}}"     data-callback="handleCredentialResponse">
+    <!--  google data but -->
+    <div id="g_id_onload" data-client_id="{{GOOGLE_CLIENT_Id}}" data-callback="handleCredentialResponse">
     </div>
-
-  <!--  facebook  but -->
-  {{!-- <fb:login-button    scope="public_profile,email" onlogin="checkLoginState();"> Login with goolge </fb:login-button>
+    <!--  facebook  but -->
+    {{!-- <fb:login-button    scope="public_profile,email" onlogin="checkLoginState();"> Login with goolge </fb:login-button>
 <div id="status"> --}}
-
- <script  src="./js/sendRequest.js"    ></script>
-    <script    crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js" ></script>
+    <script src="./js/sendRequest.js"></script>
+    <script crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
     <script>
         var email = document.getElementById("email");
         var user_pass = document.getElementById("user-pass");
@@ -601,7 +474,7 @@ height:5vh;
         var message = document.getElementById("message");
         // var gm_butt = document.getElementById("gm-butt");
         // var container = document.getElementById("container");
-        
+
         var is_rec_reqest = true;
         var timeout_id;
 
@@ -613,7 +486,7 @@ height:5vh;
             remem_me.checked = true;
         }
 
-       
+
         function send_xhr(param, url) {
             if (!is_rec_reqest) {
                 // return; 
@@ -634,8 +507,7 @@ height:5vh;
                         location = "./home";
                     }
                     else {
-                        console.log("error occured");
-                        console.log(data);
+
                         display_message(data.message, "red");
                     }
                     ;
@@ -667,8 +539,6 @@ height:5vh;
                 localStorage.setItem("rem", true);
 
 
-                console.log("seteed'); ");
-
             } else {
                 localStorage.removeItem("email");
                 localStorage.removeItem("pass");
@@ -693,89 +563,86 @@ height:5vh;
             location = "./reg";
         })
 
- 
- // sign in with goolge 
-    async function handleCredentialResponse(googleUser) {
-       // console.log(googleUser);
-  
-        try {
 
-            let response = await sendRequest.post(JSON.stringify(googleUser), "/google_signin", "application/json");
-            response = JSON.parse(response);
-       
-            localStorage.setItem("ln", "1");
-            location = "./home"; 
-        }
-        catch (err) {
-            console.error(err);
-            let error = JSON.parse(err);
-            display_message(error.message, "red");
-
-        }
- 
-    }
-
- 
-
- // sign in with Facebook 
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId      : '{{FACEBOOK_APP_Id}}',
-        cookie     : true,
-        xfbml      : true,
-        version    : 'v14.0'
-      });
-        
-      FB.AppEvents.logPageView();  
-       
-    };
+        // sign in with goolge 
+        async function handleCredentialResponse(googleUser) {
 
 
-    // FB.getLoginStatus(function(response) {
-   //    statusChangeCallback(response);
-   // });
+            try {
 
-  async function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
- 
-   // console.log(response);                   // The current login status of the person.
-    if (response.status === 'connected') {   // Logged into your webpage and Facebook.
-        try {
+                let response = await sendRequest.post(JSON.stringify(googleUser), "/google_signin", "application/json");
+                response = JSON.parse(response);
 
-             let param = JSON.stringify(response.authResponse) ;  
-            let responseData = await sendRequest.post(param, "/facebook_signin", "application/json");
-            responseData = JSON.parse(responseData);
-  
-            localStorage.setItem("ln", "1");
-            location = "./home"; 
-        }
-        catch (err) {
-            console.error(err);
-            let error = JSON.parse(err);
-            display_message(error.message, "red");
+                localStorage.setItem("ln", "1");
+                location = "./home";
+            }
+            catch (err) {
+                console.error(err);
+                let error = JSON.parse(err);
+                display_message(error.message, "red");
+
+            }
 
         }
- 
-    } 
-    else{
-         display_message("Failed to Log in with Facebook", "red");
-    }
-
-  }
 
 
 
-function checkLoginState() { 
-        // Called when a person is finished with the Login Button.
-    FB.getLoginStatus(function(response) {   // See the onlogin handler
-      statusChangeCallback(response);
-    });
-  }
+        // sign in with Facebook 
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '{{FACEBOOK_APP_Id}}',
+                cookie: true,
+                xfbml: true,
+                version: 'v14.0'
+            });
+
+            FB.AppEvents.logPageView();
+
+        };
+
+
+
+
+        async function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
+
+            // The current login status of the person.
+            if (response.status === 'connected') {   // Logged into your webpage and Facebook.
+                try {
+
+                    let param = JSON.stringify(response.authResponse);
+                    let responseData = await sendRequest.post(param, "/facebook_signin", "application/json");
+                    responseData = JSON.parse(responseData);
+
+                    localStorage.setItem("ln", "1");
+                    location = "./home";
+                }
+                catch (err) {
+                    console.error(err);
+                    let error = JSON.parse(err);
+                    display_message(error.message, "red");
+
+                }
+
+            }
+            else {
+                display_message("Failed to Log in with Facebook", "red");
+            }
+
+        }
+
+
+
+        function checkLoginState() {
+            // Called when a person is finished with the Login Button.
+            FB.getLoginStatus(function (response) {   // See the onlogin handler
+                statusChangeCallback(response);
+            });
+        }
 
 
 
 
     </script>
-  
 </body>
 
 </html>

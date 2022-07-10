@@ -9,7 +9,6 @@
 </head>
 <style>
     body {
-
         /* background-color: rgb(233, 233, 231); */
         /* background-color: hsl(40, 10, 218); */
         font-family: 'Roboto', sans-serif;
@@ -18,22 +17,17 @@
         background: linear-gradient(62deg, #4158D0 5%, #556de7 40%, #E0C3FC 100%);
     }
 
-
     #bottom {
-
         height: 50vh;
-
     }
 
     #person_img {
         display: inline-block;
         /* position: relative; */
-
         width: 45px;
     }
 
     #or-head {
-
         text-align: center;
         position: relative;
         top: 17px;
@@ -45,14 +39,11 @@
         /* background-color: hsl(160, 0, 240); */
         /* background-color: blue; */
         width: 250px;
-
         /* height: 30px; */
         border: none;
         /* margin:auto; */
         margin: 10px;
         /* border-radius:10px; */
-
-
     }
 
     input:focus {
@@ -70,7 +61,6 @@
         padding: 25px 0px;
         z-index: 2;
         margin-top: 35px;
-
         /* background-color: blue; */
     }
 
@@ -91,7 +81,6 @@
         background-color: rgb(255, 255, 255);
         /* background-color: hsl(160, 0, 240); */
         box-shadow: 2px 2px 4px -3px black;
-
         padding-left: 5px;
         padding-right: 10px;
     }
@@ -110,14 +99,12 @@
         position: relative;
         top: 3px;
         left: 3px;
-
     }
 
     #fb-icon {
         color: blue;
         font-size: 100px;
     }
-
 
     .button {
         background-color: blue;
@@ -130,14 +117,12 @@
         left: -5px;
         border-radius: 20px;
         margin: 5px;
-
     }
 
     .button:hover {
         cursor: pointer;
         border-radius: 10px;
         transition: 500ms;
-
     }
 
     .button:focus {
@@ -150,10 +135,7 @@
         height: 10px;
         /* background-color: hsl(146, 108, 99); */
         background-color: rgb(58, 91, 153);
-
-
     }
-
 
     #gm-butt {
         /* background-color: hsl(6, 224, 141); */
@@ -169,7 +151,6 @@
     #fb-icon {
         position: relative;
         top: 2px;
-
     }
 
     #gm-icon {
@@ -182,11 +163,8 @@
     .hr-line {
         width: 18%;
         display: inline-block;
-
-
         position: relative;
         top: 4px;
-
     }
 
     #remem-me {
@@ -214,7 +192,6 @@
         background-color: rgb(0, 70, 96);
         margin: 16px auto;
         display: none;
-
     }
 
     #box {
@@ -230,7 +207,6 @@
         background-color: #0000ffc4;
     }
 
-
     #message {
         border-radius: 1px solid blue;
         background-color: green;
@@ -242,17 +218,13 @@
         display: none;
     }
 
-
-
     @media screen and (min-width:951px) {
-
         #box {
             /* border: 1px solid black; */
             position: relative;
             width: 900px;
             margin: auto;
             margin-top: 30px;
-
             background-color: rgb(247, 247, 247);
             /* background-color: hsl(160, 0, 232); */
             padding: 50px;
@@ -261,7 +233,6 @@
         #chat_img {
             width: 450px;
             display: inline-block;
-
             z-index: 1;
             /* padding:100px; */
             position: absolute;
@@ -281,13 +252,11 @@
         }
 
         #head-message {
-
             margin-bottom: 2px;
         }
 
         .input-field {
             width: 70%;
-
         }
 
         .rember-me {
@@ -297,15 +266,10 @@
         .button {
             width: 70%;
         }
-
     }
 
-
-
     @media screen and (min-width:401px) and (max-width:950px) {
-
         .input-field {
-
             width: 76%;
         }
 
@@ -314,7 +278,6 @@
         }
 
         .rember-me {
-
             width: 78%;
             text-align: left;
         }
@@ -328,10 +291,8 @@
         }
 
         #bottom-rule {
-
             display: block;
         }
-
     }
 
     @media screen and (max-width:400px) {
@@ -341,7 +302,6 @@
         }
 
         .input-field {
-
             width: 76%;
         }
 
@@ -350,7 +310,6 @@
         }
 
         .rember-me {
-
             width: 78%;
             text-align: left;
         }
@@ -364,22 +323,18 @@
         }
 
         #bottom-rule {
-
             display: block;
         }
 
         body {
             background-color: rgb(168, 168, 230);
         }
-
     }
 
     @media screen and (max-width:250px) {
-
         .button {
             width: 95%;
             left: 0px;
-
         }
 
         .svg-icon {
@@ -387,10 +342,8 @@
         }
 
         .rember-me {
-
             width: 95%;
             font-size: 15px;
-
         }
 
         #remem-me {
@@ -403,7 +356,6 @@
         }
     }
 
-
     @media screen and (max-width:950px) {
         .login-box {
             background-color: white;
@@ -412,26 +364,19 @@
         }
 
         #or-head {
-
             display: block;
         }
-
-
     }
 </style>
 
 <body>
-
     <div id="box">
-
         <div class="login-box">
             <div id="or-head">
                 <hr class="hr-line"> <img id="person_img" src="person.png" alt="">
                 <hr class="hr-line">
-
             </div>
             <p id="head-message"> Forgot Password </p>
-
             <hr style="width: 80%;">
             <div id="message"></div>
             <div class="login-body">
@@ -442,32 +387,15 @@
                             d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z">
                         </path>
                     </svg><input type="text" id="email" placeholder="Your Email"> </span>
-
-
-
-
                 <button id="otp-butt" class="button"> Reset Password using OTP </button>
                 <button id="reset-butt" class="button"> Submit </button>
                 <button id="back-butt" class="button"> Back </button>
-
-
-
-
-
-
             </div>
-
-
-
             <hr id="bottom-rule">
-
         </div>
-
         <img id="chat_img" src="chat_image.png" alt="">
     </div>
-
     <div id="bottom"></div>
-
     <script src="./js/sendRequest.js"></script>
     <script>
         var email = document.getElementById("email");
@@ -499,16 +427,15 @@
                 if (this.readyState == 4 && this.status >= 200 && this.status < 300) {
                     is_rec_req = true;
                     let data = JSON.parse(this.response);
-                    console.log(data);
+
                     if (data.status == "ok") {
                         //  display_message("successful", "green"); 
-                        console.log("redirect");
+
                         display_message(data.message, "green", 30000);
                         otp_butt.style.display = "inline-block";
                         reset_butt.innerText = "Resend Verfication Link";
                     } else {
-                        console.log("error occured");
-                        console.log(data);
+
                         display_message(data.message, "red", 30000);
                         reset_butt.innerText = "Submit";
 
@@ -544,10 +471,10 @@
             try {
 
                 let param = JSON.stringify({ email: user_email });
-                console.log(param);
+
                 let response = await sendRequest.post(param, "/send_verfi_link", "application/json");
                 response = JSON.parse(response);
-                console.log(response);
+
                 display_message(response.message, "green", 10000);
                 otp_butt.style.display = "inline-block";
                 reset_butt.innerText = "Resend Verfication Link";
@@ -574,7 +501,6 @@
             location = "./login";
         })
     </script>
-
 </body>
 
 </html>
