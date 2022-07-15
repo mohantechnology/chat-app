@@ -1,3 +1,4 @@
+require('dotenv').config();
 const app = require('./config/app');
 // const constant = require('./Utils/constant.js');
 require('./config/database')();

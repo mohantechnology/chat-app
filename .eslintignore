@@ -1,2 +1,7 @@
 views/
 node_modules/
+temp/
+public/upload
+public/tr
+public/transfer_file
+public/transferFile
