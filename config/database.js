@@ -18,40 +18,32 @@ const DatabaseSetup = async () => {
 
   async function connectToDatabase() { 
     try {
-      await mongoose.connect(DB_LINK, options);
-      // eslint-disable-next-line no-console
-      console.log('Connection to database sucessful');
+      await mongoose.connect(DB_LINK, options); 
+      console.info('Connection to database sucessful');
     } catch (err) {
-      console.error("Failed to Connect with database");
-      // console.log(err);
+      console.error("Failed to Connect with database"); 
       await sleep(1000);
       await  connectToDatabase();
     }
   }
 
   await connectToDatabase();
-
-  //  await  mongoose.connect(DB_LINK, options)
-
-  //  console.log("before sleep")
-
-  //  await  sleep(1000);
-  // console.log("before")
-
-  // console.log("after")
-  //   .then(() => {
-  //   // eslint-disable-next-line no-console
-  //   console.log('Connection to database sucessful');
-  // })
-  // // eslint-disable-next-line no-unused-vars
-  // .catch(async(err) => {
-  //   // console.log("Failed to Connect with database");
-  //   // console.log(err);
-  //   // setTimeout(() => {
-  //   //   console.error('Retrying to connect with database.....');
-  //   //   DatabaseSetup();
-  //   // }, 3000);
-
-  // });
+ 
 };
+
+// // If the Node process ends, close the Mongoose connection
+// process.on('SIGINT', function() {
+//   closeConnection()
+// });
+
+// async function closeConnection(){
+//   mongoose.connection.close(function () {
+//     console.info('Mongoose disconnected on app terminatio');
+//     process.exit(0);
+//   });
+// }
+
+// [`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach((eventType) => {
+//   process.on(eventType,closeConnection);
+// })
 module.exports = DatabaseSetup;

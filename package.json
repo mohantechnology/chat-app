@@ -7,7 +7,7 @@
     "test": "jest   -i test/index.test.js  --runInBand --testTimeout=60000",
     "test:watch": "jest  -i test/index.test.js  --watch  --runInBand  --detectOpenHandles  --testTimeout=60000",
     "start": "node index.js",
-    "forever": "node index.js",
+    "feed": "node feed/index.js",
     "server": "nodemon index.js",
     "lint": "eslint . ",
     "lint:fix": "eslint . --fix "

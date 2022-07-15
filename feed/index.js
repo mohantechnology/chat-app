@@ -1,77 +1,71 @@
 require('dotenv').config();
-const mongoose = require('mongoose');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+const database = require('../config/database');
 
 /* import models */
 const userAccount = require('../model/userAccount');
 const chatMessage = require('../model/chatMessage');
-
+ 
 /* import data */
-// const usersData = require('./data/usersData');
-// fs.readFileSy
 const usersData = JSON.parse(fs.readFileSync(__dirname+ '/data/users.json'),"utf-8");
 const messagesData = JSON.parse(fs.readFileSync(__dirname+ '/data/messages.json'),"utf-8");
-
  
 async function createUser(){
   
   // await userAccount.deleteMany(); 
-   usersData.map ( async ( currentUser)=>{
-  
+  for(let i =0; i<usersData.length; i++ ) {
+    let currentUser = usersData[i]; 
     let resultAccount = await userAccount.findOne({email: currentUser.email});
     if( !resultAccount){
-      currentUser.password = await bcrypt.hash(currentUser.password, parseInt(process.env.SALT_ROUND));
-       let result =   await  userAccount.create( currentUser ) ; 
-       console.log( "currentUser")
+      let password = await bcrypt.hash(currentUser.password, parseInt(process.env.SALT_ROUND));
+      await  userAccount.create( {...currentUser,password} ) ; 
+    
     }else{
       console.warn( `Account with email: '${resultAccount.email}' already exists`);
     }
-
-    // if( currentUser.email){
-    //   new_User.push (currentUser )
-    // }
-  //  fs.writeFileSync(__dirname+"/data/messagesData.json", JSON.stringify( messagesData, null , 2) ) 
-  });
-  
-
-  // console.log( usersDatas)
-  // console.log( "Users Created!") ;
-
+ 
+  }
+ 
+  console.info( "Users Created!") ;
  
 }
 
 async function createMessage(){
-  messagesData.map ( async ( data)=>{
-    if(  data.fileName)
-    {
-      console.log( "!transferFile/" + data.fileName )
-    }
-    data.isReaded =   data.isReaded== undefined ? false :data.isReaded ;  
-    if(!data.recUserId) {
-      console.log( data) ; 
-      return ; 
-    }
-    let result =  await  chatMessage.create( data ) ; 
+  for(let i =0; i<messagesData.length; i++ ) {
+    let data = messagesData[i]; 
+    await  chatMessage.create( data ) ; 
      
-  });
+  }
 
-  console.log( "Message Created!") ;
+  console.info( "Message Created!") ;
  
+}
+
+async function closeConnection(){
+  await  mongoose.connection.close( );
+  console.info('disconnected to database sucessfully'); 
+  process.exit(0); 
 }
 
 (async function (){
 
-  console.log( "before database");
-  await require('../config/database')();
-  console.log( "after database");
+  await database(); 
 
   // create users 
   await createUser();
 
-  // // create messages 
+  // create messages 
   await createMessage();
 
-  // mongoose.connection.close() ;
+  console.info( `
+You can  Login with following Credentials
+1) email:${usersData[0].email}    password:${usersData[0].password} 
+2) email:${usersData[1].email}    password:${usersData[1].password}  
+`);
+
+  // close connection and exit 
+  closeConnection(); 
 
 })();
