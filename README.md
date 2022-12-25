@@ -17,7 +17,7 @@ Chat App<br> Html, Css ,Javascript, Nodejs (Express), MongoDb <br> Front end is 
  npm run lint  <br> <br>
  </ul>
  
-  <h1>Overview </h1> <hr width="800" align="left"><img src="https://user-images.githubusercontent.com/71864565/179296805-71840ebb-1ee7-4638-8d4b-2854e10a2c6c.png" alt=""> 
+  <h1>Overview </h1> <hr width="800" align="left"><img src="https://cdn.glitch.com/89f82df8-eb2c-4c0e-883d-494391c85865%2FARCHITECHTURE.png?v=1612303305554](https://user-images.githubusercontent.com/71864565/179296805-71840ebb-1ee7-4638-8d4b-2854e10a2c6c.png" alt=""> 
  
 
 
