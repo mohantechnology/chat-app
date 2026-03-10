@@ -122,7 +122,11 @@ npm run lint
   </li><br>
 
   <li>Friends can have Video Calls<br>
-  <img src="https://user-images.githubusercontent.com/71864565/176000768-950239be-ad79-421c-92d0-47a9e836d4e0.gif" alt="Animation" width="700px">
+
+
+https://github.com/user-attachments/assets/824f4a1b-6dd3-49f2-9b3e-02c0ede5f427
+
+
   </li><br>
 
   <li>Password can be easily reset using Verification Link or OTP<br>
