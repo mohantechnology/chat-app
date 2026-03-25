@@ -110,7 +110,7 @@ npm run lint
   </li><br>
 
   <li>Messages can also be sent when receiver is offline<br>
-  <img src="https://cdn.glitch.com/89f82df8-eb2c-4c0e-883d-494391c85865%2Fnon_real_time_chat.gif?v=1612303312805" alt="" width="700px">
+  <img src="https://github.com/user-attachments/assets/f6864169-36e3-4aae-a30a-331aee40ffe8" alt="" width="700px">
   </li><br>
 
   <li>Multiple files can be shared<br>
